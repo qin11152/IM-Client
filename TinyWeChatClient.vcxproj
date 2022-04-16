@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9DCB6AF7-5EF0-4D45-A6E4-01076A8F01C5}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;xml;sql;network;gui;svg;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+    <QtPathBinaries>bin</QtPathBinaries>
+    <QtPathLibraryExecutables>bin</QtPathLibraryExecutables>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtModules>core;xml;sql;network;gui;svg;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>E:\boost_1_75_0;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\boost_1_75_0\libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
+    <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
+    <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp" />
+    <ClCompile Include="module\MyStackedWidget\MyStackedWidget.cpp" />
+    <ClCompile Include="module\MytextEdit\MyTextEdit.cpp" />
+    <ClCompile Include="module\TCPConnect\TCPConnect.cpp" />
+    <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp" />
+    <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp" />
+    <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
+    <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp" />
+    <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
+    <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
+    <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
+    <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
+    <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
+    <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
+    <QtRcc Include="ui\res\LogInWidget.qrc" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ui\LogInWidget\LogInWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.ui" />
+    <QtUic Include="module\MyLineEdit\MyLineEdit.ui" />
+    <QtUic Include="ui\ChatWidget\ChatWidget.ui" />
+    <QtUic Include="ui\LogInWidget\LogInWidget.ui" />
+    <QtUic Include="ui\RegisterWidget\RegisterWidget.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ui\RegisterWidget\RegisterWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="module\TCPConnect\TCPConnect.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ui\res\image\icon.png" />
+    <Image Include="ui\res\image\login_background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="module\MytextEdit\MyTextEdit.h" />
+    <QtMoc Include="module\MyLineEdit\MyLineEdit.h" />
+    <QtMoc Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
+    <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
+    <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
+    <ClInclude Include="module\MyDefine.h" />
+    <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h" />
+    <ClInclude Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.h" />
+    <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h" />
+    <ClInclude Include="protocol\InitialRequestJsonData\InitialRequestJsonData.h" />
+    <ClInclude Include="protocol\JsonBaseData.h" />
+    <ClInclude Include="protocol\LoginInJsonData\LoginInJsonData.h" />
+    <ClInclude Include="protocol\LoginInReplyData\LoginInReplyData.h" />
+    <ClInclude Include="protocol\RegisterJsonData\RegisterJsonData.h" />
+    <ClInclude Include="protocol\RegisterReplyData\RegisterReplyData.h" />
+    <ClInclude Include="resource.h" />
+    <QtMoc Include="ui\ChatWidget\ChatWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TinyWeChatClient.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ui\res\QML\chatMessage.qml" />
+    <None Include="ui\res\QML\friendList.qml" />
+    <None Include="ui\res\QML\LastChatList.qml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

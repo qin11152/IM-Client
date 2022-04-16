@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/LogInWidget">
+        <file>image/login_background.jpg</file>
+        <file>image/icon.png</file>
+        <file>image/weixin.ico</file>
+    </qresource>
+    <qresource prefix="/QML">
+        <file>QML/chatMessage.qml</file>
+        <file>QML/LastChatList.qml</file>
+    </qresource>
+</RCC>

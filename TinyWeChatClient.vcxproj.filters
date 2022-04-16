@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{548b5e9f-60d8-4f63-b821-818601729724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\LogInWidget">
+      <UniqueIdentifier>{0896131e-3eeb-48f2-8155-36265b882765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\res">
+      <UniqueIdentifier>{1d091731-9ec0-4770-87bd-a4a3e479434a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\RegisterWidget">
+      <UniqueIdentifier>{9b3beeca-a9b3-46fe-9fe7-3b09468ad2e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{a9015b94-57d9-4f82-82bb-f69e95f92387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\TCPConnect">
+      <UniqueIdentifier>{a2492be8-5608-4673-8f32-162052e2b18b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\res\image">
+      <UniqueIdentifier>{b1656a03-ef33-430f-a205-4824c2a57f2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBase">
+      <UniqueIdentifier>{84fd1ea1-7c86-496c-8d89-f9adcce5d76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBase\DataBaseDelegate">
+      <UniqueIdentifier>{e934ffde-5bc0-4e91-bee5-8d0993e49577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\ChatWidget">
+      <UniqueIdentifier>{bd40ed7a-32ab-41c1-8ed8-a856e1f5710d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\res\QML">
+      <UniqueIdentifier>{ba16bfae-fc30-43b7-a404-d94b3c521b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\MyTextEdit">
+      <UniqueIdentifier>{a56187bd-039b-4589-b73e-491bdc947979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol">
+      <UniqueIdentifier>{f9f0b9de-e3b4-47bc-8b3e-ab3d008c15c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\RegisterJsonData">
+      <UniqueIdentifier>{bc0b69b6-6346-487f-8af0-c810dcc4d0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\RegisterReplyData">
+      <UniqueIdentifier>{64f20ee2-a580-4cad-90d9-e8bc054c05a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\LoginInJsonData">
+      <UniqueIdentifier>{a3231876-d4fd-45c5-8391-5999cc5b67bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\LoginInReplyJsonData">
+      <UniqueIdentifier>{6252d654-99d7-46ba-a224-4fd2a72bbfa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\MyLineEdit">
+      <UniqueIdentifier>{77d56a90-7ede-43df-8607-2a0cf1bace74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\MyStackedWidget">
+      <UniqueIdentifier>{f84354c3-3ab1-4bf6-80a8-334ded0fc1e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\MyChatMessageQuickWid">
+      <UniqueIdentifier>{51fe3ce8-d47c-4c14-bdb9-e893c1d17625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\HeartPackageJsonData">
+      <UniqueIdentifier>{a9baa4f9-a5f6-4097-92e0-cd08398a197f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\ChatWidgetManager">
+      <UniqueIdentifier>{2cff4c79-dba3-4275-acad-223ad0b693b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\InitialRequestJsonData">
+      <UniqueIdentifier>{ba130afc-2ec0-46c7-acbb-64d993906776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\ChatMessageJsonData">
+      <UniqueIdentifier>{fca96577-c9fb-4650-8c95-5b9651add46b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\LogInWidget\LogInWidget.cpp">
+      <Filter>ui\LogInWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp">
+      <Filter>ui\RegisterWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="module\TCPConnect\TCPConnect.cpp">
+      <Filter>module\TCPConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ChatWidget\ChatWidget.cpp">
+      <Filter>ui\ChatWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="module\MytextEdit\MyTextEdit.cpp">
+      <Filter>module\MyTextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp">
+      <Filter>protocol\RegisterJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp">
+      <Filter>protocol\LoginInJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp">
+      <Filter>protocol\RegisterReplyData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp">
+      <Filter>protocol\LoginInReplyJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp">
+      <Filter>module\MyLineEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="module\MyStackedWidget\MyStackedWidget.cpp">
+      <Filter>module\MyStackedWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp">
+      <Filter>module\MyChatMessageQuickWid</Filter>
+    </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp">
+      <Filter>module\DataBase\DataBaseDelegate</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp">
+      <Filter>protocol\HeartPackageJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp">
+      <Filter>module\ChatWidgetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp">
+      <Filter>protocol\InitialRequestJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp">
+      <Filter>protocol\ChatMessageJsonData</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ui\res\LogInWidget.qrc">
+      <Filter>ui\res</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\LogInWidget\LogInWidget.ui">
+      <Filter>ui\LogInWidget</Filter>
+    </QtUic>
+    <QtUic Include="ui\RegisterWidget\RegisterWidget.ui">
+      <Filter>ui\RegisterWidget</Filter>
+    </QtUic>
+    <QtUic Include="ui\ChatWidget\ChatWidget.ui">
+      <Filter>ui\ChatWidget</Filter>
+    </QtUic>
+    <QtUic Include="module\MyLineEdit\MyLineEdit.ui">
+      <Filter>module\MyLineEdit</Filter>
+    </QtUic>
+    <QtUic Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.ui">
+      <Filter>module\MyChatMessageQuickWid</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ui\LogInWidget\LogInWidget.h">
+      <Filter>ui\LogInWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
+      <Filter>ui\RegisterWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="module\TCPConnect\TCPConnect.h">
+      <Filter>module\TCPConnect</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\ChatWidget\ChatWidget.h">
+      <Filter>ui\ChatWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="module\MytextEdit\MyTextEdit.h">
+      <Filter>module\MyTextEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="module\MyLineEdit\MyLineEdit.h">
+      <Filter>module\MyLineEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h">
+      <Filter>module\MyStackedWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.h">
+      <Filter>module\MyChatMessageQuickWid</Filter>
+    </QtMoc>
+    <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h">
+      <Filter>module\DataBase\DataBaseDelegate</Filter>
+    </QtMoc>
+    <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h">
+      <Filter>module\ChatWidgetManager</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ui\res\image\login_background.jpg">
+      <Filter>ui\res\image</Filter>
+    </Image>
+    <Image Include="ui\res\image\icon.png">
+      <Filter>ui\res\image</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\JsonBaseData.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\RegisterJsonData\RegisterJsonData.h">
+      <Filter>protocol\RegisterJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\RegisterReplyData\RegisterReplyData.h">
+      <Filter>protocol\RegisterReplyData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\LoginInJsonData\LoginInJsonData.h">
+      <Filter>protocol\LoginInJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\LoginInReplyData\LoginInReplyData.h">
+      <Filter>protocol\LoginInReplyJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\MyDefine.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
+      <Filter>protocol\HeartPackageJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\InitialRequestJsonData\InitialRequestJsonData.h">
+      <Filter>protocol\InitialRequestJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.h">
+      <Filter>protocol\ChatMessageJsonData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TinyWeChatClient.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ui\res\QML\chatMessage.qml">
+      <Filter>ui\res\QML</Filter>
+    </None>
+    <None Include="ui\res\QML\LastChatList.qml">
+      <Filter>ui\res\QML</Filter>
+    </None>
+    <None Include="ui\res\QML\friendList.qml">
+      <Filter>ui\res\QML</Filter>
+    </None>
+  </ItemGroup>
+</Project>
