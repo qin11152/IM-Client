@@ -30,6 +30,7 @@ private slots:
 private:
     Ui::LogInWidget ui;
     RegisterWidget* m_ptrRegisterWidget{ nullptr };     //注册界面指针
+    QString m_strUserId{ "" };                          //存储登录用户id
 
     void initUi();
     //初始化信号槽的连接

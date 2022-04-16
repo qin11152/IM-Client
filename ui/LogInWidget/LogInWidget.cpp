@@ -1,6 +1,8 @@
 #include "LogInWidget.h"
 #include "../../module/TCPConnect/TCPConnect.h"
 #include "../../protocol/LoginInJsonData/LoginInJsonData.h"
+#include "protocol/LoginInReplyData/LoginInReplyData.h"
+#include "ChatWidget/ChatWidget.h"
 
 LogInWidget::LogInWidget(QWidget *parent)
     : QWidget(parent)
@@ -48,6 +50,7 @@ void LogInWidget::onLogInButtonClicked()
     {
         LoginInJsonData loginJsonData("");
         loginJsonData.m_strId = ui.userNameLineEdit->text().toStdString();
+        m_strUserId = ui.userNameLineEdit->text();
         loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
         std::string message = loginJsonData.generateJson();
         TCPConnect::Instance()->sendMessage(message);
@@ -62,7 +65,20 @@ void LogInWidget::onRegisterFinished()
 
 void LogInWidget::onSignalLoginResultRecv(const QString& msg)
 {
-    //TODO 打开对应的聊天界面
+    //先解析数据
+    LoginInReplyData loginReplyData(msg.toStdString());
+    //如果登录成功
+    if (loginReplyData.m_bLoginInResult)
+    {
+        //打开对应的聊天界面
+        ChatWidget* ptrChatWidget = new ChatWidget(m_strUserId.toInt());
+        //该界面隐藏,一会后析构
+        hide();
+        close();
+        //聊天界面显示
+        ptrChatWidget->show();
+    }
+    //TODO登陆失败处理
 }
 
 void LogInWidget::initConnection()
