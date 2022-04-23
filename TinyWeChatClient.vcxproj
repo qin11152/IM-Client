@@ -59,8 +59,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <IncludePath>E:\boost_1_75_0;$(IncludePath)</IncludePath>
     <LibraryPath>E:\boost_1_75_0\libs;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -75,6 +79,15 @@
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <QtMoc>
+      <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
+    </QtMoc>
+    <QtRcc>
+      <QtRccDir>$(SolutionDir)..\bin\$(Configuration)\rcc</QtRccDir>
+    </QtRcc>
+    <QtUic>
+      <QtUicDir>$(SolutionDir)..\bin\$(Configuration)\uic\</QtUicDir>
+    </QtUic>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -86,6 +99,15 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <QtMoc>
+      <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
+    </QtMoc>
+    <QtRcc>
+      <QtRccDir>$(SolutionDir)..\bin\$(Configuration)\rcc\</QtRccDir>
+    </QtRcc>
+    <QtUic>
+      <QtUicDir>$(SolutionDir)..\bin\$(Configuration)\uic\</QtUicDir>
+    </QtUic>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>

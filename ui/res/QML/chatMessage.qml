@@ -91,7 +91,6 @@ Rectangle
 
         Rectangle
         {
-
             MouseArea
             {
                 anchors.fill: parent;
