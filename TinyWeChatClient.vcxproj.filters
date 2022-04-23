@@ -259,5 +259,8 @@
     <None Include="ui\res\QML\friendList.qml">
       <Filter>ui\res\QML</Filter>
     </None>
+    <None Include="ui\res\QML\addFriend.qml">
+      <Filter>ui\res\QML</Filter>
+    </None>
   </ItemGroup>
 </Project>

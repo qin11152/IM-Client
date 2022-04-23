@@ -177,6 +177,7 @@
     <ResourceCompile Include="TinyWeChatClient.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ui\res\QML\addFriend.qml" />
     <None Include="ui\res\QML\chatMessage.qml" />
     <None Include="ui\res\QML\friendList.qml" />
     <None Include="ui\res\QML\LastChatList.qml" />
