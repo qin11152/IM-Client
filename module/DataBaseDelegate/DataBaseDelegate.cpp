@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QFile>
+#include <QDir>
 #include <QDebug>
 
 using SingletonPtr = std::shared_ptr<DataBaseDelegate>;
@@ -14,8 +16,15 @@ void DataBaseDelegate::init()
 {
     //这里使用的是sqlite
     m_dataBase = QSqlDatabase::addDatabase("QSQLITE");
+    //没有数据库文件夹就建立一个文件夹
+    QString fileName = QApplication::applicationDirPath() + "/data";
+    QDir dir(fileName);
+    if(!dir.exists())
+    {
+        dir.mkdir(fileName);
+    }
     //建立一个库，没有就建立
-    QString dataName = QApplication::applicationDirPath() + "/chatinfo" + QString::number(m_iId) + ".db";
+    QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + QString::number(m_iId) + ".db";
     m_dataBase.setDatabaseName(dataName);
     if (!m_dataBase.open())
     {
