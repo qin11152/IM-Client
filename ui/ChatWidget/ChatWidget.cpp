@@ -137,16 +137,10 @@ void ChatWidget::onSignalSingleChatMessage(QString& chatMessage)
     QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, tmpWid->getUserName()), Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strMessage)), Q_ARG(QVariant, false), Q_ARG(QVariant, tmpWid->GetInitial()), Q_ARG(QVariant, atoi(singleChatData.m_strRecvUserId.c_str())));
 }
 
-void ChatWidget::onStateChanged(QQuickWidget::Status status)
+void ChatWidget::onSignalAgreeAddFriend(QString friendName)
 {
-    if (status == QQuickWidget::Error) {
-        QStringList errors;
-    }
-}
-
-void ChatWidget::sceneGraphError(QQuickWindow::SceneGraphError, const QString& message)
-{
-    qDebug() << message;
+    qDebug() << friendName;
+    //TODO从数据库查找用户名对应id并转移到已经添加的好友表中
 }
 
 void ChatWidget::initUi()
@@ -172,7 +166,16 @@ void ChatWidget::initUi()
     ui->textEdit->setFontPointSize(16);
 
     m_ptrSearchWidget = new QQuickWidget();
+    m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrFriendListWidget = new QQuickWidget();
+
+    m_ptrNewFriendAndAreadyAddWidget->setSource(QUrl("qrc:/QML/QML/addFriend.qml"));
+    //qml的界面大小随quickwidget变化
+    m_ptrNewFriendAndAreadyAddWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
+    //把添加好友的界面加入到stackedwid中
+    ui->chatStackedWidget->addWidget(m_ptrNewFriendAndAreadyAddWidget);
+    ui->chatStackedWidget->insertToMap(AddFriendWid, m_ptrNewFriendAndAreadyAddWidget);
+
 
     //好友列表设置qml文件
     m_ptrFriendListWidget->setSource(QUrl(QStringLiteral("qrc:/QML/QML/LastChatList.qml")));
@@ -193,7 +196,6 @@ void ChatWidget::initUi()
 
     //初始化托盘图标对象
     m_ptrTrayIcon = new QSystemTrayIcon();
-
     m_ptrTrayIcon->setToolTip(QString::fromLocal8Bit("微信"));
     m_ptrTrayIcon->setIcon(QIcon(":/LogInWidget/image/icon.png"));
     m_ptrTrayIcon->show();
@@ -201,15 +203,17 @@ void ChatWidget::initUi()
 
 void ChatWidget::initConnect()
 {
-    connect(m_ptrFriendListWidget, &QQuickWidget::statusChanged, this, &ChatWidget::onStateChanged);
-    connect(m_ptrFriendListWidget, &QQuickWidget::sceneGraphError,
-        this, &ChatWidget::sceneGraphError);
     connect(ui->textEdit, &MyTextEdit::signalTextEditIsFocus, this, &ChatWidget::onSignalTextEditIsFocus);
     connect(ui->pushButton, &QPushButton::clicked, this, &ChatWidget::onSignalSendMessage);
     connect(ui->lineEdit, &MyLineEdit::signalSwitchStackedWidget, this, &ChatWidget::onSignalSwitchFriendListWidget);
     connect(m_ptrFriendListQMLRoot, SIGNAL(signalFriendListClicked(int)), this, SLOT(onSignalFriendListClicked(int)));
     //连接托盘图标的激活与对应动作的槽函数
     connect(m_ptrTrayIcon, &QSystemTrayIcon::activated, this, &ChatWidget::onSignalTrayTriggered);
+    //连接添加好友界面同意信号
+    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)), this, SLOT(onSignalAgreeAddFriend(QString)));
+    connect(ui->pushButton_2, &QPushButton::clicked, this, [=]() {
+        ui->chatStackedWidget->SwitchToChatPage(AddFriendWid);
+        });
 }
 
 

@@ -21,6 +21,13 @@ enum TrayIconState {
     BlinkState
 };
 
+//聊天界面中的stackwidget中的通用界面id，比如添加好友
+enum ChatStackedWidgetCommonWidget
+{
+    AddFriendWid = 19999,
+    EmptyWid
+};
+
 class ChatWidget : public QWidget
 {
     Q_OBJECT
@@ -47,8 +54,8 @@ private slots:
     void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
     //收到好友聊天消息后
     void onSignalSingleChatMessage(QString& chatMessage);
-    void onStateChanged(QQuickWidget::Status status);
-    void sceneGraphError(QQuickWindow::SceneGraphError, const QString& message);
+    //收到同意添加好友的请求
+    void onSignalAgreeAddFriend(QString friendName);
 
 private:
     void initUi();
@@ -63,7 +70,8 @@ private:
     QObject* m_ptrFriendListQMLRoot{ nullptr }; //qml的根对象
     QTimer* m_ptrNullMessageTimer{ nullptr };   //空的聊天界面
     QQuickWidget* m_ptrFriendListWidget{ nullptr }; //上次聊天列表界面
-    QQuickWidget* m_ptrSearchWidget{ nullptr }; //搜索好友界面
+    QQuickWidget* m_ptrSearchWidget{ nullptr }; //搜索好友左侧界面
+    QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
     QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
     //这个用户的id
     int m_iId{ -1 };

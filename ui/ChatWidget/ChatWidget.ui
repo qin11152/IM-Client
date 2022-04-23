@@ -51,6 +51,19 @@
        <property name="styleSheet">
         <string notr="true">background-color: rgb(72, 72, 72);</string>
        </property>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>51</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>

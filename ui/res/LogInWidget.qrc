@@ -7,5 +7,7 @@
     <qresource prefix="/QML">
         <file>QML/chatMessage.qml</file>
         <file>QML/LastChatList.qml</file>
+        <file>QML/addFriend.qml</file>
+        <file>QML/friendList.qml</file>
     </qresource>
 </RCC>

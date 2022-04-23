@@ -6,13 +6,17 @@ Rectangle {
     id:main;
     width: 800
     height: 600
-    color: "red"
 
     signal signalAgreeAdd(string strName);
 
     function insertNewAddFriendRequest(strShouzimu,strName,strVerifyMsg,bIsValid)
     {
-        addFriendListModel.insert(0,{"shouZimu":strShouzimu,"name":strName,"verifyMsg":strVerifyMsg,"isValid":bIsValid})
+        addFriendListModel.insert(0,{"shouZimu":strShouzimu,"name":strName,"verifyMsg":strVerifyMsg,"isValid":bIsValid});
+    }
+
+    function appendAddFriendRequest(strShouzimu,strName,strVerifyMsg,bIsValid)
+    {
+        addFriendListModel.append({"shouZimu":strShouzimu,"name":strName,"verifyMsg":strVerifyMsg,"isValid":bIsValid});
     }
 
     //同样是一个listview
