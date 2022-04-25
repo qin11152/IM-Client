@@ -93,6 +93,9 @@
     <Filter Include="protocol\ChatMessageJsonData">
       <UniqueIdentifier>{fca96577-c9fb-4650-8c95-5b9651add46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protocol\GetFriendListJsonData">
+      <UniqueIdentifier>{d80ebfec-b0e6-474c-b97d-20289365065f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp">
       <Filter>protocol\ChatMessageJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\GetFriendListJsonData\GetFriendListJsonData.cpp">
+      <Filter>protocol\GetFriendListJsonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.h">
       <Filter>protocol\ChatMessageJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\GetFriendListJsonData\GetFriendListJsonData.h">
+      <Filter>protocol\GetFriendListJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
