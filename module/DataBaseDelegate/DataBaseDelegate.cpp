@@ -118,10 +118,11 @@ bool DataBaseDelegate::createLastChatListTable()
     return true;
 }
 
-bool DataBaseDelegate::insertChatRecoed(const QString& userid, const QString& message, const QString& time)
+bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf, const QString& name)
 {
     QSqlQuery query;
-    QString tmp = "insert into chatrecord" + userid + " values (\"" + message + "\",\"" + time + "\")";
+    auto strIsSelf = isSelf ? "true" : "false";
+    QString tmp = "insert into chatrecord" + userid + " values ("+QString::number(TotalCount+1)+",\"" + message + "\",\"" + time + "\","+strIsSelf+",\""+name+"\")";
     if (!query.exec(tmp))
     {
         printf("insert chatrecord failed\n");
@@ -160,9 +161,9 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::map<int, int>& m_tmpMap)
     return false;
 }
 
-bool DataBaseDelegate::queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount)
+bool DataBaseDelegate::queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)
 {
-    QString str = "select * from chatrecord" + QString::number(id) + " order by pos desc limit 0," + QString::number(queryCount);
+    QString str = "select * from chatrecord" + QString::number(id) + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -201,6 +202,6 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(int id, QString& str)
 
 bool DataBaseDelegate::QueryAddFriendInfoFromDB(int id, std::vector<MyAddFriendInfo>& addFriendInfo)
 {
-
+    return true;
 }
 
