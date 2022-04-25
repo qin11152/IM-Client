@@ -199,3 +199,8 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(int id, QString& str)
     return true;
 }
 
+bool DataBaseDelegate::QueryAddFriendInfoFromDB(int id, std::vector<MyAddFriendInfo>& addFriendInfo)
+{
+
+}
+

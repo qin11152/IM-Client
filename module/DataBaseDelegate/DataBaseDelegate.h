@@ -23,6 +23,21 @@ public:
     {}
 };
 
+struct MyAddFriendInfo
+{
+public:
+    QString m_strFriendName;
+    QString m_strFriendId;
+    QString m_strVerifyMsg;
+    bool m_bIsValid{ false };
+    MyAddFriendInfo(QString name, QString id, QString verifyMsg, bool isValid)
+        :m_strFriendName(name),
+        m_strFriendId(id),
+        m_strVerifyMsg(verifyMsg),
+        m_bIsValid(isValid)
+    {}
+};
+
 class DataBaseDelegate : public QObject
 {
     Q_OBJECT
@@ -43,6 +58,8 @@ public:
     bool queryLastChatListFromDB(std::map<int,int>& m_tmpMap);
     bool queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage,int queryCount);
     bool QueryInitialAcordIdFromDB(int id, QString& str);
+    //获取好友请求信息，包括已添加和未添加
+    bool QueryAddFriendInfoFromDB(int id,std::vector<MyAddFriendInfo>&addFriendInfo);
 
 private:
     DataBaseDelegate(QObject* parent=nullptr);
