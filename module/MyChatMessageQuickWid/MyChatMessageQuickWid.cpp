@@ -12,15 +12,26 @@ MyChatMessageQuickWid::~MyChatMessageQuickWid()
 }
 
 //设置和当前用户的聊天记录数量
-void MyChatMessageQuickWid::setRecordCount(int cnt)
+void MyChatMessageQuickWid::addRecordCount(int cnt)
 {
-    m_iChatRecordCount = cnt;
+    m_iChatRecordCount += cnt;
+    m_iTotalRecordCount += cnt;
 }
 
 //获得当前用户聊天记录数量
 int MyChatMessageQuickWid::getRecordCount() const
 {
     return m_iChatRecordCount;
+}
+
+void MyChatMessageQuickWid::setTotalRecordCount(int cnt)
+{
+    m_iTotalRecordCount = cnt;
+}
+
+int MyChatMessageQuickWid::getTotalRecordCount() const
+{
+    return m_iTotalRecordCount;
 }
 
 void MyChatMessageQuickWid::setRootObj()

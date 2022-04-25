@@ -17,9 +17,13 @@ public:
     MyChatMessageQuickWid(QWidget *parent = Q_NULLPTR);
     ~MyChatMessageQuickWid();
     //设置聊天记录数量
-    void setRecordCount(int cnt);
+    void addRecordCount(int cnt);
     //获取聊天记录数量
     int getRecordCount()const;
+    //设置聊天记录总数量
+    void setTotalRecordCount(int cnt);
+    //获得聊天记录总数量
+    int getTotalRecordCount()const;
     //设置根对象
     void setRootObj();
     //获取根对象与QML进行交互
@@ -41,6 +45,8 @@ private:
     Ui::MyChatMessageQuickWid ui;
     //聊天记录的数量
     std::atomic<int> m_iChatRecordCount{ 0 };
+    //聊天记录总数量
+    std::atomic<int> m_iTotalRecordCount{ 0 };
     //根对象，用于和qml进行交互
     QObject* m_ptrRootObj{ nullptr };
     //用户的id
