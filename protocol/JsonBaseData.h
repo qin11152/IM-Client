@@ -22,7 +22,8 @@ enum class MessageType
     AddFriendResponse,
     HeartPackage,
     FriendListRequest,
-    FriendListResponse
+    FriendListResponse,
+    GetFriendList
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;

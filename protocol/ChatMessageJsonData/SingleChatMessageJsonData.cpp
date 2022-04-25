@@ -17,6 +17,7 @@ void SingleChatMessageJsonData::parse(const std::string& message)
     m_strSendUserId = m_ptree.get<std::string>("SendUserId");
     m_strRecvUserId = m_ptree.get<std::string>("RecvUserId");
     m_strMessage = m_ptree.get<std::string>("Message");
+    m_strTime = m_ptree.get<std::string>("Time");
 }
 
 std::string SingleChatMessageJsonData::generateJson()
@@ -37,6 +38,9 @@ std::string SingleChatMessageJsonData::generateJson()
 
     writer.Key("Message");
     writer.String(m_strMessage.c_str());
+
+    writer.Key("Time");
+    writer.String(m_strTime.c_str());
 
     writer.EndObject();
     return strbuf.GetString();
