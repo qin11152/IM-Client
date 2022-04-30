@@ -19,6 +19,9 @@ std::string GetFriendListJsonData::generateJson()
     writer.Key("type");
     writer.Int(static_cast<int>(m_strType));
 
+    writer.Key("UserId");
+    writer.String(m_strUserId.c_str());
+
     writer.EndObject();
 
     return strbuf.GetString();

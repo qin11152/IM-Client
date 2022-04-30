@@ -9,5 +9,6 @@ public:
     virtual std::string generateJson() override;
 
     MessageType m_strType{ MessageType::GetFriendList };
+    std::string m_strUserId{ "" };
 };
 

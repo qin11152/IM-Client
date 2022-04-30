@@ -53,10 +53,10 @@ public:
     int GetChatRecordCountFromDB(int id);
     bool createUserChatTable(const QString& userid);
     bool createLastChatListTable();
-    bool insertChatRecoed(const QString& userid, const QString& message, const QString& time);
+    bool insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf,const QString& name);
     bool isTableExist(const QString& tableNmae);
     bool queryLastChatListFromDB(std::map<int,int>& m_tmpMap);
-    bool queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage,int queryCount);
+    bool queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage,int queryCount,int beginPos);
     bool QueryInitialAcordIdFromDB(int id, QString& str);
     //获取好友请求信息，包括已添加和未添加
     bool QueryAddFriendInfoFromDB(int id,std::vector<MyAddFriendInfo>&addFriendInfo);
