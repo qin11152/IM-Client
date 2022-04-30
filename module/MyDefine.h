@@ -30,4 +30,32 @@ namespace
         int m_iId;
         std::string m_strFirstChacter;
     };
+
+    class FriendInfo
+    {
+    public:
+        std::string m_strFriendId{ nullptr };      //好友的id
+        std::string m_strFriendName{ nullptr };     //好友的昵称
+    };
+
+    enum class MessageType
+    {
+        Default,
+        RegisterRequest,
+        RegisterResponse,
+        LoginRequest,
+        LoginResponse,
+        InitialRequest,
+        GroupChat,
+        SingleChat,
+        AddFriendRequest,
+        AddFriendResponse,
+        HeartPackage,
+        FriendListRequest,
+        FriendListResponse,
+        GetFriendList,
+        GetFriendListReply
+    };
+
+    using MessageTypeBaseType = std::underlying_type<MessageType>::type;
 }
