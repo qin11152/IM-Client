@@ -42,6 +42,8 @@ signals:
     void signalRecvLoginResultMessage(const QString& msg);
     //收到朋友聊天消息
     void signalRecvSingleChatMessage(const QString& msg);
+    //收到好友列表消息
+    void signalRecvFriendListMessage(const QString& msg);
     //与服务器连接失败信号
     void signalConnectFailed();
     //超过一定时间还没收到服务器的心跳包
@@ -68,11 +70,14 @@ private:
     QTimer* m_ptrTimerRecvHeartPackage{ nullptr };
     char m_msgBuffer[kMsgBufferLength]{ 0 };                      //用于存储消息的缓冲区
     int m_endPosOfBuffer = 0;                                     //消息缓冲区的尾部
+    bool m_bIsConn{ false };                   //标识是否和服务器建立了连接
 
     //与服务器建立连接的函数
     void connectHost();
     //初始化槽函数连接
     void initConnect();
+    //与服务器断开连接
+    void disConnect();
     //初始化函数
     void init();
     //构造函数，私有

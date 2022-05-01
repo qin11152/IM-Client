@@ -1,5 +1,6 @@
 #pragma once
 
+#include "module/MyDefine.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <rapidjson/writer.h>
@@ -8,25 +9,7 @@
 #include <string>
 #include <type_traits>
 #include <map>
-enum class MessageType
-{
-    Default,
-    RegisterRequest,
-    RegisterResponse,
-    LoginRequest,
-    LoginResponse,
-    InitialRequest,
-    GroupChat,
-    SingleChat,
-    AddFriendRequest,
-    AddFriendResponse,
-    HeartPackage,
-    FriendListRequest,
-    FriendListResponse,
-    GetFriendList
-};
 
-using MessageTypeBaseType = std::underlying_type<MessageType>::type;
 using namespace boost::property_tree;
 using namespace rapidjson;
 //all the json data used in communicate should inherit from this class

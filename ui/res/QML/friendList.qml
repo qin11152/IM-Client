@@ -7,9 +7,9 @@ Rectangle {
     signal signalFriendListClicked(int iId);
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
-    function addElementToModel(strImagePath,strName,iId,strFirstChacter)
+    function addElementToModel(strImagePath,strName,strId,strFirstChacter)
     {
-        addressBookModel.append({"imagePath":strImagePath,"name":strName,"idx":iId,"firstChacter":strFirstChacter});
+        addressBookModel.append({"imagePath":strImagePath,"name":strName,"strIdx":strId,"firstChacter":strFirstChacter});
     }
 
     //清空好友列表
@@ -47,48 +47,48 @@ Rectangle {
     ListModel
     {
         id: addressBookModel;
-        ListElement
+        /*ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"A"
         }
         ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"A"
         }
         ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"A"
         }
         ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"B"
         }
         ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"C"
         }
         ListElement
         {
             imagePath:"strImagePath"
             name:"strName"
-            idx:1
+            idx:"1"
             firstChacter:"群聊"
-        }
+        }*/
     }
 
     ListView
@@ -217,9 +217,10 @@ Rectangle {
             Rectangle
             {
                 id:imageLabel;
-                color: "transparent";
+                color: "#8033CCFF";
                 width: 50;
                 height: 50;
+                radius: 25;
                 anchors.top: parent.top;
                 anchors.topMargin: 20;
                 anchors.left: parent.left;
@@ -228,11 +229,12 @@ Rectangle {
                 {
                     id: imagePathText;
                     elide: Text.ElideRight;
-                    anchors.fill: parent;
+                    //anchors.fill: parent;
                     font.family: "msyh";
                     font.pixelSize: 14;
                     color: "black";
-                    text: imagePath;
+                    text: model.firstChacter;
+                    anchors.centerIn: parent;
                 }
             }
             //名字区域
@@ -243,7 +245,7 @@ Rectangle {
                 width: 180;
                 height: 30;
                 anchors.top: parent.top;
-                anchors.topMargin: 20;
+                anchors.topMargin: 30;
                 anchors.left: imageLabel.right;
                 anchors.leftMargin: 15;
                 Text

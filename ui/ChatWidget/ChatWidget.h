@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
+#include <map>
 
 namespace Ui 
 { 
@@ -47,15 +48,17 @@ private slots:
     void onSignalTextEditIsFocus(bool isFocus);
     //发送消息按钮被点击后
     void onSignalSendMessage();
-    void onSignalSwitchFriendListWidget(int type);
+    void onSignalSwitchLastChatWidget(int type);
     //朋友列表被点击后
     void onSignalFriendListClicked(int iId);
     //底部托盘被点击后
     void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
     //收到好友聊天消息后
-    void onSignalSingleChatMessage(QString& chatMessage);
-    //收到同意添加好友的请求
+    void onSignalSingleChatMessage(const QString& chatMessage);
+    //收到qml页面同意添加好友的请求
     void onSignalAgreeAddFriend(QString friendName);
+    //收到好友列表后
+    void onSignalFriendList(const QString& friendList);
 
 private:
     void initUi();
@@ -63,18 +66,21 @@ private:
     void initData();
     void getLastChatListFromDB();
     void notifyServerOnline();
+    //获取好友列表
+    void getFriendList();
     //void getFriendListFromServer();
 
 private:
     Ui::ChatWidget *ui;
-    QObject* m_ptrFriendListQMLRoot{ nullptr }; //qml的根对象
+    QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
+    QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
     QTimer* m_ptrNullMessageTimer{ nullptr };   //空的聊天界面
-    QQuickWidget* m_ptrFriendListWidget{ nullptr }; //上次聊天列表界面
-    QQuickWidget* m_ptrSearchWidget{ nullptr }; //搜索好友左侧界面
+    QQuickWidget* m_ptrLastChatWidget{ nullptr }; //上次聊天列表界面
+    QQuickWidget* m_ptrFriendListWidget{ nullptr }; //搜索好友左侧界面
     QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
     QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
     //这个用户的id
     int m_iId{ -1 };
-
+    std::map<std::string, std::string> m_mapUserInfo;     //存储用户id和对应的用户名
     int m_iTrayState{ NormalState };        //托盘图标的状态，是否为闪烁
 };

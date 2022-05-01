@@ -1,17 +1,16 @@
 #pragma once
 
 #define coid void;
+#include <QObject>
 #include <string>
 
-namespace
-{
 
     constexpr int PackageLength = 8;
 
     enum FriendListType
     {
-        FriendListWidget,
-        SearchWidget
+        LastChatWidget,
+        FriendListWidget
     };
 
     struct MyFriendInfo
@@ -34,8 +33,8 @@ namespace
     class FriendInfo
     {
     public:
-        std::string m_strFriendId{ nullptr };      //好友的id
-        std::string m_strFriendName{ nullptr };     //好友的昵称
+        std::string m_strFriendId{ "" };      //好友的id
+        std::string m_strFriendName{ "" };     //好友的昵称
     };
 
     enum class MessageType
@@ -58,4 +57,33 @@ namespace
     };
 
     using MessageTypeBaseType = std::underlying_type<MessageType>::type;
-}
+
+    struct MyChatMessageInfo
+    {
+    public:
+        QString m_strMessage;
+        QString m_strName;
+        QString m_strTime;
+        bool m_bIsSelf;
+        MyChatMessageInfo(QString message, QString name, QString time, bool isSelf) :
+            m_strMessage(message),
+            m_strName(name),
+            m_strTime(time),
+            m_bIsSelf(isSelf)
+        {}
+    };
+
+    struct MyAddFriendInfo
+    {
+    public:
+        QString m_strFriendName;
+        QString m_strFriendId;
+        QString m_strVerifyMsg;
+        bool m_bIsValid{ false };
+        MyAddFriendInfo(QString name, QString id, QString verifyMsg, bool isValid)
+            :m_strFriendName(name),
+            m_strFriendId(id),
+            m_strVerifyMsg(verifyMsg),
+            m_bIsValid(isValid)
+        {}
+    };

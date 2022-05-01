@@ -94,7 +94,7 @@ int DataBaseDelegate::GetChatRecordCountFromDB(int id)
 bool DataBaseDelegate::createUserChatTable(const QString& userid)
 {
     //每个用户都有一个自己的库，在自己的库中和每个人的聊天记录是一个表
-    QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null)";
+    QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null,isself bool,name varchar(30)";
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -113,6 +113,19 @@ bool DataBaseDelegate::createLastChatListTable()
     {
         //TODO 修改为日志
         printf("create table lastchatlist failed\n");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::createFriendRequestTable()
+{
+    QString str = "create table friendRequest (id int,name varchar(40),isvalid bool)";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        //TODO 修改为日志
+        printf("create table friendlist failed\n");
         return false;
     }
     return true;
@@ -200,7 +213,12 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(int id, QString& str)
     return true;
 }
 
-bool DataBaseDelegate::QueryAddFriendInfoFromDB(int id, std::vector<MyAddFriendInfo>& addFriendInfo)
+bool DataBaseDelegate::queryAddFriendInfoFromDB(int id, std::vector<MyAddFriendInfo>& addFriendInfo)
+{
+    return true;
+}
+
+bool DataBaseDelegate::queryFriendRequestAcordId(QString id)
 {
     return true;
 }

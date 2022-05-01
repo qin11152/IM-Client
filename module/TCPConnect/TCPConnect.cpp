@@ -25,6 +25,11 @@ SingletonPtr TCPConnect::Instance()
 
 void TCPConnect::sendMessage(std::string&message)
 {
+    if (!m_bIsConnected)
+    {
+        m_bIsConnected = true;
+        connectHost();
+    }
     //utf8±àÂë
     int length = message.length();
     std::string msgLength = std::to_string(length);
@@ -35,7 +40,7 @@ void TCPConnect::sendMessage(std::string&message)
     }
     std::string sendMsg = msgLength + message;
     int cnt=m_ptrTcpSocket->write(sendMsg.c_str(),length+8);
-    //printf("write %d byte,message is:%s\n", cnt,sendMsg.c_str());
+    printf("write %d byte,message is:%s\n", cnt,sendMsg.c_str());
 }
 
 void TCPConnect::sendLength(LengthInfo& l, int length)
@@ -68,6 +73,11 @@ void TCPConnect::initConnect()
     connect(m_ptrTcpSocket, &QTcpSocket::readyRead, this, &TCPConnect::onSignalRecvMessage);
     connect(m_ptrTimerKeepAlive, &QTimer::timeout, this, &TCPConnect::onSignalTimeoutSendHeartPackage);
     connect(m_ptrTimerRecvHeartPackage, &QTimer::timeout, this, &TCPConnect::onSignalTimeoutNoHeartPackage);
+}
+
+void TCPConnect::disConnect()
+{
+    m_ptrTcpSocket->disconnectFromHost();
 }
 
 void TCPConnect::init()
@@ -157,16 +167,22 @@ void TCPConnect::onHandleMessage(const std::string& recvMessage)
         {
             emit signalRecvRegisterMessage(QString::fromStdString(recvMessage));
         }
-            break;
+        break;
         case int(MessageType::LoginResponse) :
         {
             emit signalRecvLoginResultMessage(QString::fromStdString(recvMessage));
         }
-            break;
+        break;
         case int(MessageType::SingleChat) :
         {
             emit signalRecvSingleChatMessage(QString::fromStdString(recvMessage));
         }
+        break;
+        case int(MessageType::GetFriendListReply) :
+        {
+            emit signalRecvFriendListMessage(QString::fromStdString(recvMessage));
+        }
+        break;
         default:
             break;
     }
@@ -176,7 +192,7 @@ TCPConnect::TCPConnect(QObject *parent)
     : QObject(parent)
 {
     init();
-    connectHost();
+    //connectHost();
     initConnect();
 }
 

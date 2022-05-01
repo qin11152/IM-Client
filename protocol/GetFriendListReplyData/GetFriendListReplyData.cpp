@@ -17,8 +17,8 @@ void GetFriendListReplyData::parse(const std::string& message)
     std::stringstream sstream(message);
     read_json(sstream, m_ptree);
     //json中有两个数组，一个数组存放id，一个数组存放name，两者顺序对应，保证属于同一个friend
-    m_friendIdList = m_ptree.get_child("friendIdList");
-    m_friendNamelist = m_ptree.get_child("friendNameList");
+    m_friendIdList = m_ptree.get_child("FriendIdList");
+    m_friendNamelist = m_ptree.get_child("FriendNameList");
     for (auto iter = m_friendIdList.begin(); iter != m_friendIdList.end(); ++iter)
     {
         //遍历数组得到对象，获取对象的id

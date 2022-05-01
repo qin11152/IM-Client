@@ -138,6 +138,26 @@ Rectangle
                     color="transparent";
                 }
             }
+            //红色标识，标识有信息来了
+            Rectangle
+            {
+                color: "red";
+                width: 24;
+                height: 24;
+                radius: 12;
+                anchors.top: parent.top;
+                anchors.topMargin: 10;
+                anchors.right: parent.right;
+                anchors.rightMargin: 20;
+                Text
+                {
+                    anchors.centerIn: parent;
+                    id:msgCount;
+                    font.pixelSize: 20;
+                    text:"2";
+                }
+            }
+
             //头像区域
             Rectangle
             {
