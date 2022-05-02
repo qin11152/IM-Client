@@ -12,7 +12,7 @@ public:
     ~MyLineEdit();
     
 signals:
-    void signalSwitchStackedWidget(int type);
+    void signalIsFocus(bool isFocus);
 
 protected:
     void focusInEvent(QFocusEvent* e)override;

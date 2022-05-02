@@ -13,13 +13,13 @@ MyLineEdit::~MyLineEdit()
 
 void MyLineEdit::focusInEvent(QFocusEvent* e)
 {
-    emit signalSwitchStackedWidget(FriendListWidget);
+    emit signalIsFocus(true);
     QLineEdit::focusInEvent(e);
 }
 
 void MyLineEdit::focusOutEvent(QFocusEvent* e)
 {
-    emit signalSwitchStackedWidget(LastChatWidget);
+    emit signalIsFocus(false);
     QLineEdit::focusOutEvent(e);
 }
 

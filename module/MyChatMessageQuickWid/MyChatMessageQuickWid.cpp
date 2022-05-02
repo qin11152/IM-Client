@@ -44,8 +44,8 @@ QObject* MyChatMessageQuickWid::getRootObj() const
     return m_ptrRootObj;
 }
 
-void MyChatMessageQuickWid::SetUserId(int id)
+void MyChatMessageQuickWid::SetUserId(QString id)
 {
-    m_iId = id;
+    m_strId = id;
     //DataBaseDelegate::Instance()->QueryInitialAcordIdFromDB(id, m_strInitial);
 }

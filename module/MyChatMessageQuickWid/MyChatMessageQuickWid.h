@@ -29,9 +29,9 @@ public:
     //获取根对象与QML进行交互
     QObject* getRootObj()const;
     //设置id的借口，外部告知这个界面对应的用户id是多少
-    void SetUserId(int id);
+    void SetUserId(QString id);
     //获取id接口
-    int GetUserId()const { return m_iId; }
+    QString GetUserId()const { return m_strId; }
     //设置首字母
     void setInitial(QString strInitial) { m_strInitial = strInitial; }
     //获取首字母
@@ -50,7 +50,7 @@ private:
     //根对象，用于和qml进行交互
     QObject* m_ptrRootObj{ nullptr };
     //用户的id
-    int m_iId{ -1 };
+    QString m_strId{ "" };
     //用户的首字母
     QString m_strInitial{ "" };
     //用户的名称

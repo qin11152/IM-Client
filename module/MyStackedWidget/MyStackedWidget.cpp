@@ -42,3 +42,12 @@ QWidget* MyStackedWidget::getWidAcord2Id(int iId)
 {
     return m_mapIdWidgetReference[iId];
 }
+
+bool MyStackedWidget::isWidCreate(int id)
+{
+    if (m_mapIdWidgetReference.find(id) != m_mapIdWidgetReference.end())
+    {
+        return true;
+    }
+    return false;
+}

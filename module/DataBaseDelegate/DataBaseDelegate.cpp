@@ -24,7 +24,7 @@ void DataBaseDelegate::init()
         dir.mkdir(fileName);
     }
     //建立一个库，没有就建立
-    QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + QString::number(m_iId) + ".db";
+    QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
     m_dataBase.setDatabaseName(dataName);
     if (!m_dataBase.open())
     {
@@ -66,15 +66,15 @@ DataBaseDelegate::~DataBaseDelegate()
     m_dataBase.close();
 }
 
-void DataBaseDelegate::SetUserId(int id)
+void DataBaseDelegate::SetUserId(QString id)
 {
-    m_iId = id;
+    m_strUserId = id;
     init();
 }
 
-int DataBaseDelegate::GetChatRecordCountFromDB(int id)
+int DataBaseDelegate::GetChatRecordCountFromDB(QString id)
 {
-    QString str = "select count(*) from chatrecord" + QString::number(id);
+    QString str = "select count(*) from chatrecord" + id;
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -155,7 +155,7 @@ bool DataBaseDelegate::isTableExist(const QString& tableNmae)
     return true;
 }
 
-bool DataBaseDelegate::queryLastChatListFromDB(std::map<int, int>& m_tmpMap)
+bool DataBaseDelegate::queryLastChatListFromDB(std::vector<QString>& m_tmpVec)
 {
     QString str = "select * from lastChatList order by pos";
     QSqlQuery query;
@@ -167,16 +167,15 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::map<int, int>& m_tmpMap)
     while (query.next())
     {
         record = query.record();
-        int id = record.value("id").toInt();
-        int pos = record.value("pos").toInt();
-        m_tmpMap[pos] = id;
+        QString id = record.value("id").toString();
+        m_tmpVec.push_back(id);
     }
     return false;
 }
 
-bool DataBaseDelegate::queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)
+bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)
 {
-    QString str = "select * from chatrecord" + QString::number(id) + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
+    QString str = "select * from chatrecord" + id + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -196,9 +195,9 @@ bool DataBaseDelegate::queryChatRecordAcodIdFromDB(int id, std::vector<MyChatMes
     return true;
 }
 
-bool DataBaseDelegate::QueryInitialAcordIdFromDB(int id, QString& str)
+bool DataBaseDelegate::QueryInitialAcordIdFromDB(QString id, QString& str)
 {
-    QString strs = "select name from chatrecord" + QString::number(id) + " where isself=false limit 1,1";
+    QString strs = "select name from chatrecord" + id + " where isself=false limit 1,1";
     QSqlQuery query;
     if (!query.exec(strs))
     {
@@ -213,7 +212,7 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(int id, QString& str)
     return true;
 }
 
-bool DataBaseDelegate::queryAddFriendInfoFromDB(int id, std::vector<MyAddFriendInfo>& addFriendInfo)
+bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)
 {
     return true;
 }

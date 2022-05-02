@@ -99,6 +99,9 @@
     <Filter Include="protocol\GetFriendListReplyData">
       <UniqueIdentifier>{4bd08407-0a17-4f01-bf98-190a0a86080d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="module\PublicFunction">
+      <UniqueIdentifier>{4b895cf8-f957-4394-a056-289ad68794df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -160,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="protocol\GetFriendListReplyData\GetFriendListReplyData.cpp">
       <Filter>protocol\GetFriendListReplyData</Filter>
+    </ClCompile>
+    <ClCompile Include="module\PublicFunction\PublicFunction.cpp">
+      <Filter>module\PublicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="module\PublicFunction\PinYInTable.h">
+      <Filter>module\PublicFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="protocol\GetFriendListReplyData\GetFriendListReplyData.h">
       <Filter>protocol\GetFriendListReplyData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\PublicFunction\PublicFunction.h">
+      <Filter>module\PublicFunction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
