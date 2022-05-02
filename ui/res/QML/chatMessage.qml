@@ -15,15 +15,15 @@ Rectangle
         messageView.positionViewAtEnd();
     }
 
-    function insertMessageModel(strName,strMessage,bIsSelf,strShou,iId)
+    function insertMessageModel(strName,strMessage,bIsSelf,strShou,strId)
     {
-        messageModel.insert(0,{"name":strName,"message":strMessage,"isSelf":bIsSelf,"shouzimu":strShou,"id":iId});
+        messageModel.insert(0,{"name":strName,"message":strMessage,"isSelf":bIsSelf,"shouzimu":strShou,"id":strId});
         iRecordCount++;
     }
 
-    function appendMessageModel(strName,strMessage,bIsSelf,strShou,iId)
+    function appendMessageModel(strName,strMessage,bIsSelf,strShou,strId)
     {
-        messageModel.append({"name":strName,"message":strMessage,"isSelf":bIsSelf,"shouzimu":strShou,"id":iId});
+        messageModel.append({"name":strName,"message":strMessage,"isSelf":bIsSelf,"shouzimu":strShou,"id":strId});
         messageView.positionViewAtEnd();
         iRecordCount++;
     }

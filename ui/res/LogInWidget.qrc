@@ -3,6 +3,9 @@
         <file>image/login_background.jpg</file>
         <file>image/icon.png</file>
         <file>image/weixin.ico</file>
+        <file>image/tongxunlu.jpeg</file>
+        <file>image/addfriend.jpeg</file>
+        <file>image/chat.jpeg</file>
     </qresource>
     <qresource prefix="/QML">
         <file>QML/chatMessage.qml</file>

@@ -51,17 +51,52 @@
        <property name="styleSheet">
         <string notr="true">background-color: rgb(72, 72, 72);</string>
        </property>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="addFriendPushButton">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>210</y>
           <width>51</width>
           <height>51</height>
          </rect>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border-image: url(:/LogInWidget/image/addfriend.jpeg);</string>
+        </property>
         <property name="text">
-         <string>PushButton</string>
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="friendListPushButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>51</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-image: url(:/LogInWidget/image/tongxunlu.jpeg);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="chatPushButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>60</y>
+          <width>51</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-image: url(:/LogInWidget/image/chat.jpeg);</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -349,6 +384,8 @@ border:0px;</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res/LogInWidget.qrc"/>
+ </resources>
  <connections/>
 </ui>

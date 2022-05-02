@@ -5,12 +5,12 @@ Rectangle
 {
 
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
-    signal signalFriendListClicked(int iId);
+    signal signalFriendListClicked(string strId);
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
-    function addElementToModel(strImagePath,strName,iId)
+    function addElementToModel(strImagePath,strName,strId)
     {
-        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":iId});
+        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId});
     }
 
     //清空好友列表
@@ -20,11 +20,11 @@ Rectangle
     }
 
     //根据id找到这个好友所在模型中的位置
-    function findPosInModel(iId)
+    function findPosInModel(strId)
     {
         for(var i=0;i<friendListModel.count;++i)
         {
-            if(friendListModel.get(i).id===iId)
+            if(friendListModel.get(i).id===strId)
             {
                 moveActiveFriend2Top(i);
                 break;
