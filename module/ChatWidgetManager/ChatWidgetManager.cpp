@@ -35,10 +35,10 @@ void ChatWidgetManager::setUserId(QString strId)
 
 void ChatWidgetManager::initConnect()
 {
-    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidgetManager::onSignalRecvFriendList);
+    //connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidgetManager::onSignalRecvFriendList);
 }
 
-void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList)
+void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
 {
     GetFriendListReplyData getFriendListReplyData(friendList.toStdString());
     for (auto& item : getFriendListReplyData.m_vecFriendList)
@@ -50,8 +50,8 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList)
         tmpFriendInfo.m_strId = item.m_strFriendId;
         tmpFriendInfo.m_strImagePath = "";
         tmpFriendInfo.m_strName = item.m_strFriendName;
-        m_vecFriendInfoWithC.push_back(tmpFriendInfo);
-        m_mapUserInfo[QString::fromStdString(item.m_strFriendId)] = m_vecFriendInfoWithC.size() - 1;
+        vecFriendInfoWithC.push_back(tmpFriendInfo);
+        mapUserInfo[QString::fromStdString(item.m_strFriendId)] = vecFriendInfoWithC.size() - 1;
     }
     emit signalGetFriendListFinished();
 }
@@ -83,11 +83,11 @@ void ChatWidgetManager::notifyServerOnline()
     TCPConnect::Instance()->sendMessage(sendMessage);
 }
 
-void ChatWidgetManager::getLastChatListFromDB()
+void ChatWidgetManager::getLastChatListFromDB(std::vector<QString>& vecLastChatFriend)
 {
     //map结构体，存储上次关闭时聊天列表中的顺序
     std::map<QString, QString> LastChatInfo;
-    DataBaseDelegate::Instance()->queryLastChatListFromDB(m_vecLastChatFriend);
+    DataBaseDelegate::Instance()->queryLastChatListFromDB(vecLastChatFriend);
 }
 
 std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QString strId)
@@ -102,9 +102,3 @@ std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QS
     DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
     return vecMyChatMessageInfo;
 }
-
-MyFriendInfoWithFirstC ChatWidgetManager::getFriendInfo(QString strId)
-{
-    return m_vecFriendInfoWithC[m_mapUserInfo[strId]];
-}
-

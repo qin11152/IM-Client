@@ -218,6 +218,11 @@ void ChatWidget::onSignalAddFriendBtn()
     ui->chatStackedWidget->SwitchToChatPage(AddFriendWid);
 }
 
+void ChatWidget::onSignalRecvFriendList(const QString& friendList)
+{
+    ChatWidgetManager::Instance()->onSignalRecvFriendList(friendList, m_mapUserInfo, m_vecFriendInfoWithC);
+}
+
 void ChatWidget::initUi()
 {
     QSurfaceFormat format;
@@ -282,18 +287,25 @@ void ChatWidget::initUi()
 
 void ChatWidget::initConnect()
 {
+    //ui界面中的部件被点击
     connect(ui->textEdit, &MyTextEdit::signalTextEditIsFocus, this, &ChatWidget::onSignalTextEditIsFocus);
     connect(ui->pushButton, &QPushButton::clicked, this, &ChatWidget::onSignalSendMessage);
-    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalFriendListClicked(QString)));
+
     //连接托盘图标的激活与对应动作的槽函数
     connect(m_ptrTrayIcon, &QSystemTrayIcon::activated, this, &ChatWidget::onSignalTrayTriggered);
+
     //连接添加好友界面同意信号
     connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)), this, SLOT(onSignalAgreeAddFriend(QString)));
+    //上次聊天界面用户被点击
+    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalFriendListClicked(QString)));
+
+    //收到好友消息列表后，由manager去处理数据
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidget::onSignalRecvFriendList);
+
     //收到服务端好友列表响应,既要初始化好友，也要初始化上次聊天列表 
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalGetFriendListFinished, this, &ChatWidget::initFriendList);
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalGetFriendListFinished, this, &ChatWidget::initLastChatList);
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalGetFriendListFinished, this, &ChatWidget::initAllChatWid);
-    //收到点击信号后，才创建聊天界面
 
     //侧边栏三个按钮的响应
     connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);
@@ -301,7 +313,6 @@ void ChatWidget::initConnect()
     connect(ui->addFriendPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalAddFriendBtn);
     connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
 }
-
 
 //************************************
 // Method:    initData
@@ -316,7 +327,7 @@ void ChatWidget::initData()
     m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrLastChatWidget = new QQuickWidget();
     m_ptrSearchFriendList = new QQuickWidget();
-    ChatWidgetManager::Instance()->getLastChatListFromDB();
+    ChatWidgetManager::Instance()->getLastChatListFromDB(m_vecLastChatFriend);
     ChatWidgetManager::Instance()->notifyServerOnline();
     ChatWidgetManager::Instance()->getFriendList();
 }
@@ -324,18 +335,18 @@ void ChatWidget::initData()
 
 void ChatWidget::initLastChatList()
 {
-    auto lastChatList = ChatWidgetManager::Instance()->getLastChatList();
-    for (auto& item : lastChatList)
+    for (auto& item : m_vecLastChatFriend)
     {
-        auto friendInfo = ChatWidgetManager::Instance()->getFriendInfo(item);
+        auto friendInfo=m_vecFriendInfoWithC[m_mapUserInfo[item]];
         //TODO获取上次聊天内容
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "addElementToModel", Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)), Q_ARG(QVariant, ""), Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)));
     }
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "initColor", Qt::DirectConnection);
 }
 
 void ChatWidget::initAllChatWid()
 {
-    for (auto& item : ChatWidgetManager::Instance()->getLastChatList())
+    for (auto& item : m_vecLastChatFriend)
     {
         initChatMessageWidAcordId(item);
     }
@@ -343,7 +354,7 @@ void ChatWidget::initAllChatWid()
 
 void ChatWidget::initFriendList()
 {
-    for (auto& item : ChatWidgetManager::Instance()->getMyFriendVec())
+    for (auto& item : m_vecFriendInfoWithC)
     {
         QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, ""), Q_ARG(QVariant, QString::fromStdString(item.m_strName)), Q_ARG(QVariant, QString::fromStdString(item.m_strId)), Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
     }

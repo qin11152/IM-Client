@@ -13,6 +13,16 @@ Rectangle
         friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId});
     }
 
+    //初始化的时候谁都不是当前对象
+    function initColor()
+    {
+        console.log("qqqqqq");
+        friendListView.currentItem.color="transparent";
+        friendListView.lastIndex=19999;
+        //friendListView.currentItem.color="grey";
+        friendListView.lastItem=null;
+    }
+
     //清空好友列表
     function clearModel()
     {
@@ -45,10 +55,9 @@ Rectangle
         {
             return;
         }
-
-        friendListView.lastIndex=0;
+        friendListView.lastIndex=19999;
         //friendListView.currentItem.color="grey";
-        friendListView.lastItem=friendListView.currentItem;
+        friendListView.lastItem=null;
     }
 
     id: main;
@@ -105,7 +114,6 @@ Rectangle
                 //点击这个会话时，上次点击的颜色变成透明，这次点击的变成灰色，并更新这次的index等为上次点击
                 onClicked:
                 {
-                    console.log("clicked");
                     if(friendListView.lastItem!==null)
                     {
                         friendListView.lastItem.color="transparent";
@@ -121,7 +129,7 @@ Rectangle
                 onEntered:
                 {
                     scrollBar.visible=true;
-                    if(friendListView.currentIndex===index)
+                    if(friendListView./*currentIndex*/lastIndex===index)
                     {
                         return;
                     }
@@ -131,7 +139,7 @@ Rectangle
                 onExited:
                 {
                     scrollBar.visible=false;
-                    if(friendListView.currentIndex===index)
+                    if(friendListView./*currentIndex*/lastIndex===index)
                     {
                         return;
                     }

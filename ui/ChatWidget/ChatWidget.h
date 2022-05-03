@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../../module/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
+#include "module/MyDefine.h"
 #include <QWidget>
 #include <QTimer>
 #include <QSystemTrayIcon>
@@ -65,6 +66,8 @@ private slots:
     void onSignalFriendListBtn();
     //点击侧边栏添加好友
     void onSignalAddFriendBtn();
+    //收到好友列表消息
+    void onSignalRecvFriendList(const QString& friendList);
     //manager收到了好友列表
     void initFriendList();
     //根据id初始化此id对应的聊天界面
@@ -94,4 +97,9 @@ private:
     //这个用户的id
     QString m_strUserId{ "" };
     int m_iTrayState{ NormalState };        //托盘图标的状态，是否为闪烁
+
+        //存储好友信息，带首字母
+    std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;
+    std::map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
+    std::vector<QString> m_vecLastChatFriend;        //上次聊天页面里的好友
 };
