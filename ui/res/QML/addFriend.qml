@@ -1,13 +1,15 @@
 ﻿import QtQuick 2.3
 import QtQuick.Controls 2.15
 
-Rectangle {
+Rectangle
+{
 
     id:main;
     width: 800
     height: 600
 
     signal signalAgreeAdd(string strName);
+    signal signalRequestAddFriend(string strFriendId);
 
     function insertNewAddFriendRequest(strShouzimu,strName,strVerifyMsg,bIsValid)
     {
@@ -19,14 +21,125 @@ Rectangle {
         addFriendListModel.append({"shouZimu":strShouzimu,"name":strName,"verifyMsg":strVerifyMsg,"isValid":bIsValid});
     }
 
-    //同样是一个listview
+    Text
+    {
+        id:tips;
+        anchors.top: parent.top;
+        anchors.topMargin: 10;
+        anchors.left: parent.left;
+        anchors.leftMargin: 70;
+        width: 150;
+        height: 20
+        font.family: "msyh"
+        font.pointSize: 16
+        font.bold: true;
+        text:
+        {
+            "请输入好友id";
+        }
+    }
+
+    Text
+    {
+        id:addTips;
+        anchors.top: parent.top;
+        anchors.topMargin: 10;
+        anchors.left: tips.right;
+        anchors.leftMargin: 50;
+        width: 150;
+        height: 20
+        font.family: "msyh"
+        font.pointSize: 16
+        font.bold: true;
+        text:
+        {
+            "已发送请求";
+        }
+        visible: false;
+    }
+
+    Rectangle
+    {
+        id:textEditRect;
+        anchors.top: tips.bottom;
+        anchors.topMargin: 10;
+        anchors.left: parent.left;
+        anchors.leftMargin: 70;
+        width: 300;
+        height: 40;
+        color: "lightgrey";
+        border.color: "grey";
+        TextEdit
+        {
+            id:textEdit;
+            color: "red";
+            font.family: "msyh"
+            font.pointSize: 20
+            focus: true;
+            anchors.fill: parent;
+            wrapMode: TextEdit.WrapAnywhere;
+
+        }
+    }
+
+    Timer
+    {
+        id:tipsTimer;
+        interval: 2000;
+        onTriggered:
+        {
+            stop();
+            addTips.visible=false;
+        }
+    }
+
+    Button
+    {
+        id: addFriendBtn;
+        height: 30;
+        width: 50;
+        anchors.top: tips.bottom;
+        anchors.topMargin: 20;
+        anchors.right: parent.right;
+        anchors.rightMargin: 30;
+        Text
+        {
+            text: "添加"
+            font.family: "msyh";
+            font.pixelSize: 24;
+            anchors.centerIn: parent;
+        }
+        onClicked:
+        {
+            main.signalRequestAddFriend(textEdit.text);
+            addTips.visible=true;
+            if(tipsTimer.running)
+            {
+                return;
+            }
+            else
+            {
+                tipsTimer.start();
+            }
+        }
+    }
+
     ListView
     {
         id:addFriendListView;
         model: addFriendListModel;
         delegate: addFriendListDelegate;
         orientation: ListView.Vertical;
-        anchors.fill: parent;
+        //anchors.fill: parent;
+        height: parent.height-60;
+        width: parent.width;
+        anchors.top: textEditRect.bottom;
+        clip: true;
+        ScrollBar.vertical: ScrollBar
+        {
+            id: scrollBar;
+            policy: ScrollBar.AsNeeded;
+        }
     }
 
     ListModel
@@ -45,6 +158,55 @@ Rectangle {
             name:"qqq"
             verifyMsg:"我是你爸爸"
             isValid:false
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
+        }
+        ListElement
+        {
+            shouZimu:"B"
+            name:"lll"
+            verifyMsg:"我是你爸爸"
+            isValid:true
         }
         ListElement
         {
@@ -119,7 +281,7 @@ Rectangle {
                 height:40;
                 width:50;
                 anchors.right:parent.right;
-                anchors.rightMargin: 10;
+                anchors.rightMargin: 30;
                 anchors.top: parent.top;
                 anchors.topMargin: 10;
                 visible:!model.isValid;
@@ -146,7 +308,7 @@ Rectangle {
                 height: 40;
                 width: 60;
                 anchors.right:parent.right;
-                anchors.rightMargin: 10;
+                anchors.rightMargin: 30;
                 anchors.top: parent.top;
                 anchors.topMargin: 10;
                 visible:model.isValid;

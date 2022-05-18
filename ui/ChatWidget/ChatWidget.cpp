@@ -223,6 +223,12 @@ void ChatWidget::onSignalRecvFriendList(const QString& friendList)
     ChatWidgetManager::Instance()->onSignalRecvFriendList(friendList, m_mapUserInfo, m_vecFriendInfoWithC);
 }
 
+void ChatWidget::onSignalRequestAddFriend(QString friendId)
+{
+    qDebug()<<(friendId);
+    //TODO像服务器发送消息
+}
+
 void ChatWidget::initUi()
 {
     QSurfaceFormat format;
@@ -296,6 +302,8 @@ void ChatWidget::initConnect()
 
     //连接添加好友界面同意信号
     connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)), this, SLOT(onSignalAgreeAddFriend(QString)));
+    //主动添加好友信号处理
+    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalRequestAddFriend(QString)), this, SLOT(onSignalRequestAddFriend(QString)));
     //上次聊天界面用户被点击
     connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalFriendListClicked(QString)));
 
