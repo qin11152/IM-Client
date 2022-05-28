@@ -214,11 +214,65 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(QString id, QString& str)
 
 bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)
 {
+    deleteExpiredFriendRequest();
+    QString str = "select * from friendRequest";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("query friend request failed\n");
+        return false;
+    }
+    while (query.next())
+    {
+        QSqlRecord record = query.record();
+        MyAddFriendInfo tmpInfo;
+        tmpInfo.m_strFriendId = record.value(0).toString();
+        tmpInfo.m_strFriendName = record.value(1).toString();
+        tmpInfo.m_bIsValid = record.value(2).toBool();
+        tmpInfo.m_strVerifyMsg = record.value(4).toString();
+        addFriendInfo.emplace_back(tmpInfo);
+    }
     return true;
 }
 
-bool DataBaseDelegate::queryFriendRequestAcordId(QString id)
+bool DataBaseDelegate::queryFriendRequestAcordName(QString name,QString& id)
 {
+    QString strs = "select id from friendRequest where name = " + name;
+    QSqlQuery query;
+    if (!query.exec(strs))
+    {
+        printf("query friend request acord name failed\n");
+        return false;
+    }
+    while (query.next())
+    {
+        QSqlRecord record = query.record();
+        //查询到这个id
+        id = record.value(0).toString();
+    }
+    return true;
+}
+
+bool DataBaseDelegate::updateFriendRequestStateAcordName(QString name)
+{
+    QString str = "update friendRequest set isvalid=true where name = " + name;
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("update friendRequest state failed,name=%s\n", name.toStdString().c_str());
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::deleteExpiredFriendRequest()
+{
+    QString str = "DELETE FROM friendRequest WHERE date('now', '-30 day' ,'localtime') >= date(CreatedTime)";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        return false;
+    }
     return true;
 }
 

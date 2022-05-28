@@ -179,12 +179,6 @@ void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
     tmpWid->addRecordCount(1);
 }
 
-void ChatWidget::onSignalAgreeAddFriend(QString friendName)
-{
-    qDebug() << friendName;
-    //TODO从数据库查找用户名对应id并转移到已经添加的好友表中
-}
-
 void ChatWidget::onSignalSearchTextLoseFocus(bool isFocus)
 {
     if (isFocus)
@@ -301,7 +295,7 @@ void ChatWidget::initConnect()
     connect(m_ptrTrayIcon, &QSystemTrayIcon::activated, this, &ChatWidget::onSignalTrayTriggered);
 
     //连接添加好友界面同意信号
-    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)), this, SLOT(onSignalAgreeAddFriend(QString)));
+    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)), ChatWidgetManager::Instance().get(), SLOT(onSignalAgreeAddFriend(QString)));
     //主动添加好友信号处理
     connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalRequestAddFriend(QString)), this, SLOT(onSignalRequestAddFriend(QString)));
     //上次聊天界面用户被点击

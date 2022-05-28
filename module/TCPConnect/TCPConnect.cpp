@@ -23,7 +23,7 @@ SingletonPtr TCPConnect::Instance()
     return m_SingletonPtr;
 }
 
-void TCPConnect::sendMessage(std::string&message)
+void TCPConnect::sendMessage(std::string message)
 {
     if (!m_bIsConnected)
     {

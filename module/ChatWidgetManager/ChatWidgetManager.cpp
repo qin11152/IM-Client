@@ -4,6 +4,7 @@
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
+#include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include <algorithm>
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
@@ -54,6 +55,21 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::m
         mapUserInfo[QString::fromStdString(item.m_strFriendId)] = vecFriendInfoWithC.size() - 1;
     }
     emit signalGetFriendListFinished();
+}
+
+void ChatWidgetManager::onSignalAgreeAddFriend(QString friendName)
+{
+    QString strId = "";
+    //TODO从数据库中找到这个名字对应的id，然后返回给服务器
+    DataBaseDelegate::Instance()->queryFriendRequestAcordName(friendName, strId);
+    AddFriendResponseJsonData addFriendResponseJsonData;
+    addFriendResponseJsonData.m_strMyId = m_strUserId.toStdString();
+    addFriendResponseJsonData.m_strFriendId = strId.toStdString();
+    addFriendResponseJsonData.m_bResult = true;
+    //发送给服务器
+    TCPConnect::Instance()->sendMessage(addFriendResponseJsonData.generateJson());
+    //修改注册表中的状态为true
+    DataBaseDelegate::Instance()->updateFriendRequestStateAcordName(friendName);
 }
 
 ChatWidgetManager::ChatWidgetManager(QObject *parent)

@@ -56,8 +56,6 @@ private slots:
     void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
     //收到好友聊天消息后
     void onSignalSingleChatMessage(const QString& chatMessage);
-    //收到qml页面同意添加好友的请求
-    void onSignalAgreeAddFriend(QString friendName);
     //搜索输入框失去焦点后
     void onSignalSearchTextLoseFocus(bool isFocus);
     //点击侧边栏会话按钮

@@ -29,7 +29,7 @@ public:
     //单例模式，唯一获取其指针的方法，使用了智能指针，自动内存管理
     static SingletonPtr Instance();
     //调用该函数像服务器发送消息
-    void sendMessage(std::string& message);
+    void sendMessage(std::string message);
     void sendLength(LengthInfo& l, int length);
     ~TCPConnect();
     //无需拷贝构造和赋值构造函数

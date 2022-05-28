@@ -38,6 +38,8 @@ public:
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);
     //收到好友列表消息后
     void onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
+    //收到qml页面同意添加好友的请求
+    void onSignalAgreeAddFriend(QString friendName);
 
 
 signals:

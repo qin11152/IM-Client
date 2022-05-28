@@ -80,7 +80,7 @@ public:
     QString m_strFriendId;
     QString m_strVerifyMsg;
     bool m_bIsValid{ false };
-    MyAddFriendInfo(QString name, QString id, QString verifyMsg, bool isValid)
+    MyAddFriendInfo(QString name = "", QString id = "", QString verifyMsg = "", bool isValid = false)
         :m_strFriendName(name),
         m_strFriendId(id),
         m_strVerifyMsg(verifyMsg),
