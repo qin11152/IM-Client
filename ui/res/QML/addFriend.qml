@@ -9,7 +9,7 @@ Rectangle
     height: 600
 
     signal signalAgreeAdd(string strName);
-    signal signalRequestAddFriend(string strFriendId);
+    signal signalRequestAddFriend(string strFriendId,string strVerifyMsg);
 
     function insertNewAddFriendRequest(strShouzimu,strName,strVerifyMsg,bIsValid)
     {
@@ -82,6 +82,30 @@ Rectangle
         }
     }
 
+    Rectangle
+    {
+        id:verifyMsgTextEditRect;
+        anchors.top: textEditRect.bottom;
+        anchors.topMargin: 10;
+        anchors.left: parent.left;
+        anchors.leftMargin: 70;
+        width: 300;
+        height: 40;
+        color: "lightgrey";
+        border.color: "grey";
+        TextEdit
+        {
+            id:verifyMsgTextEdit;
+            color: "red";
+            font.family: "msyh"
+            font.pointSize: 20
+            focus: true;
+            anchors.fill: parent;
+            wrapMode: TextEdit.WrapAnywhere;
+
+        }
+    }
+
     Timer
     {
         id:tipsTimer;
@@ -111,7 +135,7 @@ Rectangle
         }
         onClicked:
         {
-            main.signalRequestAddFriend(textEdit.text);
+            main.signalRequestAddFriend(textEdit.text,verifyMsgTextEdit.text);
             addTips.visible=true;
             if(tipsTimer.running)
             {
@@ -131,9 +155,9 @@ Rectangle
         delegate: addFriendListDelegate;
         orientation: ListView.Vertical;
         //anchors.fill: parent;
-        height: parent.height-60;
+        height: parent.height-110;
         width: parent.width;
-        anchors.top: textEditRect.bottom;
+        anchors.top: verifyMsgTextEditRect.bottom;
         clip: true;
         ScrollBar.vertical: ScrollBar
         {

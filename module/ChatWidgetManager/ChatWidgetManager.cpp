@@ -5,6 +5,7 @@
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
+#include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
 #include <algorithm>
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
@@ -70,6 +71,16 @@ void ChatWidgetManager::onSignalAgreeAddFriend(QString friendName)
     TCPConnect::Instance()->sendMessage(addFriendResponseJsonData.generateJson());
     //修改注册表中的状态为true
     DataBaseDelegate::Instance()->updateFriendRequestStateAcordName(friendName);
+}
+
+void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verifyMsg)
+{
+    AddFriendRequestJsonData addFriendRequestData;
+    addFriendRequestData.m_strFriendId = friendId.toStdString();
+    addFriendRequestData.m_strVerifyMsg = verifyMsg.toStdString();
+    addFriendRequestData.m_strMyId = m_strUserId.toStdString();
+
+    TCPConnect::Instance()->sendMessage(addFriendRequestData.generateJson());
 }
 
 ChatWidgetManager::ChatWidgetManager(QObject *parent)

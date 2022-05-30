@@ -66,8 +66,6 @@ private slots:
     void onSignalAddFriendBtn();
     //收到好友列表消息
     void onSignalRecvFriendList(const QString& friendList);
-    //发送添加请求
-    void onSignalRequestAddFriend(QString friendId);
     //manager处理好友列表完毕
     void initFriendList();
     //根据id初始化此id对应的聊天界面
