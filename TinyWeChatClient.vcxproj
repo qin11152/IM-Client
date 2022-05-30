@@ -145,6 +145,8 @@
     <ClCompile Include="module\PublicFunction\PinYInTable.h" />
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
     <ClCompile Include="module\TCPConnect\TCPConnect.cpp" />
+    <ClCompile Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.cpp" />
+    <ClCompile Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.cpp" />
     <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListJsonData\GetFriendListJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListReplyData\GetFriendListReplyData.cpp" />
@@ -189,6 +191,8 @@
     <ClInclude Include="module\MyDefine.h" />
     <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h" />
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
+    <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h" />
+    <ClInclude Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.h" />
     <ClInclude Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.h" />
     <ClInclude Include="protocol\GetFriendListJsonData\GetFriendListJsonData.h" />
     <ClInclude Include="protocol\GetFriendListReplyData\GetFriendListReplyData.h" />

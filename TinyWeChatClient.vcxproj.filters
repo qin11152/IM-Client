@@ -102,6 +102,12 @@
     <Filter Include="module\PublicFunction">
       <UniqueIdentifier>{4b895cf8-f957-4394-a056-289ad68794df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protocol\AddFriendResponseJsonData">
+      <UniqueIdentifier>{e734b085-4ea4-42d9-ab35-b2cc0c4297cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\AddFriendRequestJsonData">
+      <UniqueIdentifier>{40ab0cae-bb7b-4a5e-b6d1-b05654d0da38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -169,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="module\PublicFunction\PinYInTable.h">
       <Filter>module\PublicFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.cpp">
+      <Filter>protocol\AddFriendResponseJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.cpp">
+      <Filter>protocol\AddFriendRequestJsonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="module\PublicFunction\PublicFunction.h">
       <Filter>module\PublicFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.h">
+      <Filter>protocol\AddFriendResponseJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h">
+      <Filter>protocol\AddFriendRequestJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
