@@ -183,6 +183,16 @@ void TCPConnect::onHandleMessage(const std::string& recvMessage)
             emit signalRecvFriendListMessage(QString::fromStdString(recvMessage));
         }
         break;
+        case int(MessageType::AddFriendRequest):
+        {
+            emit signalNewFriendRequest(QString::fromStdString(recvMessage));
+        }
+        break;
+        case int(MessageType::AddFriendNotify):
+        {
+            emit signalBecomeFriendNotify(QString::fromStdString(recvMessage));
+        }
+        break;
         default:
             break;
     }

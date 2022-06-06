@@ -19,7 +19,8 @@ namespace Ui
     class ChatWidget; 
 };
 
-enum TrayIconState {
+enum TrayIconState 
+{
     NormalState,
     BlinkState
 };
@@ -85,6 +86,7 @@ private:
     Ui::ChatWidget *ui;
     QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
     QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
+    QObject* m_ptrAddFriendQMLRoot{ nullptr };  //添加好友qml界面的根对象
     QTimer* m_ptrNullMessageTimer{ nullptr };   //空的聊天界面
     QQuickWidget* m_ptrLastChatWidget{ nullptr }; //上次聊天列表界面
     QQuickWidget* m_ptrFriendListWidget{ nullptr }; //好友列表界面

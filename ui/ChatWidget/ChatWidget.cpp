@@ -22,11 +22,12 @@ ChatWidget::ChatWidget(QString id, QWidget* parent)
 {
     ui = new Ui::ChatWidget();
     ui->setupUi(this);
-    DataBaseDelegate::Instance()->SetUserId(m_strUserId);
-    ChatWidgetManager::Instance()->setUserId(m_strUserId);
     setAttribute(Qt::WA_DeleteOnClose);
+    ChatWidgetManager::Instance()->setUserId(m_strUserId);
+    DataBaseDelegate::Instance()->SetUserId(m_strUserId);
     initData();
     initUi();
+    ChatWidgetManager::Instance()->setQMLRootPtr(m_ptrAddFriendQMLRoot, m_ptrFriendListQMLRoot, m_ptrLastChatQMLRoot);
     initConnect();
 }
 
@@ -242,12 +243,15 @@ void ChatWidget::initUi()
 
     //未添加和已添加的好友
     m_ptrNewFriendAndAreadyAddWidget->setSource(QUrl("qrc:/QML/QML/addFriend.qml"));
+    m_ptrAddFriendQMLRoot = reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject());
     //qml的界面大小随quickwidget变化
     m_ptrNewFriendAndAreadyAddWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
     //把添加好友的界面加入到stackedwid中
     ui->chatStackedWidget->addWidget(m_ptrNewFriendAndAreadyAddWidget);
     ui->chatStackedWidget->insertToMap(AddFriendWid, m_ptrNewFriendAndAreadyAddWidget);
-    //把空的界面加入到stackedwid
+
+
+    //把空的界面加入到stackedwid,有时会用到空白界面
     m_ptrEmptyWid = new QQuickWidget();
     ui->chatStackedWidget->addWidget(m_ptrEmptyWid);
     ui->chatStackedWidget->insertToMap(EmptyWid, m_ptrEmptyWid);

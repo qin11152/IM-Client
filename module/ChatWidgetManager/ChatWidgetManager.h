@@ -27,6 +27,9 @@ public:
     ChatWidgetManager& operator=(const ChatWidgetManager&) = delete;
     ~ChatWidgetManager();
 
+    //设置qml根对象指针，以便调用qml中的函数
+    void setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot);
+
     //从服务端获取当前用户的好友列表
     void getFriendList();
     //通知服务端客户端上线
@@ -45,6 +48,10 @@ public slots:
     void onSignalAgreeAddFriend(QString friendName);
     //qml页面发送添加请求
     void onSignalRequestAddFriend(QString friendId, QString verifyMsg);
+    //服务器通知成为了好友
+    void onSignalBecomeFriend(const QString& msg);
+    //服务器通知有人加好友
+    void onSignalNewFriendRequest(const QString& msg);
 
 
 signals:
@@ -59,4 +66,9 @@ private:
     static std::mutex m_mutex;                  //锁，保证线程安全
     static SingletonPtr m_SingletonPtr;         //该类的智能指针
     QString m_strUserId{ "" };                  //自己的id
+    QString m_strUserName{ "" };                //自己的昵称
+
+    QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
+    QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
+    QObject* m_ptrAddFriendQMLRoot{ nullptr };  //添加好友qml界面的根对象
 };

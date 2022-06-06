@@ -144,6 +144,17 @@ bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, co
     return true;
 }
 
+bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)
+{
+    QString str = "insert into friendRequest values(" + id + "," + name + ",false,datetime('now','localtime')," + verifyMsg + ")";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        return false;
+    }
+    return true;
+}
+
 bool DataBaseDelegate::isTableExist(const QString& tableNmae)
 {
     if (!m_dataBase.tables().contains(tableNmae))

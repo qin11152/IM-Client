@@ -108,6 +108,9 @@
     <Filter Include="protocol\AddFriendRequestJsonData">
       <UniqueIdentifier>{40ab0cae-bb7b-4a5e-b6d1-b05654d0da38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protocol\AddFriendNotifyJsonData">
+      <UniqueIdentifier>{d52bbbfa-dbbe-4462-8cfc-9a9687d0e05d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.cpp">
       <Filter>protocol\AddFriendRequestJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp">
+      <Filter>protocol\AddFriendNotifyJsonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h">
       <Filter>protocol\AddFriendRequestJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.h">
+      <Filter>protocol\AddFriendNotifyJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

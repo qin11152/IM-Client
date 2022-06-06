@@ -27,6 +27,8 @@ public:
     bool createFriendRequestTable();
     //插入聊天记录
     bool insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf,const QString& name);
+    //插入添加好友请求
+    bool insertAddFriendRequest(const QString& id,const QString& name,const QString& verifyMsg);
     //判断表是否存在
     bool isTableExist(const QString& tableNmae);
     //从数据库中查找出上次关闭时的聊天列表

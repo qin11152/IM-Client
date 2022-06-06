@@ -44,6 +44,10 @@ signals:
     void signalRecvSingleChatMessage(const QString& msg);
     //收到好友列表消息
     void signalRecvFriendListMessage(const QString& msg);
+    //服务端发送来的好友请求
+    void signalNewFriendRequest(const QString& msg);
+    //服务端发来的添加好友后的通知
+    void signalBecomeFriendNotify(const QString& msg);
     //与服务器连接失败信号
     void signalConnectFailed();
     //超过一定时间还没收到服务器的心跳包

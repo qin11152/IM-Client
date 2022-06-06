@@ -6,6 +6,7 @@
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
+#include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
 #include <algorithm>
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
@@ -83,6 +84,23 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
     TCPConnect::Instance()->sendMessage(addFriendRequestData.generateJson());
 }
 
+void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
+{
+    //通知界面改变，上次聊天的界面添加一个新的好友项
+}
+
+void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
+{
+    //写入数据库
+    AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
+    const char* name = addFriendRequestData.m_strName.c_str();
+    const char* friendId = addFriendRequestData.m_strFriendId.c_str();
+    const char* verifyMsg = addFriendRequestData.m_strVerifyMsg.c_str();
+    //添加好友的界面插入一个新的
+    DataBaseDelegate::Instance()->insertAddFriendRequest(friendId, name, verifyMsg);
+    QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest", Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name), Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
+}
+
 ChatWidgetManager::ChatWidgetManager(QObject *parent)
     : QObject(parent)
 {
@@ -90,6 +108,13 @@ ChatWidgetManager::ChatWidgetManager(QObject *parent)
 
 ChatWidgetManager::~ChatWidgetManager()
 {
+}
+
+void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot)
+{
+    m_ptrLastChatQMLRoot = LastChatQMLRoot;
+    m_ptrFriendListQMLRoot = FriendListQMLRoot;
+    m_ptrAddFriendQMLRoot = AddFriendQMLRoot;
 }
 
 void ChatWidgetManager::getFriendList()
