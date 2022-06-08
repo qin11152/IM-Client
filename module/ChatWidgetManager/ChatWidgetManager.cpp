@@ -87,6 +87,27 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
 void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 {
     //通知界面改变，上次聊天的界面添加一个新的好友项
+    AddFriendNotify addFriendNotifyData(msg.toStdString());
+    MyFriendInfoWithFirstC tmp;
+    if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
+    {
+        tmp.m_strId = addFriendNotifyData.m_strId2;
+    }
+    else
+    {
+        tmp.m_strId = addFriendNotifyData.m_strId1;
+    }
+    if (m_strUserName.toStdString() == addFriendNotifyData.m_strName1)
+    {
+        tmp.m_strName = addFriendNotifyData.m_strName2;
+        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0,1).toStdString();
+    }
+    else
+    {
+        tmp.m_strName = addFriendNotifyData.m_strName1;
+        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).toStdString();
+    }
+    emit signalAddFriendToLastChat(tmp);
 }
 
 void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
@@ -148,8 +169,14 @@ std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QS
     int iMessageCount = DataBaseDelegate::Instance()->GetChatRecordCountFromDB(strId);
     //如果大于10条就加载十条，小于十条就有多少加载多少
     int needLoadCount = (std::min)(10, iMessageCount);
+
     //获取聊天记录
     std::vector<MyChatMessageInfo> vecMyChatMessageInfo;
+
+    if (0 == needLoadCount)
+    {
+        return vecMyChatMessageInfo;
+    }
     //查询聊天记录的起始位置是聊天页面当前的数量,查询的数量就是needcount
     DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
     return vecMyChatMessageInfo;

@@ -46,6 +46,10 @@ protected slots:
     //事件过滤器的重载
     bool eventFilter(QObject* watched, QEvent* event)override;
 
+public:
+    //像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
+    void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
+
 private slots:
     //文本框输入获得焦点
     void onSignalTextEditIsFocus(bool isFocus);

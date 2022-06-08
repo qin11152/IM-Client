@@ -13,6 +13,11 @@ Rectangle
         friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId});
     }
 
+    function insertElementToModel(strImagePath,strName,strId)
+    {
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId});
+    }
+
     //初始化的时候谁都不是当前对象
     function initColor()
     {

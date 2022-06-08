@@ -56,6 +56,8 @@ public slots:
 
 signals:
     void signalGetFriendListFinished();
+    //有好友同意请求了
+    void signalAddFriendToLastChat(const MyFriendInfoWithFirstC& friendInfo);
 
 private:
     //初始化连接

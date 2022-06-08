@@ -47,6 +47,13 @@ bool ChatWidget::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
+void ChatWidget::onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo)
+{
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "insertElementToModel", Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)), Q_ARG(QVariant, ""), Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)));
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "initColor", Qt::DirectConnection);
+    initChatMessageWidAcordId(QString::fromStdString(friendInfo.m_strId));
+}
+
 void ChatWidget::onSignalTextEditIsFocus(bool isFocus)
 {
     if (isFocus)
@@ -312,6 +319,9 @@ void ChatWidget::initConnect()
     connect(ui->friendListPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalFriendListBtn);
     connect(ui->addFriendPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalAddFriendBtn);
     connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
+
+    //收到好友同意请求后
+    connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalAddFriendToLastChat, this, &ChatWidget::onSignalAdd2LastChat);
 }
 
 //************************************
