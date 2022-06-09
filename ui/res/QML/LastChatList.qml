@@ -162,6 +162,7 @@ Rectangle
                 anchors.topMargin: 10;
                 anchors.right: parent.right;
                 anchors.rightMargin: 20;
+                visible: false;
                 Text
                 {
                     anchors.centerIn: parent;
