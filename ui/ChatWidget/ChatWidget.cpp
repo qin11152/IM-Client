@@ -322,6 +322,9 @@ void ChatWidget::initConnect()
 
     //收到好友同意请求后
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalAddFriendToLastChat, this, &ChatWidget::onSignalAdd2LastChat);
+    //收到好友聊天消息
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvSingleChatMessage, this, &ChatWidget::onSignalSingleChatMessage);
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalNewFriendRequest, ChatWidgetManager::Instance().get(),&ChatWidgetManager::onSignalNewFriendRequest);
 }
 
 //************************************

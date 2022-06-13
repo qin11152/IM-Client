@@ -176,7 +176,7 @@ Rectangle
             verifyMsg:"我是你爸爸"
             isValid:true
         }
-        ListElement
+        /*ListElement
         {
             shouZimu:"A"
             name:"qqq"
@@ -238,7 +238,7 @@ Rectangle
             name:"lll"
             verifyMsg:"我是你爸爸"
             isValid:true
-        }
+        }*/
     }
 
     Component

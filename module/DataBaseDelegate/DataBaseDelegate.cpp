@@ -146,6 +146,7 @@ bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, co
 
 bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)
 {
+    //TODO QQQQ
     QString str = "insert into friendRequest values(" + id + "," + name + ",false,datetime('now','localtime')," + verifyMsg + ")";
     QSqlQuery query;
     if (!query.exec(str))
