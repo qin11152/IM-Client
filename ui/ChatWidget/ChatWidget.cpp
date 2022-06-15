@@ -146,13 +146,24 @@ void ChatWidget::onSignalSendMessage()
     }
 }
 
-void ChatWidget::onSignalFriendListClicked(QString strId)
+void ChatWidget::onSignalLastChatItemClicked(QString strId)
 {
     if (ui->chatStackedWidget->isWidCreate(strId.toInt()))
     {
         //TODO打开对应的聊天记录页面
         ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
+        auto tmp=static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
+        ui->nickNameLabel->setText(tmp->getUserName());
     }
+}
+
+void ChatWidget::onSignalFriendListItemClicked(QString strId)
+{
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "findPosInModelAndMove2Top", Q_ARG(QVariant, strId));
+    ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+    ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
+    auto tmp = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
+    ui->nickNameLabel->setText(tmp->getUserName());
 }
 
 void ChatWidget::onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason)
@@ -213,6 +224,7 @@ void ChatWidget::onSignalChatBtn()
 void ChatWidget::onSignalFriendListBtn()
 {
     ui->friendStackedWidget->setCurrentIndex(FriendListWidget);
+    ui->chatStackedWidget->SwitchToChatPage(EmptyWid);
 }
 
 void ChatWidget::onSignalAddFriendBtn()
@@ -304,7 +316,9 @@ void ChatWidget::initConnect()
     //主动添加好友信号处理
     connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalRequestAddFriend(QString,QString)), ChatWidgetManager::Instance().get(), SLOT(onSignalRequestAddFriend(QString,QString)));
     //上次聊天界面用户被点击
-    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalFriendListClicked(QString)));
+    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalLastChatItemClicked(QString)));
+    //好友列表被点击
+    connect(m_ptrFriendListQMLRoot, SIGNAL(signalFriendListClicked(QString)), this, SLOT(onSignalFriendListItemClicked(QString)));
 
     //收到好友消息列表后，由manager去处理数据
     connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidget::onSignalRecvFriendList);
@@ -325,6 +339,7 @@ void ChatWidget::initConnect()
     //收到好友聊天消息
     connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvSingleChatMessage, this, &ChatWidget::onSignalSingleChatMessage);
     connect(TCPConnect::Instance().get(), &TCPConnect::signalNewFriendRequest, ChatWidgetManager::Instance().get(),&ChatWidgetManager::onSignalNewFriendRequest);
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(), &ChatWidgetManager::onSignalBecomeFriend);
 }
 
 //************************************

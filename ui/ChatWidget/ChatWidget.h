@@ -55,8 +55,10 @@ private slots:
     void onSignalTextEditIsFocus(bool isFocus);
     //发送消息按钮被点击后
     void onSignalSendMessage();
-    //朋友列表被点击后
-    void onSignalFriendListClicked(QString strId);
+    //上次聊天列表被点击后
+    void onSignalLastChatItemClicked(QString strId);
+    //好友列表被点击
+    void onSignalFriendListItemClicked(QString strId);
     //底部托盘被点击后
     void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
     //收到好友聊天消息后

@@ -21,7 +21,7 @@ Rectangle
     //初始化的时候谁都不是当前对象
     function initColor()
     {
-        console.log("qqqqqq");
+        //console.log("qqqqqq");
         friendListView.currentItem.color="transparent";
         friendListView.lastIndex=19999;
         //friendListView.currentItem.color="grey";
@@ -35,13 +35,18 @@ Rectangle
     }
 
     //根据id找到这个好友所在模型中的位置
-    function findPosInModel(strId)
+    function findPosInModelAndMove2Top(strId)
     {
         for(var i=0;i<friendListModel.count;++i)
         {
-            if(friendListModel.get(i).id===strId)
+            if(friendListModel.get(i).idx===strId)
             {
-                moveActiveFriend2Top(i);
+                friendListView.itemAtIndex(friendListView.lastIndex).color="transparent";
+                friendListView.currentIndex=i;
+                friendListView.lastIndex=i;
+                friendListView.lastItem=friendListView.currentItem;
+                friendListView.itemAtIndex(i).color="grey";
+                //moveActiveFriend2Top(i);
                 break;
             }
         }

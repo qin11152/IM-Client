@@ -186,7 +186,7 @@
           <item>
            <widget class="QLabel" name="nickNameLabel">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
