@@ -9,6 +9,7 @@ LogInWidget::LogInWidget(QWidget *parent)
 {
     ui.setupUi(this);
     m_ptrRegisterWidget = new RegisterWidget();
+    ui.passwordLineEdit->setAttribute(Qt::WA_InputMethodEnabled, false);
     initConnection();
 }
 
