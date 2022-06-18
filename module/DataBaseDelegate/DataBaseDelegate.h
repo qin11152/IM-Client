@@ -22,8 +22,11 @@ public:
     DataBaseDelegate& operator=(DataBaseDelegate& l) = delete;
     void SetUserId(QString id);
     int GetChatRecordCountFromDB(QString id);
+    //常见聊天记录表
     bool createUserChatTable(const QString& userid);
+    //创建上次聊天表
     bool createLastChatListTable();
+    //创建好友请求的表
     bool createFriendRequestTable();
     //插入聊天记录
     bool insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf,const QString& name);

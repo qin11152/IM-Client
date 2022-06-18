@@ -22,6 +22,8 @@ public:
     static SingletonPtr Instance();
     //传入id
     void setUserId(QString strId);
+    //传入名字
+    void setUserName(QString& name);
     //无需拷贝构造和赋值构造函数
     ChatWidgetManager(const ChatWidgetManager&) = delete;
     ChatWidgetManager& operator=(const ChatWidgetManager&) = delete;

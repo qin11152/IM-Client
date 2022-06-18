@@ -72,7 +72,8 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
     if (loginReplyData.m_bLoginInResult)
     {
         //打开对应的聊天界面
-        ChatWidget* ptrChatWidget = new ChatWidget(m_strUserId);
+        ChatWidget* ptrChatWidget = new ChatWidget(m_strUserId,QString::fromStdString(loginReplyData.m_strUserName));
+        ptrChatWidget->
         //该界面隐藏,一会后析构
         hide();
         close();

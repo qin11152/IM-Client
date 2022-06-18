@@ -16,14 +16,16 @@ const QString ChatRecordTable = "chatrecord";
 static bool optMultipleSample = false;
 static bool optCoreProfile = false;
 
-ChatWidget::ChatWidget(QString id, QWidget* parent)
+ChatWidget::ChatWidget(QString id,QString name, QWidget* parent)
     : QWidget(parent),
-    m_strUserId(id)
+    m_strUserId(id),
+    m_strUserName(name)
 {
     ui = new Ui::ChatWidget();
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     ChatWidgetManager::Instance()->setUserId(m_strUserId);
+    ChatWidgetManager::Instance()->setUserName(m_strUserName);
     DataBaseDelegate::Instance()->SetUserId(m_strUserId);
     initData();
     initUi();
@@ -161,9 +163,10 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId)
 {
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "findPosInModelAndMove2Top", Q_ARG(QVariant, strId));
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+    //判断上次聊天页面中是否有这个id，没有要添加(没有的话，stackwidget中也是没有这个的，也要创建)
     ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
     auto tmp = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
-    ui->nickNameLabel->setText(tmp->getUserName());
+    //ui->nickNameLabel->setText(tmp->getUserName());
 }
 
 void ChatWidget::onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason)

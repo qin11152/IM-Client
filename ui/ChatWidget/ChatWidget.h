@@ -37,7 +37,7 @@ class ChatWidget : public QWidget
     Q_OBJECT
 
 public:
-    ChatWidget(QString id,QWidget *parent = Q_NULLPTR);
+    ChatWidget(QString id,QString name,QWidget *parent = Q_NULLPTR);
     ~ChatWidget();
     ChatWidget(const ChatWidget& l) = delete;
     ChatWidget& operator=(const ChatWidget& l) = delete;
@@ -102,6 +102,7 @@ private:
     QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
     //这个用户的id
     QString m_strUserId{ "" };
+    QString m_strUserName{ "" };
     int m_iTrayState{ NormalState };        //托盘图标的状态，是否为闪烁
 
         //存储好友信息，带首字母

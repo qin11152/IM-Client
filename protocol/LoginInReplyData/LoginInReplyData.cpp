@@ -15,6 +15,7 @@ void LoginInReplyData::parse(const std::string& message)
     std::stringstream sstream(message);
     read_json(sstream, m_ptree);
     bool loginInResult = m_ptree.get<bool>("LoginInResult");
+    std::string m_strUserName = m_ptree.get<std::string>("Name");
     m_bLoginInResult = loginInResult;
     return;
 }
@@ -31,6 +32,9 @@ std::string LoginInReplyData::generateJson()
 
     writer.Key("LoginInResult");
     writer.Bool(m_bLoginInResult);
+
+    writer.Key("Name");
+    writer.String(m_strUserName.c_str());
 
     writer.EndObject();
 

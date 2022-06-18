@@ -36,6 +36,11 @@ void ChatWidgetManager::setUserId(QString strId)
     m_strUserId = strId;
 }
 
+void ChatWidgetManager::setUserName(QString& name)
+{
+    m_strUserName = name;
+}
+
 void ChatWidgetManager::initConnect()
 {
     //connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidgetManager::onSignalRecvFriendList);
@@ -89,6 +94,8 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
     //通知界面改变，上次聊天的界面添加一个新的好友项
     AddFriendNotify addFriendNotifyData(msg.toStdString());
     MyFriendInfoWithFirstC tmp;
+    qDebug() << "qqqq my id is:" << m_strUserId;
+    qDebug() << "qqqq my name is:" << m_strUserName;
     if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
     {
         tmp.m_strId = addFriendNotifyData.m_strId2;

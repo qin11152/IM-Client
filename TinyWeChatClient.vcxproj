@@ -74,7 +74,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -97,7 +97,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
@@ -126,13 +126,13 @@
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

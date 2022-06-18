@@ -120,7 +120,8 @@ bool DataBaseDelegate::createLastChatListTable()
 
 bool DataBaseDelegate::createFriendRequestTable()
 {
-    QString str = "create table friendRequest (id int,name varchar(40),isvalid bool)";
+    QString str = "CREATE TABLE friendRequest (id INT,name VARCHAR(40),isvalid BOOL,createdtime TIME,verifymessage VARCHAR(30))";
+    printf("create query id%s\n", str.toStdString().c_str());
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -146,11 +147,15 @@ bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, co
 
 bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)
 {
-    //TODO QQQQ
-    QString str = "insert into friendRequest values(" + id + "," + name + ",false,datetime('now','localtime')," + verifyMsg + ")";
+    if (!DataBaseDelegate::Instance()->isTableExist("friendRequest"))
+    {
+        DataBaseDelegate::Instance()->createFriendRequestTable();
+    }
+    QString str = "insert into friendRequest values(" + id + ",'" + name + "',false,datetime('now','localtime'),'" + verifyMsg + "')";
     QSqlQuery query;
     if (!query.exec(str))
     {
+        printf("insert into friendRequest failed,request id is:%s\n", id.toStdString().c_str());
         return false;
     }
     return true;
@@ -249,7 +254,7 @@ bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFri
 
 bool DataBaseDelegate::queryFriendRequestAcordName(QString name,QString& id)
 {
-    QString strs = "select id from friendRequest where name = " + name;
+    QString strs = "select id from friendRequest where name = '" + name+"'";
     QSqlQuery query;
     if (!query.exec(strs))
     {
@@ -267,7 +272,7 @@ bool DataBaseDelegate::queryFriendRequestAcordName(QString name,QString& id)
 
 bool DataBaseDelegate::updateFriendRequestStateAcordName(QString name)
 {
-    QString str = "update friendRequest set isvalid=true where name = " + name;
+    QString str = "update friendRequest set isvalid=true where name = '" + name+"'";
     QSqlQuery query;
     if (!query.exec(str))
     {

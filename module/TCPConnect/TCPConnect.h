@@ -14,6 +14,8 @@ namespace
     constexpr int kMsgBufferLength = 1024 * 10;
 }
 
+//const char* MyHostIp = "43.142.158.231";//"39.104.207.91"
+
 struct LengthInfo
 {
     int length;
@@ -68,7 +70,7 @@ private:
     static std::mutex m_mutex;                  //锁，保证线程安全
     static SingletonPtr m_SingletonPtr;         //该类的智能指针
     int m_iPort{ 9999 };                        //服务器端口
-    QString m_strIp{ "39.104.207.91" };         //服务器ip
+    QString m_strIp{ "43.142.158.231" };         //服务器ip
     bool m_bIsConnected{ false };                   //是否第一次发送消息
     QTimer* m_ptrTimerKeepAlive{ nullptr };
     QTimer* m_ptrTimerRecvHeartPackage{ nullptr };

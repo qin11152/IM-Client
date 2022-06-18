@@ -169,14 +169,14 @@ Rectangle
     ListModel
     {
         id:addFriendListModel;
-        ListElement
+        /*ListElement
         {
             shouZimu:"B"
             name:"lll"
             verifyMsg:"我是你爸爸"
             isValid:true
         }
-        /*ListElement
+        ListElement
         {
             shouZimu:"A"
             name:"qqq"
