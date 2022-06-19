@@ -7,6 +7,19 @@ Rectangle
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
     signal signalFriendListClicked(string strId);
 
+    //判断model中有没有，没有添加
+    function judgeAndInsertToModel(strImagePath,strName,strId)
+    {
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            if(friendListModel[i].idx===strId)
+            {
+                return;
+            }
+        }
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId});
+    }
+
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId)
     {
@@ -181,9 +194,10 @@ Rectangle
             Rectangle
             {
                 id:imageLabel;
-                color: "transparent";
+                color: "#8033CCFF";
                 width: 50;
                 height: 50;
+                radius: 25;
                 anchors.top: parent.top;
                 anchors.topMargin: 20;
                 anchors.left: parent.left;
@@ -192,11 +206,12 @@ Rectangle
                 {
                     id: imagePathText;
                     elide: Text.ElideRight;
-                    anchors.fill: parent;
+                    //anchors.fill: parent;
                     font.family: "msyh";
                     font.pixelSize: 14;
                     color: "black";
                     text: imagePath;
+                    anchors.centerIn: parent;
                 }
             }
             //名字区域

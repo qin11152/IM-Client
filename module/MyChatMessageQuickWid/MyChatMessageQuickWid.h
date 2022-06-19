@@ -39,7 +39,7 @@ public:
     //获取用户名称
     QString getUserName()const { return m_strUserName; }
     //设置用户名称
-    void setUserName(QString strUserName) { m_strUserName = strUserName; }
+    void setUserName(QString strUserName) { m_strUserName = strUserName; setInitial(m_strUserName.mid(0, 1)); }
 
 private:
     Ui::MyChatMessageQuickWid ui;

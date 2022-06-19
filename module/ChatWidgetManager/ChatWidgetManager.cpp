@@ -163,7 +163,7 @@ void ChatWidgetManager::notifyServerOnline()
     TCPConnect::Instance()->sendMessage(sendMessage);
 }
 
-void ChatWidgetManager::getLastChatListFromDB(std::vector<QString>& vecLastChatFriend)
+void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
 {
     //map结构体，存储上次关闭时聊天列表中的顺序
     std::map<QString, QString> LastChatInfo;

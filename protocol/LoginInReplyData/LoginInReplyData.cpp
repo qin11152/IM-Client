@@ -15,7 +15,7 @@ void LoginInReplyData::parse(const std::string& message)
     std::stringstream sstream(message);
     read_json(sstream, m_ptree);
     bool loginInResult = m_ptree.get<bool>("LoginInResult");
-    std::string m_strUserName = m_ptree.get<std::string>("Name");
+    m_strUserName = m_ptree.get<std::string>("Name");
     m_bLoginInResult = loginInResult;
     return;
 }

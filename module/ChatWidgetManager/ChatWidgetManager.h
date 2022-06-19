@@ -37,7 +37,7 @@ public:
     //通知服务端客户端上线
     void notifyServerOnline();
     //获取上次聊天的好友列表
-    void getLastChatListFromDB(std::vector<QString>& vecLastChatFriend);
+    void getLastChatListFromDB(std::vector <MyLastChatFriendInfo>& vecLastChatFriend);
 
     //初始化的时候获取聊天记录，10条或者小于10条
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);

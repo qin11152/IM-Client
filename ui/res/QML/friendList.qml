@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 Rectangle {
 
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
-    signal signalFriendListClicked(string iId);
+    signal signalFriendListClicked(string strId,string strName);
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId,strFirstChacter)
@@ -188,7 +188,7 @@ Rectangle {
                     addressBookView.currentIndex=index;
                     addressBookView.lastIndex=index;
                     addressBookView.lastItem=addressBookView.currentItem;
-                    addressBook.signalFriendListClicked(strIdx);
+                    addressBook.signalFriendListClicked(strIdx,name);
                 }
                 hoverEnabled: true;
                 //鼠标移动到上方时变为银色，如果移动到上次点击的item则不做处理

@@ -94,7 +94,9 @@ int DataBaseDelegate::GetChatRecordCountFromDB(QString id)
 bool DataBaseDelegate::createUserChatTable(const QString& userid)
 {
     //每个用户都有一个自己的库，在自己的库中和每个人的聊天记录是一个表
-    QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null,isself bool,name varchar(30)";
+    //QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null,isself bool,name varchar(30)";
+    QString str = "CREATE TABLE chatrecord" + userid + "(pos INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(50), time VARCHAR(20), isself  BOOL, name VARCHAR(30));";
+    qDebug() << "create chat query is" << str;
     QSqlQuery query;
     if (!query.exec(str))
     {
@@ -172,7 +174,7 @@ bool DataBaseDelegate::isTableExist(const QString& tableNmae)
     return true;
 }
 
-bool DataBaseDelegate::queryLastChatListFromDB(std::vector<QString>& m_tmpVec)
+bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec)
 {
     QString str = "select * from lastChatList order by pos";
     QSqlQuery query;
@@ -183,9 +185,11 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::vector<QString>& m_tmpVec)
     QSqlRecord record = query.record();
     while (query.next())
     {
+        auto tmp = MyLastChatFriendInfo();
         record = query.record();
-        QString id = record.value("id").toString();
-        m_tmpVec.push_back(id);
+        tmp.m_strId = record.value("id").toString();
+        tmp.m_strName = record.value("name").toString();
+        m_tmpVec.push_back(tmp);
     }
     return false;
 }

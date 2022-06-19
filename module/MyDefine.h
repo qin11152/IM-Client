@@ -59,6 +59,17 @@ enum class MessageType
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
 
+struct MyLastChatFriendInfo
+{
+public:
+    QString m_strId;
+    QString m_strName;
+    MyLastChatFriendInfo(QString name="", QString id="") :
+        m_strId(id),
+        m_strName(name)
+    {}
+};
+
 struct MyChatMessageInfo
 {
 public:
@@ -66,7 +77,7 @@ public:
     QString m_strName;
     QString m_strTime;
     bool m_bIsSelf;
-    MyChatMessageInfo(QString message, QString name, QString time, bool isSelf) :
+    MyChatMessageInfo(QString message="", QString name="", QString time="", bool isSelf="") :
         m_strMessage(message),
         m_strName(name),
         m_strTime(time),

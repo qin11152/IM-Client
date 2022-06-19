@@ -58,7 +58,7 @@ private slots:
     //上次聊天列表被点击后
     void onSignalLastChatItemClicked(QString strId);
     //好友列表被点击
-    void onSignalFriendListItemClicked(QString strId);
+    void onSignalFriendListItemClicked(QString strId,QString name);
     //底部托盘被点击后
     void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
     //收到好友聊天消息后
@@ -76,7 +76,7 @@ private slots:
     //manager处理好友列表完毕
     void initFriendList();
     //根据id初始化此id对应的聊天界面
-    void initChatMessageWidAcordId(QString strId);
+    void initChatMessageWidAcordId(MyLastChatFriendInfo& lastChatInfo);
     //初始化上次聊天列表
     void initLastChatList();
     //初始化聊天界面
@@ -108,5 +108,5 @@ private:
         //存储好友信息，带首字母
     std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;
     std::map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
-    std::vector<QString> m_vecLastChatFriend;        //上次聊天页面里的好友
+    std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //上次聊天页面里的好友
 };

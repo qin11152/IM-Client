@@ -22,7 +22,7 @@ public:
     DataBaseDelegate& operator=(DataBaseDelegate& l) = delete;
     void SetUserId(QString id);
     int GetChatRecordCountFromDB(QString id);
-    //常见聊天记录表
+    //创建与某个用户的聊天记录表
     bool createUserChatTable(const QString& userid);
     //创建上次聊天表
     bool createLastChatListTable();
@@ -35,7 +35,7 @@ public:
     //判断表是否存在
     bool isTableExist(const QString& tableNmae);
     //从数据库中查找出上次关闭时的聊天列表
-    bool queryLastChatListFromDB(std::vector<QString>& m_tmpVec);
+    bool queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec);
     //根据id查找聊天记录
     bool queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage,int queryCount,int beginPos);
     bool QueryInitialAcordIdFromDB(QString id, QString& str);
