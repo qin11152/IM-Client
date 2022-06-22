@@ -12,10 +12,15 @@ MyChatMessageQuickWid::~MyChatMessageQuickWid()
 }
 
 //设置和当前用户的聊天记录数量
-void MyChatMessageQuickWid::addRecordCount(int cnt)
+void MyChatMessageQuickWid::addTotalAndCurrentRecordCount(int cnt)
 {
     m_iChatRecordCount += cnt;
     m_iTotalRecordCount += cnt;
+}
+
+void MyChatMessageQuickWid::addCurrentRecordCount(int cnt)
+{
+    m_iChatRecordCount += cnt;
 }
 
 //获得当前用户聊天记录数量

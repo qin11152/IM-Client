@@ -55,6 +55,8 @@ public slots:
     void onSignalBecomeFriend(const QString& msg);
     //服务器通知有人加好友
     void onSignalNewFriendRequest(const QString& msg);
+    //和某个好友的聊天页面要求刷新界面，也就是要求增加聊天记录
+    void onSignalUpdateChatMessage(QString id);
 
 
 signals:

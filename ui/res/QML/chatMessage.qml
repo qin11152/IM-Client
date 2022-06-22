@@ -6,8 +6,15 @@ Rectangle
     //开始的时候聊天记录数量肯定是0
     //这里的聊天记录数量是已经加载进页面的聊天记录数量
     property int iRecordCount:0;
+    property string strIdx:"";
 
-    signal signalUpdateChatModel();
+    signal signalUpdateChatModel(string id);
+
+    //设置id
+    function setId(strId)
+    {
+        strIdx=strId;
+    }
 
     //令对话框移动到底部
     function scrollToEnd()

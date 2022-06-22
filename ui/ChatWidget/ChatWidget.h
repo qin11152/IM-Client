@@ -41,6 +41,7 @@ public:
     ~ChatWidget();
     ChatWidget(const ChatWidget& l) = delete;
     ChatWidget& operator=(const ChatWidget& l) = delete;
+    MyChatMessageQuickWid* getChatMsgWidAcordId(QString id);
 
 protected slots:
     //事件过滤器的重载
@@ -73,6 +74,8 @@ private slots:
     void onSignalAddFriendBtn();
     //收到好友列表消息
     void onSignalRecvFriendList(const QString& friendList);
+    //和某个好友的聊天页面要求刷新界面，也就是要求增加聊天记录
+    void onSignalUpdateChatMessage(QString id);
     //manager处理好友列表完毕
     void initFriendList();
     //根据id初始化此id对应的聊天界面

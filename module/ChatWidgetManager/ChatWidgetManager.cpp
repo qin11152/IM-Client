@@ -129,6 +129,14 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
     QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest", Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name), Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
 }
 
+void ChatWidgetManager::onSignalUpdateChatMessage(QString id)
+{
+    //先根据id找到对应的chatmessagequickwid
+    //然后根据wid得到现在页面中加载的聊天记录数量
+    //从数据库中获取加载的数量之后的聊天记录，如果没有就不更新，有且大于10条就更新10 条
+    //小于10条就有几条更新几条
+}
+
 ChatWidgetManager::ChatWidgetManager(QObject *parent)
     : QObject(parent)
 {

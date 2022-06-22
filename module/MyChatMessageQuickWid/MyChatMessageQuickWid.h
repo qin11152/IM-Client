@@ -16,9 +16,11 @@ class MyChatMessageQuickWid : public QQuickWidget
 public:
     MyChatMessageQuickWid(QWidget *parent = Q_NULLPTR);
     ~MyChatMessageQuickWid();
-    //设置聊天记录数量
-    void addRecordCount(int cnt);
-    //获取聊天记录数量
+    //增加页面中记录的聊天记录和总聊天记录的数量
+    void addTotalAndCurrentRecordCount(int cnt);
+    //增加页面中记录的聊天记录数量
+    void addCurrentRecordCount(int cnt);
+    //获取页面中记录的的聊天记录数量
     int getRecordCount()const;
     //设置聊天记录总数量
     void setTotalRecordCount(int cnt);
