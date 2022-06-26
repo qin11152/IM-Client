@@ -134,6 +134,30 @@ bool DataBaseDelegate::createFriendRequestTable()
     return true;
 }
 
+bool DataBaseDelegate::createLastChatBackUp()
+{
+    QString string = "CREATE TABLE lastchatbackup (id  INT,pos INT)";
+    QSqlQuery query;
+    if (!query.exec(string))
+    {
+        printf("create last chat back up failed\n");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::insertLastChat(QString id, QString pos)
+{
+    QString str = "insert into lastChatList values("+id+","+ pos+")";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("insert into lastchat failed\n");
+        return false;
+    }
+    return true;
+}
+
 bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf, const QString& name)
 {
     QSqlQuery query;
@@ -292,6 +316,35 @@ bool DataBaseDelegate::deleteExpiredFriendRequest()
     QSqlQuery query;
     if (!query.exec(str))
     {
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::deleteLastChatInfo()
+{
+    QString str = "delete from lastchatlist where true1=1";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("delete last chat info failed\n");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::copyLastChatToBackUps()
+{
+    if (!isTableExist("lastchatbackup"))
+    {
+        createLastChatBackUp();
+    }
+    //¸´ÖÆ±í
+    QString string = "insert into lastchatbackup select * from lastchatlist";
+    QSqlQuery query;
+    if (!query.exec(string))
+    {
+        printf("copy last chat to back up failed\n");
         return false;
     }
     return true;

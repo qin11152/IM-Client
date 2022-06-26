@@ -5,6 +5,7 @@
 
 #include "../MyDefine.h"
 #include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
+#include "module/LastChatInfoUpdateThread/LastChatInfoUpdateThread.h"
 #include <QObject>
 #include <mutex>
 #include <memory>
@@ -55,7 +56,10 @@ public slots:
     void onSignalBecomeFriend(const QString& msg);
     //服务器通知有人加好友
     void onSignalNewFriendRequest(const QString& msg);
-
+    //要求修改数据库中lastchat的内容
+    void onSignalUpdateLastChat();
+    //要求从lastchat的qml页面中获取当前的顺序
+    void onSignalGetModelOrder(QStringList& modelOrder);
 
 signals:
     void signalGetFriendListFinished();
@@ -76,4 +80,6 @@ private:
     QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
     QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
     QObject* m_ptrAddFriendQMLRoot{ nullptr };  //添加好友qml界面的根对象
+
+    LastChatInfoUpdateThread* m_ptrLastChatUpdateThread{ nullptr };  //用于操作lastchat数据库的子线程
 };

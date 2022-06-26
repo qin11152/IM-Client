@@ -3,16 +3,29 @@ import QtQuick.Controls 2.15
 
 Rectangle
 {
-
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
     signal signalFriendListClicked(string strId);
+
+    property var idList:[];
+
+    //获取model的借口
+    function getModelInfo()
+    {
+        idList=[];
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            console.log(i);
+            idList.push(friendListModel.get(i).idx);
+        }
+        return idList;
+    }
 
     //判断model中有没有，没有添加
     function judgeAndInsertToModel(strImagePath,strName,strId)
     {
         for(var i=0;i<friendListModel.count;++i)
         {
-            if(friendListModel[i].idx===strId)
+            if(friendListModel.get(i).idx===strId)
             {
                 return;
             }
@@ -92,12 +105,18 @@ Rectangle
     ListModel
     {
         id:friendListModel;
-        /*ListElement
+        ListElement
         {
             imagePath:""
             name:"strName"
             idx:1
-        }*/
+        }
+        ListElement
+        {
+            imagePath:""
+            name:"strName"
+            idx:2
+        }
     }
 
     ListView

@@ -28,6 +28,10 @@ public:
     bool createLastChatListTable();
     //创建好友请求的表
     bool createFriendRequestTable();
+    //创建lastchat备份表
+    bool createLastChatBackUp();
+    //向lastchat中插入记录
+    bool insertLastChat(QString id, QString pos);
     //插入聊天记录
     bool insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf,const QString& name);
     //插入添加好友请求
@@ -47,6 +51,10 @@ public:
     bool updateFriendRequestStateAcordName(QString name);
     //删除过期的好友请求,这里采用30天为期限,无论是否同意都删除
     bool deleteExpiredFriendRequest();
+    //删除lastchat中的内容
+    bool deleteLastChatInfo();
+    //copylastchat表到备份中，然后更新lastchat
+    bool copyLastChatToBackUps();
 
 private:
     DataBaseDelegate(QObject* parent=nullptr);

@@ -129,13 +129,32 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
     QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest", Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name), Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
 }
 
+void ChatWidgetManager::onSignalUpdateLastChat()
+{
+    //由子线程去处理
+    if (m_ptrLastChatUpdateThread)
+    {
+        m_ptrLastChatUpdateThread->start();
+    }
+}
+
+void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
+{
+    QVariant tmp;
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "getModelInfo", Q_RETURN_ARG(QVariant, tmp));
+    modelOrder = tmp.toStringList();
+}
+
 ChatWidgetManager::ChatWidgetManager(QObject *parent)
     : QObject(parent)
 {
+    m_ptrLastChatUpdateThread = new LastChatInfoUpdateThread(nullptr);
 }
 
 ChatWidgetManager::~ChatWidgetManager()
 {
+    delete m_ptrLastChatUpdateThread;
+    m_ptrLastChatUpdateThread = nullptr;
 }
 
 void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot)

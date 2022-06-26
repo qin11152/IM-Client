@@ -111,6 +111,9 @@
     <Filter Include="protocol\AddFriendNotifyJsonData">
       <UniqueIdentifier>{d52bbbfa-dbbe-4462-8cfc-9a9687d0e05d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="module\LastChatInfoUpdateThread">
+      <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -188,6 +191,9 @@
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp">
       <Filter>protocol\AddFriendNotifyJsonData</Filter>
     </ClCompile>
+    <ClCompile Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.cpp">
+      <Filter>module\LastChatInfoUpdateThread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ui\res\LogInWidget.qrc">
@@ -241,6 +247,9 @@
     </QtMoc>
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h">
       <Filter>module\ChatWidgetManager</Filter>
+    </QtMoc>
+    <QtMoc Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.h">
+      <Filter>module\LastChatInfoUpdateThread</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
