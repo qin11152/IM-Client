@@ -73,7 +73,8 @@ Rectangle
         {
             if(needUpddateModel===true)
             {
-                main.signalUpdateChatModel();
+                console.log(strIdx);
+                main.signalUpdateChatModel(strIdx);
             }
         }
         //每次y坐标变化了就看看是不是到了顶部了

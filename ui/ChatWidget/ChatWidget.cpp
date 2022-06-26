@@ -272,7 +272,29 @@ void ChatWidget::onSignalRecvFriendList(const QString& friendList)
 
 void ChatWidget::onSignalUpdateChatMessage(QString id)
 {
+    //先根据id找到对应的chatmessagequickwid
     auto tmpWid= static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
+    //然后根据wid得到现在还有多少记录可以加载
+    //用总的记录减去已加载的数量
+    int canLoadCount = tmpWid->getTotalRecordCount() - tmpWid->getRecordCount();
+    //聊天记录如果没有就不更新，有且大于10条就更新10 条
+    canLoadCount = canLoadCount > 10 ? 10 : canLoadCount;
+    std::vector<MyChatMessageInfo> vecMyChatMessageInfo;
+
+    if (0 == canLoadCount)
+    {
+        return;
+    }
+    //查询聊天记录的起始位置是聊天页面当前的数量,加载的总数量是canLoadCount
+    DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(id, vecMyChatMessageInfo, canLoadCount, tmpWid->getRecordCount());
+    //存储一下现在页面中加载了的聊天记录数量，以便刷新时知道从哪个位置再加载
+    tmpWid->addCurrentRecordCount(vecMyChatMessageInfo.size());
+
+    //把聊天记录加载进去
+    for (auto& item : vecMyChatMessageInfo)
+    {
+        QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)), Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf), Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id));
+    }
 }
 
 void ChatWidget::initUi()
@@ -440,6 +462,9 @@ void ChatWidget::initChatMessageWidAcordId(MyLastChatFriendInfo& lastChatInfo)
     tmpWid->setUserName(lastChatInfo.m_strName);
     //把用户id设置进qml
     QMetaObject::invokeMethod(tmpWid->getRootObj(), "setId", Q_ARG(QVariant, userId));
+
+    //聊天界面上划要求更新聊天界面内的内容
+    connect(tmpWid->getRootObj(), SIGNAL(signalUpdateChatModel(QString)), this, SLOT(onSignalUpdateChatMessage(QString)));
 
     //数据库中没有和这个人的聊天记录，就先创建一个表
     if (!DataBaseDelegate::Instance()->isTableExist("chatrecord" + userId))
