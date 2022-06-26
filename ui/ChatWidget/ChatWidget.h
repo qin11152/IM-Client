@@ -13,6 +13,7 @@
 #include <QQuickWidget>
 #include <map>
 #include <unordered_set>
+#include <iostream>
 
 namespace Ui 
 { 

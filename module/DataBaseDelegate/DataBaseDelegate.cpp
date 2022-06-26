@@ -158,6 +158,32 @@ bool DataBaseDelegate::insertLastChat(QString id, QString pos)
     return true;
 }
 
+bool DataBaseDelegate::insertLastChat(QString id)
+{
+    QString str = "select count(*) from lastchatlist";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("count from lastchatlist failed\n");
+        return false;
+    }
+    QSqlRecord record = query.record();
+    QString count = "";
+    while (query.next())
+    {
+        record = query.record();
+        count =QString::number(record.value(0).toInt()+1);
+        break;
+    }
+    str= "insert into lastChatList values(" + id + "," + count + ")";
+    if (!query.exec(str))
+    {
+        printf("count last chat succ but insert failed\n");
+        return false;
+    }
+    return true;
+}
+
 bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf, const QString& name)
 {
     QSqlQuery query;

@@ -185,6 +185,10 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
         tmp.m_strId = strId;
         tmp.m_strName = name;
         initChatMessageWidAcordId(tmp);
+        //插入到上次聊天的数据库中
+        DataBaseDelegate::Instance()->insertLastChat(tmp.m_strId);
+        //因为位置改变了，要重新排列顺序
+        ChatWidgetManager::Instance()->onSignalUpdateLastChat();
     }
     ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
     auto tmp = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());

@@ -32,6 +32,8 @@ public:
     bool createLastChatBackUp();
     //向lastchat中插入记录
     bool insertLastChat(QString id, QString pos);
+    //只有id
+    bool insertLastChat(QString id);
     //插入聊天记录
     bool insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf,const QString& name);
     //插入添加好友请求
