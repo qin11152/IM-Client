@@ -43,7 +43,6 @@ void ChatWidgetManager::setUserName(QString& name)
 
 void ChatWidgetManager::initConnect()
 {
-    //connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this, &ChatWidgetManager::onSignalRecvFriendList);
 }
 
 void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
@@ -131,6 +130,7 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 
 void ChatWidgetManager::onSignalUpdateLastChat()
 {
+    return;
     //由子线程去处理
     if (m_ptrLastChatUpdateThread)
     {

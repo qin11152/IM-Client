@@ -45,7 +45,7 @@ void RegisterWidget::onfirstPasswordLineEditEditingFinished(const QString&text)
     //QRegExp rx("^(?!(?:[^a-zA-Z]+|\D+|[a-zA-Z0-9]+)$).{8,}$");
     //得到比对结果
     auto machResult = rx.match(text);
-    if(machResult.hasMatch())
+    if(!machResult.hasMatch())
     {
         ui->label_2->setVisible(true);
     }
@@ -91,8 +91,8 @@ void RegisterWidget::onsecondPasswordLineEditEditingFinished(const QString& text
 void RegisterWidget::onRegisterClicked()
 {
     //qDebug() << "clicked";
-    if (ui->firstPasswordLineEdit->text().isEmpty() | ui->secondPasswordLineEdit->text().isEmpty()
-        | ui->nickLineEdit->text().isEmpty() | ui->label->isVisible() | ui->label_2->isVisible())
+    if (ui->firstPasswordLineEdit->text().isEmpty() || ui->secondPasswordLineEdit->text().isEmpty()
+        || ui->nickLineEdit->text().isEmpty() || ui->label->isVisible() || ui->label_2->isVisible())
     {
         return;
     }
@@ -122,7 +122,7 @@ void RegisterWidget::onMsgHandle(const QString& msg)
     {
         bool registerResult = m_ptree.get<bool>("RegisterResult");
         int id = m_ptree.get<int>("UserId");
-        /*if (registerResult == true)
+        if (registerResult == true)
         {
             QString tmp = QString::fromLocal8Bit("注册成功,您的id为") + QString::number(id) + QString::fromLocal8Bit("请牢记");
             switch (QMessageBox::information(this, QString::fromLocal8Bit("注册结果"),
@@ -143,7 +143,7 @@ void RegisterWidget::onMsgHandle(const QString& msg)
             QMessageBox::warning(this, QString::fromLocal8Bit("注册失败"),
                 QString::fromLocal8Bit("未能成功注册，请再次尝试"),
                 QMessageBox::Ok);
-        }*/
+        }
     }
 }
 
@@ -169,6 +169,7 @@ void RegisterWidget::initUi()
 {
     ui->label->setVisible(false);
     ui->label_2->setVisible(false);
+    setWindowFlag(Qt::WindowStaysOnTopHint);
 }
 
 RegisterWidget::~RegisterWidget()
