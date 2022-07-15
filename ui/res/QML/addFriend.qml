@@ -159,11 +159,11 @@ Rectangle
         width: parent.width;
         anchors.top: verifyMsgTextEditRect.bottom;
         clip: true;
-        ScrollBar.vertical: ScrollBar
+        /*ScrollBar.vertical: ScrollBar
         {
             id: scrollBar;
             policy: ScrollBar.AsNeeded;
-        }
+        }*/
     }
 
     ListModel

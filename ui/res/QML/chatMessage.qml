@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls 2.12
+
 Rectangle
 {
     //开始的时候聊天记录数量肯定是0
