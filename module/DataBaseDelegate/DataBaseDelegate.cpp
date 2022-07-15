@@ -146,7 +146,19 @@ bool DataBaseDelegate::createLastChatBackUp()
     return true;
 }
 
-bool DataBaseDelegate::insertLastChat(QString id, QString pos)
+bool DataBaseDelegate::clearLastChatBackUp()const
+{
+    const QString str = "delete from lastchatbackup where 1=1";
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        printf("delete last chat info failed\n");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::insertLastChat(const QString& id,const QString& pos)
 {
     QString str = "insert into lastChatList values("+id+","+ pos+")";
     QSqlQuery query;
@@ -349,7 +361,7 @@ bool DataBaseDelegate::deleteExpiredFriendRequest()
 
 bool DataBaseDelegate::deleteLastChatInfo()
 {
-    QString str = "delete from lastchatlist where true1=1";
+    QString str = "delete from lastchatlist where 1=1";
     QSqlQuery query;
     if (!query.exec(str))
     {

@@ -3,6 +3,7 @@
 #include "../module/MyDefine.h"
 #include <QObject>
 #include <QSqlDatabase>
+#include <QThread>
 #include <memory>
 #include <mutex>
 #include <map>
@@ -30,8 +31,10 @@ public:
     bool createFriendRequestTable();
     //创建lastchat备份表
     bool createLastChatBackUp();
+    //清空lastchat备份表
+    bool clearLastChatBackUp() const;
     //向lastchat中插入记录
-    bool insertLastChat(QString id, QString pos);
+    bool insertLastChat(const QString& id,const QString& pos);
     //只有id
     bool insertLastChat(QString id);
     //插入聊天记录
