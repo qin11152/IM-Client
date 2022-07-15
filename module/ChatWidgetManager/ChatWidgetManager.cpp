@@ -66,7 +66,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::m
 void ChatWidgetManager::onSignalAgreeAddFriend(QString friendName)
 {
     QString strId = "";
-    //TODO从数据库中找到这个名字对应的id，然后返回给服务器
+    //从数据库中找到这个名字对应的id，然后返回给服务器
     DataBaseDelegate::Instance()->queryFriendRequestAcordName(friendName, strId);
     AddFriendResponseJsonData addFriendResponseJsonData;
     addFriendResponseJsonData.m_strMyId = m_strUserId.toStdString();
@@ -130,12 +130,27 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 
 void ChatWidgetManager::onSignalUpdateLastChat()
 {
-    return;
-    //由子线程去处理
-    if (m_ptrLastChatUpdateThread)
+    //TODO由子线程去处理
+    /*if (m_ptrLastChatUpdateThread)
     {
         m_ptrLastChatUpdateThread->start();
+    }*/
+    
+    //现在还是主线程去处理
+
+    //先备份，防止修改的时候程序关闭，内容丢失
+    DataBaseDelegate::Instance()->copyLastChatToBackUps();
+    //然后清空lastchat
+    DataBaseDelegate::Instance()->deleteLastChatInfo();
+    //然后获取当前的顺序
+    QStringList newModelOrder;
+    ChatWidgetManager::Instance()->onSignalGetModelOrder(newModelOrder);
+    //把的顺序存入表中
+    for (int i = 0; i < newModelOrder.size(); ++i)
+    {
+        DataBaseDelegate::Instance()->insertLastChat(newModelOrder[i], QString::number(i));
     }
+    DataBaseDelegate::Instance()->clearLastChatBackUp();
 }
 
 void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)

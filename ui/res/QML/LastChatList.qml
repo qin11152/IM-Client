@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Rectangle
 {
@@ -30,25 +30,28 @@ Rectangle
                 return;
             }
         }
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
     }
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId)
     {
-        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId});
+        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
     }
 
     function insertElementToModel(strImagePath,strName,strId)
     {
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
     }
 
     //初始化的时候谁都不是当前对象
     function initColor()
     {
         //console.log("qqqqqq");
-        friendListView.currentItem.color="transparent";
+        if(null!=friendListView.currentItem)
+        {
+            friendListView.currentItem.color="transparent";
+        }
         friendListView.lastIndex=19999;
         //friendListView.currentItem.color="grey";
         friendListView.lastItem=null;
@@ -73,6 +76,9 @@ Rectangle
                 friendListView.lastItem=friendListView.currentItem;
                 friendListView.itemAtIndex(i).color="grey";
                 //moveActiveFriend2Top(i);
+                friendListModel.move(i,0,1);
+                friendListModel.get(i).updateUsed=true;
+                friendListModel.get(i).updateUsed=false;
                 break;
             }
         }
@@ -82,6 +88,30 @@ Rectangle
     function moveActiveFriend2Top(iPos)
     {
         friendListModel.move(iPos,0,1);
+    }
+
+
+    function setRedMsgAndShow(strId,strCnt)
+    {
+        for(var i;i<friendListModel.count;++i)
+        {
+            if(friendListModel.get(i).idx===strId)
+            {
+                friendListView.itemAtIndex(i).redRectangleText.text=strCnt;
+                friendListView.itemAtIndex(i).redRectangle.visible=true;
+            }
+        }
+    }
+
+    function setRedMsgAndHide(strId)
+    {
+        for(var i;i<friendListModel.count;++i)
+        {
+            if(friendListModel.get(i).idx===strId)
+            {
+                friendListView.itemAtIndex(i).redRectangle.visible=false;
+            }
+        }
     }
 
     //构造完成会对颜色的处理并移动到最上边的一个对话
@@ -105,18 +135,18 @@ Rectangle
     ListModel
     {
         id:friendListModel;
-        ListElement
+        /*ListElement
         {
             imagePath:""
-            name:"strName"
+            name:"strasdName"
             idx:1
         }
         ListElement
         {
             imagePath:""
-            name:"strName"
+            name:"dasdas"
             idx:2
-        }
+        }*/
     }
 
     ListView
@@ -191,6 +221,7 @@ Rectangle
             //红色标识，标识有信息来了
             Rectangle
             {
+                id:redRectangle;
                 color: "red";
                 width: 24;
                 height: 24;
@@ -202,10 +233,10 @@ Rectangle
                 visible: false;
                 Text
                 {
+                    id:redRectangleText;
                     anchors.centerIn: parent;
-                    id:msgCount;
                     font.pixelSize: 20;
-                    text:"2";
+                    text:"1";
                 }
             }
 
@@ -247,6 +278,29 @@ Rectangle
                 Text
                 {
                     id: nameText;
+                    elide: Text.ElideRight;
+                    anchors.fill: parent;
+                    font.family: "msyh";
+                    font.pixelSize: 14;
+                    color: "black";
+                    text: name;
+                }
+            }
+
+            //上次聊天记录区域
+            Rectangle
+            {
+                id:lastMsgLabel;
+                color: "transparent";
+                width: 180;
+                height: 30;
+                anchors.top: nameLabel.top;
+                anchors.topMargin: 20;
+                anchors.left: imageLabel.right;
+                anchors.leftMargin: 15;
+                Text
+                {
+                    id: lastMsgText;
                     elide: Text.ElideRight;
                     anchors.fill: parent;
                     font.family: "msyh";

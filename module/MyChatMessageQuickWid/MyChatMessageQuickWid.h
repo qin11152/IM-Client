@@ -26,6 +26,12 @@ public:
     void setTotalRecordCount(int cnt);
     //获得聊天记录总数量
     int getTotalRecordCount()const;
+    //修改未读聊天记录数量
+    void setUnreadMsgCnt() { m_iUnreadMsgCnt++; }
+    //获取未读聊天记录数量
+    int getUnreadMsgCnt()const { return m_iUnreadMsgCnt; }
+    //未读消息置0
+    void clearUnreadMsgCnt() { m_iUnreadMsgCnt = 0; }
     //设置根对象
     void setRootObj();
     //获取根对象与QML进行交互
@@ -57,5 +63,7 @@ private:
     QString m_strInitial{ "" };
     //用户的名称
     QString m_strUserName{ "" };
+    //未读消息数量
+    int m_iUnreadMsgCnt{ 0 };
 
 };
