@@ -28,7 +28,7 @@ public:
     //无需拷贝构造和赋值构造函数
     ChatWidgetManager(const ChatWidgetManager&) = delete;
     ChatWidgetManager& operator=(const ChatWidgetManager&) = delete;
-    ~ChatWidgetManager();
+    ~ChatWidgetManager()override;
 
     //设置qml根对象指针，以便调用qml中的函数
     void setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot);

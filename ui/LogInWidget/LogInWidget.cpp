@@ -3,6 +3,7 @@
 #include "../../protocol/LoginInJsonData/LoginInJsonData.h"
 #include "protocol/LoginInReplyData/LoginInReplyData.h"
 #include "ChatWidget/ChatWidget.h"
+#include <QMessageBox>
 
 LogInWidget::LogInWidget(QWidget *parent)
     : QWidget(parent)
@@ -30,7 +31,7 @@ void LogInWidget::onRegisterButtonClicked()
     if (m_ptrRegisterWidget == nullptr)
     {
         m_ptrRegisterWidget = new RegisterWidget();
-        //TODO 移动到中心位置
+        //移动到中心位置
         m_ptrRegisterWidget->showNormal();
     }
     //创建过就直接显示
@@ -80,7 +81,13 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
         //聊天界面显示
         ptrChatWidget->show();
     }
-    //TODO登陆失败处理
+    else
+    //登陆失败处理
+    {
+        QMessageBox::warning(this, QString::fromLocal8Bit("登录失败"),
+            QString::fromLocal8Bit("密码错误，请再次尝试"),
+            QMessageBox::Ok);
+    }
 }
 
 void LogInWidget::initConnection()

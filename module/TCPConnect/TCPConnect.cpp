@@ -99,7 +99,7 @@ void TCPConnect::onSignalTimeoutNoHeartPackage()
 
 void TCPConnect::onSignalTimeoutSendHeartPackage()
 {
-    //TODO给服务器发一个包
+    //发送给服务器的心跳包
     HeartPackageJsonData heartPackage;
     std::string msg=heartPackage.generateJson();
     sendMessage(msg);

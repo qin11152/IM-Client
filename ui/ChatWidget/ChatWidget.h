@@ -58,7 +58,7 @@ private slots:
     //发送消息按钮被点击后
     void onSignalSendMessage();
     //上次聊天列表被点击后
-    void onSignalLastChatItemClicked(QString strId);
+    void onSignalLastChatItemClicked(const QString strId);
     //好友列表被点击
     void onSignalFriendListItemClicked(QString strId,QString name);
     //底部托盘被点击后
@@ -76,15 +76,17 @@ private slots:
     //收到好友列表消息
     void onSignalRecvFriendList(const QString& friendList);
     //和某个好友的聊天页面要求刷新界面，也就是要求增加聊天记录
-    void onSignalUpdateChatMessage(QString id);
+    void onSignalUpdateChatMessage(const QString id);
     //manager处理好友列表完毕
-    void initFriendList();
+    void initFriendList()const;
     //根据id初始化此id对应的聊天界面
-    void initChatMessageWidAcordId(MyLastChatFriendInfo& lastChatInfo);
+    void initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo)const;
     //初始化上次聊天列表
     void initLastChatList();
     //初始化聊天界面
-    void initAllChatWid();
+    void initAllChatWid()const;
+    //点击后取消红色消息提示框
+    void onSignalHideRedRectangleInLastChat(const QString id)const;
 
 private:
     void initUi();
