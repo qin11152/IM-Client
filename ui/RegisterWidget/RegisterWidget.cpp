@@ -4,7 +4,6 @@
 #include "../../protocol/RegisterJsonData/RegisterJsonData.h"
 #include "../../protocol/RegisterReplyData/RegisterReplyData.h"
 #include <iostream>
-#include <QMessageBox>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -120,11 +119,11 @@ void RegisterWidget::onMsgHandle(const QString& msg)
     qDebug() << messageType;
     if (static_cast<MessageTypeBaseType>(MessageType::RegisterResponse) == messageType)
     {
-        bool registerResult = m_ptree.get<bool>("RegisterResult");
-        int id = m_ptree.get<int>("UserId");
+        const bool registerResult = m_ptree.get<bool>("RegisterResult");
+        const int id = m_ptree.get<int>("UserId");
         if (registerResult == true)
         {
-            QString tmp = QString::fromLocal8Bit("注册成功,您的id为") + QString::number(id) + QString::fromLocal8Bit("请牢记");
+            const QString tmp = QString::fromLocal8Bit("注册成功,您的id为") + QString::number(id) + QString::fromLocal8Bit("请牢记");
             switch (QMessageBox::information(this, QString::fromLocal8Bit("注册结果"),
                 tmp, QMessageBox::Ok),0)
             {
@@ -150,9 +149,9 @@ void RegisterWidget::onMsgHandle(const QString& msg)
 void RegisterWidget::onSignalConnectedFailed()
 {
     //TODO 提示网络连接失败
-    /*QMessageBox::warning(this, QString::fromLocal8Bit("无法连接服务器"),
+    QMessageBox::warning(this, QString::fromLocal8Bit("无法连接服务器"),
         QString::fromLocal8Bit("未能与服务器建立连接，请调整网络后重试"),
-        QMessageBox::Ok);*/
+        QMessageBox::Ok);
 }
 
 void RegisterWidget::initConnect()
