@@ -75,10 +75,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);log4cxx.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\c++proj\TinyWeChatClient\lib;E:\boost_1_75_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <QtMoc>
       <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
@@ -98,7 +99,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
@@ -109,6 +110,10 @@
     <QtUic>
       <QtUicDir>$(SolutionDir)..\bin\$(Configuration)\uic\</QtUicDir>
     </QtUic>
+    <Link>
+      <AdditionalLibraryDirectories>E:\c++proj\TinyWeChatClient\lib;E:\boost_1_75_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);log4cxx.lib;$(Qt_LIBS_)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -140,6 +145,7 @@
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.cpp" />
+    <ClCompile Include="module\Log\Log.cpp" />
     <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
     <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp" />
     <ClCompile Include="module\MyStackedWidget\MyStackedWidget.cpp" />
@@ -159,6 +165,7 @@
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
+    <ClCompile Include="TODO.cpp" />
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
@@ -192,6 +199,7 @@
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.h" />
+    <ClInclude Include="module\Log\Log.h" />
     <ClInclude Include="module\MyDefine.h" />
     <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h" />
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />

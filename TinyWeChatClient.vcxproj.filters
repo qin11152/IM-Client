@@ -114,6 +114,9 @@
     <Filter Include="module\LastChatInfoUpdateThread">
       <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="module\Log">
+      <UniqueIdentifier>{67aaf439-7525-4cc1-b8a2-e167bb9c346d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -193,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.cpp">
       <Filter>module\LastChatInfoUpdateThread</Filter>
+    </ClCompile>
+    <ClCompile Include="TODO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="module\Log\Log.cpp">
+      <Filter>module\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +317,9 @@
     </ClInclude>
     <ClInclude Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.h">
       <Filter>protocol\AddFriendNotifyJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\Log\Log.h">
+      <Filter>module\Log</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
