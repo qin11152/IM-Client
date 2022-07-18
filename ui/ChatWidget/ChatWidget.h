@@ -13,7 +13,6 @@
 #include <QQuickWidget>
 #include <map>
 #include <unordered_set>
-#include <iostream>
 
 namespace Ui 
 { 
@@ -87,6 +86,8 @@ private slots:
     void initAllChatWid()const;
     //点击后取消红色消息提示框
     void onSignalHideRedRectangleInLastChat(const QString id)const;
+    //设置红色提示显示并传递正确的数量
+    void onSignalSetRedRectangleShow(MyChatMessageQuickWid* ptr)const;
 
 private:
     void initUi();

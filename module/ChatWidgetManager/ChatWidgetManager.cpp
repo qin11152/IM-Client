@@ -45,13 +45,14 @@ void ChatWidgetManager::initConnect()
 {
 }
 
-void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
+void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo,
+                                               std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
 {
     GetFriendListReplyData getFriendListReplyData(friendList.toStdString());
     for (auto& item : getFriendListReplyData.m_vecFriendList)
     {
         //添加到qml页面listmodel中
-        QString strShouZiMu = convertToPinYin(QString::fromStdString(item.m_strFriendName)).toUpper().mid(0,1);
+        QString strShouZiMu = convertToPinYin(QString::fromStdString(item.m_strFriendName)).toUpper().mid(0, 1);
         MyFriendInfoWithFirstC tmpFriendInfo;
         tmpFriendInfo.m_strFirstChacter = strShouZiMu.toStdString();
         tmpFriendInfo.m_strId = item.m_strFriendId;
@@ -106,12 +107,14 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
     if (m_strUserName.toStdString() == addFriendNotifyData.m_strName1)
     {
         tmp.m_strName = addFriendNotifyData.m_strName2;
-        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0,1).toStdString();
+        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0, 1).
+            toStdString();
     }
     else
     {
         tmp.m_strName = addFriendNotifyData.m_strName1;
-        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).toStdString();
+        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).
+            toStdString();
     }
     emit signalAddFriendToLastChat(tmp);
 }
@@ -119,13 +122,15 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 {
     //写入数据库
-    AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
+    const AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
     const char* name = addFriendRequestData.m_strName.c_str();
     const char* friendId = addFriendRequestData.m_strFriendId.c_str();
     const char* verifyMsg = addFriendRequestData.m_strVerifyMsg.c_str();
     //添加好友的界面插入一个新的
     DataBaseDelegate::Instance()->insertAddFriendRequest(friendId, name, verifyMsg);
-    QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest", Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name), Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
+    QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest",
+                              Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name),
+                              Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
 }
 
 void ChatWidgetManager::onSignalUpdateLastChat()
@@ -135,22 +140,22 @@ void ChatWidgetManager::onSignalUpdateLastChat()
     {
         m_ptrLastChatUpdateThread->start();
     }*/
-    
+
     //现在还是主线程去处理
 
     //先备份，防止修改的时候程序关闭，内容丢失
-    DataBaseDelegate::Instance()->copyLastChatToBackUps();
+    /*DataBaseDelegate::Instance()->copyLastChatToBackUps();
     //然后清空lastchat
     DataBaseDelegate::Instance()->deleteLastChatInfo();
     //然后获取当前的顺序
     QStringList newModelOrder;
-    ChatWidgetManager::Instance()->onSignalGetModelOrder(newModelOrder);
+    Instance()->onSignalGetModelOrder(newModelOrder);
     //把的顺序存入表中
     for (int i = 0; i < newModelOrder.size(); ++i)
     {
         DataBaseDelegate::Instance()->insertLastChat(newModelOrder[i], QString::number(i));
     }
-    DataBaseDelegate::Instance()->clearLastChatBackUp();
+    DataBaseDelegate::Instance()->clearLastChatBackUp();*/
 }
 
 void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
@@ -160,7 +165,7 @@ void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
     modelOrder = tmp.toStringList();
 }
 
-ChatWidgetManager::ChatWidgetManager(QObject *parent)
+ChatWidgetManager::ChatWidgetManager(QObject* parent)
     : QObject(parent)
 {
     m_ptrLastChatUpdateThread = new LastChatInfoUpdateThread(nullptr);
