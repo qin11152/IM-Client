@@ -5,7 +5,7 @@
 #include "ChatWidget/ChatWidget.h"
 #include <QMessageBox>
 
-LogInWidget::LogInWidget(QWidget *parent)
+LogInWidget::LogInWidget(QWidget* parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
@@ -48,15 +48,12 @@ void LogInWidget::onLogInButtonClicked()
     {
         return;
     }
-    else
-    {
-        LoginInJsonData loginJsonData("");
-        loginJsonData.m_strId = ui.userNameLineEdit->text().toStdString();
-        m_strUserId = ui.userNameLineEdit->text();
-        loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
-        std::string message = loginJsonData.generateJson();
-        TCPConnect::Instance()->sendMessage(message);
-    }
+    LoginInJsonData loginJsonData("");
+    loginJsonData.m_strId = ui.userNameLineEdit->text().toStdString();
+    m_strUserId = ui.userNameLineEdit->text();
+    loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
+    std::string message = loginJsonData.generateJson();
+    TCPConnect::Instance()->sendMessage(message);
 }
 
 void LogInWidget::onRegisterFinished()
@@ -73,10 +70,10 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
     if (loginReplyData.m_bLoginInResult)
     {
         //打开对应的聊天界面
-        ChatWidget* ptrChatWidget = new ChatWidget(m_strUserId,QString::fromStdString(loginReplyData.m_strUserName));
+        auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
         ptrChatWidget->
-        //该界面隐藏,一会后析构
-        hide();
+            //该界面隐藏,一会后析构
+            hide();
         close();
         //聊天界面显示
         ptrChatWidget->show();
@@ -85,8 +82,8 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
     //登陆失败处理
     {
         QMessageBox::warning(this, QString::fromLocal8Bit("登录失败"),
-            QString::fromLocal8Bit("密码错误，请再次尝试"),
-            QMessageBox::Ok);
+                             QString::fromLocal8Bit("密码错误，请再次尝试"),
+                             QMessageBox::Ok);
     }
 }
 
@@ -95,5 +92,6 @@ void LogInWidget::initConnection()
     connect(ui.logInButton, &QPushButton::clicked, this, &LogInWidget::onLogInButtonClicked);
     connect(ui.registerButton, &QPushButton::clicked, this, &LogInWidget::onRegisterButtonClicked);
     connect(m_ptrRegisterWidget, &RegisterWidget::signalShowLoginInWidget, this, &LogInWidget::onRegisterFinished);
-    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv);
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvLoginResultMessage, this,
+            &LogInWidget::onSignalLoginResultRecv);
 }

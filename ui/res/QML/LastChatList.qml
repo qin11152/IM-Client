@@ -30,18 +30,18 @@ Rectangle
                 return;
             }
         }
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
     }
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId)
     {
-        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
+        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
     }
 
     function insertElementToModel(strImagePath,strName,strId)
     {
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
     }
 
     //初始化的时候谁都不是当前对象
@@ -93,23 +93,25 @@ Rectangle
 
     function setRedMsgAndShow(strId,strCnt)
     {
-        for(var i;i<friendListModel.count;++i)
+        for(var i=0;i<friendListModel.count;++i)
         {
             if(friendListModel.get(i).idx===strId)
             {
-                friendListView.itemAtIndex(i).redRectangleText.text=strCnt;
-                friendListView.itemAtIndex(i).redRectangle.visible=true;
+                friendListModel.get(i).isRedShow=true;
+                break;
             }
         }
     }
 
     function setRedMsgAndHide(strId)
     {
-        for(var i;i<friendListModel.count;++i)
+        for(var i=0;i<friendListModel.count;++i)
         {
             if(friendListModel.get(i).idx===strId)
             {
-                friendListView.itemAtIndex(i).redRectangle.visible=false;
+                //friendListView.itemAtIndex(i).redRectangle.visible=false;
+                friendListModel.get(i).isRedShow=false;
+                break;
             }
         }
     }
@@ -230,7 +232,7 @@ Rectangle
                 anchors.topMargin: 10;
                 anchors.right: parent.right;
                 anchors.rightMargin: 20;
-                visible: false;
+                visible: isRedShow?true:false;
                 Text
                 {
                     id:redRectangleText;
