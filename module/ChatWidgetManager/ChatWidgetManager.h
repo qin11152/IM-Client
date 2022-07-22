@@ -4,8 +4,7 @@
 #pragma once
 
 #include "../MyDefine.h"
-#include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
-#include "module/LastChatInfoUpdateThread/LastChatInfoUpdateThread.h"
+#include "module/LastChatInfoUpdateThread/DatabaseOperateThread.h"
 #include <QObject>
 #include <mutex>
 #include <memory>
@@ -62,8 +61,8 @@ public slots:
 
 signals:
     void signalGetFriendListFinished();
-    //有好友同意请求了
-    void signalAddFriendToLastChat(const MyFriendInfoWithFirstC& friendInfo);
+    //有好友同意请求了,发送给chatwidget界面，让他更新界面
+    void signalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
 
 private:
     //初始化连接
@@ -80,5 +79,5 @@ private:
     QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
     QObject* m_ptrAddFriendQMLRoot{ nullptr };  //添加好友qml界面的根对象
 
-    LastChatInfoUpdateThread* m_ptrLastChatUpdateThread{ nullptr };  //用于操作lastchat数据库的子线程
+    DatabaseOperateThread* m_ptrLastChatUpdateThread{ nullptr };  //用于操作lastchat数据库的子线程
 };

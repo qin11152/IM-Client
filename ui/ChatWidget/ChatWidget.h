@@ -12,7 +12,6 @@
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
 #include <map>
-#include <unordered_set>
 
 namespace Ui 
 { 
@@ -88,6 +87,14 @@ private slots:
     void onSignalHideRedRectangleInLastChat(const QString id)const;
     //设置红色提示显示并传递正确的数量
     void onSignalSetRedRectangleShow(MyChatMessageQuickWid* ptr)const;
+    //有好友同意了好友请求
+    void onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
+    //像好友列表中添加好友
+    void onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo);
+    //按照首字母的英文对好友列表排序
+    void onSortFriendList();
+    //刷新界面中的好友列表
+    void onUpdateFriendListUI()const;
 
 private:
     void initUi();

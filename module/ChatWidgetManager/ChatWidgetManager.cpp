@@ -9,6 +9,8 @@
 #include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
 #include <algorithm>
 
+#include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
+
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
 //初始化静态成员函数
 SingletonPtr ChatWidgetManager::m_SingletonPtr = nullptr;
@@ -92,10 +94,8 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
 void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 {
     //通知界面改变，上次聊天的界面添加一个新的好友项
-    AddFriendNotify addFriendNotifyData(msg.toStdString());
+    const AddFriendNotify addFriendNotifyData(msg.toStdString());
     MyFriendInfoWithFirstC tmp;
-    qDebug() << "qqqq my id is:" << m_strUserId;
-    qDebug() << "qqqq my name is:" << m_strUserName;
     if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
     {
         tmp.m_strId = addFriendNotifyData.m_strId2;
@@ -116,7 +116,7 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
         tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).
             toStdString();
     }
-    emit signalAddFriendToLastChat(tmp);
+    emit signalBecomeFriend(tmp);
 }
 
 void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
@@ -168,7 +168,7 @@ void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
 ChatWidgetManager::ChatWidgetManager(QObject* parent)
     : QObject(parent)
 {
-    m_ptrLastChatUpdateThread = new LastChatInfoUpdateThread(nullptr);
+    m_ptrLastChatUpdateThread = new DatabaseOperateThread(nullptr);
 }
 
 ChatWidgetManager::~ChatWidgetManager()
@@ -188,7 +188,7 @@ void ChatWidgetManager::getFriendList()
 {
     GetFriendListJsonData getFriendListData;
     getFriendListData.m_strUserId = m_strUserId.toStdString();
-    auto tmpStr = getFriendListData.generateJson();
+    const auto tmpStr = getFriendListData.generateJson();
     TCPConnect::Instance()->sendMessage(tmpStr);
     initConnect();
 }

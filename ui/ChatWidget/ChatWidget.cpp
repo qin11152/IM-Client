@@ -54,6 +54,7 @@ bool ChatWidget::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
+//增加好友信息到lastchat中
 void ChatWidget::onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo)
 {
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "insertElementToModel",
@@ -304,7 +305,7 @@ void ChatWidget::onSignalRecvFriendList(const QString& friendList)
 void ChatWidget::onSignalUpdateChatMessage(const QString id)
 {
     //先根据id找到对应的chatmessagequickwid
-    auto tmpWid = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
+    const auto tmpWid = dynamic_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
     //然后根据wid得到现在还有多少记录可以加载
     //用总的记录减去已加载的数量
     int canLoadCount = tmpWid->getTotalRecordCount() - tmpWid->getRecordCount();
@@ -323,7 +324,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     tmpWid->addCurrentRecordCount(vecMyChatMessageInfo.size());
 
     //把聊天记录加载进去
-    for (auto& item : vecMyChatMessageInfo)
+    for (const auto& item : vecMyChatMessageInfo)
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
@@ -345,7 +346,7 @@ void ChatWidget::initUi()
 
     //设置图标
     setWindowIcon(QIcon(":/LogInWidget/image/weixin.ico"));
-    setWindowTitle(QString::fromLocal8Bit("秦"));
+    setWindowTitle(QString::fromLocal8Bit("q微信"));
 
     //改变聊天输入框的颜色
     QPalette pal = ui->widget_3->palette();
@@ -439,13 +440,15 @@ void ChatWidget::initConnect()
     connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
 
     //收到好友同意请求后
-    connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalAddFriendToLastChat, this,
-            &ChatWidget::onSignalAdd2LastChat);
+    connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalBecomeFriend, this,
+            &ChatWidget::onSignalBecomeFriend);
     //收到好友聊天消息
     connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvSingleChatMessage, this,
             &ChatWidget::onSignalSingleChatMessage);
+    //收到服务端好友添加请求
     connect(TCPConnect::Instance().get(), &TCPConnect::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
             &ChatWidgetManager::onSignalNewFriendRequest);
+    //收到服务端同意好友添加
     connect(TCPConnect::Instance().get(), &TCPConnect::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
             &ChatWidgetManager::onSignalBecomeFriend);
 }
@@ -471,9 +474,9 @@ void ChatWidget::initData()
 
 void ChatWidget::initLastChatList()
 {
-    for (auto& item : m_vecLastChatFriend)
+    for (const auto& item : m_vecLastChatFriend)
     {
-        auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[item.m_strId]];
+        const auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[item.m_strId]];
         //获取上次聊天内容
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "addElementToModel",
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strFirstChacter)),
@@ -485,7 +488,7 @@ void ChatWidget::initLastChatList()
 
 void ChatWidget::initAllChatWid() const
 {
-    for (auto& item : m_vecLastChatFriend)
+    for (const auto& item : m_vecLastChatFriend)
     {
         initChatMessageWidAcordId(item);
     }
@@ -508,10 +511,49 @@ void ChatWidget::onSignalSetRedRectangleShow(MyChatMessageQuickWid* ptr)const
     }
 }
 
+//当有好友同意了添加请求，对应的处理
+void ChatWidget::onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo)
+{
+    //要添加到界面的上次聊天列表中
+    onSignalAdd2LastChat(friendInfo);
+    //要添加到内存的好友列表中
+    onAddFriendIntoList(friendInfo);
+    //要把好友列表的界面也更新一下
+    onUpdateFriendListUI();
+}
+
+void ChatWidget::onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo)
+{
+    m_vecFriendInfoWithC.push_back(friendInfo);
+}
+
+void ChatWidget::onSortFriendList()
+{
+    std::ranges::sort(m_vecFriendInfoWithC.begin(), m_vecFriendInfoWithC.end(), [&](const MyFriendInfoWithFirstC& l, const MyFriendInfoWithFirstC& r)
+    {
+            return l.m_strFirstChacter < r.m_strFirstChacter;
+    });
+}
+
+void ChatWidget::onUpdateFriendListUI() const
+{
+    //先清空qml中的列表
+    QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "clearModel");
+
+    //然后再按照顺序添加进去
+    for(const auto& item:m_vecFriendInfoWithC)
+    {
+        QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, ""),
+            Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
+            Q_ARG(QVariant, QString::fromStdString(item.m_strId)),
+            Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
+    }
+}
+
 
 void ChatWidget::initFriendList() const
 {
-    for (auto& item : m_vecFriendInfoWithC)
+    for (const auto& item : m_vecFriendInfoWithC)
     {
         QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, ""),
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
@@ -523,7 +565,7 @@ void ChatWidget::initFriendList() const
 void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo) const
 {
     //创建和这个id的聊天界面，也就是加载qml，并保存在stackedwidget中
-    auto tmpWid = new MyChatMessageQuickWid();
+    const auto tmpWid = new MyChatMessageQuickWid();
     tmpWid->setSource(QUrl(QStringLiteral("qrc:/QML/QML/chatMessage.qml")));
     tmpWid->setRootObj();
     tmpWid->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
@@ -548,18 +590,18 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     //设置和这位好友的聊天记录totalcount
     tmpWid->setTotalRecordCount(DataBaseDelegate::Instance()->GetChatRecordCountFromDB(userId));
     //获取聊天记录
-    std::vector<MyChatMessageInfo> vecMyChatMessageInfo = ChatWidgetManager::Instance()->getChatMessageAcordIdAtInit(
+    const std::vector<MyChatMessageInfo> vecMyChatMessageInfo = ChatWidgetManager::Instance()->getChatMessageAcordIdAtInit(
         lastChatInfo.m_strId);
 
     //存储一下现在页面中加载了的聊天记录数量，以便刷新时知道从哪个位置再加载
-    tmpWid->addCurrentRecordCount(vecMyChatMessageInfo.size());
+    tmpWid->addCurrentRecordCount(static_cast<int>(vecMyChatMessageInfo.size()));
 
     ui->chatStackedWidget->addWidget(tmpWid);
     //保存一下这个id对应的widget在stackedwidget中的位置，以便跳转使用
     ui->chatStackedWidget->insertToMap(lastChatInfo.m_strId.toInt(), tmpWid);
 
     //把聊天记录加载进去
-    for (auto& item : vecMyChatMessageInfo)
+    for (const auto& item : vecMyChatMessageInfo)
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
