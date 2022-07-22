@@ -53,41 +53,6 @@ Rectangle {
             name:"strName"
             idx:"1"
             firstChacter:"A"
-        }
-        ListElement
-        {
-            imagePath:"strImagePath"
-            name:"strName"
-            idx:"1"
-            firstChacter:"A"
-        }
-        ListElement
-        {
-            imagePath:"strImagePath"
-            name:"strName"
-            idx:"1"
-            firstChacter:"A"
-        }
-        ListElement
-        {
-            imagePath:"strImagePath"
-            name:"strName"
-            idx:"1"
-            firstChacter:"B"
-        }
-        ListElement
-        {
-            imagePath:"strImagePath"
-            name:"strName"
-            idx:"1"
-            firstChacter:"C"
-        }
-        ListElement
-        {
-            imagePath:"strImagePath"
-            name:"strName"
-            idx:"1"
-            firstChacter:"群聊"
         }*/
     }
 

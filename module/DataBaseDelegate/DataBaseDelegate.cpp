@@ -1,10 +1,10 @@
 #include "DataBaseDelegate.h"
+#include "module/Log/Log.h"
 #include <QApplication>
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QSqlError>
 #include <QSqlRecord>
-#include <QFile>
 #include <QDir>
 #include <QDebug>
 
@@ -31,14 +31,14 @@ void DataBaseDelegate::init()
         //TODO 日志系统
         QMessageBox::warning(0, QObject::tr("Database Error"),
             m_dataBase.lastError().text());
-        printf("open database failed\n");
+        _LOG(Logcxx::ERROR, "open data base failed");
         return;
     }
     if (!isTableExist("lastChatList"))
     {
         if (!createLastChatListTable())
         {
-            printf("create chatlastlist failed\n");
+            _LOG(Logcxx::ERROR, "create chatlastlist failed");
         }
     }
 }

@@ -37,6 +37,12 @@ public:
     std::string m_strFriendName{ "" };     //ºÃÓÑµÄêÇ³Æ
 };
 
+enum class DatabaseOperateType
+{
+    None=0,
+    UpdateLastChat,
+};
+
 enum class MessageType
 {
     Default,
@@ -53,6 +59,8 @@ enum class MessageType
     HeartPackage,
     FriendListRequest,
     FriendListResponse,
+    RefreshFriendListRequest,
+    RefreshFriendListResponse,
     GetFriendList,
     GetFriendListReply
 };

@@ -144,7 +144,7 @@
   <ItemGroup>
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
-    <ClCompile Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.cpp" />
+    <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
     <ClCompile Include="module\Log\Log.cpp" />
     <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
     <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp" />
@@ -163,6 +163,7 @@
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
     <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp" />
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
+    <ClCompile Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.cpp" />
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
     <ClCompile Include="TODO.cpp" />
@@ -198,7 +199,7 @@
     <QtMoc Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
-    <QtMoc Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.h" />
+    <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />
     <ClInclude Include="module\Log\Log.h" />
     <ClInclude Include="module\MyDefine.h" />
     <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="protocol\JsonBaseData.h" />
     <ClInclude Include="protocol\LoginInJsonData\LoginInJsonData.h" />
     <ClInclude Include="protocol\LoginInReplyData\LoginInReplyData.h" />
+    <ClInclude Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.h" />
     <ClInclude Include="protocol\RegisterJsonData\RegisterJsonData.h" />
     <ClInclude Include="protocol\RegisterReplyData\RegisterReplyData.h" />
     <ClInclude Include="resource.h" />
