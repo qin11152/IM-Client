@@ -20,48 +20,50 @@ public:
     ~DataBaseDelegate() override;
     DataBaseDelegate(DataBaseDelegate& l) = delete;
     DataBaseDelegate& operator=(DataBaseDelegate& l) = delete;
-    void SetUserId(QString id);
-    int GetChatRecordCountFromDB(QString id);
+    //为数据库设置用户的id
+    void setUserId(const QString& id);
+    //根据id获取聊天记录数量
+    int getChatRecordCountFromDB(const QString& id)const;
     //创建与某个用户的聊天记录表
-    bool createUserChatTable(const QString& userid);
+    bool createUserChatTable(const QString& userid)const;
     //创建上次聊天表
-    bool createLastChatListTable();
+    bool createLastChatListTable()const;
     //创建好友请求的表
-    bool createFriendRequestTable();
-    //创建lastchat备份表
-    bool createLastChatBackUp();
-    //清空lastchat备份表
-    bool clearLastChatBackUp() const;
-    //向lastchat中插入记录
-    bool insertLastChat(const QString& id, const QString& pos);
+    bool createFriendRequestTable()const;
     //只有id
-    bool insertLastChat(QString id);
+    bool insertLastChat(const QString& id)const;
+    //插入到上次聊天表中
+    bool insertLastChat(const std::vector<QString>& order)const;
+    //清空上次聊天表
+    bool clearLastChat()const;
     //插入聊天记录
     bool insertChatRecoed(int TotalCount, const QString& userid, const QString& message, const QString& time,
-                          bool isSelf, const QString& name);
+                          bool isSelf, const QString& name)const;
     //插入添加好友请求
-    bool insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg);
+    bool insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)const;
     //判断表是否存在
-    bool isTableExist(const QString& tableNmae);
+    bool isTableExist(const QString& tableName)const;
     //从数据库中查找出上次关闭时的聊天列表
-    bool queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec);
+    bool queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec)const;
     //根据id查找聊天记录
     bool queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount,
-                                     int beginPos);
-    bool QueryInitialAcordIdFromDB(QString id, QString& str);
+                                     int beginPos)const;
+    bool QueryInitialAcordIdFromDB(const QString& id, QString& str)const;
     //获取好友请求信息，包括已添加和未添加
-    bool queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo);
+    bool queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)const;
     //根据name去查找好友请求对应的id
-    bool queryFriendRequestAcordName(QString name, QString& id);
+    bool queryFriendRequestAcordName(const QString& name, QString& id)const;
     //根据name把响应的好友请求置为true
-    bool updateFriendRequestStateAcordName(QString name);
+    bool updateFriendRequestStateAcordName(const QString& name)const;
     //删除过期的好友请求,这里采用30天为期限,无论是否同意都删除
-    bool deleteExpiredFriendRequest();
+    bool deleteExpiredFriendRequest()const;
     //删除lastchat中的内容
-    bool deleteLastChatInfo();
-    //copylastchat表到备份中，然后更新lastchat
-    bool copyLastChatToBackUps();
-
+    bool deleteLastChatInfo()const;
+    //初始化连接，创建库，表等
+    void init();
+    //断开连接
+    void disConnect();
+    
 private:
     DataBaseDelegate(QObject* parent = nullptr);
     static std::mutex m_mutex;
@@ -70,6 +72,4 @@ private:
     //数据库也应由id来指定，不同用户登录建立不同数据库
     QString m_strUserId{""};
 
-    //初始化连接，创建库，表等
-    void init();
 };

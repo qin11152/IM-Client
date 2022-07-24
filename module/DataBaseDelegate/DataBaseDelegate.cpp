@@ -15,7 +15,7 @@ SingletonPtr DataBaseDelegate::m_SingletonPtr = nullptr;
 void DataBaseDelegate::init()
 {
     //这里使用的是sqlite
-    m_dataBase = QSqlDatabase::addDatabase("QSQLITE");
+    m_dataBase = QSqlDatabase::addDatabase("QSQLITE","sqlite1");
     //没有数据库文件夹就建立一个文件夹
     QString fileName = QApplication::applicationDirPath() + "/data";
     QDir dir(fileName);
@@ -31,16 +31,17 @@ void DataBaseDelegate::init()
         //TODO 日志系统
         QMessageBox::warning(0, QObject::tr("Database Error"),
             m_dataBase.lastError().text());
-        _LOG(Logcxx::ERROR, "open data base failed");
+        _LOG(Logcxx::Level::ERRORS, "open data base failed");
         return;
     }
-    if (!isTableExist("lastChatList"))
-    {
-        if (!createLastChatListTable())
-        {
-            _LOG(Logcxx::ERROR, "create chatlastlist failed");
-        }
-    }
+}
+
+void DataBaseDelegate::disConnect()
+{
+    m_dataBase.close();
+    QString fileName = QApplication::applicationDirPath() + "/data";
+    QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
+    QSqlDatabase::removeDatabase(dataName);
 }
 
 DataBaseDelegate::DataBaseDelegate(QObject *parent)
@@ -66,19 +67,18 @@ DataBaseDelegate::~DataBaseDelegate()
     m_dataBase.close();
 }
 
-void DataBaseDelegate::SetUserId(QString id)
+void DataBaseDelegate::setUserId(const QString& id)
 {
     m_strUserId = id;
-    init();
 }
 
-int DataBaseDelegate::GetChatRecordCountFromDB(QString id)
+int DataBaseDelegate::getChatRecordCountFromDB(const QString& id)const
 {
-    QString str = "select count(*) from chatrecord" + id;
-    QSqlQuery query;
+    const QString str = "select count(*) from chatrecord" + id;
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("query chatrecord failed failed\n");
+        _LOG(Logcxx::Level::ERRORS, "get chat record count failed");
     }
     int iMessageCount={ 0 };
     QSqlRecord record = query.record();
@@ -91,158 +91,139 @@ int DataBaseDelegate::GetChatRecordCountFromDB(QString id)
     return iMessageCount;
 }
 
-bool DataBaseDelegate::createUserChatTable(const QString& userid)
+bool DataBaseDelegate::createUserChatTable(const QString& userid)const
 {
     //每个用户都有一个自己的库，在自己的库中和每个人的聊天记录是一个表
     //QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null,isself bool,name varchar(30)";
-    QString str = "CREATE TABLE chatrecord" + userid + "(pos INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(50), time VARCHAR(20), isself  BOOL, name VARCHAR(30));";
-    qDebug() << "create chat query is" << str;
-    QSqlQuery query;
+    const QString str = "CREATE TABLE chatrecord" + userid + "(pos INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(50), time VARCHAR(20), isself  BOOL, name VARCHAR(30));";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        //TODO 修改为日志
-        printf("create table chat record failed\n");
+        _LOG(Logcxx::Level::ERRORS, "create chat record table failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::createLastChatListTable()
+bool DataBaseDelegate::createLastChatListTable()const
 {
-    QString str = "create table lastChatList (id int,pos int)";
-    QSqlQuery query;
+    const QString str = "create table lastChatList (id int)";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        //TODO 修改为日志
-        printf("create table lastchatlist failed\n");
+        _LOG(Logcxx::Level::ERRORS, "create last chat list table failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::createFriendRequestTable()
+bool DataBaseDelegate::createFriendRequestTable()const
 {
-    QString str = "CREATE TABLE friendRequest (id INT,name VARCHAR(40),isvalid BOOL,createdtime TIME,verifymessage VARCHAR(30))";
-    printf("create query id%s\n", str.toStdString().c_str());
-    QSqlQuery query;
+    const QString str = "CREATE TABLE friendRequest (id INT,name VARCHAR(40),isvalid BOOL,createdtime TIME,verifymessage VARCHAR(30))";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        //TODO 修改为日志
-        printf("create table friendlist failed\n");
+        _LOG(Logcxx::Level::ERRORS, "create friend request table failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::createLastChatBackUp()
+//插入是插在最后边的，也就是最后一个插入的在表的最前边
+//而我们默认表中的顺序就是显示的顺序，所以要显示的第一个要最后一个插
+bool DataBaseDelegate::insertLastChat(const QString& id)const
 {
-    QString string = "CREATE TABLE lastchatbackup (id  INT,pos INT)";
-    QSqlQuery query;
-    if (!query.exec(string))
+    QSqlQuery query(m_dataBase);
+    const QString str= "insert into lastChatList values(" + id + ")";
+    if (!query.exec(str))
     {
-        printf("create last chat back up failed\n");
+        _LOG(Logcxx::Level::ERRORS, "insert last chat failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::clearLastChatBackUp()const
+bool DataBaseDelegate::insertLastChat(const std::vector<QString>& order) const
 {
-    const QString str = "delete from lastchatbackup where 1=1";
-    QSqlQuery query;
-    if (!query.exec(str))
+    QSqlQuery query(m_dataBase);
+    QString str = "";
+    for(auto id:order)
     {
-        printf("delete last chat info failed\n");
+        str = "insert into lastChatList values(" + id + ");";
+        if (!query.exec(str))
+        {
+            _LOG(Logcxx::Level::ERRORS, "insert last chat failed");
+            return false;
+        }
+    }
+    return true;
+}
+
+bool DataBaseDelegate::clearLastChat() const
+{
+    const QString str="delete from lastChatList where 1=1";
+    QSqlQuery query(m_dataBase);
+    if(!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "clear last chat failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::insertLastChat(const QString& id,const QString& pos)
+bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf, const QString& name)const
 {
-    QString str = "insert into lastChatList values("+id+","+ pos+")";
-    QSqlQuery query;
-    if (!query.exec(str))
-    {
-        printf("insert into lastchat failed\n");
-        return false;
-    }
-    return true;
-}
-
-bool DataBaseDelegate::insertLastChat(QString id)
-{
-    QString str = "select count(*) from lastchatlist";
-    QSqlQuery query;
-    if (!query.exec(str))
-    {
-        printf("count from lastchatlist failed\n");
-        return false;
-    }
-    QSqlRecord record = query.record();
-    QString count = "";
-    while (query.next())
-    {
-        record = query.record();
-        count =QString::number(record.value(0).toInt()+1);
-        break;
-    }
-    str= "insert into lastChatList values(" + id + "," + count + ")";
-    if (!query.exec(str))
-    {
-        printf("count last chat succ but insert failed\n");
-        return false;
-    }
-    return true;
-}
-
-bool DataBaseDelegate::insertChatRecoed(int TotalCount,const QString& userid, const QString& message, const QString& time,bool isSelf, const QString& name)
-{
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     auto strIsSelf = isSelf ? "true" : "false";
-    QString tmp = "insert into chatrecord" + userid + " values ("+QString::number(TotalCount+1)+",\"" + message + "\",\"" + time + "\","+strIsSelf+",\""+name+"\")";
+    const QString tmp = "insert into chatrecord" + userid + " values ("+QString::number(TotalCount+1)+",\"" + message + "\",\"" + time + "\","+strIsSelf+",\""+name+"\")";
     if (!query.exec(tmp))
     {
-        printf("insert chatrecord failed\n");
+        _LOG(Logcxx::Level::ERRORS, "insert chat record failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)
+bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)const
 {
     if (!DataBaseDelegate::Instance()->isTableExist("friendRequest"))
     {
         DataBaseDelegate::Instance()->createFriendRequestTable();
     }
-    QString str = "insert into friendRequest values(" + id + ",'" + name + "',false,datetime('now','localtime'),'" + verifyMsg + "')";
-    QSqlQuery query;
+    const QString str = "insert into friendRequest values(" + id + ",'" + name + "',false,datetime('now','localtime'),'" + verifyMsg + "')";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("insert into friendRequest failed,request id is:%s\n", id.toStdString().c_str());
+        _LOG(Logcxx::Level::ERRORS, "insert add friend request failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::isTableExist(const QString& tableNmae)
+bool DataBaseDelegate::isTableExist(const QString& tableName)const
 {
-    if (!m_dataBase.tables().contains(tableNmae))
+    if (!m_dataBase.tables().contains(tableName))
     {
-        printf("not contains\n");
+        _LOG(Logcxx::Level::ERRORS, "table not exist");
         return false;
     }
-    printf("%s contains\n",tableNmae.toStdString().c_str());
     return true;
 }
 
-bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec)
+bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec)const
 {
-    QString str = "select * from lastChatList order by pos";
-    QSqlQuery query;
+    if (!isTableExist("lastChatList"))
+    {
+        if (!createLastChatListTable())
+        {
+            _LOG(Logcxx::Level::ERRORS, "create chatlastlist failed");
+        }
+    }
+    const QString str = "select * from lastChatList";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("query lastchat list failed\n");
+        _LOG(Logcxx::Level::ERRORS, "query last chat list failed");
     }
     QSqlRecord record = query.record();
     while (query.next())
@@ -250,19 +231,18 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>
         auto tmp = MyLastChatFriendInfo();
         record = query.record();
         tmp.m_strId = record.value("id").toString();
-        tmp.m_strName = record.value("name").toString();
         m_tmpVec.push_back(tmp);
     }
     return false;
 }
 
-bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)
+bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)const
 {
-    QString str = "select * from chatrecord" + id + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
-    QSqlQuery query;
+    const QString str = "select * from chatrecord" + id + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("query chatrecord failed\n");
+        _LOG(Logcxx::Level::ERRORS, "query chat record failed");
         return false;
     }
     QSqlRecord record;
@@ -278,13 +258,13 @@ bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyCha
     return true;
 }
 
-bool DataBaseDelegate::QueryInitialAcordIdFromDB(QString id, QString& str)
+bool DataBaseDelegate::QueryInitialAcordIdFromDB(const QString& id, QString& str)const
 {
-    QString strs = "select name from chatrecord" + id + " where isself=false limit 1,1";
-    QSqlQuery query;
+    const QString strs = "select name from chatrecord" + id + " where isself=false limit 1,1";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(strs))
     {
-        printf("query initial failed\n");
+        _LOG(Logcxx::Level::ERRORS, "query initial acord id failed");
         return false;
     }
     while (query.next())
@@ -295,14 +275,14 @@ bool DataBaseDelegate::QueryInitialAcordIdFromDB(QString id, QString& str)
     return true;
 }
 
-bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)
+bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)const
 {
     deleteExpiredFriendRequest();
-    QString str = "select * from friendRequest";
-    QSqlQuery query;
+    const QString str = "select * from friendRequest";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("query friend request failed\n");
+        _LOG(Logcxx::Level::ERRORS, "query add friend info failed");
         return false;
     }
     while (query.next())
@@ -318,13 +298,13 @@ bool DataBaseDelegate::queryAddFriendInfoFromDB(QString id, std::vector<MyAddFri
     return true;
 }
 
-bool DataBaseDelegate::queryFriendRequestAcordName(QString name,QString& id)
+bool DataBaseDelegate::queryFriendRequestAcordName(const QString& name,QString& id)const
 {
-    QString strs = "select id from friendRequest where name = '" + name+"'";
-    QSqlQuery query;
+    const QString strs = "select id from friendRequest where name = '" + name+"'";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(strs))
     {
-        printf("query friend request acord name failed\n");
+        _LOG(Logcxx::Level::ERRORS, "query friend request acord name failed");
         return false;
     }
     while (query.next())
@@ -336,53 +316,37 @@ bool DataBaseDelegate::queryFriendRequestAcordName(QString name,QString& id)
     return true;
 }
 
-bool DataBaseDelegate::updateFriendRequestStateAcordName(QString name)
+bool DataBaseDelegate::updateFriendRequestStateAcordName(const QString& name)const
 {
-    QString str = "update friendRequest set isvalid=true where name = '" + name+"'";
-    QSqlQuery query;
+    const QString str = "update friendRequest set isvalid=true where name = '" + name+"'";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("update friendRequest state failed,name=%s\n", name.toStdString().c_str());
+        _LOG(Logcxx::Level::ERRORS, "update friend request state acord name failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::deleteExpiredFriendRequest()
+bool DataBaseDelegate::deleteExpiredFriendRequest()const
 {
-    QString str = "DELETE FROM friendRequest WHERE date('now', '-30 day' ,'localtime') >= date(CreatedTime)";
-    QSqlQuery query;
+    const QString str = "DELETE FROM friendRequest WHERE date('now', '-30 day' ,'localtime') >= date(CreatedTime)";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
+        _LOG(Logcxx::Level::ERRORS, "delete expired friend request failed");
         return false;
     }
     return true;
 }
 
-bool DataBaseDelegate::deleteLastChatInfo()
+bool DataBaseDelegate::deleteLastChatInfo()const
 {
-    QString str = "delete from lastchatlist where 1=1";
-    QSqlQuery query;
+    const QString str = "delete from lastchatlist where 1=1";
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        printf("delete last chat info failed\n");
-        return false;
-    }
-    return true;
-}
-
-bool DataBaseDelegate::copyLastChatToBackUps()
-{
-    if (!isTableExist("lastchatbackup"))
-    {
-        createLastChatBackUp();
-    }
-    //复制表
-    QString string = "insert into lastchatbackup select * from lastchatlist";
-    QSqlQuery query;
-    if (!query.exec(string))
-    {
-        printf("copy last chat to back up failed\n");
+        _LOG(Logcxx::Level::ERRORS, "delete last chat info failed");
         return false;
     }
     return true;
