@@ -111,11 +111,14 @@
     <Filter Include="protocol\AddFriendNotifyJsonData">
       <UniqueIdentifier>{d52bbbfa-dbbe-4462-8cfc-9a9687d0e05d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="module\LastChatInfoUpdateThread">
-      <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="module\Log">
       <UniqueIdentifier>{67aaf439-7525-4cc1-b8a2-e167bb9c346d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\RefreshFriendList">
+      <UniqueIdentifier>{85f52ddb-c91d-47a5-8203-305fd5d08940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DatabaseOperateThread">
+      <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -194,14 +197,17 @@
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp">
       <Filter>protocol\AddFriendNotifyJsonData</Filter>
     </ClCompile>
-    <ClCompile Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.cpp">
-      <Filter>module\LastChatInfoUpdateThread</Filter>
+    <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp">
+      <Filter>module\DatabaseOperateThread</Filter>
     </ClCompile>
     <ClCompile Include="TODO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="module\Log\Log.cpp">
       <Filter>module\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.cpp">
+      <Filter>protocol\RefreshFriendList</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,8 +263,8 @@
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h">
       <Filter>module\ChatWidgetManager</Filter>
     </QtMoc>
-    <QtMoc Include="module\LastChatInfoUpdateThread\LastChatInfoUpdateThread.h">
-      <Filter>module\LastChatInfoUpdateThread</Filter>
+    <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h">
+      <Filter>module\DatabaseOperateThread</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="module\Log\Log.h">
       <Filter>module\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.h">
+      <Filter>protocol\RefreshFriendList</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

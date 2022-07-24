@@ -12,7 +12,7 @@ class DatabaseOperateThread : public QThread
     Q_OBJECT
 
 public:
-    explicit  DatabaseOperateThread(QObject *parent);
+    explicit  DatabaseOperateThread(QObject *parent=nullptr);
     ~DatabaseOperateThread()override = default;
     DatabaseOperateThread& operator=(const DatabaseOperateThread& l) = delete;
     DatabaseOperateThread(const DatabaseOperateThread& l) = delete;
@@ -25,17 +25,25 @@ public:
     void setOperateType(const DatabaseOperateType& operateType);
     //设定当前登录用户的id
     void setCurUserId(const QString& curId = "");
+    //初始化连接等操作
+    void init();
+    //设定最新的lastchat列表
+    void setLastChatList(QStringList& lastChatList);
 
 protected:
     void run()override;
 
 private:
-    //初始化连接等操作
-    void init();
-    //判断线程操作的数据库中，当前用户lastchat表是否创建
-    bool isLastChatExist();
-    //向当前用户的lastchat中插入数据
-    void insertIntoLastChat();
+    //判断表是否存在
+    bool isTableExist(const QString& tableName)const;
+    //创建lastchat表
+    bool createLastChat()const;
+    //清空lastchat表
+    bool clearLastChat() const;
+    //向lastchat中插入记录
+    bool insertLastChat(const QString& id)const;
+    //获取最新的lastchat顺序
+    void getLastChatOrder(QStringList& modelOrder)const;
 
 private:
     QObject* m_ptrLastChatQML{ nullptr };
@@ -45,4 +53,6 @@ private:
     QSqlDatabase m_dataBase;
     //当前登录用户的id
     QString m_strCurrentUserId{ "" };
+    //最新的lastchat列表
+    QStringList m_lastChatList;
 };

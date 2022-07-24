@@ -7,9 +7,8 @@
 #include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
 #include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
-#include <algorithm>
-
 #include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
+#include <algorithm>
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
 //初始化静态成员函数
@@ -43,8 +42,18 @@ void ChatWidgetManager::setUserName(QString& name)
     m_strUserName = name;
 }
 
-void ChatWidgetManager::initConnect()
+void ChatWidgetManager::initDBThreadConnect()
 {
+    if(!m_ptrDBOperateThread)
+    {
+        m_ptrDBOperateThread = new DatabaseOperateThread();
+    }
+    m_ptrDBOperateThread->init();
+}
+
+void ChatWidgetManager::setLastChatList(QStringList& m_lastChatList) const
+{
+    m_ptrDBOperateThread->setLastChatList(m_lastChatList);
 }
 
 void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo,
@@ -135,27 +144,20 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 
 void ChatWidgetManager::onSignalUpdateLastChat()
 {
-    //TODO由子线程去处理
-    /*if (m_ptrLastChatUpdateThread)
+    //由子线程去处理
+    if (!m_ptrDBOperateThread)
     {
-        m_ptrLastChatUpdateThread->start();
-    }*/
-
-    //现在还是主线程去处理
-
-    //先备份，防止修改的时候程序关闭，内容丢失
-    /*DataBaseDelegate::Instance()->copyLastChatToBackUps();
-    //然后清空lastchat
-    DataBaseDelegate::Instance()->deleteLastChatInfo();
-    //然后获取当前的顺序
-    QStringList newModelOrder;
-    Instance()->onSignalGetModelOrder(newModelOrder);
-    //把的顺序存入表中
-    for (int i = 0; i < newModelOrder.size(); ++i)
-    {
-        DataBaseDelegate::Instance()->insertLastChat(newModelOrder[i], QString::number(i));
+        m_ptrDBOperateThread = new DatabaseOperateThread();
+        m_ptrDBOperateThread->init();
     }
-    DataBaseDelegate::Instance()->clearLastChatBackUp();*/
+
+    QStringList tmpOrder;
+    onSignalGetModelOrder(tmpOrder);
+    setLastChatList(tmpOrder);
+
+    //设置操作类型为更新上次聊天数据库
+    m_ptrDBOperateThread->setOperateType(DatabaseOperateType::UpdateLastChat);
+    m_ptrDBOperateThread->start();
 }
 
 void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
@@ -168,13 +170,13 @@ void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
 ChatWidgetManager::ChatWidgetManager(QObject* parent)
     : QObject(parent)
 {
-    m_ptrLastChatUpdateThread = new DatabaseOperateThread(nullptr);
+    m_ptrDBOperateThread = new DatabaseOperateThread(nullptr);
 }
 
 ChatWidgetManager::~ChatWidgetManager()
 {
-    delete m_ptrLastChatUpdateThread;
-    m_ptrLastChatUpdateThread = nullptr;
+    delete m_ptrDBOperateThread;
+    m_ptrDBOperateThread = nullptr;
 }
 
 void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot)
@@ -182,6 +184,14 @@ void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* Friend
     m_ptrLastChatQMLRoot = LastChatQMLRoot;
     m_ptrFriendListQMLRoot = FriendListQMLRoot;
     m_ptrAddFriendQMLRoot = AddFriendQMLRoot;
+    m_ptrDBOperateThread->setLastChatQML(m_ptrLastChatQMLRoot);
+}
+
+void ChatWidgetManager::initDBOperateThread()
+{
+    m_ptrDBOperateThread=new DatabaseOperateThread(nullptr);
+    //为子线程设定id，保证操作的数据库正确
+    m_ptrDBOperateThread->setCurUserId(m_strUserId);
 }
 
 void ChatWidgetManager::getFriendList()
@@ -190,7 +200,6 @@ void ChatWidgetManager::getFriendList()
     getFriendListData.m_strUserId = m_strUserId.toStdString();
     const auto tmpStr = getFriendListData.generateJson();
     TCPConnect::Instance()->sendMessage(tmpStr);
-    initConnect();
 }
 
 //向服务器发送初始化消息，告知此id在线
@@ -205,14 +214,13 @@ void ChatWidgetManager::notifyServerOnline()
 void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
 {
     //map结构体，存储上次关闭时聊天列表中的顺序
-    std::map<QString, QString> LastChatInfo;
     DataBaseDelegate::Instance()->queryLastChatListFromDB(vecLastChatFriend);
 }
 
 std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QString strId)
 {
     //先看这个id的聊天记录有多少
-    int iMessageCount = DataBaseDelegate::Instance()->GetChatRecordCountFromDB(strId);
+    int iMessageCount = DataBaseDelegate::Instance()->getChatRecordCountFromDB(strId);
     //如果大于10条就加载十条，小于十条就有多少加载多少
     int needLoadCount = (std::min)(10, iMessageCount);
 

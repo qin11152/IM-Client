@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
+#include <QSqlDatabase>
 #include <map>
 
 namespace Ui 
@@ -37,7 +38,7 @@ class ChatWidget : public QWidget
 
 public:
     ChatWidget(QString id,QString name,QWidget *parent = Q_NULLPTR);
-    ~ChatWidget();
+    virtual ~ChatWidget()override;
     ChatWidget(const ChatWidget& l) = delete;
     ChatWidget& operator=(const ChatWidget& l) = delete;
     MyChatMessageQuickWid* getChatMsgWidAcordId(QString id);
@@ -95,12 +96,19 @@ private slots:
     void onSortFriendList();
     //刷新界面中的好友列表
     void onUpdateFriendListUI()const;
+    //QML界面通知上次聊天界面需要写入数据库
+    void onSignalNeedUpdateLastChat();
 
 private:
     void initUi();
     void initConnect();
     void initData();
     //void notifyServerOnline();
+    void getLastChatFromBackup(std::vector<QString>& tmpOrder,QSqlDatabase& db);
+    //把一个临时的数据库对象和备份数据库进行连接
+    void connectToBackupDB(QSqlDatabase& db);
+    //用完了就把临时数据库断开连接
+    void disConnectBackupDB(QSqlDatabase& db)const;
 
 private:
     Ui::ChatWidget *ui;

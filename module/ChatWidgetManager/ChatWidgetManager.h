@@ -19,17 +19,23 @@ public:
     using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
     //单例模式，唯一获取其指针的方法，使用了智能指针，自动内存管理
     static SingletonPtr Instance();
-    //传入id
-    void setUserId(QString strId);
-    //传入名字
-    void setUserName(QString& name);
     //无需拷贝构造和赋值构造函数
     ChatWidgetManager(const ChatWidgetManager&) = delete;
     ChatWidgetManager& operator=(const ChatWidgetManager&) = delete;
     ~ChatWidgetManager()override;
 
+    //传入id
+    void setUserId(QString strId);
+    //传入名字
+    void setUserName(QString& name);
     //设置qml根对象指针，以便调用qml中的函数
     void setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot);
+    //初始化数据库操作子线程
+    void initDBOperateThread();
+    //初始化数据库操作子线程连接
+    void initDBThreadConnect();
+    //设置子线程中最新的lastchat列表
+    void setLastChatList(QStringList& m_lastChatList)const;
 
     //从服务端获取当前用户的好友列表
     void getFriendList();
@@ -65,10 +71,6 @@ signals:
     void signalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
 
 private:
-    //初始化连接
-    void initConnect();
-
-private:
     ChatWidgetManager(QObject* parent = nullptr);
     static std::mutex m_mutex;                  //锁，保证线程安全
     static SingletonPtr m_SingletonPtr;         //该类的智能指针
@@ -79,5 +81,5 @@ private:
     QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象
     QObject* m_ptrAddFriendQMLRoot{ nullptr };  //添加好友qml界面的根对象
 
-    DatabaseOperateThread* m_ptrLastChatUpdateThread{ nullptr };  //用于操作lastchat数据库的子线程
+    DatabaseOperateThread* m_ptrDBOperateThread{ nullptr };  //用于操作lastchat数据库的子线程
 };

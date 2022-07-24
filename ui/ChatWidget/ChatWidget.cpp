@@ -5,16 +5,17 @@
 #include "DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
+#include "module/Log/Log.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "ui_ChatWidget.h"
 #include <QPushButton>
-#include <QDebug>
+#include <QDir>
 #include <ctime>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 const QString ChatRecordTable = "chatrecord";
-static bool optMultipleSample = false;
-static bool optCoreProfile = false;
 
 ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
     : QWidget(parent),
@@ -26,7 +27,9 @@ ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
     setAttribute(Qt::WA_DeleteOnClose);
     ChatWidgetManager::Instance()->setUserId(m_strUserId);
     ChatWidgetManager::Instance()->setUserName(m_strUserName);
-    DataBaseDelegate::Instance()->SetUserId(m_strUserId);
+    ChatWidgetManager::Instance()->initDBOperateThread();
+    DataBaseDelegate::Instance()->setUserId(m_strUserId);
+    DataBaseDelegate::Instance()->init();
     initData();
     initUi();
     ChatWidgetManager::Instance()->setQMLRootPtr(m_ptrAddFriendQMLRoot, m_ptrFriendListQMLRoot, m_ptrLastChatQMLRoot);
@@ -172,7 +175,7 @@ void ChatWidget::onSignalSendMessage()
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "findPosInModelAndMove2Top", Q_ARG(QVariant, id));
         ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
         //因为位置改变了，要重新排列顺序
-        ChatWidgetManager::Instance()->onSignalUpdateLastChat();
+        //看位置是否发生了变化再决定是否更新数据库
     }
 }
 
@@ -334,15 +337,6 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
 
 void ChatWidget::initUi()
 {
-    QSurfaceFormat format;
-    if (optCoreProfile)
-    {
-        format.setVersion(4, 4);
-        format.setProfile(QSurfaceFormat::CoreProfile);
-    }
-    if (optMultipleSample)
-        format.setSamples(4);
-    //m_ptrLastChatWidget->setFormat(format);
 
     //设置图标
     setWindowIcon(QIcon(":/LogInWidget/image/weixin.ico"));
@@ -403,6 +397,8 @@ void ChatWidget::initConnect()
     //ui界面中的部件被点击
     connect(ui->textEdit, &MyTextEdit::signalTextEditIsFocus, this, &ChatWidget::onSignalTextEditIsFocus);
     connect(ui->pushButton, &QPushButton::clicked, this, &ChatWidget::onSignalSendMessage);
+    //QML页面通知要更新lastchat了
+    connect(m_ptrLastChatQMLRoot, SIGNAL(signalNeedUpdateLastChat()), this, SLOT(onSignalNeedUpdateLastChat()));
 
     //连接托盘图标的激活与对应动作的槽函数
     connect(m_ptrTrayIcon, &QSystemTrayIcon::activated, this, &ChatWidget::onSignalTrayTriggered);
@@ -466,9 +462,60 @@ void ChatWidget::initData()
     m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrLastChatWidget = new QQuickWidget();
     m_ptrSearchFriendList = new QQuickWidget();
+
+    //先去从缓存的数据库中获取到相关的数据并更新到实际的数据库，然后在执行相关操作
+    auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite2");
+    connectToBackupDB(dataBase);
+    std::vector<QString> tmpOrder;
+    getLastChatFromBackup(tmpOrder, dataBase);
+    disConnectBackupDB(dataBase);
+
+    //清空上次聊天数据库中
+    DataBaseDelegate::Instance()->clearLastChat();
+    //写入到自己的数据库中
+    DataBaseDelegate::Instance()->insertLastChat(tmpOrder);
+
+    //这时候主线程对备份数据库操作完成了，子线程可以连接了
+    ChatWidgetManager::Instance()->initDBThreadConnect();
     ChatWidgetManager::Instance()->getLastChatListFromDB(m_vecLastChatFriend);
     ChatWidgetManager::Instance()->notifyServerOnline();
     ChatWidgetManager::Instance()->getFriendList();
+}
+
+void ChatWidget::getLastChatFromBackup(std::vector<QString>& tmpOrder, QSqlDatabase& db)
+{
+    const QString str="select * from lastchatlist"+m_strUserId;
+    QSqlQuery query(db);
+    if(!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "getLastChatFromBackup error");
+    }
+    QSqlRecord record = query.record();
+    while (query.next())
+    {
+        auto tmp = MyLastChatFriendInfo();
+        record = query.record();
+        tmpOrder.push_back(record.value("id").toString());
+    }
+}
+
+void ChatWidget::connectToBackupDB(QSqlDatabase& db)
+{
+    //文件夹路径
+    const QString fileName = QApplication::applicationDirPath() + "/data";
+    //库名称
+    const QString dataName = QApplication::applicationDirPath() + "/data/thread" + ".db";
+    db.setDatabaseName(dataName);
+    db.open();
+}
+
+void ChatWidget::disConnectBackupDB(QSqlDatabase& db)const
+{
+    db.close();
+    const QString fileName = QApplication::applicationDirPath() + "/data";
+    //库名称
+    const QString dataName = QApplication::applicationDirPath() + "/data/thread" + ".db";
+    db.removeDatabase(dataName);
 }
 
 
@@ -550,6 +597,11 @@ void ChatWidget::onUpdateFriendListUI() const
     }
 }
 
+void ChatWidget::onSignalNeedUpdateLastChat()
+{
+    ChatWidgetManager::Instance()->onSignalUpdateLastChat();
+}
+
 
 void ChatWidget::initFriendList() const
 {
@@ -588,7 +640,7 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     }
 
     //设置和这位好友的聊天记录totalcount
-    tmpWid->setTotalRecordCount(DataBaseDelegate::Instance()->GetChatRecordCountFromDB(userId));
+    tmpWid->setTotalRecordCount(DataBaseDelegate::Instance()->getChatRecordCountFromDB(userId));
     //获取聊天记录
     const std::vector<MyChatMessageInfo> vecMyChatMessageInfo = ChatWidgetManager::Instance()->getChatMessageAcordIdAtInit(
         lastChatInfo.m_strId);
