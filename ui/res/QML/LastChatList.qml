@@ -5,6 +5,7 @@ Rectangle
 {
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
     signal signalFriendListClicked(string strId);
+    signal signalNeedUpdateLastChat();
 
     property var idList:[];
 
@@ -14,7 +15,6 @@ Rectangle
         idList=[];
         for(var i=0;i<friendListModel.count;++i)
         {
-            console.log(i);
             idList.push(friendListModel.get(i).idx);
         }
         return idList;
@@ -39,6 +39,7 @@ Rectangle
         friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
     }
 
+    //插入元素到model中
     function insertElementToModel(strImagePath,strName,strId)
     {
         friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
@@ -53,7 +54,7 @@ Rectangle
             friendListView.currentItem.color="transparent";
         }
         friendListView.lastIndex=19999;
-        //friendListView.currentItem.color="grey";
+        friendListView.currentItem.color="grey";
         friendListView.lastItem=null;
     }
 
@@ -68,17 +69,18 @@ Rectangle
     {
         for(var i=0;i<friendListModel.count;++i)
         {
-            if(friendListModel.get(i).idx===strId)
+            //找到了这个id的人，并且他不在第一的位置，那可以更新，不然本来就在第一的位置，不更新
+            if(friendListModel.get(i).idx===strId&&0!==i)
             {
-                friendListView.itemAtIndex(friendListView.lastIndex).color="transparent";
-                friendListView.currentIndex=i;
-                friendListView.lastIndex=i;
-                friendListView.lastItem=friendListView.currentItem;
-                friendListView.itemAtIndex(i).color="grey";
-                //moveActiveFriend2Top(i);
                 friendListModel.move(i,0,1);
+                friendListView.lastItem.color="transparent";
+                friendListView.lastIndex=0;
+                friendListView.currentIndex=0;
+                friendListView.currentItem.color="grey";
+                friendListView.lastItem=friendListView.currentItem;
                 friendListModel.get(i).updateUsed=true;
                 friendListModel.get(i).updateUsed=false;
+                main.signalNeedUpdateLastChat();
                 break;
             }
         }
