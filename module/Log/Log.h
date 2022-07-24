@@ -5,9 +5,9 @@
 class Logcxx : public boost::serialization::singleton<Logcxx>
 {
 public:
-	enum Level
+	enum class Level
 	{
-		ERROR,
+		ERRORS,
 		WARN,
 		INFO,
 		DEBUG

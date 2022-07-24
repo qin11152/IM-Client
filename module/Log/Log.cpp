@@ -33,18 +33,18 @@ public:
 		log4cxx::LoggerPtr rootLogger(log4cxx::Logger::getRootLogger());
 
 
-		switch (level)
+		switch (static_cast<int>(level))
 		{
-		case Logcxx::ERROR:
+		case static_cast<int>(Logcxx::Level::ERRORS):
 			rootLogger->error(buff);
 			break;
-		case Logcxx::WARN:
+		case static_cast<int>(Logcxx::Level::WARN):
 			rootLogger->warn(buff);
 			break;
-		case Logcxx::DEBUG:
+		case static_cast<int>(Logcxx::Level::DEBUG):
 			rootLogger->debug(buff);
 			break;
-		case Logcxx::INFO:
+		case static_cast<int>(Logcxx::Level::INFO):
 			rootLogger->info(buff);
 			break;
 		default:
@@ -76,6 +76,10 @@ void Logcxx::Init(const char* prop)
 
 void Logcxx::Print(const char* file, long line, const char* funtion, Level level, const char* format, ...)
 {
+#ifdef _DEBUG
+	return;
+#endif
+
 	char buff[4096];
 	va_list ap;
 	va_start(ap, format);
