@@ -193,12 +193,16 @@ void ChatWidget::onSignalLastChatItemClicked(const QString strId)
 
 void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
 {
+    //左侧列表界面设为lastchat
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
     //如果上次聊天列表中没有这个人，还要添加到上次聊天列表中
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "judgeAndInsertToModel", Q_ARG(QVariant, name.mid(0, 1)),
                               Q_ARG(QVariant, name), Q_ARG(QVariant, strId));
 
-    //判断上次聊天页面中是否有这个id，没有要添加(没有的话，stackwidget中也是没有这个的，也要创建)
+    //lastchat 切换到这个id，并且改变颜色
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "switchToItemAndChangeColor", Q_ARG(QVariant, strId));
+
+    //右侧聊天界面stackwidget没有的话，也要创建
     if (!ui->chatStackedWidget->isWidCreate(atoi(strId.toStdString().c_str())))
     {
         auto tmp = MyLastChatFriendInfo();
@@ -597,7 +601,7 @@ void ChatWidget::onUpdateFriendListUI() const
     }
 }
 
-void ChatWidget::onSignalNeedUpdateLastChat()
+void ChatWidget::onSignalNeedUpdateLastChat()const
 {
     ChatWidgetManager::Instance()->onSignalUpdateLastChat();
 }

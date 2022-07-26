@@ -33,6 +33,23 @@ Rectangle
         friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
     }
 
+    //外部要求切换到某个id时，改变item的颜色，类似于点击了某个item
+    function switchToItemAndChangeColor(strId)
+    {
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            if(friendListModel.get(i).idx===strId)
+            {
+                friendListView.lastItem.color="transparent";
+                friendListView.lastIndex=i;
+                friendListView.currentIndex=i;
+                friendListView.currentItem.color="grey";
+                friendListView.lastItem=friendListView.currentItem;
+                break;
+            }
+        }
+    }
+
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId)
     {
@@ -54,7 +71,7 @@ Rectangle
             friendListView.currentItem.color="transparent";
         }
         friendListView.lastIndex=19999;
-        friendListView.currentItem.color="grey";
+        //friendListView.currentItem.color="grey";
         friendListView.lastItem=null;
     }
 

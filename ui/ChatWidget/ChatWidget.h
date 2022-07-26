@@ -97,7 +97,7 @@ private slots:
     //刷新界面中的好友列表
     void onUpdateFriendListUI()const;
     //QML界面通知上次聊天界面需要写入数据库
-    void onSignalNeedUpdateLastChat();
+    void onSignalNeedUpdateLastChat()const;
 
 private:
     void initUi();
