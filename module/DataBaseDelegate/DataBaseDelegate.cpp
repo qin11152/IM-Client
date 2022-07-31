@@ -28,7 +28,6 @@ void DataBaseDelegate::init()
     m_dataBase.setDatabaseName(dataName);
     if (!m_dataBase.open())
     {
-        //TODO 日志系统
         QMessageBox::warning(0, QObject::tr("Database Error"),
             m_dataBase.lastError().text());
         _LOG(Logcxx::Level::ERRORS, "open data base failed");
@@ -127,6 +126,24 @@ bool DataBaseDelegate::createFriendRequestTable()const
         return false;
     }
     return true;
+}
+
+QString DataBaseDelegate::queryLastChatRecord(const QString& id) const
+{
+    QString strRecord = "";
+    const QString str = "select message from chatrecord" + id + " order by pos limit 1;";
+    QSqlQuery query(m_dataBase);
+    if(!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "query last chat record failed");
+    }
+    QSqlRecord record = query.record();
+    while (query.next())
+    {
+        record = query.record();
+        strRecord = record.value("message").toString();
+    }
+    return strRecord;
 }
 
 //插入是插在最后边的，也就是最后一个插入的在表的最前边

@@ -30,6 +30,8 @@ public:
     bool createLastChatListTable()const;
     //创建好友请求的表
     bool createFriendRequestTable()const;
+    //根据id获取最后一条聊天记录
+    QString queryLastChatRecord(const QString& id)const;
     //只有id
     bool insertLastChat(const QString& id)const;
     //插入到上次聊天表中

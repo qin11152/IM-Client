@@ -31,6 +31,7 @@ Rectangle
             }
         }
         friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
+        main.signalNeedUpdateLastChat();
     }
 
     //外部要求切换到某个id时，改变item的颜色，类似于点击了某个item
@@ -40,7 +41,10 @@ Rectangle
         {
             if(friendListModel.get(i).idx===strId)
             {
-                friendListView.lastItem.color="transparent";
+                if(null!==friendListView.lastItem)
+                {
+                    friendListView.lastItem.color="transparent";
+                }
                 friendListView.lastIndex=i;
                 friendListView.currentIndex=i;
                 friendListView.currentItem.color="grey";
@@ -51,28 +55,26 @@ Rectangle
     }
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
-    function addElementToModel(strImagePath,strName,strId)
+    function addElementToModel(strImagePath,strName,strId,strLastMsg)
     {
-        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
+        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false,"lastMsg":strLastMsg});
+        main.signalNeedUpdateLastChat();
     }
 
     //插入元素到model中
     function insertElementToModel(strImagePath,strName,strId)
     {
         friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
+        main.signalNeedUpdateLastChat();
     }
 
     //初始化的时候谁都不是当前对象
     function initColor()
     {
-        //console.log("qqqqqq");
-        if(null!=friendListView.currentItem)
-        {
-            friendListView.currentItem.color="transparent";
-        }
-        friendListView.lastIndex=19999;
-        //friendListView.currentItem.color="grey";
-        friendListView.lastItem=null;
+        friendListView.currentIndex=0;
+        friendListView.currentItem.color="transparent";
+        friendListView.lastItem=friendListView.currentItem;
+        friendListView.currentIndex=19999;
     }
 
     //清空好友列表
@@ -130,6 +132,19 @@ Rectangle
             {
                 //friendListView.itemAtIndex(i).redRectangle.visible=false;
                 friendListModel.get(i).isRedShow=false;
+                break;
+            }
+        }
+    }
+
+    function updateLastChatMsg(strMsg,strId)
+    {
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            //找到了这个id的人，并且他不在第一的位置，那可以更新，不然本来就在第一的位置，不更新
+            if(friendListModel.get(i).idx===strId)
+            {
+                friendListModel.get(i).lastMsg=strMsg;
                 break;
             }
         }
@@ -261,6 +276,17 @@ Rectangle
                 }
             }
 
+            //上方横线
+            /*Rectangle
+            {
+                id:lineRect;
+                width: parent.width;
+                height: 1;
+                anchors.top: parent.top;
+                anchors.left: parent.left;
+                color: "black";
+            }*/
+
             //头像区域
             Rectangle
             {
@@ -316,7 +342,7 @@ Rectangle
                 width: 180;
                 height: 30;
                 anchors.top: nameLabel.top;
-                anchors.topMargin: 20;
+                anchors.topMargin: 30;
                 anchors.left: imageLabel.right;
                 anchors.leftMargin: 15;
                 Text
@@ -325,9 +351,9 @@ Rectangle
                     elide: Text.ElideRight;
                     anchors.fill: parent;
                     font.family: "msyh";
-                    font.pixelSize: 14;
+                    font.pixelSize: 12;
                     color: "black";
-                    text: name;
+                    text: lastMsg;
                 }
             }
         }

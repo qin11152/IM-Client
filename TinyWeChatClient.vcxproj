@@ -33,14 +33,14 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;xml;sql;network;gui;svg;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
+    <QtModules>core;xml;sql;network;gui;svg;multimedia;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtPathBinaries>bin</QtPathBinaries>
     <QtPathLibraryExecutables>bin</QtPathLibraryExecutables>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;xml;sql;network;gui;svg;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
+    <QtModules>core;xml;sql;network;gui;svg;multimedia;widgets;qml;quickwidgets;quick;concurrent;quickcontrols2</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">

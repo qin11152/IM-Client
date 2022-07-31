@@ -5,12 +5,20 @@
 #include <string>
 
 constexpr int PackageLength = 8;
+constexpr int TwinkleTime = 700;
+
 
 enum FriendListType
 {
     LastChatWidget,
     FriendListWidget,
     SearchFriendWidget
+};
+
+enum class TrayIconState
+{
+    Normal=0,
+    None
 };
 
 struct MyFriendInfo

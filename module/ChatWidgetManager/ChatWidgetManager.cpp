@@ -56,7 +56,7 @@ void ChatWidgetManager::setLastChatList(QStringList& m_lastChatList) const
     m_ptrDBOperateThread->setLastChatList(m_lastChatList);
 }
 
-void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::map<QString, int>& mapUserInfo,
+void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::unordered_map<QString, int>& mapUserInfo,
                                                std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
 {
     GetFriendListReplyData getFriendListReplyData(friendList.toStdString());

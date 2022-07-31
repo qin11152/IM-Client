@@ -6,6 +6,7 @@
         <file>image/tongxunlu.jpeg</file>
         <file>image/addfriend.jpeg</file>
         <file>image/chat.jpeg</file>
+        <file>image/icontrans.png</file>
     </qresource>
     <qresource prefix="/QML">
         <file>QML/chatMessage.qml</file>

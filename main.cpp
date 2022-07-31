@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Logcxx::get_mutable_instance().Init("./log4cxx.properties");
-    _LOG(Logcxx::INFO, "test");
+    //_LOG(Logcxx::Level::INFO, "test");
     LogInWidget w;
     w.show();
     /*ChatWidget* w = new ChatWidget("1");
