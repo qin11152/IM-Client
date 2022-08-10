@@ -291,15 +291,15 @@ Rectangle
             Rectangle
             {
                 id:imageLabel;
-                color: "#8033CCFF";
+                //color: "#8033CCFF";
                 width: 50;
                 height: 50;
-                radius: 25;
+                //radius: 25;
                 anchors.top: parent.top;
                 anchors.topMargin: 20;
                 anchors.left: parent.left;
                 anchors.leftMargin: 15;
-                Text
+                /*Text
                 {
                     id: imagePathText;
                     elide: Text.ElideRight;
@@ -309,6 +309,11 @@ Rectangle
                     color: "black";
                     text: imagePath;
                     anchors.centerIn: parent;
+                }*/
+                Image {
+                    id: profileImage
+                    anchors.fill: parent;
+                    source: imagePath;
                 }
             }
             //名字区域

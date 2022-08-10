@@ -163,7 +163,6 @@
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
     <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp" />
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
-    <ClCompile Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.cpp" />
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
     <ClCompile Include="TODO.cpp" />
@@ -215,7 +214,6 @@
     <ClInclude Include="protocol\JsonBaseData.h" />
     <ClInclude Include="protocol\LoginInJsonData\LoginInJsonData.h" />
     <ClInclude Include="protocol\LoginInReplyData\LoginInReplyData.h" />
-    <ClInclude Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.h" />
     <ClInclude Include="protocol\RegisterJsonData\RegisterJsonData.h" />
     <ClInclude Include="protocol\RegisterReplyData\RegisterReplyData.h" />
     <ClInclude Include="resource.h" />

@@ -48,11 +48,11 @@ bool ChatWidget::eventFilter(QObject* watched, QEvent* event)
     {
         if (event->type() == QMouseEvent::HoverEnter)
         {
-            //printf("enter\n");
+            printf("enter\n");
         }
         if (event->type() == QMouseEvent::HoverLeave)
         {
-            //printf("leave\n");
+            printf("leave\n");
         }
     }
     return QWidget::eventFilter(watched, event);
@@ -61,8 +61,17 @@ bool ChatWidget::eventFilter(QObject* watched, QEvent* event)
 //添加了新好友后，增加好友信息到lastchat中,调用的是插入方法
 void ChatWidget::onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo)
 {
+    QString imagePath = "";
+    if ("" == friendInfo.m_strImagePath)
+    {
+        imagePath = kDefaultProfileImage;
+    }
+    else 
+    {
+        imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+    }
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "insertElementToModel",
-                              Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strFirstChacter)),
+                              Q_ARG(QVariant, imagePath),
                               Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)),
                               Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)));
     auto tmp = MyLastChatFriendInfo();
@@ -171,7 +180,7 @@ void ChatWidget::onSignalSendMessage()
         //更新到界面中
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, m_strUserName),
                                   Q_ARG(QVariant, lineEditMessage), Q_ARG(QVariant, true),
-                                  Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, id));
+                                  Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, id),Q_ARG(QVariant,""));
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "updateLastChatMsg", Q_ARG(QVariant, lineEditMessage),Q_ARG(QVariant, id));
         //把消息更新到界面中
         ui->textEdit->clear();
@@ -201,6 +210,17 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
     //左侧列表界面设为lastchat
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
     //如果上次聊天列表中没有这个人，还要添加到上次聊天列表中
+    auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[strId]];
+    //获取上次聊天内容
+    QString imagePath = "";
+    if ("" == friendInfo.m_strImagePath)
+    {
+        imagePath = kDefaultProfileImage;
+    }
+    else
+    {
+        imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+    }
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "judgeAndInsertToModel", Q_ARG(QVariant, name.mid(0, 1)),
                               Q_ARG(QVariant, name), Q_ARG(QVariant, strId));
 
@@ -279,7 +299,7 @@ void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
     QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName)),
         Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strMessage)),
         Q_ARG(QVariant, false), Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName).mid(0, 1)),
-        Q_ARG(QVariant, atoi(singleChatData.m_strRecvUserId.c_str())));
+        Q_ARG(QVariant, atoi(singleChatData.m_strRecvUserId.c_str())),Q_ARG(QVariant,""));
     tmpWid->addTotalAndCurrentRecordCount(1);
 }
 
@@ -348,7 +368,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,""));
     }
 }
 
@@ -406,6 +426,7 @@ void ChatWidget::initUi()
     m_ptrTrayIcon->setToolTip(QString::fromLocal8Bit("微信"));
     m_ptrTrayIcon->setIcon(QIcon(":/LogInWidget/image/icon.png"));
     m_ptrTrayIcon->show();
+    m_ptrTrayIcon->installEventFilter(this);
 }
 
 void ChatWidget::initConnect()
@@ -539,8 +560,17 @@ void ChatWidget::initLastChatList()
     {
         auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[item.m_strId]];
         //获取上次聊天内容
+        QString imagePath = "";
+        if ("" == friendInfo.m_strImagePath)
+        {
+            imagePath = kDefaultProfileImage;
+        }
+        else
+        {
+            imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+        }
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "addElementToModel",
-                                  Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strFirstChacter)),
+                                  Q_ARG(QVariant, imagePath),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)),
             Q_ARG(QVariant, DataBaseDelegate::Instance()->queryLastChatRecord(item.m_strId)));
@@ -608,7 +638,16 @@ void ChatWidget::onUpdateFriendListUI() const
     //然后再按照顺序添加进去
     for(const auto& item:m_vecFriendInfoWithC)
     {
-        QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, ""),
+        QString imagePath = "";
+        if ("" == item.m_strImagePath)
+        {
+            imagePath = kDefaultProfileImage;
+        }
+        else
+        {
+            imagePath = QString::fromStdString(item.m_strImagePath);
+        }
+        QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, imagePath),
             Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
             Q_ARG(QVariant, QString::fromStdString(item.m_strId)),
             Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
@@ -669,7 +708,16 @@ void ChatWidget::initFriendList()
 {
     for (const auto& item : m_vecFriendInfoWithC)
     {
-        QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, ""),
+        QString imagePath = "";
+        if ("" == item.m_strImagePath)
+        {
+            imagePath = kDefaultProfileImage;
+        }
+        else
+        {
+            imagePath = QString::fromStdString(item.m_strImagePath);
+        }
+        QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, imagePath),
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strId)),
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
@@ -729,7 +777,7 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId),Q_ARG(QVariant,""));
         tmpWid->setInitial(item.m_strName.mid(0, 1));
     }
 

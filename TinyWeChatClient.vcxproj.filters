@@ -114,9 +114,6 @@
     <Filter Include="module\Log">
       <UniqueIdentifier>{67aaf439-7525-4cc1-b8a2-e167bb9c346d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="protocol\RefreshFriendList">
-      <UniqueIdentifier>{85f52ddb-c91d-47a5-8203-305fd5d08940}</UniqueIdentifier>
-    </Filter>
     <Filter Include="module\DatabaseOperateThread">
       <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
     </Filter>
@@ -205,9 +202,6 @@
     </ClCompile>
     <ClCompile Include="module\Log\Log.cpp">
       <Filter>module\Log</Filter>
-    </ClCompile>
-    <ClCompile Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.cpp">
-      <Filter>protocol\RefreshFriendList</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,9 +320,6 @@
     </ClInclude>
     <ClInclude Include="module\Log\Log.h">
       <Filter>module\Log</Filter>
-    </ClInclude>
-    <ClInclude Include="protocol\RefreshFriendList\RefreshFriendListRequestJsonData.h">
-      <Filter>protocol\RefreshFriendList</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

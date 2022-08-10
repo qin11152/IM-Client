@@ -148,7 +148,6 @@ void RegisterWidget::onMsgHandle(const QString& msg)
 
 void RegisterWidget::onSignalConnectedFailed()
 {
-    //TODO 提示网络连接失败
     QMessageBox::warning(this, QString::fromLocal8Bit("无法连接服务器"),
         QString::fromLocal8Bit("未能与服务器建立连接，请调整网络后重试"),
         QMessageBox::Ok);

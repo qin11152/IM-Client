@@ -6,7 +6,7 @@
 
 constexpr int PackageLength = 8;
 constexpr int TwinkleTime = 700;
-
+inline const char* kDefaultProfileImage = "qrc:///LogInWidget/image/lv.jpg";
 
 enum FriendListType
 {
@@ -32,10 +32,18 @@ public:
 struct MyFriendInfoWithFirstC
 {
 public:
-    std::string m_strName;
-    std::string m_strImagePath;
-    std::string m_strId;
-    std::string m_strFirstChacter;
+    std::string m_strName{""};
+    std::string m_strImagePath{""};
+    std::string m_strId{""};
+    std::string m_strFirstChacter{""};
+
+    /*MyFriendInfoWithFirstC(std::string name, std::string imagePath, std::string id, std::string firstC, )
+    {
+        m_strName = name;
+        m_strImagePath = imagePath;
+        m_strId = id;
+        m_strFirstChacter = firstC;
+    }*/
 };
 
 class FriendInfo
