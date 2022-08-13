@@ -33,6 +33,8 @@ public:
     //调用该函数像服务器发送消息
     void sendMessage(std::string message);
     void sendLength(LengthInfo& l, int length);
+    //调用该函数发送图片消息
+    void sendImageMsg(QString& strBase64Image,const QString& imageName);
     ~TCPConnect();
     //无需拷贝构造和赋值构造函数
     TCPConnect(const TCPConnect&) = delete;

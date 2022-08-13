@@ -8,7 +8,6 @@
 #include <QObject>
 #include <mutex>
 #include <memory>
-#include <map>
 #include <vector>
 
 class ChatWidgetManager : public QObject

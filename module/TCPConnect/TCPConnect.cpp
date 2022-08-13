@@ -1,5 +1,9 @@
 #include "TCPConnect.h"
-#include "../../protocol/HeartPackageJsonData/HeartPackageJsonData.h"
+#include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
+#include "protocol/ImageMsgJsonData/ImageMsgJsonData.h"
+#include "module/PublicDataManager/PublicDataManager.h"
+#include "module/Log/Log.h"
+#include <QUuid>
 
 using SingletonPtr = std::shared_ptr<TCPConnect>;
 //初始化静态成员函数
@@ -51,6 +55,38 @@ void TCPConnect::sendLength(LengthInfo& l, int length)
     }
     int cnt = m_ptrTcpSocket->write((const char*)(&l), length);
     //printf("write %d byte\n", cnt);
+}
+
+//发送base64编码的图片方法
+void TCPConnect::sendImageMsg(QString& strBase64Image, const QString& ImageName)
+{
+    //生成uuid表明这个图片的唯一性
+    QString strUUID = QUuid::createUuid().toString();
+    //如果图片信息的长度大于需要分片的长度，则分片发送
+    int iNeedSlice = strBase64Image.length() / kSegmentLength;
+    //如果不是整除，需要的片数+1
+    if (0 != strBase64Image.length() % kSegmentLength)
+    {
+        iNeedSlice++;
+    }
+    for (int i = 0; i < iNeedSlice; ++i)
+    {
+        ImageMsgJsonData tmpImageData;
+        tmpImageData.m_strId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
+        tmpImageData.m_strImageName = Imagename.toStdString();
+        tmpImageData.m_strUUID = strUUID.toStdString();
+        tmpImageData.m_iCurIndex = i + 1;
+        tmpImageData.m_iSumIndex = iNeedSlice;
+        if (i == iNeedSlice - 1)
+        {
+            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, strBase64Image.length() - i * 9000).toStdString();
+        }
+        else
+        {
+            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, 9000).toStdString();
+        }
+        sendMessage(tmpImageData.generateJson());
+    }
 }
 
 void TCPConnect::connectHost()

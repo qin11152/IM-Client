@@ -117,6 +117,12 @@
     <Filter Include="module\DatabaseOperateThread">
       <UniqueIdentifier>{c859dd96-4f41-47bf-aa36-627cf87890eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protocol\ImageMsgJsonData">
+      <UniqueIdentifier>{f052f5cc-6fe3-4f5b-8272-d60153033b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\PublicDataManager">
+      <UniqueIdentifier>{dacf30e2-3f73-4996-8c78-77c0fac9abcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -202,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="module\Log\Log.cpp">
       <Filter>module\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\ImageMsgJsonData\ImageMsgJsonData.cpp">
+      <Filter>protocol\ImageMsgJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +332,12 @@
     </ClInclude>
     <ClInclude Include="module\Log\Log.h">
       <Filter>module\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\ImageMsgJsonData\ImageMsgJsonData.h">
+      <Filter>protocol\ImageMsgJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\PublicDataManager\PublicDataManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
 #include "module/Log/Log.h"
+#include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "ui_ChatWidget.h"
@@ -26,6 +27,8 @@ ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
     ui = new Ui::ChatWidget();
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+    PublicDataManager::get_mutable_instance().setMyId(id);
+    PublicDataManager::get_mutable_instance().setMyName(name);
     ChatWidgetManager::Instance()->setUserId(m_strUserId);
     ChatWidgetManager::Instance()->setUserName(m_strUserName);
     ChatWidgetManager::Instance()->initDBOperateThread();
@@ -210,7 +213,9 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
     //左侧列表界面设为lastchat
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
     //如果上次聊天列表中没有这个人，还要添加到上次聊天列表中
-    auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[strId]];
+    //auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[strId]];
+    auto friendVec = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec();
+    auto friendInfo = friendVec[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[strId]];
     //获取上次聊天内容
     QString imagePath = "";
     if ("" == friendInfo.m_strImagePath)
@@ -339,7 +344,7 @@ void ChatWidget::onSignalAddFriendBtn()
 
 void ChatWidget::onSignalRecvFriendList(const QString& friendList)
 {
-    ChatWidgetManager::Instance()->onSignalRecvFriendList(friendList, m_mapUserInfo, m_vecFriendInfoWithC);
+    ChatWidgetManager::Instance()->onSignalRecvFriendList(friendList, PublicDataManager::get_mutable_instance().getMyUsetInfoMap(), PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec());
 }
 
 void ChatWidget::onSignalUpdateChatMessage(const QString id)
@@ -512,7 +517,7 @@ void ChatWidget::initData()
 
     //这时候主线程对备份数据库操作完成了，子线程可以连接了
     ChatWidgetManager::Instance()->initDBThreadConnect();
-    ChatWidgetManager::Instance()->getLastChatListFromDB(m_vecLastChatFriend);
+    ChatWidgetManager::Instance()->getLastChatListFromDB(PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec());
     ChatWidgetManager::Instance()->notifyServerOnline();
     //ChatWidgetManager::Instance()->getFriendList();
 }
@@ -556,9 +561,9 @@ void ChatWidget::disConnectBackupDB(QSqlDatabase& db)const
 //收到服务器返回的好友列表后初始化lastchat
 void ChatWidget::initLastChatList()
 {
-    for (auto& item : m_vecLastChatFriend)
+    for (auto& item : PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
     {
-        auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[item.m_strId]];
+        auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[QString::fromStdString(item.m_strId)]];
         //获取上次聊天内容
         QString imagePath = "";
         if ("" == friendInfo.m_strImagePath)
@@ -573,7 +578,7 @@ void ChatWidget::initLastChatList()
                                   Q_ARG(QVariant, imagePath),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)),
-            Q_ARG(QVariant, DataBaseDelegate::Instance()->queryLastChatRecord(item.m_strId)));
+            Q_ARG(QVariant, DataBaseDelegate::Instance()->queryLastChatRecord(QString::fromStdString(item.m_strId))));
         //QMetaObject::invokeMethod(m_ptrLastChatQMLRoot,"setLastChatRecord",Q_ARG(QVariant,DataBaseDelegate::Instance()->queryLastChatRecord(item.m_strId)));
     }
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "initColor", Qt::DirectConnection);
@@ -581,7 +586,7 @@ void ChatWidget::initLastChatList()
 
 void ChatWidget::initAllChatWid()
 {
-    for (auto& item : m_vecLastChatFriend)
+    for (auto& item : PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec())
     {
         initChatMessageWidAcordId(item);
     }
@@ -619,12 +624,12 @@ void ChatWidget::onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo)
 
 void ChatWidget::onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo)
 {
-    m_vecFriendInfoWithC.push_back(friendInfo);
+    PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().push_back(friendInfo);
 }
 
 void ChatWidget::onSortFriendList()
 {
-    std::ranges::sort(m_vecFriendInfoWithC.begin(), m_vecFriendInfoWithC.end(), [&](const MyFriendInfoWithFirstC& l, const MyFriendInfoWithFirstC& r)
+    std::ranges::sort(PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().begin(), PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().end(), [&](const MyFriendInfoWithFirstC& l, const MyFriendInfoWithFirstC& r)
     {
             return l.m_strFirstChacter < r.m_strFirstChacter;
     });
@@ -636,7 +641,7 @@ void ChatWidget::onUpdateFriendListUI() const
     QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "clearModel");
 
     //然后再按照顺序添加进去
-    for(const auto& item:m_vecFriendInfoWithC)
+    for(const auto& item: PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
     {
         QString imagePath = "";
         if ("" == item.m_strImagePath)
@@ -706,7 +711,7 @@ void ChatWidget::onSignalIconTwinkleTimerout()
 
 void ChatWidget::initFriendList()
 {
-    for (const auto& item : m_vecFriendInfoWithC)
+    for (const auto& item : PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
     {
         QString imagePath = "";
         if ("" == item.m_strImagePath)
@@ -737,8 +742,8 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
 
 
     //根据从数据库的到的id去找详细信息
-    int posInVecWithC = m_mapUserInfo[lastChatInfo.m_strId];
-    auto friendInfo = m_vecFriendInfoWithC[posInVecWithC];
+    int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
+    auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
 
     QString strId = QString::fromStdString(friendInfo.m_strId);
     QString strName = QString::fromStdString(friendInfo.m_strName);

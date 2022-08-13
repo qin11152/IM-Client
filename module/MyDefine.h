@@ -7,6 +7,7 @@
 constexpr int PackageLength = 8;
 constexpr int TwinkleTime = 700;
 inline const char* kDefaultProfileImage = "qrc:///LogInWidget/image/lv.jpg";
+constexpr int kSegmentLength = 9000;
 
 enum FriendListType
 {
@@ -78,7 +79,8 @@ enum class MessageType
     RefreshFriendListRequest,
     RefreshFriendListResponse,
     GetFriendList,
-    GetFriendListReply
+    GetFriendListReply,
+    ImageMsg,
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
