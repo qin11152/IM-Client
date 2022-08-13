@@ -123,19 +123,26 @@ Rectangle
                 id: pic;
                 width: 40;
                 height: 40;
-                radius: 20;
-                color: "#8033CCFF";
+                //radius: 20;
+                //color: "#8033CCFF";
                 anchors.left: parent.left;
                 anchors.leftMargin: (model.isSelf===true)?main.width-60:10;
                 anchors.top: parent.top;
                 anchors.topMargin: 5;
-                Text
+                Image
+                {
+                    id: profileImage
+                    anchors.fill: parent;
+                    source: imagePath;
+                }
+
+                /*Text
                 {
                     font.family: "msyh";
                     font.pixelSize: 30;
                     text: model.shouzimu
                     anchors.centerIn: parent;
-                }
+                }*/
             }
 
             Text

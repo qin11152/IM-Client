@@ -12,7 +12,6 @@
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
 #include <QSqlDatabase>
-#include <unordered_map>
 
 namespace Ui 
 { 

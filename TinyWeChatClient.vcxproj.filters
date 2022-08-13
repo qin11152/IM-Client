@@ -209,11 +209,11 @@
     <ClCompile Include="module\Log\Log.cpp">
       <Filter>module\Log</Filter>
     </ClCompile>
-    <ClCompile Include="protocol\ImageMsgJsonData\ImageMsgJsonData.cpp">
+    <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp">
       <Filter>protocol\ImageMsgJsonData</Filter>
     </ClCompile>
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>module\PublicDataManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,11 +333,11 @@
     <ClInclude Include="module\Log\Log.h">
       <Filter>module\Log</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\ImageMsgJsonData\ImageMsgJsonData.h">
+    <ClInclude Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.h">
       <Filter>protocol\ImageMsgJsonData</Filter>
     </ClInclude>
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>module\PublicDataManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

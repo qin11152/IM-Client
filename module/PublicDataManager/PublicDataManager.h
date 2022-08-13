@@ -16,6 +16,9 @@ public:
     QString getMyId()const;
     QString getMyName()const;
 
+    //根据id获取用户信息
+    MyFriendInfoWithFirstC getFriendInfoAcordId(const QString& id);
+
     void setMyFriendInfoWithC(const std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
     void setMyLastChatInfo(const std::vector<MyLastChatFriendInfo>& vecLastChatFriend);
     void setUserInfo(const std::unordered_map<QString, int>& mapUserInfo);

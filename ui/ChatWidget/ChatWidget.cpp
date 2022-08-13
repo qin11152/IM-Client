@@ -373,7 +373,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,/*QString::fromStdString(PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id).m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
     }
 }
 
@@ -432,6 +432,10 @@ void ChatWidget::initUi()
     m_ptrTrayIcon->setIcon(QIcon(":/LogInWidget/image/icon.png"));
     m_ptrTrayIcon->show();
     m_ptrTrayIcon->installEventFilter(this);
+    connect(m_ptrTrayIcon, &QSystemTrayIcon::activated, this, [=](QSystemTrayIcon::ActivationReason reason)
+    {
+            qDebug() << "qqqqqqqqq";
+    });
 }
 
 void ChatWidget::initConnect()
@@ -742,11 +746,11 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
 
 
     //根据从数据库的到的id去找详细信息
-    int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
-    auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
+    const int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
+    const auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
 
-    QString strId = QString::fromStdString(friendInfo.m_strId);
-    QString strName = QString::fromStdString(friendInfo.m_strName);
+    const QString strId = QString::fromStdString(friendInfo.m_strId);
+    const QString strName = QString::fromStdString(friendInfo.m_strName);
 
     //保存一下这个页面所对应的好友的id
     tmpWid->SetUserId(strId);
@@ -782,7 +786,7 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     {
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId),Q_ARG(QVariant,/*QString::fromStdString(friendInfo.m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
         tmpWid->setInitial(item.m_strName.mid(0, 1));
     }
 

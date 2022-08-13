@@ -161,7 +161,7 @@
     <ClCompile Include="protocol\GetFriendListJsonData\GetFriendListJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListReplyData\GetFriendListReplyData.cpp" />
     <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp" />
-    <ClCompile Include="protocol\ImageMsgJsonData\ImageMsgJsonData.cpp" />
+    <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp" />
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
     <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp" />
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="protocol\GetFriendListJsonData\GetFriendListJsonData.h" />
     <ClInclude Include="protocol\GetFriendListReplyData\GetFriendListReplyData.h" />
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h" />
-    <ClInclude Include="protocol\ImageMsgJsonData\ImageMsgJsonData.h" />
+    <ClInclude Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.h" />
     <ClInclude Include="protocol\InitialRequestJsonData\InitialRequestJsonData.h" />
     <ClInclude Include="protocol\JsonBaseData.h" />
     <ClInclude Include="protocol\LoginInJsonData\LoginInJsonData.h" />

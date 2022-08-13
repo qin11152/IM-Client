@@ -25,6 +25,11 @@ QString PublicDataManager::getMyName() const
     return m_strName;
 }
 
+MyFriendInfoWithFirstC PublicDataManager::getFriendInfoAcordId(const QString& id)
+{
+    return m_vecFriendInfoWithC[m_mapUserInfo[id]];
+}
+
 void PublicDataManager::setMyFriendInfoWithC(const std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC)
 {
     m_vecFriendInfoWithC = vecFriendInfoWithC;

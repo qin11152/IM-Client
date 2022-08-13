@@ -1,6 +1,6 @@
 #include "TCPConnect.h"
 #include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
-#include "protocol/ImageMsgJsonData/ImageMsgJsonData.h"
+#include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/Log/Log.h"
 #include <QUuid>
@@ -71,7 +71,7 @@ void TCPConnect::sendImageMsg(QString& strBase64Image, const QString& ImageName)
     }
     for (int i = 0; i < iNeedSlice; ++i)
     {
-        ImageMsgJsonData tmpImageData;
+        ProfileImageMsgJsonData tmpImageData;
         tmpImageData.m_strId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
         tmpImageData.m_strImageName = ImageName.toStdString();
         tmpImageData.m_strUUID = strUUID.toStdString();

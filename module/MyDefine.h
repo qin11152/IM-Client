@@ -34,7 +34,7 @@ struct MyFriendInfoWithFirstC
 {
 public:
     std::string m_strName{""};
-    std::string m_strImagePath{""};
+    std::string m_strImagePath{ "qrc:///LogInWidget/image/lv.jpg" };
     std::string m_strId{""};
     std::string m_strFirstChacter{""};
 
@@ -80,7 +80,7 @@ enum class MessageType
     RefreshFriendListResponse,
     GetFriendList,
     GetFriendListReply,
-    ImageMsg,
+    ProfileImageMsg,
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
