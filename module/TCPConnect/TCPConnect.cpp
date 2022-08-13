@@ -73,7 +73,7 @@ void TCPConnect::sendImageMsg(QString& strBase64Image, const QString& ImageName)
     {
         ImageMsgJsonData tmpImageData;
         tmpImageData.m_strId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
-        tmpImageData.m_strImageName = Imagename.toStdString();
+        tmpImageData.m_strImageName = ImageName.toStdString();
         tmpImageData.m_strUUID = strUUID.toStdString();
         tmpImageData.m_iCurIndex = i + 1;
         tmpImageData.m_iSumIndex = iNeedSlice;
