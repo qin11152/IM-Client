@@ -255,7 +255,7 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>
 
 bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos)const
 {
-    const QString str = "select * from chatrecord" + id + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(beginPos+queryCount);
+    const QString str = "select * from chatrecord" + id + " order by pos desc limit "+QString::number(beginPos)+", " + QString::number(queryCount);
     QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {

@@ -123,6 +123,9 @@
     <Filter Include="module\PublicDataManager">
       <UniqueIdentifier>{dacf30e2-3f73-4996-8c78-77c0fac9abcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ui\ProfileImagePreview">
+      <UniqueIdentifier>{4404b047-3175-4f99-a2af-e8c885154285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -209,11 +212,14 @@
     <ClCompile Include="module\Log\Log.cpp">
       <Filter>module\Log</Filter>
     </ClCompile>
-    <ClCompile Include="protocol\ImageMsgJsonData\ImageMsgJsonData.cpp">
+    <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp">
       <Filter>protocol\ImageMsgJsonData</Filter>
     </ClCompile>
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>module\PublicDataManager</Filter>
+    </ClCompile>
+    <ClCompile Include="module\ProfileImagePreview\ProfileImagePreview.cpp">
+      <Filter>ui\ProfileImagePreview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +242,9 @@
     </QtUic>
     <QtUic Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.ui">
       <Filter>module\MyChatMessageQuickWid</Filter>
+    </QtUic>
+    <QtUic Include="module\ProfileImagePreview\ProfileImagePreview.ui">
+      <Filter>ui\ProfileImagePreview</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +280,9 @@
     </QtMoc>
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h">
       <Filter>module\DatabaseOperateThread</Filter>
+    </QtMoc>
+    <QtMoc Include="module\ProfileImagePreview\ProfileImagePreview.h">
+      <Filter>ui\ProfileImagePreview</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -333,11 +345,11 @@
     <ClInclude Include="module\Log\Log.h">
       <Filter>module\Log</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\ImageMsgJsonData\ImageMsgJsonData.h">
+    <ClInclude Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.h">
       <Filter>protocol\ImageMsgJsonData</Filter>
     </ClInclude>
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>module\PublicDataManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -168,6 +168,7 @@ void RegisterWidget::initUi()
     ui->label->setVisible(false);
     ui->label_2->setVisible(false);
     setWindowFlag(Qt::WindowStaysOnTopHint);
+    setWindowTitle("зЂВс");
 }
 
 RegisterWidget::~RegisterWidget()

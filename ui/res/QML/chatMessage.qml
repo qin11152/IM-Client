@@ -10,6 +10,7 @@ Rectangle
     property string strIdx:"";
 
     signal signalUpdateChatModel(string id);
+    signal signalProfileImageClicked(string id);
 
     //设置id
     function setId(strId)
@@ -21,6 +22,18 @@ Rectangle
     function scrollToEnd()
     {
         messageView.positionViewAtEnd();
+    }
+
+    function scrollToPosition(iPosition)
+    {
+        if(messageView.count-iPosition<10)
+        {
+            messageView.positionViewAtIndex(messageView.count-iPosition,ListView.Visible);
+        }
+        else
+        {
+            messageView.positionViewAtIndex(10,ListView.Visible);
+        }
     }
 
     function insertMessageModel(strName,strMessage,bIsSelf,strShou,strId,strImagePath)
@@ -74,8 +87,8 @@ Rectangle
         {
             if(needUpddateModel===true)
             {
-                console.log(strIdx);
                 main.signalUpdateChatModel(strIdx);
+                needUpddateModel=false;
             }
         }
         //每次y坐标变化了就看看是不是到了顶部了
@@ -123,19 +136,28 @@ Rectangle
                 id: pic;
                 width: 40;
                 height: 40;
-                radius: 20;
-                color: "#8033CCFF";
+                //radius: 20;
+                //color: "#8033CCFF";
                 anchors.left: parent.left;
                 anchors.leftMargin: (model.isSelf===true)?main.width-60:10;
                 anchors.top: parent.top;
                 anchors.topMargin: 5;
-                Text
+                Image
                 {
-                    font.family: "msyh";
-                    font.pixelSize: 30;
-                    text: model.shouzimu
-                    anchors.centerIn: parent;
+                    id: profileImage
+                    anchors.fill: parent;
+                    source: imagePath;
                 }
+
+                MouseArea
+                {
+                    anchors.fill: parent;
+                    onClicked:
+                    {
+                        main.signalProfileImageClicked(model.id);
+                    }
+                }
+
             }
 
             Text

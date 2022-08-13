@@ -183,7 +183,7 @@ void ChatWidget::onSignalSendMessage()
         //更新到界面中
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, m_strUserName),
                                   Q_ARG(QVariant, lineEditMessage), Q_ARG(QVariant, true),
-                                  Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, id),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, m_strUserId),Q_ARG(QVariant,""));
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "updateLastChatMsg", Q_ARG(QVariant, lineEditMessage),Q_ARG(QVariant, id));
         //把消息更新到界面中
         ui->textEdit->clear();
@@ -342,6 +342,11 @@ void ChatWidget::onSignalAddFriendBtn()
     ui->chatStackedWidget->SwitchToChatPage(AddFriendWid);
 }
 
+void ChatWidget::onSignalSideBarProfileImageBtn()
+{
+    onSignalChatWidOpenProfileImagePreview(m_strUserId.toInt());
+}
+
 void ChatWidget::onSignalRecvFriendList(const QString& friendList)
 {
     ChatWidgetManager::Instance()->onSignalRecvFriendList(friendList, PublicDataManager::get_mutable_instance().getMyUsetInfoMap(), PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec());
@@ -353,6 +358,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     const auto tmpWid = dynamic_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
     //然后根据wid得到现在还有多少记录可以加载
     //用总的记录减去已加载的数量
+    int curCount = tmpWid->getRecordCount();
     int canLoadCount = tmpWid->getTotalRecordCount() - tmpWid->getRecordCount();
     //聊天记录如果没有就不更新，有且大于10条就更新10 条
     canLoadCount = canLoadCount > 10 ? 10 : canLoadCount;
@@ -371,16 +377,26 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     //把聊天记录加载进去
     for (const auto& item : vecMyChatMessageInfo)
     {
+        QString strId = "";
+        if (item.m_bIsSelf)
+        {
+            strId = m_strUserId;
+        }
+        else
+        {
+            strId = id;
+        }
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,/*QString::fromStdString(PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id).m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
     }
+    QMetaObject::invokeMethod(tmpWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, curCount));
 }
 
 void ChatWidget::initUi()
 {
     //设置图标
-    setWindowIcon(QIcon(":/LogInWidget/image/weixin.ico"));
+    //setWindowIcon(QIcon(":/LogInWidget/image/weixin.ico"));
     setWindowTitle(QString::fromLocal8Bit("q微信"));
 
     //改变聊天输入框的颜色
@@ -432,6 +448,8 @@ void ChatWidget::initUi()
     m_ptrTrayIcon->setIcon(QIcon(":/LogInWidget/image/icon.png"));
     m_ptrTrayIcon->show();
     m_ptrTrayIcon->installEventFilter(this);
+    m_ptrProfileImagePreviewWid = new ProfileImagePreview();
+    setProfileImage(kDefaultProfileImageWidget);
 }
 
 void ChatWidget::initConnect()
@@ -484,6 +502,8 @@ void ChatWidget::initConnect()
     connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);
     connect(ui->friendListPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalFriendListBtn);
     connect(ui->addFriendPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalAddFriendBtn);
+    connect(ui->profileImageButton, &QPushButton::clicked, this, &ChatWidget::onSignalSideBarProfileImageBtn);
+
     connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
 }
 
@@ -664,6 +684,11 @@ void ChatWidget::onSignalNeedUpdateLastChat()const
     ChatWidgetManager::Instance()->onSignalUpdateLastChat();
 }
 
+void ChatWidget::onSignalChatWidProfileImageClicked(const QString id)
+{
+    onSignalChatWidOpenProfileImagePreview(id.toInt());
+}
+
 //底部栏闪烁槽函数
 //parm[IN] bNeed true:闪烁，false:不闪烁
 void ChatWidget::onSignalTrayIconTwinkle(const bool bNeed)
@@ -708,6 +733,26 @@ void ChatWidget::onSignalIconTwinkleTimerout()
     m_ptrIconTwinkleTimer->start();
 }
 
+void ChatWidget::setProfileImage(const QString& strImage)
+{
+    QImage image(strImage);
+    QPixmap pixmap=QPixmap::fromImage(image);
+    QPixmap fitpixmap = pixmap.scaled(50, 50, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    ui->profileImageButton->setIcon(QIcon(fitpixmap));
+    ui->profileImageButton->setIconSize(QSize(50, 50));
+    ui->profileImageButton->setFlat(true);
+}
+
+void ChatWidget::onSignalChatWidOpenProfileImagePreview(const int id)
+{
+    if (nullptr == m_ptrProfileImagePreviewWid)
+    {
+        m_ptrProfileImagePreviewWid = new ProfileImagePreview();
+    }
+    m_ptrProfileImagePreviewWid->setImagePath(kDefaultProfileImageWidget, id);
+    m_ptrProfileImagePreviewWid->show();
+}
+
 
 void ChatWidget::initFriendList()
 {
@@ -742,11 +787,11 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
 
 
     //根据从数据库的到的id去找详细信息
-    int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
-    auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
+    const int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
+    const auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
 
-    QString strId = QString::fromStdString(friendInfo.m_strId);
-    QString strName = QString::fromStdString(friendInfo.m_strName);
+    const QString strId = QString::fromStdString(friendInfo.m_strId);
+    const QString strName = QString::fromStdString(friendInfo.m_strName);
 
     //保存一下这个页面所对应的好友的id
     tmpWid->SetUserId(strId);
@@ -757,6 +802,8 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     //聊天界面上划要求更新聊天界面内的内容
     connect(tmpWid->getRootObj(), SIGNAL(signalUpdateChatModel(QString)), this,
             SLOT(onSignalUpdateChatMessage(QString)));
+    //聊天界面中点击了头像
+    connect(tmpWid->getRootObj(), SIGNAL(signalProfileImageClicked(QString)), this, SLOT(onSignalChatWidProfileImageClicked(QString)));
 
     //数据库中没有和这个人的聊天记录，就先创建一个表
     if (!DataBaseDelegate::Instance()->isTableExist("chatrecord" + strId))
@@ -780,9 +827,18 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     //把聊天记录加载进去
     for (const auto& item : vecMyChatMessageInfo)
     {
+        QString strId = "";
+        if(item.m_bIsSelf)
+        {
+            strId = m_strUserId;
+        }
+        else
+        {
+            strId = lastChatInfo.m_strId;
+        }
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId),Q_ARG(QVariant,/*QString::fromStdString(friendInfo.m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
         tmpWid->setInitial(item.m_strName.mid(0, 1));
     }
 

@@ -78,7 +78,6 @@ private:
     QTimer* m_ptrTimerRecvHeartPackage{ nullptr };
     char m_msgBuffer[kMsgBufferLength]{ 0 };                      //用于存储消息的缓冲区
     int m_endPosOfBuffer = 0;                                     //消息缓冲区的尾部
-    bool m_bIsConn{ false };                   //标识是否和服务器建立了连接
 
     //与服务器建立连接的函数
     void connectHost();

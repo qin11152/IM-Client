@@ -7,12 +7,12 @@
 
 #include "../../module/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/MyDefine.h"
+#include "ProfileImagePreview/ProfileImagePreview.h"
 #include <QWidget>
 #include <QTimer>
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
 #include <QSqlDatabase>
-#include <unordered_map>
 
 namespace Ui 
 { 
@@ -38,13 +38,12 @@ public:
     ChatWidget& operator=(const ChatWidget& l) = delete;
     MyChatMessageQuickWid* getChatMsgWidAcordId(QString id);
 
+    //像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
+    void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
+
 protected slots:
     //事件过滤器的重载
     bool eventFilter(QObject* watched, QEvent* event)override;
-
-public:
-    //像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
-    void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
 
 private slots:
     //manager处理好友列表完毕
@@ -76,7 +75,7 @@ private slots:
     void onSignalRecvFriendList(const QString& friendList);
     //有好友同意了好友请求
     void onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
-    //像好友列表中添加好友
+    //向好友列表中添加好友
     void onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo);
 
     //点击侧边栏会话按钮
@@ -85,6 +84,8 @@ private slots:
     void onSignalFriendListBtn();
     //点击侧边栏添加好友按钮
     void onSignalAddFriendBtn();
+    //点击侧边栏头像按钮
+    void onSignalSideBarProfileImageBtn();
 
     //和某个好友的聊天页面要求刷新界面，也就是要求增加聊天记录
     void onSignalUpdateChatMessage(const QString id);
@@ -99,11 +100,18 @@ private slots:
     void onUpdateFriendListUI()const;
     //QML界面通知上次聊天界面需要写入数据库
     void onSignalNeedUpdateLastChat()const;
+    //QML页面通知打开头像预览
+    void onSignalChatWidProfileImageClicked(const QString id);
 
     //需要底部栏闪烁槽函数
     void onSignalTrayIconTwinkle(const bool bNeed);
     //闪烁定时器到时
     void onSignalIconTwinkleTimerout();
+
+    //修改侧边栏中头像图片
+    void setProfileImage(const QString& strImage);
+    //要求打开头像预览界面
+    void onSignalChatWidOpenProfileImagePreview(const int id);
 
 private:
     void initUi();
@@ -130,6 +138,7 @@ private:
     QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
     QTimer* m_ptrIconTwinkleTimer{ nullptr };   //托盘图标闪烁用定时器
     TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
+    ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
 
     //这个用户的id
     QString m_strUserId{""};
