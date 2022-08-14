@@ -217,9 +217,12 @@
     </ClCompile>
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp">
       <Filter>module\PublicDataManager</Filter>
+<<<<<<< HEAD
     </ClCompile>
     <ClCompile Include="module\ProfileImagePreview\ProfileImagePreview.cpp">
       <Filter>ui\ProfileImagePreview</Filter>
+=======
+>>>>>>> d80ae6e18d107ab25b77d0a8daf1e0a8b1e4ca31
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
