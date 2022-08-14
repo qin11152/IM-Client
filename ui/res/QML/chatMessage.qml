@@ -143,7 +143,6 @@ Rectangle
                 anchors.top: parent.top;
                 anchors.topMargin: 5;
                 Image
-<<<<<<< HEAD
                 {
                     id: profileImage
                     anchors.fill: parent;
@@ -158,22 +157,6 @@ Rectangle
                         main.signalProfileImageClicked(model.id);
                     }
                 }
-
-=======
-                {
-                    id: profileImage
-                    anchors.fill: parent;
-                    source: imagePath;
-                }
-
-                /*Text
-                {
-                    font.family: "msyh";
-                    font.pixelSize: 30;
-                    text: model.shouzimu
-                    anchors.centerIn: parent;
-                }*/
->>>>>>> d80ae6e18d107ab25b77d0a8daf1e0a8b1e4ca31
             }
 
             Text

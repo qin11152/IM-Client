@@ -388,7 +388,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
         }
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, id),Q_ARG(QVariant,/*QString::fromStdString(PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id).m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId),Q_ARG(QVariant,/*QString::fromStdString(PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id).m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
     }
     QMetaObject::invokeMethod(tmpWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, curCount));
 }
@@ -448,6 +448,8 @@ void ChatWidget::initUi()
     m_ptrTrayIcon->setIcon(QIcon(":/LogInWidget/image/icon.png"));
     m_ptrTrayIcon->show();
     m_ptrTrayIcon->installEventFilter(this);
+
+    setProfileImage(kDefaultProfileImageWidget);
 }
 
 void ChatWidget::initConnect()
@@ -836,7 +838,7 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
         }
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, lastChatInfo.m_strId),Q_ARG(QVariant,""));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId),Q_ARG(QVariant,QString(kDefaultProfileImage)));
         tmpWid->setInitial(item.m_strName.mid(0, 1));
     }
 
