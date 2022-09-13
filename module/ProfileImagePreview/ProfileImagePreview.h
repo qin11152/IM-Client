@@ -27,6 +27,9 @@ protected:
     void showEvent(QShowEvent* event) override;
 
 private:
+    void initConnect();
+
+private:
     int m_iPageId{ -1 };
     QString m_strPagePath{ "" };
     Ui::ProfileImagePreviewClass ui;
