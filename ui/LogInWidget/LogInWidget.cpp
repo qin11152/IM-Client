@@ -1,7 +1,8 @@
 #include "LogInWidget.h"
-#include "../../module/TCPConnect/TCPConnect.h"
+//#include "../../module/TCPConnect/TCPConnect.h"
 #include "../../protocol/LoginInJsonData/LoginInJsonData.h"
 #include "protocol/LoginInReplyData/LoginInReplyData.h"
+#include "module/TCPThread/TCPThread.h"
 #include "ChatWidget/ChatWidget.h"
 #include <QMessageBox>
 
@@ -12,11 +13,17 @@ LogInWidget::LogInWidget(QWidget* parent)
     m_ptrRegisterWidget = new RegisterWidget();
     ui.passwordLineEdit->setAttribute(Qt::WA_InputMethodEnabled, false);
     setWindowTitle(QString::fromLocal8Bit("q微信"));
+    TCPThread::get_mutable_instance().start();
     initConnection();
 }
 
 LogInWidget::~LogInWidget()
 {
+    if(!isLogin)
+    {
+        TCPThread::get_mutable_instance().quit();
+    }
+    Sleep(100);
     //析构掉注册页面指针
     if (m_ptrRegisterWidget != nullptr)
     {
@@ -54,7 +61,8 @@ void LogInWidget::onLogInButtonClicked()
     m_strUserId = ui.userNameLineEdit->text();
     loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
     std::string message = loginJsonData.generateJson();
-    TCPConnect::Instance()->sendMessage(message);
+    //TCPConnect::Instance()->sendMessage(message);
+    emit signalLoginWidSendMsg(message);
 }
 
 void LogInWidget::onRegisterFinished()
@@ -71,13 +79,13 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
     if (loginReplyData.m_bLoginInResult)
     {
         //打开对应的聊天界面
-        auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
-        ptrChatWidget->
-            //该界面隐藏,一会后析构
-            hide();
+        //auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
+        //该界面隐藏,一会后析构
+        //isLogin = true;
+        hide();
         close();
         //聊天界面显示
-        ptrChatWidget->show();
+        //ptrChatWidget->show();
     }
     else
     //登陆失败处理
@@ -93,6 +101,7 @@ void LogInWidget::initConnection()
     connect(ui.logInButton, &QPushButton::clicked, this, &LogInWidget::onLogInButtonClicked);
     connect(ui.registerButton, &QPushButton::clicked, this, &LogInWidget::onRegisterButtonClicked);
     connect(m_ptrRegisterWidget, &RegisterWidget::signalShowLoginInWidget, this, &LogInWidget::onRegisterFinished);
-    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvLoginResultMessage, this,
-            &LogInWidget::onSignalLoginResultRecv);
+    //connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv);
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv, Qt::QueuedConnection);
+    connect(this, &LogInWidget::signalLoginWidSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage, Qt::QueuedConnection);
 }

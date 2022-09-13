@@ -27,6 +27,9 @@ public:
 private:
     QString m_strId{ "" };
     QString m_strName{ "" };
+    QString m_strImagePath{ "" };
+    //自己头像的时间戳
+    QString m_strMyImageTimeStamp{ "" };
 
     //存储好友信息，带首字母，这个是从服务器得到的，有具体信息
     std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;

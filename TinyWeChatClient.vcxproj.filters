@@ -94,6 +94,12 @@
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp">
       <Filter>protocol\ProfileImageMsgJsonData</Filter>
     </ClCompile>
+    <ClCompile Include="module\TCPThread\TCPThread.cpp">
+      <Filter>module\TCPThread</Filter>
+    </ClCompile>
+    <ClCompile Include="module\TCPThread\MyTCPSocket.cpp">
+      <Filter>module\TCPThread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -198,6 +204,12 @@
     </QtMoc>
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h">
       <Filter>module\DataBaseDelegate</Filter>
+    </QtMoc>
+    <QtMoc Include="module\TCPThread\TCPThread.h">
+      <Filter>module\TCPThread</Filter>
+    </QtMoc>
+    <QtMoc Include="module\TCPThread\MyTCPSocket.h">
+      <Filter>module\TCPThread</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +363,9 @@
     </Filter>
     <Filter Include="protocol\ProfileImageMsgJsonData">
       <UniqueIdentifier>{ee082a88-fa3e-4666-b2e0-49811afa52f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\TCPThread">
+      <UniqueIdentifier>{a13579a3-d2ba-4e2a-9de9-9b06a8e5bb1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

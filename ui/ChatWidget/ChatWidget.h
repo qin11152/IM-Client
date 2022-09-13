@@ -7,6 +7,7 @@
 
 #include "../../module/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/MyDefine.h"
+#include  "module/TCPThread/TCPThread.h"
 #include "ProfileImagePreview/ProfileImagePreview.h"
 #include <QWidget>
 #include <QTimer>
@@ -40,6 +41,12 @@ public:
 
     //像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
     void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
+
+signals:
+    //发送消息信号
+    void signalSendMsg(std::string msg);
+    //发送图片消息信号
+    void signalSendImageMsg(QString& strBase64Image, const QString& imageName);
 
 protected slots:
     //事件过滤器的重载
@@ -139,6 +146,7 @@ private:
     QTimer* m_ptrIconTwinkleTimer{ nullptr };   //托盘图标闪烁用定时器
     TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
     ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
+    TCPThread* m_ptrTCPThread{ nullptr };       //TCP线程
 
     //这个用户的id
     QString m_strUserId{""};

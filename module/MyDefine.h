@@ -10,6 +10,12 @@ inline const char* kDefaultProfileImage = "qrc:///LogInWidget/image/lv.jpg";
 inline const char* kDefaultProfileImageWidget = ":LogInWidget/image/lv.jpg";
 constexpr int kSegmentLength = 9000;
 
+constexpr int kHeartTimeoutTime = 300 * 1000;
+constexpr int kKeepAlivePackageTime = 299 * 1000;
+constexpr int kMsgBufferLength = 1024 * 10;
+
+Q_DECLARE_METATYPE(std::string);
+
 enum FriendListType
 {
     LastChatWidget,
@@ -38,6 +44,8 @@ public:
     std::string m_strImagePath{ "qrc:///LogInWidget/image/lv.jpg" };
     std::string m_strId{""};
     std::string m_strFirstChacter{""};
+    //头像的时间戳，如果不同说明修改过了，就重新获取一下头像
+    std::string m_strImageTimestamp{ "" };
 
     /*MyFriendInfoWithFirstC(std::string name, std::string imagePath, std::string id, std::string firstC, )
     {
@@ -53,6 +61,7 @@ class FriendInfo
 public:
     std::string m_strFriendId{ "" };      //好友的id
     std::string m_strFriendName{ "" };     //好友的昵称
+    std::string m_strFriendImageTimeStamp{ "" };    //好友头像时间戳
 };
 
 enum class DatabaseOperateType

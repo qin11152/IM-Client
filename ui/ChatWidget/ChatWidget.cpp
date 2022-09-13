@@ -1,6 +1,6 @@
 ﻿#include "../../ui/ChatWidget/ChatWidget.h"
 #include "MytextEdit/MyTextEdit.h"
-#include "TCPConnect/TCPConnect.h"
+//#include "TCPConnect/TCPConnect.h"
 #include "MyLineEdit/MyLineEdit.h"
 #include "DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicFunction/PublicFunction.h"
@@ -156,7 +156,8 @@ void ChatWidget::onSignalSendMessage()
         singleChatData.m_strSendName = m_strUserName.toStdString();
         std::string sendMessage = singleChatData.generateJson();
         //printf("%s\n",sendMessage.c_str());
-        TCPConnect::Instance()->sendMessage(sendMessage);
+        //TCPConnect::Instance()->sendMessage(sendMessage);
+        emit signalSendMsg(sendMessage);
 
         auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
         //查看数据库中这个表是否存在
@@ -478,16 +479,16 @@ void ChatWidget::initConnect()
     //托盘闪烁定时器到时槽函数
     connect(m_ptrIconTwinkleTimer, &QTimer::timeout, this, &ChatWidget::onSignalIconTwinkleTimerout);
 
-    //收到好友消息列表后，由manager去处理数据
-    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this,
-            &ChatWidget::onSignalRecvFriendList);
-
     //收到服务端好友列表响应,既要初始化好友，也要初始化上次聊天列表 
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalGetFriendListFinished, this,
             &ChatWidget::initFriendList);
     //收到服务端好友同意请求后
     connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalBecomeFriend, this,
         &ChatWidget::onSignalBecomeFriend);
+#if 0
+    //收到好友消息列表后，由manager去处理数据
+    connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this,
+        &ChatWidget::onSignalRecvFriendList);
     //收到服务端好友聊天消息
     connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvSingleChatMessage, this,
         &ChatWidget::onSignalSingleChatMessage);
@@ -497,6 +498,23 @@ void ChatWidget::initConnect()
     //收到服务端同意好友添加
     connect(TCPConnect::Instance().get(), &TCPConnect::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
         &ChatWidgetManager::onSignalBecomeFriend);
+#endif
+    //收到好友消息列表后，由manager去处理数据
+    connect(m_ptrTCPThread, &TCPThread::signalRecvFriendListMessage, this,
+        &ChatWidget::onSignalRecvFriendList,Qt::QueuedConnection);
+    //收到服务端好友聊天消息
+    connect(m_ptrTCPThread, &TCPThread::signalRecvSingleChatMessage, this,
+        &ChatWidget::onSignalSingleChatMessage, Qt::QueuedConnection);
+    //收到服务端好友添加请求
+    connect(m_ptrTCPThread, &TCPThread::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
+        &ChatWidgetManager::onSignalNewFriendRequest, Qt::QueuedConnection);
+    //收到服务端同意好友添加
+    connect(m_ptrTCPThread, &TCPThread::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
+        &ChatWidgetManager::onSignalBecomeFriend, Qt::QueuedConnection);
+    //子线程发送消息
+    connect(this, &ChatWidget::signalSendMsg, m_ptrTCPThread, &TCPThread::sendMessage, Qt::QueuedConnection);
+    //子线程发送图片消息
+    connect(this, &ChatWidget::signalSendImageMsg, m_ptrTCPThread, &TCPThread::sendImageMsg, Qt::QueuedConnection);
 
     //侧边栏三个按钮的响应
     connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);
@@ -516,6 +534,8 @@ void ChatWidget::initConnect()
 //************************************
 void ChatWidget::initData()
 {
+    m_ptrTCPThread = new TCPThread();
+
     m_ptrFriendListWidget = new QQuickWidget();
     m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrLastChatWidget = new QQuickWidget();
@@ -827,18 +847,18 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     //把聊天记录加载进去
     for (const auto& item : vecMyChatMessageInfo)
     {
-        QString strId = "";
+        QString strIds = "";
         if(item.m_bIsSelf)
         {
-            strId = m_strUserId;
+            strIds = m_strUserId;
         }
         else
         {
-            strId = lastChatInfo.m_strId;
+            strIds = lastChatInfo.m_strId;
         }
         QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId),Q_ARG(QVariant,QString(kDefaultProfileImage)));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strIds),Q_ARG(QVariant,QString(kDefaultProfileImage)));
         tmpWid->setInitial(item.m_strName.mid(0, 1));
     }
 
@@ -885,4 +905,12 @@ ChatWidget::~ChatWidget()
     }
     delete m_ptrIconTwinkleTimer;
     m_ptrNullMessageTimer = nullptr;
+    if (m_ptrProfileImagePreviewWid)
+    {
+        m_ptrProfileImagePreviewWid->hide();
+        delete m_ptrProfileImagePreviewWid;
+    }
+    m_ptrProfileImagePreviewWid = nullptr;
+    delete m_ptrTCPThread;
+    m_ptrTCPThread = nullptr;
 }

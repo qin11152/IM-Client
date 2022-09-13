@@ -16,6 +16,9 @@ public:
     LogInWidget(const LogInWidget&) = delete;
     LogInWidget& operator=(const LogInWidget&) = delete;
 
+signals:
+    void signalLoginWidSendMsg(std::string msg);
+
 private slots:
     //注册按钮点击响应事件
     void onRegisterButtonClicked();
@@ -30,8 +33,11 @@ private:
     Ui::LogInWidget ui;
     RegisterWidget* m_ptrRegisterWidget{nullptr}; //注册界面指针
     QString m_strUserId{""}; //存储登录用户id
+    //TCPThread* m_ptrTCPThread{ nullptr };
+    bool isLogin{ false };
 
     void initUi();
     //初始化信号槽的连接
     void initConnection();
 };
+

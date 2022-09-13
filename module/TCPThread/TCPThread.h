@@ -1,13 +1,11 @@
 #pragma once
 
-#include <QObject>
-#include <QTcpSocket>
-#include <mutex>
-#include <memory>
+#include <QThread>
 #include <QTimer>
 #include "../module/MyDefine.h"
-
-//const char* MyHostIp = "43.142.158.231";//"39.104.207.91"
+#include "module/TCPThread/MyTCPSocket.h"
+#include "boost/noncopyable.hpp"
+#include <boost/serialization/singleton.hpp>
 
 struct LengthInfo
 {
@@ -15,23 +13,27 @@ struct LengthInfo
     LengthInfo(int l) :length(l) {}
 };
 
-class TCPConnect : public QObject
+class ChatWidget;
+
+class TCPThread  : public QThread, public boost::noncopyable, public boost::serialization::singleton<TCPThread>
 {
     Q_OBJECT
 
 public:
-    using SingletonPtr = std::shared_ptr<TCPConnect>;
-    //单例模式，唯一获取其指针的方法，使用了智能指针，自动内存管理
-    static SingletonPtr Instance();
+    TCPThread(QObject *parent=nullptr);
+    ~TCPThread();
+
+    //反初始化
+    void unInit();
+    //重写run函数
+    void run()override;
+
+public slots:
     //调用该函数像服务器发送消息
     void sendMessage(std::string message);
-    void sendLength(LengthInfo& l, int length);
     //调用该函数发送图片消息
-    void sendImageMsg(QString& strBase64Image,const QString& imageName);
-    ~TCPConnect();
-    //无需拷贝构造和赋值构造函数
-    TCPConnect(const TCPConnect&) = delete;
-    TCPConnect& operator=(const TCPConnect&) = delete;
+    void sendImageMsg(QString& strBase64Image, const QString& imageName);
+
 signals:
     //收到注册结果的消息
     void signalRecvRegisterMessage(const QString& msg);
@@ -49,6 +51,10 @@ signals:
     void signalConnectFailed();
     //超过一定时间还没收到服务器的心跳包
     void signalTimeoutNoHeartPackage();
+    //发送消息信号
+    void signalSendMsg(std::string msg);
+    //发送图片消息信号
+    void signalSendImageMsg(QString& strBase64Image, const QString& imageName);
 
 private slots:
     //超过时间还没收到回复
@@ -61,9 +67,7 @@ private slots:
     void onHandleMessage(const std::string& recvMessage);
 
 private:
-    QTcpSocket* m_ptrTcpSocket{ nullptr };      //socket指针
-    static std::mutex m_mutex;                  //锁，保证线程安全
-    static SingletonPtr m_SingletonPtr;         //该类的智能指针
+    MyTCPSocket* m_ptrTcpSocket{ nullptr };      //socket指针
     int m_iPort{ 9999 };                        //服务器端口
     QString m_strIp{ "43.142.158.231" };         //服务器ip
     bool m_bIsConnected{ false };                   //是否第一次发送消息
@@ -76,12 +80,8 @@ private:
     void connectHost();
     //初始化槽函数连接
     void initConnect();
-    //与服务器断开连接
-    void disConnect();
     //初始化函数
     void init();
-    //构造函数，私有
-    TCPConnect(QObject* parent=nullptr);
+    //与服务器断开连接
+    void disConnect();
 };
-
-

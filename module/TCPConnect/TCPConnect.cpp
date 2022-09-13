@@ -4,6 +4,7 @@
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/Log/Log.h"
 #include <QUuid>
+#include <QApplication>
 
 using SingletonPtr = std::shared_ptr<TCPConnect>;
 //初始化静态成员函数
@@ -86,6 +87,8 @@ void TCPConnect::sendImageMsg(QString& strBase64Image, const QString& ImageName)
             tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, 9000).toStdString();
         }
         sendMessage(tmpImageData.generateJson());
+        //处理一下事件循环中的事件
+        qApp->processEvents();
     }
 }
 

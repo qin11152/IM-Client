@@ -155,6 +155,8 @@
     <ClCompile Include="module\PublicFunction\PinYInTable.h" />
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
     <ClCompile Include="module\TCPConnect\TCPConnect.cpp" />
+    <ClCompile Include="module\TCPThread\MyTCPSocket.cpp" />
+    <ClCompile Include="module\TCPThread\TCPThread.cpp" />
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp" />
     <ClCompile Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.cpp" />
     <ClCompile Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.cpp" />
@@ -209,6 +211,8 @@
     <QtMoc Include="module\ProfileImagePreview\ProfileImagePreview.h" />
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h" />
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
+    <QtMoc Include="module\TCPThread\TCPThread.h" />
+    <QtMoc Include="module\TCPThread\MyTCPSocket.h" />
     <ClInclude Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.h" />
     <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h" />
     <ClInclude Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.h" />
