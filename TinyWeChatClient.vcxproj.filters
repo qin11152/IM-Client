@@ -58,9 +58,6 @@
     <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp">
       <Filter>protocol\ChatMessageJsonData</Filter>
     </ClCompile>
-    <ClCompile Include="module\TCPConnect\TCPConnect.cpp">
-      <Filter>module\TCPConnect</Filter>
-    </ClCompile>
     <ClCompile Include="module\ProfileImagePreview\ProfileImagePreview.cpp">
       <Filter>module\ProfileImagePreview</Filter>
     </ClCompile>
@@ -190,9 +187,6 @@
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
       <Filter>ui\RegisterWidget</Filter>
     </QtMoc>
-    <QtMoc Include="module\TCPConnect\TCPConnect.h">
-      <Filter>module\TCPConnect</Filter>
-    </QtMoc>
     <QtMoc Include="module\ProfileImagePreview\ProfileImagePreview.h">
       <Filter>module\ProfileImagePreview</Filter>
     </QtMoc>
@@ -288,9 +282,6 @@
     </Filter>
     <Filter Include="ui\res\Image">
       <UniqueIdentifier>{af377c9c-5fe9-45e8-851d-8d9daf4d6bb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\TCPConnect">
-      <UniqueIdentifier>{40f30a53-592c-4254-937e-01a09f6be183}</UniqueIdentifier>
     </Filter>
     <Filter Include="module\MyLineEdit">
       <UniqueIdentifier>{a2e4b354-71d9-4047-a575-e719f0d9dd78}</UniqueIdentifier>

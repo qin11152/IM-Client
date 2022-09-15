@@ -21,6 +21,8 @@ public:
 
 signals:
     void signalShowLoginInWidget();
+    //发送消息信号
+    void signalSendMsg(std::string msg);
 
 protected:
     void closeEvent(QCloseEvent* event)override;

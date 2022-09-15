@@ -154,7 +154,6 @@
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
     <ClCompile Include="module\PublicFunction\PinYInTable.h" />
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
-    <ClCompile Include="module\TCPConnect\TCPConnect.cpp" />
     <ClCompile Include="module\TCPThread\MyTCPSocket.cpp" />
     <ClCompile Include="module\TCPThread\TCPThread.cpp" />
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp" />
@@ -190,9 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="module\TCPConnect\TCPConnect.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="ui\res\image\icon.png" />
