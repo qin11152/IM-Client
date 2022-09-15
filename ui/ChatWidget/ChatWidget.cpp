@@ -3,6 +3,7 @@
 //#include "TCPConnect/TCPConnect.h"
 #include "MyLineEdit/MyLineEdit.h"
 #include "DataBaseDelegate/DataBaseDelegate.h"
+#include  "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
 #include "module/Log/Log.h"
@@ -38,6 +39,7 @@ ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
     initUi();
     ChatWidgetManager::Instance()->setQMLRootPtr(m_ptrAddFriendQMLRoot, m_ptrFriendListQMLRoot, m_ptrLastChatQMLRoot);
     initConnect();
+    ChatWidgetManager::Instance()->notifyServerOnline();
 }
 
 MyChatMessageQuickWid* ChatWidget::getChatMsgWidAcordId(QString id)
@@ -500,21 +502,21 @@ void ChatWidget::initConnect()
         &ChatWidgetManager::onSignalBecomeFriend);
 #endif
     //收到好友消息列表后，由manager去处理数据
-    connect(m_ptrTCPThread, &TCPThread::signalRecvFriendListMessage, this,
-        &ChatWidget::onSignalRecvFriendList,Qt::QueuedConnection);
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvFriendListMessage, this,
+        &ChatWidget::onSignalRecvFriendList, Qt::QueuedConnection);
     //收到服务端好友聊天消息
-    connect(m_ptrTCPThread, &TCPThread::signalRecvSingleChatMessage, this,
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvSingleChatMessage, this,
         &ChatWidget::onSignalSingleChatMessage, Qt::QueuedConnection);
     //收到服务端好友添加请求
-    connect(m_ptrTCPThread, &TCPThread::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
         &ChatWidgetManager::onSignalNewFriendRequest, Qt::QueuedConnection);
     //收到服务端同意好友添加
-    connect(m_ptrTCPThread, &TCPThread::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
         &ChatWidgetManager::onSignalBecomeFriend, Qt::QueuedConnection);
     //子线程发送消息
-    connect(this, &ChatWidget::signalSendMsg, m_ptrTCPThread, &TCPThread::sendMessage, Qt::QueuedConnection);
+    connect(this, &ChatWidget::signalSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage, Qt::QueuedConnection);
     //子线程发送图片消息
-    connect(this, &ChatWidget::signalSendImageMsg, m_ptrTCPThread, &TCPThread::sendImageMsg, Qt::QueuedConnection);
+    connect(this, &ChatWidget::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
 
     //侧边栏三个按钮的响应
     connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);
@@ -534,8 +536,6 @@ void ChatWidget::initConnect()
 //************************************
 void ChatWidget::initData()
 {
-    m_ptrTCPThread = new TCPThread();
-
     m_ptrFriendListWidget = new QQuickWidget();
     m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrLastChatWidget = new QQuickWidget();
@@ -558,7 +558,6 @@ void ChatWidget::initData()
     //这时候主线程对备份数据库操作完成了，子线程可以连接了
     ChatWidgetManager::Instance()->initDBThreadConnect();
     ChatWidgetManager::Instance()->getLastChatListFromDB(PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec());
-    ChatWidgetManager::Instance()->notifyServerOnline();
     //ChatWidgetManager::Instance()->getFriendList();
 }
 
@@ -911,6 +910,6 @@ ChatWidget::~ChatWidget()
         delete m_ptrProfileImagePreviewWid;
     }
     m_ptrProfileImagePreviewWid = nullptr;
-    delete m_ptrTCPThread;
-    m_ptrTCPThread = nullptr;
+
+    TCPThread::get_mutable_instance().quit();
 }

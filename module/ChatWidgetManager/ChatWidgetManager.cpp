@@ -1,6 +1,7 @@
 #include "ChatWidgetManager.h"
 #include "module/PublicFunction/PublicFunction.h"
-#include "module/TCPConnect/TCPConnect.h"
+//#include "module/TCPConnect/TCPConnect.h"
+#include "module/TCPThread/TCPThread.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
@@ -85,7 +86,8 @@ void ChatWidgetManager::onSignalAgreeAddFriend(QString friendName)
     addFriendResponseJsonData.m_strFriendId = strId.toStdString();
     addFriendResponseJsonData.m_bResult = true;
     //发送给服务器
-    TCPConnect::Instance()->sendMessage(addFriendResponseJsonData.generateJson());
+    //TCPConnect::Instance()->sendMessage(addFriendResponseJsonData.generateJson());
+    emit signalSendMsg(addFriendResponseJsonData.generateJson());
     //修改注册表中的状态为true
     DataBaseDelegate::Instance()->updateFriendRequestStateAcordName(friendName);
 }
@@ -97,7 +99,8 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
     addFriendRequestData.m_strVerifyMsg = verifyMsg.toStdString();
     addFriendRequestData.m_strMyId = m_strUserId.toStdString();
 
-    TCPConnect::Instance()->sendMessage(addFriendRequestData.generateJson());
+    //TCPConnect::Instance()->sendMessage(addFriendRequestData.generateJson());
+    emit signalSendMsg(addFriendRequestData.generateJson());
 }
 
 void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
@@ -171,6 +174,7 @@ ChatWidgetManager::ChatWidgetManager(QObject* parent)
     : QObject(parent)
 {
     m_ptrDBOperateThread = new DatabaseOperateThread(nullptr);
+    initConnect();
 }
 
 ChatWidgetManager::~ChatWidgetManager()
@@ -198,8 +202,9 @@ void ChatWidgetManager::getFriendList()
 {
     GetFriendListJsonData getFriendListData;
     getFriendListData.m_strUserId = m_strUserId.toStdString();
-    const auto tmpStr = getFriendListData.generateJson();
-    TCPConnect::Instance()->sendMessage(tmpStr);
+    auto tmpStr = getFriendListData.generateJson();
+    //TCPConnect::Instance()->sendMessage(tmpStr);
+    emit signalSendMsg(tmpStr);
 }
 
 //向服务器发送初始化消息，告知此id在线
@@ -208,7 +213,8 @@ void ChatWidgetManager::notifyServerOnline()
     InitialRequestJsonData initialJosnData;
     initialJosnData.m_strId = m_strUserId.toStdString();
     std::string sendMessage = initialJosnData.generateJson();
-    TCPConnect::Instance()->sendMessage(sendMessage);
+    emit signalSendMsg(sendMessage);
+    //TCPConnect::Instance()->sendMessage(sendMessage);
 }
 
 void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
@@ -235,3 +241,10 @@ std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QS
     DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
     return vecMyChatMessageInfo;
 }
+
+void ChatWidgetManager::initConnect()
+{
+    connect(this, &ChatWidgetManager::signalSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage,Qt::QueuedConnection);
+    connect(this, &ChatWidgetManager::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
+}
+

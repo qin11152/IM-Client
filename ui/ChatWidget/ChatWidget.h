@@ -7,7 +7,6 @@
 
 #include "../../module/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/MyDefine.h"
-#include  "module/TCPThread/TCPThread.h"
 #include "ProfileImagePreview/ProfileImagePreview.h"
 #include <QWidget>
 #include <QTimer>
@@ -146,7 +145,6 @@ private:
     QTimer* m_ptrIconTwinkleTimer{ nullptr };   //托盘图标闪烁用定时器
     TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
     ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
-    TCPThread* m_ptrTCPThread{ nullptr };       //TCP线程
 
     //这个用户的id
     QString m_strUserId{""};

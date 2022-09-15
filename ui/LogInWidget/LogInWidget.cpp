@@ -79,13 +79,13 @@ void LogInWidget::onSignalLoginResultRecv(const QString& msg)
     if (loginReplyData.m_bLoginInResult)
     {
         //打开对应的聊天界面
-        //auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
+        auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
         //该界面隐藏,一会后析构
-        //isLogin = true;
+        isLogin = true;
         hide();
         close();
         //聊天界面显示
-        //ptrChatWidget->show();
+        ptrChatWidget->show();
     }
     else
     //登陆失败处理

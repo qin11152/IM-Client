@@ -11,6 +11,7 @@ void GetFriendListReplyData::parse(const std::string& message)
     {
         return;
     }
+#if 0
     ptree m_ptree;
     ptree m_friendIdList;
     ptree m_friendNamelist;
@@ -36,8 +37,21 @@ void GetFriendListReplyData::parse(const std::string& message)
         auto item = iter->second;
         m_vecFriendList[i].m_strFriendName = item.get<std::string>("");
     }
-
-    return;
+#endif
+    ptree ptrees;
+    ptree listNode;
+    std::stringstream sstream(message);
+    read_json(sstream, ptrees);
+    listNode = ptrees.get_child("friendInfoList");
+    for(auto iter=listNode.begin();iter!=listNode.end();++iter)
+    {
+        auto item = iter->second;
+        FriendInfo tmp;
+        tmp.m_strFriendId = item.get<std::string>("id");
+        tmp.m_strFriendName = item.get<std::string>("name");
+        tmp.m_strFriendImageTimeStamp = item.get<std::string>("imageTimeStamp");
+        m_vecFriendList.push_back(tmp);
+    }
 }
 
 //这里不需要构建，就不实现了，只需把jsonstring要解析出来就好，对应的服务端只需要构建就好
