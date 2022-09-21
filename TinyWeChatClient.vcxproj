@@ -146,11 +146,6 @@
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
     <ClCompile Include="module\Log\Log.cpp" />
-    <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
-    <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp" />
-    <ClCompile Include="module\MyStackedWidget\MyStackedWidget.cpp" />
-    <ClCompile Include="module\MytextEdit\MyTextEdit.cpp" />
-    <ClCompile Include="module\ProfileImagePreview\ProfileImagePreview.cpp" />
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
     <ClCompile Include="module\PublicFunction\PinYInTable.h" />
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
@@ -180,9 +175,6 @@
     <QtMoc Include="ui\LogInWidget\LogInWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.ui" />
-    <QtUic Include="module\MyLineEdit\MyLineEdit.ui" />
-    <QtUic Include="module\ProfileImagePreview\ProfileImagePreview.ui" />
     <QtUic Include="ui\ChatWidget\ChatWidget.ui" />
     <QtUic Include="ui\LogInWidget\LogInWidget.ui" />
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui" />
@@ -195,16 +187,11 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="module\MytextEdit\MyTextEdit.h" />
-    <QtMoc Include="module\MyLineEdit\MyLineEdit.h" />
-    <QtMoc Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />
     <ClInclude Include="module\Log\Log.h" />
     <ClInclude Include="module\MyDefine.h" />
-    <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h" />
-    <QtMoc Include="module\ProfileImagePreview\ProfileImagePreview.h" />
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h" />
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
     <QtMoc Include="module\TCPThread\TCPThread.h" />

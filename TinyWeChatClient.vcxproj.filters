@@ -7,12 +7,6 @@
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp">
       <Filter>ui\ChatWidget</Filter>
     </ClCompile>
-    <ClCompile Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp">
-      <Filter>module\MyChatMessageQuickWid</Filter>
-    </ClCompile>
-    <ClCompile Include="module\MyLineEdit\MyLineEdit.cpp">
-      <Filter>module\MyLineEdit</Filter>
-    </ClCompile>
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp">
       <Filter>module\ChatWidgetManager</Filter>
     </ClCompile>
@@ -58,17 +52,8 @@
     <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp">
       <Filter>protocol\ChatMessageJsonData</Filter>
     </ClCompile>
-    <ClCompile Include="module\ProfileImagePreview\ProfileImagePreview.cpp">
-      <Filter>module\ProfileImagePreview</Filter>
-    </ClCompile>
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp">
       <Filter>module\PublicFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="module\MyStackedWidget\MyStackedWidget.cpp">
-      <Filter>module\MyStackedWidget</Filter>
-    </ClCompile>
-    <ClCompile Include="module\MytextEdit\MyTextEdit.cpp">
-      <Filter>module\MytextEdit</Filter>
     </ClCompile>
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp">
       <Filter>module\DataBaseDelegate</Filter>
@@ -169,12 +154,6 @@
     <QtMoc Include="ui\ChatWidget\ChatWidget.h">
       <Filter>ui\ChatWidget</Filter>
     </QtMoc>
-    <QtMoc Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.h">
-      <Filter>module\MyChatMessageQuickWid</Filter>
-    </QtMoc>
-    <QtMoc Include="module\MyLineEdit\MyLineEdit.h">
-      <Filter>module\MyLineEdit</Filter>
-    </QtMoc>
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h">
       <Filter>module\ChatWidgetManager</Filter>
     </QtMoc>
@@ -186,15 +165,6 @@
     </QtMoc>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
       <Filter>ui\RegisterWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="module\ProfileImagePreview\ProfileImagePreview.h">
-      <Filter>module\ProfileImagePreview</Filter>
-    </QtMoc>
-    <QtMoc Include="module\MyStackedWidget\MyStackedWidget.h">
-      <Filter>module\MyStackedWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="module\MytextEdit\MyTextEdit.h">
-      <Filter>module\MytextEdit</Filter>
     </QtMoc>
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h">
       <Filter>module\DataBaseDelegate</Filter>
@@ -210,20 +180,11 @@
     <QtUic Include="ui\ChatWidget\ChatWidget.ui">
       <Filter>ui\ChatWidget</Filter>
     </QtUic>
-    <QtUic Include="module\MyChatMessageQuickWid\MyChatMessageQuickWid.ui">
-      <Filter>module\MyChatMessageQuickWid</Filter>
-    </QtUic>
-    <QtUic Include="module\MyLineEdit\MyLineEdit.ui">
-      <Filter>module\MyLineEdit</Filter>
-    </QtUic>
     <QtUic Include="ui\LogInWidget\LogInWidget.ui">
       <Filter>ui\LogInWidget</Filter>
     </QtUic>
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui">
       <Filter>ui\RegisterWidget</Filter>
-    </QtUic>
-    <QtUic Include="module\ProfileImagePreview\ProfileImagePreview.ui">
-      <Filter>module\ProfileImagePreview</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -283,20 +244,11 @@
     <Filter Include="ui\res\Image">
       <UniqueIdentifier>{af377c9c-5fe9-45e8-851d-8d9daf4d6bb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="module\MyLineEdit">
-      <UniqueIdentifier>{a2e4b354-71d9-4047-a575-e719f0d9dd78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\MyChatMessageQuickWid">
-      <UniqueIdentifier>{6a3527d0-bf3f-45f8-842e-879c12425ea6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="module\ChatWidgetManager">
       <UniqueIdentifier>{37fa5816-c57b-4a89-9ecc-527a871857bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="module\LastChatInfoUpdateThread">
       <UniqueIdentifier>{77fdaa77-9a30-4582-bd90-178fbe02972d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\ProfileImagePreview">
-      <UniqueIdentifier>{5ea12ab8-84e2-4f48-97b0-3984f288d154}</UniqueIdentifier>
     </Filter>
     <Filter Include="protocol\RegisterJsonData">
       <UniqueIdentifier>{f69b77db-b3f6-42ba-943b-2d87f8597ee7}</UniqueIdentifier>
@@ -333,12 +285,6 @@
     </Filter>
     <Filter Include="module\PublicFunction">
       <UniqueIdentifier>{829c7dfd-176a-436f-a91d-35e8622fa510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\MyStackedWidget">
-      <UniqueIdentifier>{2893ac11-d1e0-4009-848e-35a7fd3560e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module\MytextEdit">
-      <UniqueIdentifier>{d22943d1-2a2f-4930-b937-d743d0e22700}</UniqueIdentifier>
     </Filter>
     <Filter Include="module\DataBaseDelegate">
       <UniqueIdentifier>{38b6b170-7021-435d-9d5b-89f110bfcafa}</UniqueIdentifier>
