@@ -128,6 +128,18 @@ bool DataBaseDelegate::createFriendRequestTable()const
     return true;
 }
 
+bool DataBaseDelegate::createFriendImageTimeStampTable(QString& id) const
+{
+    QString str = "create table friendImageTimeStamp" + id + " (id int, timestamp varchar(30), imagePath varchar(30))";
+    QSqlQuery query(m_dataBase);
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "create friend image timestamp table failed");
+        return false;
+    }
+    return true;
+}
+
 QString DataBaseDelegate::queryLastChatRecord(const QString& id) const
 {
     QString strRecord = "";
@@ -172,6 +184,18 @@ bool DataBaseDelegate::insertLastChat(const std::vector<QString>& order) const
             _LOG(Logcxx::Level::ERRORS, "insert last chat failed");
             return false;
         }
+    }
+    return true;
+}
+
+bool DataBaseDelegate::insertFriendImageTimeStamp(const QString& id, const QString& friendId, const QString& time, const QString& imagePath) const
+{
+    QString str = "insert into friendImageTimeStamp" + id + " values(" + friendId + "," + time + "," + imagePath + ")";
+    QSqlQuery query(m_dataBase);
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "insert friend image timestamp failed");
+        return false;
     }
     return true;
 }
@@ -275,7 +299,7 @@ bool DataBaseDelegate::queryChatRecordAcodIdFromDB(QString id, std::vector<MyCha
     return true;
 }
 
-bool DataBaseDelegate::QueryInitialAcordIdFromDB(const QString& id, QString& str)const
+bool DataBaseDelegate::queryInitialAcordIdFromDB(const QString& id, QString& str)const
 {
     const QString strs = "select name from chatrecord" + id + " where isself=false limit 1,1";
     QSqlQuery query(m_dataBase);
@@ -333,6 +357,39 @@ bool DataBaseDelegate::queryFriendRequestAcordName(const QString& name,QString& 
     return true;
 }
 
+bool DataBaseDelegate::queryIsFriendImageTimestampExist(const QString& id, const QString& friendId)
+{
+    QString str = "select count(*) from friendImageTimeStamp" + id + " where id=" + friendId;
+    QSqlQuery query(m_dataBase);
+    if(!query.exec())
+    {
+        _LOG(Logcxx::Level::ERRORS, "query friend image timestamp failed");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::queryFriendTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp) const
+{
+    const QString str = "select id, timestamp from friendImageTimeStamp";
+    QSqlQuery query(m_dataBase);
+    if(!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "select friend image timestamp failed");
+        return false;
+    }
+
+    while (query.next())
+    {
+        QSqlRecord record = query.record();
+        //查询到这个id
+        std::string id = record.value(0).toString().toStdString();
+        const std::string timeStamp = record.value(1).toString().toStdString();
+        mapTimeStamp[id] = timeStamp;
+    }
+    return true;
+}
+
 bool DataBaseDelegate::updateFriendRequestStateAcordName(const QString& name)const
 {
     const QString str = "update friendRequest set isvalid=true where name = '" + name+"'";
@@ -340,6 +397,18 @@ bool DataBaseDelegate::updateFriendRequestStateAcordName(const QString& name)con
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "update friend request state acord name failed");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::updateFriendImageTimestamp(QString& id, std::pair<QString, QString>& newInfo) const
+{
+    QString str = "update friendImageTimeStamp" + id + " set timestamp='" + newInfo.second + "' where id=" + newInfo.first;
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "update friend image timestamp%d failed",id.toInt());
         return false;
     }
     return true;

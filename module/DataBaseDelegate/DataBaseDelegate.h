@@ -30,12 +30,16 @@ public:
     bool createLastChatListTable()const;
     //创建好友请求的表
     bool createFriendRequestTable()const;
+    //创建好友头像时间戳表
+    bool createFriendImageTimeStampTable(QString& id)const;
     //根据id获取最后一条聊天记录
     QString queryLastChatRecord(const QString& id)const;
     //只有id
     bool insertLastChat(const QString& id)const;
     //插入到上次聊天表中
     bool insertLastChat(const std::vector<QString>& order)const;
+    //插入好友头像时间戳
+    bool insertFriendImageTimeStamp(const QString& id, const QString& friendId, const QString& time, const QString& imagePath)const;
     //清空上次聊天表
     bool clearLastChat()const;
     //插入聊天记录
@@ -50,13 +54,19 @@ public:
     //根据id查找聊天记录
     bool queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount,
                                      int beginPos)const;
-    bool QueryInitialAcordIdFromDB(const QString& id, QString& str)const;
+    bool queryInitialAcordIdFromDB(const QString& id, QString& str)const;
     //获取好友请求信息，包括已添加和未添加
     bool queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)const;
     //根据name去查找好友请求对应的id
     bool queryFriendRequestAcordName(const QString& name, QString& id)const;
+    //查询该好友时间戳是否存在
+    bool queryIsFriendImageTimestampExist(const QString& id, const QString& friendId);
+    //获取所有好友的头像时间戳
+    bool queryFriendTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp)const;
     //根据name把响应的好友请求置为true
     bool updateFriendRequestStateAcordName(const QString& name)const;
+    //更新好友头像时间戳
+    bool updateFriendImageTimestamp(QString& id,std::pair<QString, QString>& newInfo)const;
     //删除过期的好友请求,这里采用30天为期限,无论是否同意都删除
     bool deleteExpiredFriendRequest()const;
     //删除lastchat中的内容
