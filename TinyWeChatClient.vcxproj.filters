@@ -82,6 +82,21 @@
     <ClCompile Include="module\TCPThread\MyTCPSocket.cpp">
       <Filter>module\TCPThread</Filter>
     </ClCompile>
+    <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp">
+      <Filter>ui\MyChatMessageQuickWid</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp">
+      <Filter>ui\MyLineEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp">
+      <Filter>ui\MyStackedWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\MytextEdit\MyTextEdit.cpp">
+      <Filter>ui\MytextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp">
+      <Filter>ui\ProfileImagePreview</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -175,6 +190,21 @@
     <QtMoc Include="module\TCPThread\MyTCPSocket.h">
       <Filter>module\TCPThread</Filter>
     </QtMoc>
+    <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h">
+      <Filter>ui\MyChatMessageQuickWid</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h">
+      <Filter>ui\MyLineEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h">
+      <Filter>ui\MyStackedWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\MytextEdit\MyTextEdit.h">
+      <Filter>ui\MytextEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h">
+      <Filter>ui\ProfileImagePreview</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\ChatWidget\ChatWidget.ui">
@@ -185,6 +215,15 @@
     </QtUic>
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui">
       <Filter>ui\RegisterWidget</Filter>
+    </QtUic>
+    <QtUic Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.ui">
+      <Filter>ui\MyChatMessageQuickWid</Filter>
+    </QtUic>
+    <QtUic Include="ui\MyLineEdit\MyLineEdit.ui">
+      <Filter>ui\MyLineEdit</Filter>
+    </QtUic>
+    <QtUic Include="ui\ProfileImagePreview\ProfileImagePreview.ui">
+      <Filter>ui\ProfileImagePreview</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +342,21 @@
     </Filter>
     <Filter Include="module\TCPThread">
       <UniqueIdentifier>{a13579a3-d2ba-4e2a-9de9-9b06a8e5bb1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\MyChatMessageQuickWid">
+      <UniqueIdentifier>{f5871763-b5ce-472c-91a2-61314ef0b603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\MyLineEdit">
+      <UniqueIdentifier>{36ac615c-b52c-4b79-b4f5-55d983ec0c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\MyStackedWidget">
+      <UniqueIdentifier>{282a0759-4fda-4879-96aa-4952f58cecf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\MytextEdit">
+      <UniqueIdentifier>{b94e59cb-3f01-4e9e-a689-3ad7c57dff3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\ProfileImagePreview">
+      <UniqueIdentifier>{82a3d7d9-2638-4c96-bd5c-fbfc023f1f38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

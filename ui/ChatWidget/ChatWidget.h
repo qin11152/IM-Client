@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../../module/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
+#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/MyDefine.h"
 #include "ProfileImagePreview/ProfileImagePreview.h"
 #include <QWidget>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1036</width>
-    <height>858</height>
+    <height>851</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -453,20 +453,20 @@ border:0px;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MyTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header location="global">MyTextEdit.h</header>
+   <class>MyStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header>ui/MyStackedWidget/MyStackedWidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>MyLineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">MyLineEdit.h</header>
+   <header>ui/MyLineEdit/MylineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>MyStackedWidget</class>
-   <extends>QStackedWidget</extends>
-   <header location="global">MyStackedWidget.h</header>
-   <container>1</container>
+   <class>MyTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ui/MyTextEdit/MytextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

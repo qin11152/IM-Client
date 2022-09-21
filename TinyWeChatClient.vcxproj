@@ -167,6 +167,11 @@
     <ClCompile Include="TODO.cpp" />
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
+    <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
+    <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp" />
+    <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp" />
+    <ClCompile Include="ui\MytextEdit\MyTextEdit.cpp" />
+    <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
     <QtRcc Include="ui\res\LogInWidget.qrc" />
     <ClCompile Include="main.cpp" />
@@ -177,6 +182,9 @@
   <ItemGroup>
     <QtUic Include="ui\ChatWidget\ChatWidget.ui" />
     <QtUic Include="ui\LogInWidget\LogInWidget.ui" />
+    <QtUic Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.ui" />
+    <QtUic Include="ui\MyLineEdit\MyLineEdit.ui" />
+    <QtUic Include="ui\ProfileImagePreview\ProfileImagePreview.ui" />
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +195,11 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />
+    <QtMoc Include="ui\MytextEdit\MyTextEdit.h" />
+    <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h" />
+    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h" />
+    <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />
