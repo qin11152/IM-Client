@@ -97,6 +97,9 @@
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp">
       <Filter>ui\ProfileImagePreview</Filter>
     </ClCompile>
+    <ClCompile Include="module\ThreadPool\ThreadPool.cpp">
+      <Filter>module\ThreadPool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.h">
       <Filter>protocol\ProfileImageMsgJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\ThreadPool\ThreadPool.h">
+      <Filter>module\ThreadPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +363,9 @@
     </Filter>
     <Filter Include="ui\ProfileImagePreview">
       <UniqueIdentifier>{82a3d7d9-2638-4c96-bd5c-fbfc023f1f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\ThreadPool">
+      <UniqueIdentifier>{a02cb2ac-8a81-42a1-a301-dce6f1bdf72c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -151,6 +151,7 @@
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
     <ClCompile Include="module\TCPThread\MyTCPSocket.cpp" />
     <ClCompile Include="module\TCPThread\TCPThread.cpp" />
+    <ClCompile Include="module\ThreadPool\ThreadPool.cpp" />
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp" />
     <ClCompile Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.cpp" />
     <ClCompile Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
     <QtMoc Include="module\TCPThread\TCPThread.h" />
     <QtMoc Include="module\TCPThread\MyTCPSocket.h" />
+    <ClInclude Include="module\ThreadPool\ThreadPool.h" />
     <ClInclude Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.h" />
     <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h" />
     <ClInclude Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.h" />
