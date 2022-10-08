@@ -76,6 +76,10 @@ private:
     char m_msgBuffer[kMsgBufferLength]{ 0 };                      //用于存储消息的缓冲区
     int m_endPosOfBuffer = 0;                                     //消息缓冲区的尾部
 
+    //处理服务器传来的图片消息
+    std::unordered_map<std::string, std::string> m_mapImageUUIDAndBase64;
+    std::unordered_map<std::string, int> m_mapImageUUIDAndSegment;
+
     //与服务器建立连接的函数
     void connectHost();
     //初始化槽函数连接

@@ -1,6 +1,5 @@
 #include "ChatWidgetManager.h"
 #include "module/PublicFunction/PublicFunction.h"
-//#include "module/TCPConnect/TCPConnect.h"
 #include "module/TCPThread/TCPThread.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
@@ -9,7 +8,12 @@
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
 #include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
 #include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
+#include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
 #include <algorithm>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QApplication>
+
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
 //初始化静态成员函数
@@ -70,9 +74,11 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
         tmpFriendInfo.m_strId = item.m_strFriendId;
         tmpFriendInfo.m_strImagePath = "";
         tmpFriendInfo.m_strName = item.m_strFriendName;
+        tmpFriendInfo.m_strImageTimestamp = item.m_strFriendImageTimeStamp;
         vecFriendInfoWithC.push_back(tmpFriendInfo);
         mapUserInfo[QString::fromStdString(item.m_strFriendId)] = vecFriendInfoWithC.size() - 1;
     }
+    compareImageTimestap(vecFriendInfoWithC);
     emit signalGetFriendListFinished();
 }
 
@@ -174,6 +180,8 @@ ChatWidgetManager::ChatWidgetManager(QObject* parent)
     : QObject(parent)
 {
     m_ptrDBOperateThread = new DatabaseOperateThread(nullptr);
+    m_ptrThreadPool = new ThreadPool(10);
+    m_ptrThreadPool->startPool();
     initConnect();
 }
 
@@ -181,6 +189,12 @@ ChatWidgetManager::~ChatWidgetManager()
 {
     delete m_ptrDBOperateThread;
     m_ptrDBOperateThread = nullptr;
+    if (m_ptrThreadPool)
+    {
+        m_ptrThreadPool->stopPool();
+    }
+    delete m_ptrThreadPool;
+    m_ptrThreadPool = nullptr;
 }
 
 void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot)
@@ -221,6 +235,43 @@ void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>&
 {
     //map结构体，存储上次关闭时聊天列表中的顺序
     DataBaseDelegate::Instance()->queryLastChatListFromDB(vecLastChatFriend);
+}
+
+void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC> vecFriendInfo)
+{
+    auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlitecompareimage");
+    QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
+    dataBase.setDatabaseName(dataName);
+    if (!dataBase.open())
+    {
+        qDebug() << "open database failed";
+    }
+    const QString str = "select id, timestamp from friendImageTimeStamp"+m_strUserId;
+    std::unordered_map<std::string, std::string> mapTimeStamp;
+    QSqlQuery query(dataBase);
+    if (!query.exec(str))
+    {
+        return;
+    }
+
+    while (query.next())
+    {
+        QSqlRecord record = query.record();
+        //查询到这个id
+        std::string id = record.value(0).toString().toStdString();
+        const std::string timeStamp = record.value(1).toString().toStdString();
+        mapTimeStamp[id] = timeStamp;
+    }
+    for (auto& item : vecFriendInfo)
+    {
+        if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
+        {
+            //TODO 发送消息到服务器，获取新头像
+            getProfileImageJsonData tmpInfo;
+            tmpInfo.m_strId = item.m_strId;
+            emit signalSendMsg(tmpInfo.generateJson());
+        }
+    }
 }
 
 std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QString strId)

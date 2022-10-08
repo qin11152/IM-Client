@@ -3,6 +3,7 @@
 #include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include <QUuid>
+#include <QApplication>
 
 TCPThread::TCPThread(QObject *parent)
     :QThread(parent)
@@ -180,6 +181,40 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
         case int(MessageType::AddFriendNotify) :
         {
             emit signalBecomeFriendNotify(QString::fromStdString(recvMessage));
+        }
+        break;
+        case int(MessageType::ProfileImageMsg) : 
+        {
+            ProfileImageMsgJsonData profileImageMsgData(recvMessage);
+            int iNeedSegment = profileImageMsgData.m_iSumIndex;
+            if (m_mapImageUUIDAndSegment.count(profileImageMsgData.m_strUUID) && profileImageMsgData.m_iCurIndex - 1 != m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID])
+            {
+                //TODO 回复一个uuid发送失败的消息
+                m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
+                m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
+            }
+            m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID] += profileImageMsgData.m_strBase64Msg;
+            if (profileImageMsgData.m_iCurIndex == profileImageMsgData.m_iSumIndex)
+            {
+                //如果收到的片数到达了最后一个了
+                //TODO 将图片保存到本地，并将图片的路径保存到数据库中
+                std::string curPath = QApplication::applicationDirPath().toStdString();
+                curPath += "/data/profileImage/" + profileImageMsgData.m_strId;
+                std::fstream out(curPath, std::ios::out);
+                if (out.is_open())
+                {
+                    out << m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID];
+                    out.close();
+                }
+                else {
+                }
+                //TODO把这个新的路径存储在数据库中，并把新的路径更新到界面之中
+                //MysqlQuery::Instance()->updateImagePathAcordId(profileImageMsgData.m_strId, curPath);
+                m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
+                m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
+                //TODO 回复一个发送成功的消息
+            }
+            m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID] = profileImageMsgData.m_iCurIndex;
         }
         break;
         default:

@@ -5,6 +5,7 @@
 
 #include "../MyDefine.h"
 #include "module/LastChatInfoUpdateThread/DatabaseOperateThread.h"
+#include "module/ThreadPool/ThreadPool.h"
 #include <QObject>
 #include <mutex>
 #include <memory>
@@ -42,6 +43,8 @@ public:
     void notifyServerOnline();
     //获取上次聊天的好友列表
     void getLastChatListFromDB(std::vector <MyLastChatFriendInfo>& vecLastChatFriend);
+    //将获取到的好有时间戳和数据库中的进行对比
+    void compareImageTimestap(std::vector<MyFriendInfoWithFirstC> vecFriendInfo);
 
     //初始化的时候获取聊天记录，10条或者小于10条
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);
@@ -81,6 +84,7 @@ private:
     static SingletonPtr m_SingletonPtr;         //该类的智能指针
     QString m_strUserId{ "" };                  //自己的id
     QString m_strUserName{ "" };                //自己的昵称
+    ThreadPool* m_ptrThreadPool{ nullptr };     //线程池
 
     QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
     QObject* m_ptrFriendListQMLRoot{ nullptr };//好友列表qml的根对象

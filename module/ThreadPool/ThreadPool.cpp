@@ -5,6 +5,10 @@ ThreadPool::ThreadPool(int number)
 {
 }
 
+ThreadPool::~ThreadPool()
+{
+}
+
 void ThreadPool::startPool()
 {
     m_bRunning = true;

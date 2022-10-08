@@ -91,6 +91,8 @@ enum class MessageType
     GetFriendList,
     GetFriendListReply,
     ProfileImageMsg,
+    getFriendProfileImage,
+    getFriendProfileImageReply,
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
