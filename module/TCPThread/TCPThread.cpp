@@ -29,7 +29,7 @@ void TCPThread::run()
 {
     init();
     initConnect();
-    connectHost();
+    //connectHost();
     exec();
     unInit();
 }
@@ -38,34 +38,25 @@ void TCPThread::sendMessage(std::string message)
 {
     if (!m_bIsConnected)
     {
-        m_bIsConnected = true;
+        //m_bIsConnected = true;
         connectHost();
     }
     emit signalSendMsg(message);
 }
 
-void TCPThread::sendImageMsg(QString& strBase64Image, const QString& ImageName)
+void TCPThread::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix)
 {
     if (!m_bIsConnected)
     {
-        m_bIsConnected = true;
+        //m_bIsConnected = true;
         connectHost();
     }
-    emit signalSendImageMsg(strBase64Image, ImageName);
+    emit signalSendImageMsg(strBase64Image, ImageName, suffix);
 }
 
 void TCPThread::connectHost()
 {
-    m_ptrTcpSocket->connectToHost(m_strIp, m_iPort);
-    //如果连接不上，就发出信号告诉客户端
-    if (!m_ptrTcpSocket->waitForConnected(7000))
-    {
-        qDebug() << QString::fromLocal8Bit("无法连接服务器");
-        emit signalConnectFailed();
-        return;
-    }
-    m_bIsConnected = true;
-    qDebug() << QString::fromLocal8Bit("连接服务器成功");
+    emit signalConnect();
 }
 
 void TCPThread::initConnect()
@@ -73,9 +64,11 @@ void TCPThread::initConnect()
     //有消息到来时，读取消息，并发送给客户端
     connect(m_ptrTcpSocket, &QTcpSocket::readyRead, this, &TCPThread::onSignalRecvMessage);
     connect(m_ptrTimerKeepAlive, &QTimer::timeout, this, &TCPThread::onSignalTimeoutSendHeartPackage);
-    connect(m_ptrTimerRecvHeartPackage, &QTimer::timeout, this, &TCPThread::onSignalTimeoutNoHeartPackage);
     connect(this, &TCPThread::signalSendMsg, m_ptrTcpSocket, &MyTCPSocket::sendMsg);
     connect(this, &TCPThread::signalSendImageMsg, m_ptrTcpSocket, &MyTCPSocket::sendImageMsg);
+    connect(m_ptrTimerRecvHeartPackage, &QTimer::timeout, this, &TCPThread::onSignalTimeoutNoHeartPackage);
+    connect(this, &TCPThread::signalConnect, m_ptrTcpSocket, &MyTCPSocket::connectHost);
+    connect(m_ptrTcpSocket, &MyTCPSocket::signalConnectResult, this, &TCPThread::onConnectResult);
 }
 
 void TCPThread::disConnect()
@@ -199,7 +192,7 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
                 //如果收到的片数到达了最后一个了
                 //TODO 将图片保存到本地，并将图片的路径保存到数据库中
                 std::string curPath = QApplication::applicationDirPath().toStdString();
-                curPath += "/data/profileImage/" + profileImageMsgData.m_strId;
+                curPath += "/data/profileImage/" + profileImageMsgData.m_strId + "." + profileImageMsgData.m_strSuffix;
                 std::fstream out(curPath, std::ios::out);
                 if (out.is_open())
                 {
@@ -219,5 +212,18 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
         break;
         default:
             break;
+    }
+}
+
+void TCPThread::onConnectResult(bool bResult)
+{
+    if (bResult)
+    {
+        m_bIsConnected = true;
+    }
+    else
+    {
+        m_bIsConnected = false;
+        emit signalConnectFailed();
     }
 }

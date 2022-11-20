@@ -32,7 +32,7 @@ public slots:
     //调用该函数像服务器发送消息
     void sendMessage(std::string message);
     //调用该函数发送图片消息
-    void sendImageMsg(QString& strBase64Image, const QString& imageName);
+    void sendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix);
 
 signals:
     //收到注册结果的消息
@@ -51,10 +51,14 @@ signals:
     void signalConnectFailed();
     //超过一定时间还没收到服务器的心跳包
     void signalTimeoutNoHeartPackage();
+
+    /////为了能够在子线程中发送接受消息，需要再封装一层
     //发送消息信号
-    void signalSendMsg(std::string msg);
+    void signalSendMsg(const std::string& msg);
     //发送图片消息信号
-    void signalSendImageMsg(QString& strBase64Image, const QString& imageName);
+    void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix);
+    //连接的信号
+    void signalConnect();
 
 private slots:
     //超过时间还没收到回复
@@ -65,6 +69,8 @@ private slots:
     void onSignalRecvMessage();
     //收到消息的处理分派
     void onHandleMessage(const std::string& recvMessage);
+    //收到连接的结果
+    void onConnectResult(bool bResult);
 
 private:
     MyTCPSocket* m_ptrTcpSocket{ nullptr };      //socket指针
@@ -89,3 +95,4 @@ private:
     //与服务器断开连接
     void disConnect();
 };
+

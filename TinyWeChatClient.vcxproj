@@ -158,6 +158,7 @@
     <ClCompile Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListJsonData\GetFriendListJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListReplyData\GetFriendListReplyData.cpp" />
+    <ClCompile Include="protocol\getProfileImageJsonData\getProfileImageJsonData.cpp" />
     <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp" />
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp" />
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="protocol\ChatMessageJsonData\SingleChatMessageJsonData.h" />
     <ClInclude Include="protocol\GetFriendListJsonData\GetFriendListJsonData.h" />
     <ClInclude Include="protocol\GetFriendListReplyData\GetFriendListReplyData.h" />
+    <ClInclude Include="protocol\getProfileImageJsonData\getProfileImageJsonData.h" />
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h" />
     <ClInclude Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.h" />
     <ClInclude Include="protocol\InitialRequestJsonData\InitialRequestJsonData.h" />

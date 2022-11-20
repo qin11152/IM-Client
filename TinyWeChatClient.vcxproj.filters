@@ -100,6 +100,9 @@
     <ClCompile Include="module\ThreadPool\ThreadPool.cpp">
       <Filter>module\ThreadPool</Filter>
     </ClCompile>
+    <ClCompile Include="protocol\getProfileImageJsonData\getProfileImageJsonData.cpp">
+      <Filter>protocol\getProfileImageJsonData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="module\ThreadPool\ThreadPool.h">
       <Filter>module\ThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\getProfileImageJsonData\getProfileImageJsonData.h">
+      <Filter>protocol\getProfileImageJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +372,9 @@
     </Filter>
     <Filter Include="module\ThreadPool">
       <UniqueIdentifier>{a02cb2ac-8a81-42a1-a301-dce6f1bdf72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\getProfileImageJsonData">
+      <UniqueIdentifier>{3503ece2-ef1f-45db-a7f2-8d9290191976}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

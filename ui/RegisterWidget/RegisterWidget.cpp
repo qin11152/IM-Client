@@ -105,8 +105,8 @@ void RegisterWidget::onRegisterClicked()
         reg.m_strType = MessageType::RegisterRequest;
         //qDebug() << "reg content is:" << reg.m_strUserName.c_str() << "  " << reg.m_strUserPassword.c_str();
         std::string registerMessage = reg.generateJson();
-        //TCPConnect::Instance()->sendMessage(registerMessage);
-        emit signalSendMsg(registerMessage);
+        TCPThread::get_mutable_instance().sendMessage(registerMessage);
+        //emit signalSendMsg(registerMessage);
         return;
     }
 }
@@ -163,8 +163,6 @@ void RegisterWidget::initConnect()
     connect(ui->secondPasswordLineEdit, &QLineEdit::textChanged, this, &RegisterWidget::onsecondPasswordLineEditEditingFinished);
     connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvRegisterMessage, this, &RegisterWidget::onMsgHandle, Qt::QueuedConnection);
     connect(&TCPThread::get_mutable_instance(), &TCPThread::signalConnectFailed, this, &RegisterWidget::onSignalConnectedFailed, Qt::QueuedConnection);
-    connect(this, &RegisterWidget::signalSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage, Qt::QueuedConnection);
-
 }
 
 void RegisterWidget::initUi()

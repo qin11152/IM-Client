@@ -158,8 +158,8 @@ void ChatWidget::onSignalSendMessage()
         singleChatData.m_strSendName = m_strUserName.toStdString();
         std::string sendMessage = singleChatData.generateJson();
         //printf("%s\n",sendMessage.c_str());
-        //TCPConnect::Instance()->sendMessage(sendMessage);
-        emit signalSendMsg(sendMessage);
+        TCPThread::get_mutable_instance().sendMessage(sendMessage);
+        //emit signalSendMsg(sendMessage);
 
         auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
         //查看数据库中这个表是否存在
@@ -513,10 +513,6 @@ void ChatWidget::initConnect()
     //收到服务端同意好友添加
     connect(&TCPThread::get_mutable_instance(), &TCPThread::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
         &ChatWidgetManager::onSignalBecomeFriend, Qt::QueuedConnection);
-    //子线程发送消息
-    connect(this, &ChatWidget::signalSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage, Qt::QueuedConnection);
-    //子线程发送图片消息
-    connect(this, &ChatWidget::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
 
     //侧边栏三个按钮的响应
     connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);

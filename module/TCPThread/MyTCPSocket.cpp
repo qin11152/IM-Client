@@ -11,7 +11,7 @@ MyTCPSocket::~MyTCPSocket()
 {
 }
 
-void MyTCPSocket::sendMsg(std::string msg)
+void MyTCPSocket::sendMsg(const std::string& msg)
 {
     //utf8编码
     int length = msg.length();
@@ -25,7 +25,7 @@ void MyTCPSocket::sendMsg(std::string msg)
     write(sendMsg.c_str(), length + 8);
 }
 
-void MyTCPSocket::sendImageMsg(QString& strBase64Image, const QString& ImageName)
+void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix)
 {
     //生成uuid表明这个图片的唯一性
     QString strUUID = QUuid::createUuid().toString();
@@ -44,6 +44,7 @@ void MyTCPSocket::sendImageMsg(QString& strBase64Image, const QString& ImageName
         tmpImageData.m_strUUID = strUUID.toStdString();
         tmpImageData.m_iCurIndex = i + 1;
         tmpImageData.m_iSumIndex = iNeedSlice;
+        tmpImageData.m_strSuffix = suffix.toStdString();
         if (i == iNeedSlice - 1)
         {
             tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, strBase64Image.length() - i * 9000).toStdString();
@@ -54,6 +55,22 @@ void MyTCPSocket::sendImageMsg(QString& strBase64Image, const QString& ImageName
         }
         sendMsg(tmpImageData.generateJson());
     }
+}
+
+void MyTCPSocket::connectHost()
+{
+    connectToHost(kHostIp, kHostPort);
+    //如果连接不上，就发出信号告诉客户端
+    if (!waitForConnected(7000))
+    {
+        emit signalConnectResult(false);
+        return;
+    }
+    emit signalConnectResult(true);
+}
+
+void MyTCPSocket::initConnect()
+{
 }
 
 

@@ -61,8 +61,8 @@ void LogInWidget::onLogInButtonClicked()
     m_strUserId = ui.userNameLineEdit->text();
     loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
     std::string message = loginJsonData.generateJson();
-    //TCPConnect::Instance()->sendMessage(message);
-    emit signalLoginWidSendMsg(message);
+    TCPThread::get_mutable_instance().sendMessage(message);
+    //emit signalLoginWidSendMsg(message);
 }
 
 void LogInWidget::onRegisterFinished()
@@ -101,7 +101,5 @@ void LogInWidget::initConnection()
     connect(ui.logInButton, &QPushButton::clicked, this, &LogInWidget::onLogInButtonClicked);
     connect(ui.registerButton, &QPushButton::clicked, this, &LogInWidget::onRegisterButtonClicked);
     connect(m_ptrRegisterWidget, &RegisterWidget::signalShowLoginInWidget, this, &LogInWidget::onRegisterFinished);
-    //connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv);
     connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv, Qt::QueuedConnection);
-    connect(this, &LogInWidget::signalLoginWidSendMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendMessage, Qt::QueuedConnection);
 }

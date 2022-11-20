@@ -50,12 +50,6 @@ public:
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);
     //收到好友列表消息后
 
-signals:
-    //发送消息信号
-    void signalSendMsg(std::string msg);
-    //发送图片消息信号
-    void signalSendImageMsg(QString& strBase64Image, const QString& imageName);
-
 public slots:
 
     //服务端返回来好友列表

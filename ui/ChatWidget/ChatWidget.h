@@ -41,12 +41,6 @@ public:
     //像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
     void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
 
-signals:
-    //发送消息信号
-    void signalSendMsg(std::string msg);
-    //发送图片消息信号
-    void signalSendImageMsg(QString& strBase64Image, const QString& imageName);
-
 protected slots:
     //事件过滤器的重载
     bool eventFilter(QObject* watched, QEvent* event)override;
