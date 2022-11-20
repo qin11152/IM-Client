@@ -15,10 +15,12 @@ public:
 
     void setImagePath(const QString& path, const int id);
 
-    signals:
+signals:
     void signalProfileImageChanged(QImage& image);
+    //发送图片消息信号
+    void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix);
 
-    private slots :
+private slots :
     void onSignalChooseBtnClicked();
     void onSignalUpdateProfileImage();
 

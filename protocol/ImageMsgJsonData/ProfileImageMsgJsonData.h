@@ -13,6 +13,7 @@ public:
     std::string m_strUUID{ "" };        //唯一标识，表明是这个图片
     std::string m_strBase64Msg{ "" };   //基于BASE64编码的图片信息
     std::string m_strImageName{ "" };   //图片的名称
+    std::string m_strSuffix{ "" };      //图片后缀类型
     int m_iCurIndex{ 0 };              //当前处于分的第几段
     int m_iSumIndex{ 0 };               //总共分了几段
 

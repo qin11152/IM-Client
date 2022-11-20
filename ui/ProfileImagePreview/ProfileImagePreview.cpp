@@ -1,8 +1,11 @@
 #include "ProfileImagePreview.h"
 #include "module/PublicDataManager/PublicDataManager.h"
+#include "module/TCPThread/TCPThread.h"
 #include <QImageReader>
 #include <QPainter>
 #include <QFileDialog>
+#include <QBuffer>
+#include <fstream>
 
 ProfileImagePreview::ProfileImagePreview(QWidget *parent)
     : QWidget(parent)
@@ -45,7 +48,7 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
     //设置视图模式
     fileDialog->setViewMode(QFileDialog::Detail);
 
-    //fileDialog->show();
+    fileDialog->show();
 
     //获取选择的文件的路径
     QStringList fileNames;
@@ -56,6 +59,22 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
     if (fileNames.size() > 0)
     {
         m_strPagePath = fileNames[0];
+        //TODO 发送给服务器，修改本地存储的
+        QImage image(m_strPagePath);
+        image = image.scaled(100, 100);
+        QByteArray byteArr;
+        QBuffer buffer(&byteArr);
+        QFileInfo info(m_strPagePath);
+        QString suffix = info.suffix();//获取文件后缀
+        QByteArray stc = suffix.toLatin1();
+        image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
+        QString str_base64 = byteArr.toBase64();
+        QString name = "suibian";
+        TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data());
+        //emit signalSendImageMsg(str_base64, name, stc.data());
+        QString curPath=QApplication::applicationDirPath();
+        curPath += "/data/image/my." + stc;
+        image.save(curPath);
         update();
     }
 }
@@ -105,4 +124,5 @@ void ProfileImagePreview::showEvent(QShowEvent* event)
 void ProfileImagePreview::initConnect()
 {
     connect(ui.changeProfileImagePushButton, &QPushButton::clicked, this, &ProfileImagePreview::onSignalChooseBtnClicked);
+    connect(this, &ProfileImagePreview::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
 }

@@ -28,6 +28,8 @@ public:
     bool createUserChatTable(const QString& userid)const;
     //创建上次聊天表
     bool createLastChatListTable()const;
+    //创建头像信息表
+    bool createProfileImageTable()const;
     //创建好友请求的表
     bool createFriendRequestTable()const;
     //创建好友头像时间戳表
@@ -61,12 +63,16 @@ public:
     bool queryFriendRequestAcordName(const QString& name, QString& id)const;
     //查询该好友时间戳是否存在
     bool queryIsFriendImageTimestampExist(const QString& id, const QString& friendId);
+    //查询还有头像路径
+    bool queryProfileImagePath(const QString& id, QString& path)const;
     //获取所有好友的头像时间戳
     bool queryFriendTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp)const;
     //根据name把响应的好友请求置为true
     bool updateFriendRequestStateAcordName(const QString& name)const;
     //更新好友头像时间戳
     bool updateFriendImageTimestamp(QString& id,std::pair<QString, QString>& newInfo)const;
+    //更新好友头像路径
+    bool updateProfileImagePath(const QString& id, const QString& path)const;
     //删除过期的好友请求,这里采用30天为期限,无论是否同意都删除
     bool deleteExpiredFriendRequest()const;
     //删除lastchat中的内容

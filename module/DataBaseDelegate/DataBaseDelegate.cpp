@@ -116,6 +116,18 @@ bool DataBaseDelegate::createLastChatListTable()const
     return true;
 }
 
+bool DataBaseDelegate::createProfileImageTable() const
+{
+    const QString str = "create table profileImage (id varchar(10),imagePath varchar(100))";
+    QSqlQuery query(m_dataBase);
+    if(!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "create profile image table failed");
+        return false;
+    }
+    return true;
+}
+
 bool DataBaseDelegate::createFriendRequestTable()const
 {
     const QString str = "CREATE TABLE friendRequest (id INT,name VARCHAR(40),isvalid BOOL,createdtime TIME,verifymessage VARCHAR(30))";
@@ -369,6 +381,23 @@ bool DataBaseDelegate::queryIsFriendImageTimestampExist(const QString& id, const
     return true;
 }
 
+bool DataBaseDelegate::queryProfileImagePath(const QString& id, QString& path) const
+{
+    const QString str = "select imagePath from profileImage where id=" + id;
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "query profile image path failed");
+        return false;
+    }
+    while (query.next())
+    {
+        QSqlRecord record = query.record();
+        path = record.value(1).toString();
+    }
+    return true;
+}
+
 bool DataBaseDelegate::queryFriendTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp) const
 {
     const QString str = "select id, timestamp from friendImageTimeStamp";
@@ -409,6 +438,18 @@ bool DataBaseDelegate::updateFriendImageTimestamp(QString& id, std::pair<QString
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "update friend image timestamp%d failed",id.toInt());
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::updateProfileImagePath(const QString& id, const QString& path) const
+{
+    const QString str = "update profileImage set imagePath =" + path + " where id =" + id;
+    QSqlQuery query;
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "update profile image path failed");
         return false;
     }
     return true;
