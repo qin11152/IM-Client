@@ -25,6 +25,11 @@ QString PublicDataManager::getMyName() const
     return m_strName;
 }
 
+CurrentChatWidgetUserInfo PublicDataManager::getCurrentChatWidgetUserInfo() const
+{
+    return m_stuCurrentChatUserInfo;
+}
+
 MyFriendInfoWithFirstC PublicDataManager::getFriendInfoAcordId(const QString& id)
 {
     return m_vecFriendInfoWithC[m_mapUserInfo[id]];
@@ -53,4 +58,9 @@ void PublicDataManager::setMyId(const QString& id)
 void PublicDataManager::setMyName(const QString& name)
 {
     m_strName = name;
+}
+
+void PublicDataManager::setCurrentChatWidgetUserInfo(const CurrentChatWidgetUserInfo& info)
+{
+    m_stuCurrentChatUserInfo = info;
 }

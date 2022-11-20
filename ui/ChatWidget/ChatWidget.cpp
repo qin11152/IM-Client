@@ -556,11 +556,7 @@ void ChatWidget::initData()
     ChatWidgetManager::Instance()->getLastChatListFromDB(PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec());
     //ChatWidgetManager::Instance()->getFriendList();
 
-    QString str = "friendImageTimeStamp" + m_strUserId;
-    if (!DataBaseDelegate::Instance()->isTableExist(str))
-    {
-        DataBaseDelegate::Instance()->createFriendImageTimeStampTable(m_strUserId);
-    }
+    QString str = "friendImageTimeStamp";
 }
 
 void ChatWidget::getLastChatFromBackup(std::vector<QString>& tmpOrder, QSqlDatabase& db)
@@ -913,5 +909,5 @@ ChatWidget::~ChatWidget()
     }
     m_ptrProfileImagePreviewWid = nullptr;
 
-    TCPThread::get_mutable_instance().quit();
+    TCPThread::get_mutable_instance().exit();
 }

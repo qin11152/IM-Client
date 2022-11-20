@@ -12,8 +12,14 @@ using SingletonPtr = std::shared_ptr<DataBaseDelegate>;
 std::mutex DataBaseDelegate::m_mutex;
 SingletonPtr DataBaseDelegate::m_SingletonPtr = nullptr;
 
+using CreateTableWithoutParams = std::function<bool()>;
+std::map<std::string, CreateTableWithoutParams> kTableAndFuncWithoutParam;
+
 void DataBaseDelegate::init()
 {
+    kTableAndFuncWithoutParam["lastChatList"] = std::bind(&DataBaseDelegate::createLastChatListTable,this);
+    kTableAndFuncWithoutParam["profileImage"] = std::bind(&DataBaseDelegate::createProfileImageTable, this);
+    kTableAndFuncWithoutParam["friendRequest"] = std::bind(&DataBaseDelegate::createFriendRequestTable, this);
     //这里使用的是sqlite
     m_dataBase = QSqlDatabase::addDatabase("QSQLITE","sqlite1");
     //没有数据库文件夹就建立一个文件夹
@@ -33,6 +39,7 @@ void DataBaseDelegate::init()
         _LOG(Logcxx::Level::ERRORS, "open data base failed");
         return;
     }
+    initTables();
 }
 
 void DataBaseDelegate::disConnect()
@@ -41,6 +48,17 @@ void DataBaseDelegate::disConnect()
     QString fileName = QApplication::applicationDirPath() + "/data";
     QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
     QSqlDatabase::removeDatabase(dataName);
+}
+
+void DataBaseDelegate::initTables()
+{
+    for (auto& item : kTableAndFuncWithoutParam)
+    {
+        if (!isTableExist(item.first.c_str()))
+        {
+            item.second();
+        }
+    }
 }
 
 DataBaseDelegate::DataBaseDelegate(QObject *parent)
@@ -118,7 +136,7 @@ bool DataBaseDelegate::createLastChatListTable()const
 
 bool DataBaseDelegate::createProfileImageTable() const
 {
-    const QString str = "create table profileImage (id varchar(10),imagePath varchar(100))";
+    const QString str = "create table profileImage (id varchar(10),imagePath varchar(100),timestamp varchar(30))";
     QSqlQuery query(m_dataBase);
     if(!query.exec(str))
     {
@@ -135,18 +153,6 @@ bool DataBaseDelegate::createFriendRequestTable()const
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "create friend request table failed");
-        return false;
-    }
-    return true;
-}
-
-bool DataBaseDelegate::createFriendImageTimeStampTable(QString& id) const
-{
-    QString str = "create table friendImageTimeStamp" + id + " (id int, timestamp varchar(30), imagePath varchar(30))";
-    QSqlQuery query(m_dataBase);
-    if (!query.exec(str))
-    {
-        _LOG(Logcxx::Level::ERRORS, "create friend image timestamp table failed");
         return false;
     }
     return true;
@@ -200,18 +206,6 @@ bool DataBaseDelegate::insertLastChat(const std::vector<QString>& order) const
     return true;
 }
 
-bool DataBaseDelegate::insertFriendImageTimeStamp(const QString& id, const QString& friendId, const QString& time, const QString& imagePath) const
-{
-    QString str = "insert into friendImageTimeStamp" + id + " values(" + friendId + "," + time + "," + imagePath + ")";
-    QSqlQuery query(m_dataBase);
-    if (!query.exec(str))
-    {
-        _LOG(Logcxx::Level::ERRORS, "insert friend image timestamp failed");
-        return false;
-    }
-    return true;
-}
-
 bool DataBaseDelegate::clearLastChat() const
 {
     const QString str="delete from lastChatList where 1=1";
@@ -248,6 +242,18 @@ bool DataBaseDelegate::insertAddFriendRequest(const QString& id, const QString& 
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "insert add friend request failed");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::insertProfilePathAndTimestamp(const QString& id, const QString& path, const QString& timestamp)const
+{
+    const QString str = "insert into profileImage values(" + id + ",'" + path + "','" + timestamp + "')";
+    QSqlQuery query(m_dataBase);
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "insert into profile image failed,sql is:%s", str.toStdString().c_str());
         return false;
     }
     return true;
@@ -369,22 +375,10 @@ bool DataBaseDelegate::queryFriendRequestAcordName(const QString& name,QString& 
     return true;
 }
 
-bool DataBaseDelegate::queryIsFriendImageTimestampExist(const QString& id, const QString& friendId)
-{
-    QString str = "select count(*) from friendImageTimeStamp" + id + " where id=" + friendId;
-    QSqlQuery query(m_dataBase);
-    if(!query.exec())
-    {
-        _LOG(Logcxx::Level::ERRORS, "query friend image timestamp failed");
-        return false;
-    }
-    return true;
-}
-
 bool DataBaseDelegate::queryProfileImagePath(const QString& id, QString& path) const
 {
     const QString str = "select imagePath from profileImage where id=" + id;
-    QSqlQuery query;
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "query profile image path failed");
@@ -393,14 +387,33 @@ bool DataBaseDelegate::queryProfileImagePath(const QString& id, QString& path) c
     while (query.next())
     {
         QSqlRecord record = query.record();
-        path = record.value(1).toString();
+        path = record.value(0).toString();
     }
     return true;
 }
 
-bool DataBaseDelegate::queryFriendTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp) const
+bool DataBaseDelegate::queryIsIdExistInProfile(const QString& id)const
 {
-    const QString str = "select id, timestamp from friendImageTimeStamp";
+    const QString str = "select count(*) from profileImage where id=" + id;
+    QSqlQuery query(m_dataBase);
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "query is id exist from profile image failed");
+        return false;
+    }
+    int num = 0;
+    QSqlRecord record;
+    while (query.next())
+    {
+        record = query.record();
+        num = record.value(0).toInt();
+    }
+    return num > 0;
+}
+
+bool DataBaseDelegate::queryProfileTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp) const
+{
+    const QString str = "select id, timestamp from profileImage";
     QSqlQuery query(m_dataBase);
     if(!query.exec(str))
     {
@@ -413,7 +426,7 @@ bool DataBaseDelegate::queryFriendTimeStamp(std::unordered_map<std::string, std:
         QSqlRecord record = query.record();
         //查询到这个id
         std::string id = record.value(0).toString().toStdString();
-        const std::string timeStamp = record.value(1).toString().toStdString();
+        const std::string timeStamp = record.value(2).toString().toStdString();
         mapTimeStamp[id] = timeStamp;
     }
     return true;
@@ -433,8 +446,8 @@ bool DataBaseDelegate::updateFriendRequestStateAcordName(const QString& name)con
 
 bool DataBaseDelegate::updateFriendImageTimestamp(QString& id, std::pair<QString, QString>& newInfo) const
 {
-    QString str = "update friendImageTimeStamp" + id + " set timestamp='" + newInfo.second + "' where id=" + newInfo.first;
-    QSqlQuery query;
+    QString str = "update profileImage set timestamp='" + newInfo.second + "' where id=" + newInfo.first;
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "update friend image timestamp%d failed",id.toInt());
@@ -445,11 +458,23 @@ bool DataBaseDelegate::updateFriendImageTimestamp(QString& id, std::pair<QString
 
 bool DataBaseDelegate::updateProfileImagePath(const QString& id, const QString& path) const
 {
-    const QString str = "update profileImage set imagePath =" + path + " where id =" + id;
-    QSqlQuery query;
+    const QString str = "update profileImage set imagePath ='" + path + "' where id =" + id;
+    QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
         _LOG(Logcxx::Level::ERRORS, "update profile image path failed");
+        return false;
+    }
+    return true;
+}
+
+bool DataBaseDelegate::updateProfilleImagePathAndTimeStamp(const QString& id, const QString& path, const QString& timeStamp)const
+{
+    const QString str = "update profileImage set imagePath ='" + path + "',timestamp='" + timeStamp + "'where id =" + id;
+    QSqlQuery query(m_dataBase);
+    if (!query.exec(str))
+    {
+        _LOG(Logcxx::Level::ERRORS, "update profile image path and time failed");
         return false;
     }
     return true;

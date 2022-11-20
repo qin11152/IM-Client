@@ -30,6 +30,10 @@ protected:
 
 private:
     void initConnect();
+    //将选择的图片压缩并传输给服务器
+    void compressAndSendImage(const QImage& image);
+    //删除数据库中路径下图片，保存图片并将路径更新进去
+    void saveImageAndUpdateDB(const QImage& image);
 
 private:
     int m_iPageId{ -1 };

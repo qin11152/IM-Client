@@ -1,5 +1,5 @@
 #pragma once
-
+#define BOOST_BIND_GLOBAL_PLACEHOLDERS
 #define coid void;
 #include <QObject>
 #include <string>
@@ -16,6 +16,10 @@ constexpr int kMsgBufferLength = 1024 * 10;
 
 constexpr char kHostIp[] = "43.142.158.231";
 constexpr int kHostPort = 9999;
+
+constexpr char kProfileTableName[] = "profileImage";
+constexpr char kLastChatTableName[] = "lastChatList";
+constexpr char kFriendRequetName[] = "friendRequest";
 
 Q_DECLARE_METATYPE(std::string);
 
@@ -141,6 +145,22 @@ public:
     {}
 };
 
+/**
+ * brief 当前聊天界面中的聊天相关信息
+ */
+struct CurrentChatWidgetUserInfo
+{
+    //当前界面中的聊天记录数量
+    int recordCount;
+    //当前聊天界面中聊天人的id
+    std::string userId;
+
+    CurrentChatWidgetUserInfo(int cnt = 10, std::string id = "0")
+        :recordCount(cnt),
+        userId(id)
+    {
+    }
+};
 /************************************************************************/
 /* 公共函数                                                                     */
 /************************************************************************/

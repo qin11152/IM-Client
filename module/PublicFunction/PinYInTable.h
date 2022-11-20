@@ -3,7 +3,7 @@
 #define UNICODE_START  19968
 #define UNICODE_END    40869
 
-static const char Unicode_Table[20902][8] =
+static char Unicode_Table[20902][8] =
 {
     "yi", "ding", "yu", "qi", "shang", "xia", "myeon", "wan", "zhang", "san", "shang", \
     "xia", "qi", "bu", "yu", "mian", "gai", "chou", "chou", "zhuan", "qie", \

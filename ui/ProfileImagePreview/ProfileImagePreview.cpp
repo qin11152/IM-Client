@@ -1,11 +1,17 @@
 #include "ProfileImagePreview.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/TCPThread/TCPThread.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/Log/Log.h"
 #include <QImageReader>
 #include <QPainter>
 #include <QFileDialog>
 #include <QBuffer>
 #include <fstream>
+#include <chrono>
+
+
+constexpr QSize kImageCompressSize{ 100,100 };
 
 ProfileImagePreview::ProfileImagePreview(QWidget *parent)
     : QWidget(parent)
@@ -59,22 +65,10 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
     if (fileNames.size() > 0)
     {
         m_strPagePath = fileNames[0];
-        //TODO 发送给服务器，修改本地存储的
         QImage image(m_strPagePath);
-        image = image.scaled(100, 100);
-        QByteArray byteArr;
-        QBuffer buffer(&byteArr);
-        QFileInfo info(m_strPagePath);
-        QString suffix = info.suffix();//获取文件后缀
-        QByteArray stc = suffix.toLatin1();
-        image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
-        QString str_base64 = byteArr.toBase64();
-        QString name = "suibian";
-        TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data());
-        //emit signalSendImageMsg(str_base64, name, stc.data());
-        QString curPath=QApplication::applicationDirPath();
-        curPath += "/data/image/my." + stc;
-        image.save(curPath);
+        image = image.scaled(kImageCompressSize, Qt::KeepAspectRatio);
+        compressAndSendImage(image);
+        saveImageAndUpdateDB(image);
         update();
     }
 }
@@ -125,4 +119,51 @@ void ProfileImagePreview::initConnect()
 {
     connect(ui.changeProfileImagePushButton, &QPushButton::clicked, this, &ProfileImagePreview::onSignalChooseBtnClicked);
     connect(this, &ProfileImagePreview::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
+}
+
+void ProfileImagePreview::compressAndSendImage(const QImage& image)
+{
+    QByteArray byteArr;
+    QBuffer buffer(&byteArr);
+    QFileInfo info(m_strPagePath);
+    QString suffix = info.suffix();//获取文件后缀
+    QByteArray stc = suffix.toLatin1();
+    image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
+    QString str_base64 = byteArr.toBase64();
+    QString name = "suibian";
+    TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data());
+}
+
+void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image)
+{
+    QString id = PublicDataManager::get_mutable_instance().getMyId();
+    QString lastPath = "";
+    DataBaseDelegate::Instance()->queryProfileImagePath(id,lastPath);
+    //如果已有路径且已存在图片则删除
+    if (!lastPath.isEmpty())
+    {
+        QFile image(lastPath);
+        if (!image.remove())
+        {
+            _LOG(Logcxx::Level::ERRORS, "delete my last profile image failed");
+        }
+    }
+    QFileInfo info(m_strPagePath);
+    QString suffix = info.suffix();//获取文件后缀
+    QString curPath = QApplication::applicationDirPath();
+    curPath += "/data/image/my." + suffix;
+    image.save(curPath);
+    auto timet = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    tm timeInfo;
+    timeInfo = *localtime(&timet);
+    std::stringstream ss;
+    ss << std::put_time(&timeInfo, "%F-%T");
+    if (DataBaseDelegate::Instance()->queryIsIdExistInProfile(id))
+    {
+        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, curPath, ss.str().c_str());
+    }
+    else
+    {
+        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, curPath, ss.str().c_str());
+    }
 }
