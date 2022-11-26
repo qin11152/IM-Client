@@ -161,7 +161,7 @@ bool DataBaseDelegate::createFriendRequestTable()const
 QString DataBaseDelegate::queryLastChatRecord(const QString& id) const
 {
     QString strRecord = "";
-    const QString str = "select message from chatrecord" + id + " order by pos limit 1;";
+    const QString str = "select message from chatrecord" + id + " order by pos desc limit 1;";
     QSqlQuery query(m_dataBase);
     if(!query.exec(str))
     {

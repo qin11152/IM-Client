@@ -44,14 +44,14 @@ void TCPThread::sendMessage(std::string message)
     emit signalSendMsg(message);
 }
 
-void TCPThread::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix)
+void TCPThread::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix, const QString& timeStamp)
 {
     if (!m_bIsConnected)
     {
         //m_bIsConnected = true;
         connectHost();
     }
-    emit signalSendImageMsg(strBase64Image, ImageName, suffix);
+    emit signalSendImageMsg(strBase64Image, ImageName, suffix, timeStamp);
 }
 
 void TCPThread::connectHost()

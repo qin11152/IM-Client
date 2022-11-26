@@ -1,10 +1,10 @@
 ﻿#include "../../ui/ChatWidget/ChatWidget.h"
-#include "MytextEdit/MyTextEdit.h"
-//#include "TCPConnect/TCPConnect.h"
-#include "MyLineEdit/MyLineEdit.h"
-#include "DataBaseDelegate/DataBaseDelegate.h"
-#include  "module/TCPThread/TCPThread.h"
+#include "ui/MytextEdit/MyTextEdit.h"
+#include "ui/MyLineEdit/MyLineEdit.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
+#include "module/PublicDataManager/PublicDataManager.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
 #include "module/Log/Log.h"
 #include "module/PublicDataManager/PublicDataManager.h"
@@ -137,33 +137,24 @@ void ChatWidget::onSignalSendMessage()
         //获取输入框中的文本
         QString lineEditMessage = ui->textEdit->toPlainText();
 
-        //先获取到当前的界面
-        auto tmpWid = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
         //获取界面对应的id
-        QString id = tmpWid->GetUserId();
+        QString id = m_ptrChatMessageWid->GetUserId();
 
-        //获取时间
-        time_t now = time(nullptr);
-        tm* t = localtime(&now);
-        std::stringstream ss;
-        ss << t->tm_year + 1900 << "." << t->tm_mon + 1 << "." <<
-            t->tm_mday << ".." << t->tm_hour << "." << t->tm_min << "." << t->tm_sec;
+        std::string timeStamp = Base::timeToString("%F-%T");
 
         //通过网络将信息发送出去
         SingleChatMessageJsonData singleChatData;
         singleChatData.m_strSendUserId = m_strUserId.toStdString();
         singleChatData.m_strRecvUserId = (id).toStdString();
         singleChatData.m_strMessage = lineEditMessage.toStdString();
-        singleChatData.m_strTime = ss.str();
+        singleChatData.m_strTime = timeStamp;
         singleChatData.m_strSendName = m_strUserName.toStdString();
         std::string sendMessage = singleChatData.generateJson();
-        //printf("%s\n",sendMessage.c_str());
         TCPThread::get_mutable_instance().sendMessage(sendMessage);
-        //emit signalSendMsg(sendMessage);
 
         auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
         //查看数据库中这个表是否存在
-        int totalCnt = tmpWid->getTotalRecordCount();
+        int totalCnt = m_ptrChatMessageWid->getTotalRecordCount();
         if (DataBaseDelegate::Instance()->isTableExist(QString::fromStdString(tablename)))
         {
             //添加到数据库
@@ -184,13 +175,13 @@ void ChatWidget::onSignalSendMessage()
         }
 
         //更新到界面中
-        QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, m_strUserName),
+        QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, m_strUserName),
                                   Q_ARG(QVariant, lineEditMessage), Q_ARG(QVariant, true),
                                   Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, m_strUserId),Q_ARG(QVariant,""));
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "updateLastChatMsg", Q_ARG(QVariant, lineEditMessage),Q_ARG(QVariant, id));
         //把消息更新到界面中
         ui->textEdit->clear();
-        tmpWid->addTotalAndCurrentRecordCount(1);
+        m_ptrChatMessageWid->addTotalAndCurrentRecordCount(1);
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "findPosInModelAndMove2Top", Q_ARG(QVariant, id));
         ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
         //因为位置改变了，要重新排列顺序
@@ -198,14 +189,20 @@ void ChatWidget::onSignalSendMessage()
     }
 }
 
-void ChatWidget::onSignalLastChatItemClicked(const QString strId)
+void ChatWidget::onSignalLastChatItemClicked(const QString strId,const QString strName)
 {
-    if (ui->chatStackedWidget->isWidCreate(strId.toInt()))
+    //如果就是这个id，则不做处理
+    if (strId == PublicDataManager::get_mutable_instance().getCurrentChatWidgetUserInfo().userId.c_str())
     {
-        //打开对应的聊天记录页面
-        ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
-        auto tmp = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
-        ui->nickNameLabel->setText(tmp->getUserName());
+        return;
+    }
+    else
+    {
+        //现在的聊天页面换成这个id
+        PublicDataManager::get_mutable_instance().setCurrentChatWidgetUserInfo(CurrentChatWidgetUserInfo(10, strName.toStdString()));
+        initChatMessageWidAcordId(MyLastChatFriendInfo(strName,strId));
+        ui->chatStackedWidget->SwitchToChatPage(ChatWid);
+        ui->nickNameLabel->setText(strName);
         onSignalHideRedRectangleInLastChat(strId);
     }
 }
@@ -215,8 +212,7 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
 {
     //左侧列表界面设为lastchat
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
-    //如果上次聊天列表中没有这个人，还要添加到上次聊天列表中
-    //auto friendInfo = m_vecFriendInfoWithC[m_mapUserInfo[strId]];
+
     auto friendVec = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec();
     auto friendInfo = friendVec[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[strId]];
     //获取上次聊天内容
@@ -234,21 +230,18 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
 
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "switchToItemAndChangeColor", Q_ARG(QVariant, strId));
 
-    //右侧聊天界面stackwidget没有的话，也要创建
-    if (!ui->chatStackedWidget->isWidCreate(atoi(strId.toStdString().c_str())))
+    //插入到上次聊天的数据库中
+    //DataBaseDelegate::Instance()->insertLastChat(strId);
+    if (!PublicDataManager::get_mutable_instance().isIdExistInLastChatList(strId))
     {
-        auto tmp = MyLastChatFriendInfo();
-        tmp.m_strId = strId;
-        tmp.m_strName = name;
-        initChatMessageWidAcordId(tmp);
-        //插入到上次聊天的数据库中
-        DataBaseDelegate::Instance()->insertLastChat(tmp.m_strId);
+        DataBaseDelegate::Instance()->insertLastChat(strId);
+        PublicDataManager::get_mutable_instance().insertLastChatList({ name, strId });
     }
+
     //去除掉红点
     onSignalHideRedRectangleInLastChat(strId);
-    ui->chatStackedWidget->SwitchToChatPage(strId.toInt());
-    const auto tmp = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->currentWidget());
-    ui->nickNameLabel->setText(tmp->getUserName());
+    ui->chatStackedWidget->SwitchToChatPage(ChatWid);
+    ui->nickNameLabel->setText(name);
 }
 
 void ChatWidget::onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason)
@@ -263,6 +256,11 @@ void ChatWidget::onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason)
 
 void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
 {
+    if (!m_bLastChatInitFinished)
+    {
+        std::unique_lock<std::mutex> lck(m_mutex);
+        m_con.wait(lck, [this]() {return m_bLastChatInitFinished == true; });
+    }
     QApplication::alert(this);
     //QSound::play(":/res/sound/message.wav");
     const SingleChatMessageJsonData singleChatData(chatMessage.toStdString());
@@ -270,16 +268,8 @@ void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setLastChatRecord", Q_ARG(QVariant, chatMessage),Q_ARG(QVariant, sendId));
     //存储在数据库中
     auto tablename = "chatrecord" + singleChatData.m_strSendUserId;
-    if (!ui->chatStackedWidget->isWidCreate(std::atoi(singleChatData.m_strSendUserId.c_str())))
-    {
-        auto tmp = MyLastChatFriendInfo();
-        tmp.m_strId = QString::fromStdString(singleChatData.m_strSendUserId);
-        tmp.m_strName = QString::fromStdString(singleChatData.m_strSendName);
-        initChatMessageWidAcordId(tmp);
-    }
-    auto tmpWid = static_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(
-        atoi(singleChatData.m_strSendUserId.c_str())));
-    const int totalCnt = tmpWid->getTotalRecordCount();
+
+    const int totalCnt = DataBaseDelegate::Instance()->getChatRecordCountFromDB(sendId);
     if (DataBaseDelegate::Instance()->isTableExist(QString::fromStdString(tablename)))
     {
         //添加到数据库
@@ -298,17 +288,26 @@ void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
                                                        QString::fromStdString(singleChatData.m_strTime), false,
                                                        QString::fromStdString(singleChatData.m_strSendName));
     }
+    
     //如果当前的chat页面不是来消息的这个人，就开始闪烁，并显示红点，是的话就直接更新到界面
-    if (ui->chatStackedWidget->currentWidget() != tmpWid)
+    if ("" == m_ptrChatMessageWid->GetUserId() || PublicDataManager::get_mutable_instance().getCurrentChatWidgetUserInfo().userId.c_str() != m_ptrChatMessageWid->GetUserId())
     {
-        onSignalSetRedRectangleShow(tmpWid);
+        PublicDataManager::get_mutable_instance().setUnreadMsg(sendId, 1);
+        QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setRedMsgAndShow", Q_ARG(QVariant, sendId),
+            Q_ARG(QVariant, QString::number(PublicDataManager::get_mutable_instance().getUnreadMsgCnt(sendId))));
+        //onSignalSetRedRectangleShow(s22.c_str());
         onSignalTrayIconTwinkle(true);
     }
-    QMetaObject::invokeMethod(tmpWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName)),
-        Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strMessage)),
-        Q_ARG(QVariant, false), Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName).mid(0, 1)),
-        Q_ARG(QVariant, atoi(singleChatData.m_strRecvUserId.c_str())),Q_ARG(QVariant,""));
-    tmpWid->addTotalAndCurrentRecordCount(1);
+    else
+    {
+        QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName)),
+            Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strMessage)),
+            Q_ARG(QVariant, false), Q_ARG(QVariant, QString::fromStdString(singleChatData.m_strSendName).mid(0, 1)),
+            Q_ARG(QVariant, atoi(singleChatData.m_strRecvUserId.c_str())), Q_ARG(QVariant, ""));
+        m_ptrChatMessageWid->addTotalAndCurrentRecordCount(1);
+    }
+    //更新上次聊天qml界面中上次聊天信息
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "updateFriendLastChatMsg", Q_ARG(QVariant, singleChatData.m_strMessage.c_str()));
 }
 
 void ChatWidget::onSignalSearchTextLoseFocus(bool isFocus)
@@ -357,12 +356,10 @@ void ChatWidget::onSignalRecvFriendList(const QString& friendList)
 
 void ChatWidget::onSignalUpdateChatMessage(const QString id)
 {
-    //先根据id找到对应的chatmessagequickwid
-    const auto tmpWid = dynamic_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
     //然后根据wid得到现在还有多少记录可以加载
     //用总的记录减去已加载的数量
-    int curCount = tmpWid->getRecordCount();
-    int canLoadCount = tmpWid->getTotalRecordCount() - tmpWid->getRecordCount();
+    int curCount = m_ptrChatMessageWid->getRecordCount();
+    int canLoadCount = m_ptrChatMessageWid->getTotalRecordCount() - m_ptrChatMessageWid->getRecordCount();
     //聊天记录如果没有就不更新，有且大于10条就更新10 条
     canLoadCount = canLoadCount > 10 ? 10 : canLoadCount;
     std::vector<MyChatMessageInfo> vecMyChatMessageInfo;
@@ -373,9 +370,9 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     }
     //查询聊天记录的起始位置是聊天页面当前的数量,加载的总数量是canLoadCount
     DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(id, vecMyChatMessageInfo, canLoadCount,
-                                                              tmpWid->getRecordCount());
+        m_ptrChatMessageWid->getRecordCount());
     //存储一下现在页面中加载了的聊天记录数量，以便刷新时知道从哪个位置再加载
-    tmpWid->addCurrentRecordCount(vecMyChatMessageInfo.size());
+    m_ptrChatMessageWid->addCurrentRecordCount(vecMyChatMessageInfo.size());
 
     //把聊天记录加载进去
     for (const auto& item : vecMyChatMessageInfo)
@@ -389,11 +386,11 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
         {
             strId = id;
         }
-        QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
+        QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
                                   Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId),Q_ARG(QVariant,/*QString::fromStdString(PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id).m_strImagePath)*/"qrc:///LogInWidget/image/lv.jpg"));
     }
-    QMetaObject::invokeMethod(tmpWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, curCount));
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, curCount));
 }
 
 void ChatWidget::initUi()
@@ -425,6 +422,15 @@ void ChatWidget::initUi()
     ui->chatStackedWidget->addWidget(m_ptrEmptyWid);
     ui->chatStackedWidget->insertToMap(EmptyWid, m_ptrEmptyWid);
     ui->chatStackedWidget->SwitchToChatPage(EmptyWid);
+
+    //把实际的聊天界面添加到stackwid中，和每个人聊天都用这个wid
+    m_ptrChatMessageWid = new MyChatMessageQuickWid();
+    m_ptrChatMessageWid->setSource(QUrl(QStringLiteral("qrc:/QML/QML/chatMessage.qml")));
+    m_ptrChatMessageWid->setRootObj();
+    m_ptrChatMessageWid->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
+    m_ptrChatMessageWid->setClearColor(QColor(238, 238, 238));
+    ui->chatStackedWidget->addWidget(m_ptrChatMessageWid);
+    ui->chatStackedWidget->insertToMap(ChatWid, m_ptrChatMessageWid);
 
 
     //上次聊天列表设置qml文件
@@ -470,8 +476,8 @@ void ChatWidget::initConnect()
         SIGNAL(signalRequestAddFriend(QString, QString)), ChatWidgetManager::Instance().get(),
         SLOT(onSignalRequestAddFriend(QString, QString)));
     //QML页面上次聊天界面用户被点击
-    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString)), this,
-        SLOT(onSignalLastChatItemClicked(QString)));
+    connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString,QString)), this,
+        SLOT(onSignalLastChatItemClicked(QString,QString)));
     //QML页面好友列表被点击
     connect(m_ptrFriendListQMLRoot, SIGNAL(signalFriendListClicked(QString, QString)), this,
         SLOT(onSignalFriendListItemClicked(QString, QString)));
@@ -521,6 +527,12 @@ void ChatWidget::initConnect()
     connect(ui->profileImageButton, &QPushButton::clicked, this, &ChatWidget::onSignalSideBarProfileImageBtn);
 
     connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
+
+    //聊天界面上划要求更新聊天界面内的内容
+    connect(m_ptrChatMessageWid->getRootObj(), SIGNAL(signalUpdateChatModel(QString)), this,
+        SLOT(onSignalUpdateChatMessage(QString)));
+    //聊天界面中点击了头像
+    connect(m_ptrChatMessageWid->getRootObj(), SIGNAL(signalProfileImageClicked(QString)), this, SLOT(onSignalChatWidProfileImageClicked(QString)));
 }
 
 //************************************
@@ -555,8 +567,6 @@ void ChatWidget::initData()
     ChatWidgetManager::Instance()->initDBThreadConnect();
     ChatWidgetManager::Instance()->getLastChatListFromDB(PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec());
     //ChatWidgetManager::Instance()->getFriendList();
-
-    QString str = "friendImageTimeStamp";
 }
 
 void ChatWidget::getLastChatFromBackup(std::vector<QString>& tmpOrder, QSqlDatabase& db)
@@ -598,9 +608,9 @@ void ChatWidget::disConnectBackupDB(QSqlDatabase& db)const
 //收到服务器返回的好友列表后初始化lastchat
 void ChatWidget::initLastChatList()
 {
-    for (auto& item : PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
+    for (auto& item : PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec())
     {
-        auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[QString::fromStdString(item.m_strId)]];
+        auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[item.m_strId]];
         //获取上次聊天内容
         QString imagePath = "";
         if ("" == friendInfo.m_strImagePath)
@@ -615,8 +625,7 @@ void ChatWidget::initLastChatList()
                                   Q_ARG(QVariant, imagePath),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strName)),
                                   Q_ARG(QVariant, QString::fromStdString(friendInfo.m_strId)),
-            Q_ARG(QVariant, DataBaseDelegate::Instance()->queryLastChatRecord(QString::fromStdString(item.m_strId))));
-        //QMetaObject::invokeMethod(m_ptrLastChatQMLRoot,"setLastChatRecord",Q_ARG(QVariant,DataBaseDelegate::Instance()->queryLastChatRecord(item.m_strId)));
+            Q_ARG(QVariant, DataBaseDelegate::Instance()->queryLastChatRecord(item.m_strId)));
     }
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "initColor", Qt::DirectConnection);
 }
@@ -631,21 +640,17 @@ void ChatWidget::initAllChatWid()
 
 void ChatWidget::onSignalHideRedRectangleInLastChat(const QString id)
 {
-    const auto tmpWidget = reinterpret_cast<MyChatMessageQuickWid*>(ui->chatStackedWidget->getWidAcord2Id(id.toInt()));
-    tmpWidget->clearUnreadMsgCnt();
+    PublicDataManager::get_mutable_instance().clearUnreadMsg(id);
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setRedMsgAndHide",Q_ARG(QVariant, id));
     onSignalTrayIconTwinkle(false);
     m_iTrayState = TrayIconState::Normal;
 }
 
-void ChatWidget::onSignalSetRedRectangleShow(MyChatMessageQuickWid* ptr)const
+void ChatWidget::onSignalSetRedRectangleShow(const QString& id)const
 {
-    if (ptr != ui->chatStackedWidget->currentWidget())
-    {
-        ptr->setUnreadMsgCnt();
-        QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setRedMsgAndShow", Q_ARG(QVariant, ptr->GetUserId()),
-            Q_ARG(QVariant, QString::number(ptr->getUnreadMsgCnt())));
-    }
+    PublicDataManager::get_mutable_instance().setUnreadMsg(id, 1);
+    QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setRedMsgAndShow", Q_ARG(QVariant, id),
+        Q_ARG(QVariant, QString::number(PublicDataManager::get_mutable_instance().getUnreadMsgCnt(id))));
 }
 
 //当有好友同意了添加请求，对应的处理
@@ -698,6 +703,11 @@ void ChatWidget::onUpdateFriendListUI() const
 
 void ChatWidget::onSignalNeedUpdateLastChat()const
 {
+    //没有初始化上次聊天列表的时候是构造的时候添加触发的，不处理
+    if (!m_bLastChatInitFinished)
+    {
+        return;
+    }
     ChatWidgetManager::Instance()->onSignalUpdateLastChat();
 }
 
@@ -790,19 +800,14 @@ void ChatWidget::initFriendList()
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
     }
     initLastChatList();
-    initAllChatWid();
+    m_bLastChatInitFinished = true;
+    m_con.notify_one();
+    //现在只有点击了才会做聊天界面的处理
+    //initAllChatWid();
 }
 
 void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo)
 {
-    //创建和这个id的聊天界面，也就是加载qml，并保存在stackedwidget中
-    const auto tmpWid = new MyChatMessageQuickWid();
-    tmpWid->setSource(QUrl(QStringLiteral("qrc:/QML/QML/chatMessage.qml")));
-    tmpWid->setRootObj();
-    tmpWid->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
-    tmpWid->setClearColor(QColor(238, 238, 238));
-
-
     //根据从数据库的到的id去找详细信息
     const int posInVecWithC = PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[lastChatInfo.m_strId];
     const auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[posInVecWithC];
@@ -810,17 +815,13 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     const QString strId = QString::fromStdString(friendInfo.m_strId);
     const QString strName = QString::fromStdString(friendInfo.m_strName);
 
+    //清空上次聊天人的model
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "clearMessageModel");
     //保存一下这个页面所对应的好友的id
-    tmpWid->SetUserId(strId);
-    tmpWid->setUserName(strName);
+    m_ptrChatMessageWid->SetUserId(strId);
+    m_ptrChatMessageWid->setUserName(strName);
     //把用户id设置进qml
-    QMetaObject::invokeMethod(tmpWid->getRootObj(), "setId", Q_ARG(QVariant, strId));
-
-    //聊天界面上划要求更新聊天界面内的内容
-    connect(tmpWid->getRootObj(), SIGNAL(signalUpdateChatModel(QString)), this,
-            SLOT(onSignalUpdateChatMessage(QString)));
-    //聊天界面中点击了头像
-    connect(tmpWid->getRootObj(), SIGNAL(signalProfileImageClicked(QString)), this, SLOT(onSignalChatWidProfileImageClicked(QString)));
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "setId", Q_ARG(QVariant, strId));
 
     //数据库中没有和这个人的聊天记录，就先创建一个表
     if (!DataBaseDelegate::Instance()->isTableExist("chatrecord" + strId))
@@ -829,17 +830,13 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
     }
 
     //设置和这位好友的聊天记录totalcount
-    tmpWid->setTotalRecordCount(DataBaseDelegate::Instance()->getChatRecordCountFromDB(strId));
+    m_ptrChatMessageWid->setTotalRecordCount(DataBaseDelegate::Instance()->getChatRecordCountFromDB(strId));
     //获取聊天记录
     const std::vector<MyChatMessageInfo> vecMyChatMessageInfo = ChatWidgetManager::Instance()->getChatMessageAcordIdAtInit(
         lastChatInfo.m_strId);
 
     //存储一下现在页面中加载了的聊天记录数量，以便刷新时知道从哪个位置再加载
-    tmpWid->addCurrentRecordCount(static_cast<int>(vecMyChatMessageInfo.size()));
-
-    ui->chatStackedWidget->addWidget(tmpWid);
-    //保存一下这个id对应的widget在stackedwidget中的位置，以便跳转使用
-    ui->chatStackedWidget->insertToMap(lastChatInfo.m_strId.toInt(), tmpWid);
+    m_ptrChatMessageWid->setRecordCount(static_cast<int>(vecMyChatMessageInfo.size()));
 
     //把聊天记录加载进去
     for (const auto& item : vecMyChatMessageInfo)
@@ -853,14 +850,14 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
         {
             strIds = lastChatInfo.m_strId;
         }
-        QMetaObject::invokeMethod(tmpWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
+        QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
                                   Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strIds),Q_ARG(QVariant,QString(kDefaultProfileImage)));
-        tmpWid->setInitial(item.m_strName.mid(0, 1));
+        m_ptrChatMessageWid->setInitial(item.m_strName.mid(0, 1));
     }
 
     //滚动到底部
-    QMetaObject::invokeMethod(tmpWid->getRootObj(), "scrollToEnd", Qt::DirectConnection);
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "scrollToEnd", Qt::DirectConnection);
 }
 
 //向服务器发送初始化消息，告知此id在线

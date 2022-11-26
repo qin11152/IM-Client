@@ -129,7 +129,7 @@ Rectangle
 
             //anchors.left: parent.left;
             width: main.width;
-            height: name.height+message.height+25;
+            height: name.height+message.height+35;
             color: "transparent";
             Rectangle
             {

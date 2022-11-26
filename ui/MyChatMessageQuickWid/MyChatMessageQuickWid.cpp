@@ -23,6 +23,11 @@ void MyChatMessageQuickWid::addCurrentRecordCount(int cnt)
     m_iChatRecordCount += cnt;
 }
 
+void MyChatMessageQuickWid::setRecordCount(int cnt)
+{
+    m_iChatRecordCount = cnt;
+}
+
 //获得当前用户聊天记录数量
 int MyChatMessageQuickWid::getRecordCount() const
 {

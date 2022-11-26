@@ -13,6 +13,8 @@
 #include <QSystemTrayIcon>
 #include <QQuickWidget>
 #include <QSqlDatabase>
+#include <mutex>
+#include <condition_variable>
 
 namespace Ui 
 { 
@@ -20,11 +22,14 @@ namespace Ui
 };
 
 
-//聊天界面中的stackwidget中的通用界面id，比如添加好友
+/**
+ * brief: 聊天界面中的几个widget，包括空的界面，添加好友的界面和聊天界面.
+ */
 enum ChatStackedWidgetCommonWidget
 {
     AddFriendWid = 19999,
-    EmptyWid
+    EmptyWid,
+    ChatWid,
 };
 
 class ChatWidget : public QWidget
@@ -48,7 +53,11 @@ protected slots:
 private slots:
     //manager处理好友列表完毕
     void initFriendList();
-    //根据id初始化此id对应的聊天界面
+    /**
+     * brief.初始化此id对应的聊天界面，如果有十条就添加十条聊天记录，没有就有几条添加几条
+     * 
+     * \param lastChatInfo：姓名和id
+     */
     void initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo);
     //初始化上次聊天列表
     void initLastChatList();
@@ -63,7 +72,7 @@ private slots:
     //发送消息按钮被点击后
     void onSignalSendMessage();
     //上次聊天列表被点击后
-    void onSignalLastChatItemClicked(const QString strId);
+    void onSignalLastChatItemClicked(const QString strId, const QString strName);
     //好友列表被点击
     void onSignalFriendListItemClicked(QString strId,QString name);
     //底部托盘被点击后
@@ -90,7 +99,7 @@ private slots:
     //和某个好友的聊天页面要求刷新界面，也就是要求增加聊天记录
     void onSignalUpdateChatMessage(const QString id);
     //设置红色提示显示并传递正确的数量
-    void onSignalSetRedRectangleShow(MyChatMessageQuickWid* ptr)const;
+    void onSignalSetRedRectangleShow(const QString& id)const;
     //点击后取消红色消息提示框
     void onSignalHideRedRectangleInLastChat(const QString id);
 
@@ -139,12 +148,12 @@ private:
     QTimer* m_ptrIconTwinkleTimer{ nullptr };   //托盘图标闪烁用定时器
     TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
     ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
+    MyChatMessageQuickWid* m_ptrChatMessageWid{ nullptr }; //实际的聊天界面
 
     //这个用户的id
     QString m_strUserId{""};
     QString m_strUserName{ "" };
-    //存储好友信息，带首字母，这个是从服务器得到的，有具体信息
-    /*std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;
-    std::unordered_map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
-    std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;*/        //上次聊天页面里的好友,这个是从数据库得到的顺序，只有id不包含其他信息
+    bool m_bLastChatInitFinished{ false };
+    std::mutex m_mutex;
+    std::condition_variable m_con;
 };

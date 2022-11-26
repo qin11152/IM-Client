@@ -16,9 +16,7 @@ public:
     void setImagePath(const QString& path, const int id);
 
 signals:
-    void signalProfileImageChanged(QImage& image);
-    //发送图片消息信号
-    void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix);
+    void signalProfileImageChanged(const QString& path);
 
 private slots :
     void onSignalChooseBtnClicked();
@@ -31,9 +29,9 @@ protected:
 private:
     void initConnect();
     //将选择的图片压缩并传输给服务器
-    void compressAndSendImage(const QImage& image);
+    void compressAndSendImage(const QImage& image,const std::string& timeStamp);
     //删除数据库中路径下图片，保存图片并将路径更新进去
-    void saveImageAndUpdateDB(const QImage& image);
+    void saveImageAndUpdateDB(const QImage& image, const std::string& timeStamp);
 
 private:
     int m_iPageId{ -1 };

@@ -3,6 +3,7 @@
 #include "module/TCPThread/TCPThread.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/Log/Log.h"
+#include "module/PublicFunction/PublicFunction.h"
 #include <QImageReader>
 #include <QPainter>
 #include <QFileDialog>
@@ -67,8 +68,10 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
         m_strPagePath = fileNames[0];
         QImage image(m_strPagePath);
         image = image.scaled(kImageCompressSize, Qt::KeepAspectRatio);
-        compressAndSendImage(image);
-        saveImageAndUpdateDB(image);
+        std::string timeStamp = Base::timeToString("%F-%T");
+        compressAndSendImage(image, timeStamp);
+        saveImageAndUpdateDB(image, timeStamp);
+        emit signalProfileImageChanged(m_strPagePath);
         update();
     }
 }
@@ -118,10 +121,9 @@ void ProfileImagePreview::showEvent(QShowEvent* event)
 void ProfileImagePreview::initConnect()
 {
     connect(ui.changeProfileImagePushButton, &QPushButton::clicked, this, &ProfileImagePreview::onSignalChooseBtnClicked);
-    connect(this, &ProfileImagePreview::signalSendImageMsg, &TCPThread::get_mutable_instance(), &TCPThread::sendImageMsg, Qt::QueuedConnection);
 }
 
-void ProfileImagePreview::compressAndSendImage(const QImage& image)
+void ProfileImagePreview::compressAndSendImage(const QImage& image, const std::string& timeStamp)
 {
     QByteArray byteArr;
     QBuffer buffer(&byteArr);
@@ -131,10 +133,10 @@ void ProfileImagePreview::compressAndSendImage(const QImage& image)
     image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
     QString str_base64 = byteArr.toBase64();
     QString name = "suibian";
-    TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data());
+    TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data(), timeStamp.c_str());
 }
 
-void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image)
+void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::string& timeStamp)
 {
     QString id = PublicDataManager::get_mutable_instance().getMyId();
     QString lastPath = "";
@@ -153,17 +155,12 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image)
     QString curPath = QApplication::applicationDirPath();
     curPath += "/data/image/my." + suffix;
     image.save(curPath);
-    auto timet = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    tm timeInfo;
-    timeInfo = *localtime(&timet);
-    std::stringstream ss;
-    ss << std::put_time(&timeInfo, "%F-%T");
     if (DataBaseDelegate::Instance()->queryIsIdExistInProfile(id))
     {
-        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, curPath, ss.str().c_str());
+        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, curPath, timeStamp.c_str());
     }
     else
     {
-        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, curPath, ss.str().c_str());
+        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, curPath, timeStamp.c_str());
     }
 }

@@ -4,12 +4,18 @@ import QtQuick.Controls 2.12
 Rectangle
 {
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
-    signal signalFriendListClicked(string strId);
+    signal signalFriendListClicked(string strId,string name);
     signal signalNeedUpdateLastChat();
 
     property var idList:[];
 
-    //获取model的借口
+    //发送消息后更新上次聊天界面中上次聊天信息的接口
+    function updateFriendLastChatMsg(strMsg)
+    {
+        lastMsgText=strMsg;
+    }
+
+    //获取model的接口
     function getModelInfo()
     {
         idList=[];
@@ -230,7 +236,7 @@ Rectangle
                     friendListView.currentIndex=index;
                     friendListView.lastIndex=index;
                     friendListView.lastItem=friendListView.currentItem;
-                    main.signalFriendListClicked(idx);
+                    main.signalFriendListClicked(idx,name);
                 }
                 hoverEnabled: true;
                 //鼠标移动到上方时变为银色，如果移动到上次点击的item则不做处理

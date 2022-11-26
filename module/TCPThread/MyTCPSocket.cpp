@@ -25,7 +25,7 @@ void MyTCPSocket::sendMsg(const std::string& msg)
     write(sendMsg.c_str(), length + 8);
 }
 
-void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix)
+void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix, const QString& timeStamp)
 {
     //生成uuid表明这个图片的唯一性
     QString strUUID = QUuid::createUuid().toString();
@@ -45,6 +45,7 @@ void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& Ima
         tmpImageData.m_iCurIndex = i + 1;
         tmpImageData.m_iSumIndex = iNeedSlice;
         tmpImageData.m_strSuffix = suffix.toStdString();
+        tmpImageData.m_strTimeStamp = timeStamp.toStdString();
         if (i == iNeedSlice - 1)
         {
             tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, strBase64Image.length() - i * 9000).toStdString();

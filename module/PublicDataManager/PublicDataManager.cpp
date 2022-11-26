@@ -1,4 +1,5 @@
 #include "PublicDataManager.h"
+#include <algorithm>
 
 std::vector<MyFriendInfoWithFirstC>& PublicDataManager::getMyFriendInfoWithCVec()
 {
@@ -63,4 +64,44 @@ void PublicDataManager::setMyName(const QString& name)
 void PublicDataManager::setCurrentChatWidgetUserInfo(const CurrentChatWidgetUserInfo& info)
 {
     m_stuCurrentChatUserInfo = info;
+}
+
+void PublicDataManager::setUnreadMsg(const QString& id, int cnt)
+{
+    if (m_mapUnreadMsgCnt.count(id))
+    {
+        m_mapUnreadMsgCnt[id] = 0;
+        m_mapUnreadMsgCnt[id] += cnt;
+    }
+    else
+    {
+        m_mapUnreadMsgCnt[id] += cnt;
+    }
+}
+
+void PublicDataManager::clearUnreadMsg(const QString& id)
+{
+    m_mapUnreadMsgCnt.erase(id);
+}
+
+int PublicDataManager::getUnreadMsgCnt(const QString& id) const
+{
+    return m_mapUnreadMsgCnt.at(id);
+}
+
+bool PublicDataManager::isIdExistInLastChatList(const QString& id) const
+{
+    for (auto& listItem : m_vecLastChatFriend)
+    {
+        if (listItem.m_strId == id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void PublicDataManager::insertLastChatList(const MyLastChatFriendInfo& info)
+{
+    m_vecLastChatFriend.push_back(info);
 }

@@ -68,7 +68,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
     for (auto& item : getFriendListReplyData.m_vecFriendList)
     {
         //添加到qml页面listmodel中
-        QString strShouZiMu = convertToPinYin(QString::fromStdString(item.m_strFriendName)).toUpper().mid(0, 1);
+        QString strShouZiMu = Base::convertToPinYin(QString::fromStdString(item.m_strFriendName)).toUpper().mid(0, 1);
         MyFriendInfoWithFirstC tmpFriendInfo;
         tmpFriendInfo.m_strFirstChacter = strShouZiMu.toStdString();
         tmpFriendInfo.m_strId = item.m_strFriendId;
@@ -125,13 +125,13 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
     if (m_strUserName.toStdString() == addFriendNotifyData.m_strName1)
     {
         tmp.m_strName = addFriendNotifyData.m_strName2;
-        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0, 1).
+        tmp.m_strFirstChacter = Base::convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0, 1).
             toStdString();
     }
     else
     {
         tmp.m_strName = addFriendNotifyData.m_strName1;
-        tmp.m_strFirstChacter = convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).
+        tmp.m_strFirstChacter = Base::convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).
             toStdString();
     }
     emit signalBecomeFriend(tmp);
@@ -147,7 +147,7 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
     //添加好友的界面插入一个新的
     DataBaseDelegate::Instance()->insertAddFriendRequest(friendId, name, verifyMsg);
     QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest",
-                              Q_ARG(QVariant, convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name),
+                              Q_ARG(QVariant, Base::convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name),
                               Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
 }
 

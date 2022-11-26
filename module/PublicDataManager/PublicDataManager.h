@@ -26,6 +26,12 @@ public:
     void setMyId(const QString& id);
     void setMyName(const QString& name);
     void setCurrentChatWidgetUserInfo(const CurrentChatWidgetUserInfo& info);
+    void setUnreadMsg(const QString& id, int cnt);
+    void clearUnreadMsg(const QString& id);
+    int getUnreadMsgCnt(const QString& id)const;
+
+    bool isIdExistInLastChatList(const QString& id)const;
+    void insertLastChatList(const MyLastChatFriendInfo& info);
 private:
     QString m_strId{ "" };
     QString m_strName{ "" };
@@ -33,6 +39,7 @@ private:
     //自己头像的时间戳
     QString m_strMyImageTimeStamp{ "" };
 
+    std::unordered_map<QString, int> m_mapUnreadMsgCnt;     //记录不同id对应的未读消息
     std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;    //存储好友信息，带首字母，这个是从服务器得到的，有具体信息
     std::unordered_map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
     std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //上次聊天页面里的好友,这个是从数据库得到的顺序，只有id不包含其他信息
