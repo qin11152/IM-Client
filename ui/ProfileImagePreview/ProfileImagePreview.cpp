@@ -132,7 +132,7 @@ void ProfileImagePreview::compressAndSendImage(const QImage& image, const std::s
     QByteArray stc = suffix.toLatin1();
     image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
     QString str_base64 = byteArr.toBase64();
-    QString name = "suibian";
+    QString name = PublicDataManager::get_mutable_instance().getMyId();
     TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data(), timeStamp.c_str());
 }
 
@@ -153,7 +153,7 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
     QFileInfo info(m_strPagePath);
     QString suffix = info.suffix();//获取文件后缀
     QString curPath = QApplication::applicationDirPath();
-    curPath += "/data/image/my." + suffix;
+    curPath += QString::fromLocal8Bit("/data/image/")+ id +"." + suffix;
     image.save(curPath);
     if (DataBaseDelegate::Instance()->queryIsIdExistInProfile(id))
     {

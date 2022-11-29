@@ -6,6 +6,19 @@ Rectangle {
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
     signal signalFriendListClicked(string strId,string strName);
 
+    //更新某个id对应的头像
+    function updateFriendImage(strImagePath,strId)
+    {
+        for(var i=0;i<addressBookModel.count;++i)
+        {
+            if(addressBookModel.get(i).strIdx===strId)
+            {
+                addressBookModel.get(i).imagePath=strImagePath;
+                break;
+            }
+        }
+    }
+
     //增加元素到模型中，也就是增加一个会话到好友列表之中
     function addElementToModel(strImagePath,strName,strId,strFirstChacter)
     {

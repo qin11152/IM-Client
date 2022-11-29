@@ -19,6 +19,7 @@ void ProfileImageMsgJsonData::parse(const std::string& message)
     m_strBase64Msg = m_ptree.get<std::string>("ImageBase64Msg");
     m_strImageName = m_ptree.get<std::string>("ImageName");
     m_strSuffix = m_ptree.get<std::string>("Suffix");
+    m_strTimeStamp = m_ptree.get<std::string>("TimeStamp");
     m_iCurIndex = m_ptree.get<int>("ImageIndex");
     m_iSumIndex = m_ptree.get<int>("SumIndex");
 }
@@ -48,6 +49,9 @@ std::string ProfileImageMsgJsonData::generateJson()
 
     writer.Key("Suffix");
     writer.String(m_strSuffix.c_str());
+
+    writer.Key("TimeStamp");
+    writer.String(m_strTimeStamp.c_str());
 
     writer.Key("ImageIndex");
     writer.Int(m_iCurIndex);

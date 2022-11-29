@@ -12,6 +12,17 @@ Rectangle
     signal signalUpdateChatModel(string id);
     signal signalProfileImageClicked(string id);
 
+    function updateFriendImage(strId,strImagePath)
+    {
+        for(var i=0;i<messageModel.count;++i)
+        {
+            if(messageModel.get(i).id===strId)
+            {
+                messageModel.get(i).imagePath=strImagePath;
+            }
+        }
+    }
+
     //设置id
     function setId(strId)
     {

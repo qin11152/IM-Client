@@ -85,7 +85,7 @@ void ChatWidget::onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo)
     QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "switchToItemAndChangeColor", Q_ARG(QVariant, tmp.m_strId));
     initChatMessageWidAcordId(tmp);
     //chatstackwidget也要跳转到新来的这个界面
-    ui->chatStackedWidget->SwitchToChatPage(tmp.m_strId.toInt());
+    ui->chatStackedWidget->SwitchToChatPage(ChatWid);
     //新添加的好友，也创建一条聊天记录表
     DataBaseDelegate::Instance()->createUserChatTable(QString::fromStdString(friendInfo.m_strId));
 }
@@ -213,6 +213,7 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
     //左侧列表界面设为lastchat
     ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
 
+    //如果不存在才添加，如果不是这个界面，还要切换
     auto friendVec = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec();
     auto friendInfo = friendVec[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[strId]];
     //获取上次聊天内容
@@ -238,9 +239,17 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
         PublicDataManager::get_mutable_instance().insertLastChatList({ name, strId });
     }
 
+    //如果当前聊天页面不是这个人
+    if (strId != PublicDataManager::get_mutable_instance().getCurrentChatWidgetUserInfo().userId.c_str())
+    {
+        //现在的聊天页面换成这个id
+        PublicDataManager::get_mutable_instance().setCurrentChatWidgetUserInfo(CurrentChatWidgetUserInfo(10, name.toStdString()));
+        initChatMessageWidAcordId(MyLastChatFriendInfo(name, strId));
+        ui->chatStackedWidget->SwitchToChatPage(ChatWid);
+    }
+
     //去除掉红点
     onSignalHideRedRectangleInLastChat(strId);
-    ui->chatStackedWidget->SwitchToChatPage(ChatWid);
     ui->nickNameLabel->setText(name);
 }
 
@@ -533,15 +542,12 @@ void ChatWidget::initConnect()
         SLOT(onSignalUpdateChatMessage(QString)));
     //聊天界面中点击了头像
     connect(m_ptrChatMessageWid->getRootObj(), SIGNAL(signalProfileImageClicked(QString)), this, SLOT(onSignalChatWidProfileImageClicked(QString)));
+
+    //自己的头像换了
+    connect(m_ptrProfileImagePreviewWid, &ProfileImagePreview::signalProfileImageChanged, this, &ChatWidget::onSignalProfileImageChanged);
 }
 
-//************************************
-// Method:    initData
-// FullName:  ChatWidget::initData
-// Access:    private 
-// Returns:   void
-// Qualifier: 进入聊天界面要进行初始化，获取一些数据
-//************************************
+//初始化一些指针和需要的数据
 void ChatWidget::initData()
 {
     m_ptrFriendListWidget = new QQuickWidget();
@@ -550,6 +556,7 @@ void ChatWidget::initData()
     m_ptrSearchFriendList = new QQuickWidget();
 
     m_ptrIconTwinkleTimer=new QTimer();
+    m_ptrProfileImagePreviewWid = new ProfileImagePreview();
 
     //先去从缓存的数据库中获取到相关的数据并更新到实际的数据库，然后在执行相关操作
     auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite2");
@@ -612,14 +619,16 @@ void ChatWidget::initLastChatList()
     {
         auto friendInfo = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec()[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[item.m_strId]];
         //获取上次聊天内容
+        //前四个字符不是qrc:
         QString imagePath = "";
-        if ("" == friendInfo.m_strImagePath)
+        if (friendInfo.m_strImagePath.substr(0, 4) != "qrc:")
         {
-            imagePath = kDefaultProfileImage;
+            //如果是本地图片，需要加上file:///
+            imagePath = QString("file:///") + friendInfo.m_strImagePath.c_str();
         }
         else
         {
-            imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+            imagePath = friendInfo.m_strImagePath.c_str();
         }
         QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "addElementToModel",
                                   Q_ARG(QVariant, imagePath),
@@ -662,6 +671,9 @@ void ChatWidget::onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo)
     onAddFriendIntoList(friendInfo);
     //要把好友列表的界面也更新一下
     onUpdateFriendListUI();
+    //把这个好友的头像时间戳插入到数据库,先使用默认的头像路径
+    DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(friendInfo.m_strId.c_str(), kDefaultProfileImage, friendInfo.m_strImageTimestamp.c_str());
+    //TODO 从服务器获取一下这个好友的头像
 }
 
 void ChatWidget::onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo)
@@ -685,14 +697,16 @@ void ChatWidget::onUpdateFriendListUI() const
     //然后再按照顺序添加进去
     for(const auto& item: PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
     {
+        //前四个字符不是qrc:
         QString imagePath = "";
-        if ("" == item.m_strImagePath)
+        if (item.m_strImagePath.substr(0, 4) != "qrc:")
         {
-            imagePath = kDefaultProfileImage;
+            //如果是本地图片，需要加上file:///
+            imagePath = QString("file:///") + item.m_strImagePath.c_str();
         }
         else
         {
-            imagePath = QString::fromStdString(item.m_strImagePath);
+            imagePath = item.m_strImagePath.c_str();
         }
         QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, imagePath),
             Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
@@ -780,19 +794,33 @@ void ChatWidget::onSignalChatWidOpenProfileImagePreview(const int id)
     m_ptrProfileImagePreviewWid->show();
 }
 
+void ChatWidget::onSignalProfileImageChanged(const QString& imagePath)
+{
+    //需要更新左上角的和聊天界面中的
+    setProfileImage(imagePath);
+    //初始化的时候userid为0，不为0说明点击过某一个人了，聊天界面初始化了
+    if (PublicDataManager::get_mutable_instance().getCurrentChatWidgetUserInfo().userId != "0")
+    {
+        //更新一下界面里的内容
+        auto qmlImagePath = "file:///" + imagePath;
+        QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "updateFriendImage", Q_ARG(QVariant, m_strUserId), Q_ARG(QVariant, qmlImagePath));
+    }
+}
 
 void ChatWidget::initFriendList()
 {
     for (const auto& item : PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec())
     {
+        //前四个字符不是qrc:
         QString imagePath = "";
-        if ("" == item.m_strImagePath)
+        if (item.m_strImagePath.substr(0, 4) != "qrc:")
         {
-            imagePath = kDefaultProfileImage;
+            //如果是本地图片，需要加上file:///
+            imagePath = QString("file:///") + item.m_strImagePath.c_str();
         }
         else
         {
-            imagePath = QString::fromStdString(item.m_strImagePath);
+            imagePath = item.m_strImagePath.c_str();
         }
         QMetaObject::invokeMethod(m_ptrFriendListQMLRoot, "addElementToModel", Q_ARG(QVariant, imagePath),
                                   Q_ARG(QVariant, QString::fromStdString(item.m_strName)),
@@ -850,9 +878,19 @@ void ChatWidget::initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatI
         {
             strIds = lastChatInfo.m_strId;
         }
+        QString imagePath = "";
+        if (friendInfo.m_strImagePath.substr(0, 4) != "qrc:")
+        {
+            //如果是本地图片，需要加上file:///
+            imagePath = QString("file:///") + friendInfo.m_strImagePath.c_str();
+        }
+        else
+        {
+            imagePath = friendInfo.m_strImagePath.c_str();
+        }
         QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "insertMessageModel", Q_ARG(QVariant, (item.m_strName)),
                                   Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
-                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strIds),Q_ARG(QVariant,QString(kDefaultProfileImage)));
+                                  Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strIds),Q_ARG(QVariant,imagePath));
         m_ptrChatMessageWid->setInitial(item.m_strName.mid(0, 1));
     }
 

@@ -9,6 +9,19 @@ Rectangle
 
     property var idList:[];
 
+    //更新某个id对应的头像
+    function updateFriendImage(strImagePath,strId)
+    {
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            if(friendListModel.get(i).idx===strId)
+            {
+                friendListModel.get(i).imagePath=strImagePath;
+                break;
+            }
+        }
+    }
+
     //发送消息后更新上次聊天界面中上次聊天信息的接口
     function updateFriendLastChatMsg(strMsg)
     {

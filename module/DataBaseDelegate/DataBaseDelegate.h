@@ -32,16 +32,12 @@ public:
     bool createProfileImageTable()const;
     //创建好友请求的表
     bool createFriendRequestTable()const;
-    //创建好友头像时间戳表
-    bool createFriendImageTimeStampTable()const;
     //根据id获取最后一条聊天记录
     QString queryLastChatRecord(const QString& id)const;
     //只有id
     bool insertLastChat(const QString& id)const;
     //插入到上次聊天表中
     bool insertLastChat(const std::vector<QString>& order)const;
-    //插入好友头像时间戳
-    bool insertFriendImageTimeStamp(const QString& id, const QString& friendId, const QString& time, const QString& imagePath)const;
     //清空上次聊天表
     bool clearLastChat()const;
     //插入聊天记录

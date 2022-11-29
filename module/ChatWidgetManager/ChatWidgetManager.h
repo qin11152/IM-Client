@@ -52,7 +52,7 @@ public:
 
 public slots:
 
-    //服务端返回来好友列表
+    //服务器传来的好友信息
     void onSignalRecvFriendList(const QString& friendList, std::unordered_map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
     //收到qml页面同意添加好友的请求
     void onSignalAgreeAddFriend(QString friendName);

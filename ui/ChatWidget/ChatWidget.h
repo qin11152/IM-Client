@@ -117,18 +117,56 @@ private slots:
     //闪烁定时器到时
     void onSignalIconTwinkleTimerout();
 
-    //修改侧边栏中头像图片
+    /**
+     * brief：修改侧边栏中头像.
+     * 
+     * \param strImage：传入的头像路径
+     */
     void setProfileImage(const QString& strImage);
-    //要求打开头像预览界面
+    /**
+     * brief:要求打开头像预览、更改界面.
+     * 
+     * \param id：传入的id，根据id显示对应的头像，如果id是自己的则有修改按钮
+     */
     void onSignalChatWidOpenProfileImagePreview(const int id);
+    /**
+     * brief：修改了自己头像路径后要更新聊天界面和左上角头像界面.
+     * 
+     * \param imagePath：修改后的头像路径
+     */
+    void onSignalProfileImageChanged(const QString& imagePath);
 
 private:
+    /**
+     * brief：初始化界面相关的属性.
+     * 
+     */
     void initUi();
+    /**
+     * brief:初始化信号槽连接.
+     * 
+     */
     void initConnect();
+    //************************************
+    // Method:    initData
+    // FullName:  ChatWidget::initData
+    // Access:    private 
+    // Returns:   void
+    // Qualifier: 进入聊天界面要进行初始化，获取一些数据
+    //************************************
     void initData();
-    //void notifyServerOnline();
+    /**
+     * brief:从备份数据库中获取上次聊天列表，因为修改顺序后是子线程保存在备份数据库中.
+     * 
+     * \param tmpOrder:获取到的上此聊天数据
+     * \param db 要连接的数据库
+     */
     void getLastChatFromBackup(std::vector<QString>& tmpOrder,QSqlDatabase& db);
-    //把一个临时的数据库对象和备份数据库进行连接
+    /**
+     * brief：和备份数据库进行连接，便于之后的子线程操作.
+     * 
+     * \param db 备份数据库
+     */
     void connectToBackupDB(QSqlDatabase& db);
     //用完了就把临时数据库断开连接
     void disConnectBackupDB(QSqlDatabase& db)const;

@@ -60,7 +60,7 @@ private:
     //根对象，用于和qml进行交互
     QObject* m_ptrRootObj{ nullptr };
     //用户的id
-    QString m_strId{ "" };
+    QString m_strId{ "-1" };
     //用户的首字母
     QString m_strInitial{ "" };
     //用户的名称

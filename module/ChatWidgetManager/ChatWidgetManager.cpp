@@ -72,9 +72,17 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
         MyFriendInfoWithFirstC tmpFriendInfo;
         tmpFriendInfo.m_strFirstChacter = strShouZiMu.toStdString();
         tmpFriendInfo.m_strId = item.m_strFriendId;
-        tmpFriendInfo.m_strImagePath = "";
         tmpFriendInfo.m_strName = item.m_strFriendName;
         tmpFriendInfo.m_strImageTimestamp = item.m_strFriendImageTimeStamp;
+        //从数据库获取头像路径
+        QString strImage = "";
+        DataBaseDelegate::Instance()->queryProfileImagePath(item.m_strFriendId.c_str(), strImage);
+        //如果数据库中没有头像路径，则使用默认头像
+        if (strImage.isEmpty())
+        {
+            strImage = kDefaultProfileImage;
+        }
+        tmpFriendInfo.m_strImagePath = strImage.toStdString();
         vecFriendInfoWithC.push_back(tmpFriendInfo);
         mapUserInfo[QString::fromStdString(item.m_strFriendId)] = vecFriendInfoWithC.size() - 1;
     }
@@ -117,22 +125,18 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
     if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
     {
         tmp.m_strId = addFriendNotifyData.m_strId2;
+        tmp.m_strName = addFriendNotifyData.m_strName2;
+        tmp.m_strFirstChacter = Base::convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0, 1).
+            toStdString();
+        tmp.m_strImagePath = addFriendNotifyData.m_strImageStamp1;
     }
     else
     {
         tmp.m_strId = addFriendNotifyData.m_strId1;
-    }
-    if (m_strUserName.toStdString() == addFriendNotifyData.m_strName1)
-    {
-        tmp.m_strName = addFriendNotifyData.m_strName2;
-        tmp.m_strFirstChacter = Base::convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName2)).mid(0, 1).
-            toStdString();
-    }
-    else
-    {
         tmp.m_strName = addFriendNotifyData.m_strName1;
         tmp.m_strFirstChacter = Base::convertToPinYin(QString::fromStdString(addFriendNotifyData.m_strName1)).mid(0, 1).
             toStdString();
+        tmp.m_strImagePath = addFriendNotifyData.m_strImageStamp2;
     }
     emit signalBecomeFriend(tmp);
 }
@@ -246,14 +250,14 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
     {
         qDebug() << "open database failed";
     }
-    const QString str = "select id, timestamp from friendImageTimeStamp"+m_strUserId;
+    const QString str = "select id, timestamp from profileImage";
     std::unordered_map<std::string, std::string> mapTimeStamp;
     QSqlQuery query(dataBase);
     if (!query.exec(str))
     {
         return;
     }
-
+    
     while (query.next())
     {
         QSqlRecord record = query.record();
@@ -264,7 +268,7 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
     }
     for (auto& item : vecFriendInfo)
     {
-        if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
+        if (0 == mapTimeStamp.count(item.m_strId) || item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
         {
             //TODO 发送消息到服务器，获取新头像
             getProfileImageJsonData tmpInfo;

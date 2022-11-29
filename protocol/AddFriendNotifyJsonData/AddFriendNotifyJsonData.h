@@ -13,5 +13,7 @@ public:
     std::string m_strId2{ "" };
     std::string m_strName1{ "" };
     std::string m_strName2{ "" };
+    std::string m_strImageStamp1{ "" };
+    std::string m_strImageStamp2{ "" };
     MessageType m_strType{ MessageType::AddFriendNotify };
 };

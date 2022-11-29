@@ -2,8 +2,12 @@
 #include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
 #include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
 #include "module/PublicDataManager/PublicDataManager.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/Log/Log.h"
 #include <QUuid>
 #include <QApplication>
+#include <QBuffer>
+#include <QPixmap>
 
 TCPThread::TCPThread(QObject *parent)
     :QThread(parent)
@@ -116,14 +120,16 @@ void TCPThread::onSignalRecvMessage()
     //当缓冲区的长度大于包头长度时就可以进入业务处理逻辑了
     while (m_endPosOfBuffer > PackageLength)
     {
-        char msgLength[PackageLength + 1]{ 0 };
-        memcpy(msgLength, m_msgBuffer, PackageLength);
-        int iMsgLength = atoi(msgLength);
+        //char msgLength[PackageLength + 1]{ 0 };
+        //memcpy(msgLength, m_msgBuffer, PackageLength);
+        std::string msgLength(m_msgBuffer, PackageLength);
+        int iMsgLength = atoi(msgLength.c_str());
         //判断收到的数据是否大于包头的长度
         if (m_endPosOfBuffer - PackageLength >= iMsgLength)
         {
-            char recvMessage[1024]{ 0 };
-            memcpy(recvMessage, m_msgBuffer + PackageLength, iMsgLength);
+            //char recvMessage[10 * 1024]{ 0 };
+            //memcpy(recvMessage, m_msgBuffer + PackageLength, iMsgLength);
+            std::string recvMessage(m_msgBuffer + PackageLength, iMsgLength);
             onHandleMessage(recvMessage);
             //把处理完的数据覆盖掉
             memcpy(m_msgBuffer, m_msgBuffer + PackageLength + iMsgLength, kMsgBufferLength - (PackageLength + iMsgLength));
@@ -192,17 +198,24 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
                 //如果收到的片数到达了最后一个了
                 //TODO 将图片保存到本地，并将图片的路径保存到数据库中
                 std::string curPath = QApplication::applicationDirPath().toStdString();
-                curPath += "/data/profileImage/" + profileImageMsgData.m_strId + "." + profileImageMsgData.m_strSuffix;
-                std::fstream out(curPath, std::ios::out);
-                if (out.is_open())
+                curPath += "/data/image/" + profileImageMsgData.m_strId + "." + profileImageMsgData.m_strSuffix;
+
+                //qt BASE64转图片
+                QByteArray ba;
+                ba.append(m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID].c_str());
+                QByteArray bb = QByteArray::fromBase64(ba);
+                
+                QBuffer buffer(&bb);
+                buffer.open(QIODevice::WriteOnly);
+                QPixmap imageresult;
+                bool resutl = imageresult.loadFromData(bb);
+                if (curPath != "")
                 {
-                    out << m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID];
-                    out.close();
-                }
-                else {
+                    qDebug() << "save";
+                    imageresult.save(curPath.c_str());
                 }
                 //TODO把这个新的路径存储在数据库中，并把新的路径更新到界面之中
-                //MysqlQuery::Instance()->updateImagePathAcordId(profileImageMsgData.m_strId, curPath);
+                DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), curPath.c_str(), profileImageMsgData.m_strTimeStamp.c_str());
                 m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
                 m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
                 //TODO 回复一个发送成功的消息

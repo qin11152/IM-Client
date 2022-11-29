@@ -48,11 +48,11 @@ void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& Ima
         tmpImageData.m_strTimeStamp = timeStamp.toStdString();
         if (i == iNeedSlice - 1)
         {
-            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, strBase64Image.length() - i * 9000).toStdString();
+            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * kSegmentLength, strBase64Image.length() - i * 9000).toStdString();
         }
         else
         {
-            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * 9000, 9000).toStdString();
+            tmpImageData.m_strBase64Msg = strBase64Image.mid(i * kSegmentLength, kSegmentLength).toStdString();
         }
         sendMsg(tmpImageData.generateJson());
     }
