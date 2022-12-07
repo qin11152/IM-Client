@@ -10,7 +10,7 @@ Rectangle
     property var idList:[];
 
     //更新某个id对应的头像
-    function updateFriendImage(strImagePath,strId)
+    function updateFriendImage(strId,strImagePath)
     {
         for(var i=0;i<friendListModel.count;++i)
         {

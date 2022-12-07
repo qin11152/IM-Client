@@ -7,7 +7,7 @@ Rectangle {
     signal signalFriendListClicked(string strId,string strName);
 
     //更新某个id对应的头像
-    function updateFriendImage(strImagePath,strId)
+    function updateFriendImage(strId,strImagePath)
     {
         for(var i=0;i<addressBookModel.count;++i)
         {

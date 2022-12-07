@@ -71,7 +71,8 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
         std::string timeStamp = Base::timeToString("%F-%T");
         compressAndSendImage(image, timeStamp);
         saveImageAndUpdateDB(image, timeStamp);
-        emit signalProfileImageChanged(m_strPagePath);
+        //因为是自己的头像换了，所以id是自己的id
+        emit signalProfileImageChanged(PublicDataManager::get_mutable_instance().getMyId(), m_strPagePath);
         update();
     }
 }
@@ -152,15 +153,15 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
     }
     QFileInfo info(m_strPagePath);
     QString suffix = info.suffix();//获取文件后缀
-    QString curPath = QApplication::applicationDirPath();
-    curPath += QString::fromLocal8Bit("/data/image/")+ id +"." + suffix;
-    image.save(curPath);
+    QString savePath = PublicDataManager::get_mutable_instance().getIdDirPath() + "/image/" + id + "." + suffix;
+    PublicDataManager::get_mutable_instance().setImagePath(savePath);
+    image.save(savePath);
     if (DataBaseDelegate::Instance()->queryIsIdExistInProfile(id))
     {
-        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, curPath, timeStamp.c_str());
+        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, savePath, timeStamp.c_str());
     }
     else
     {
-        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, curPath, timeStamp.c_str());
+        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, savePath, timeStamp.c_str());
     }
 }

@@ -1,13 +1,15 @@
 #include "TCPThread.h"
+#include "module/Log/Log.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
 #include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
-#include "module/PublicDataManager/PublicDataManager.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
-#include "module/Log/Log.h"
 #include <QUuid>
-#include <QApplication>
+#include <QFile>
 #include <QBuffer>
 #include <QPixmap>
+#include <QApplication>
+
 
 TCPThread::TCPThread(QObject *parent)
     :QThread(parent)
@@ -193,12 +195,21 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
                 m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
             }
             m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID] += profileImageMsgData.m_strBase64Msg;
+            m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID] = profileImageMsgData.m_iCurIndex;
             if (profileImageMsgData.m_iCurIndex == profileImageMsgData.m_iSumIndex)
             {
                 //如果收到的片数到达了最后一个了
-                //TODO 将图片保存到本地，并将图片的路径保存到数据库中
-                std::string curPath = QApplication::applicationDirPath().toStdString();
-                curPath += "/data/image/" + profileImageMsgData.m_strId + "." + profileImageMsgData.m_strSuffix;
+                // 先将之前的图片删除
+                
+                QString oldPath = "";
+                DataBaseDelegate::Instance()->queryProfileImagePath(profileImageMsgData.m_strId.c_str(), oldPath);
+                if (oldPath != " ")
+                {
+                    QFile::remove(oldPath);
+                }
+
+                //将图片保存到本地，并将图片的路径保存到数据库中
+                QString savePath = PublicDataManager::get_mutable_instance().getIdDirPath() + "/image/" + profileImageMsgData.m_strId.c_str() + "." + profileImageMsgData.m_strSuffix.c_str();
 
                 //qt BASE64转图片
                 QByteArray ba;
@@ -209,18 +220,16 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
                 buffer.open(QIODevice::WriteOnly);
                 QPixmap imageresult;
                 bool resutl = imageresult.loadFromData(bb);
-                if (curPath != "")
+                if (savePath != "")
                 {
-                    qDebug() << "save";
-                    imageresult.save(curPath.c_str());
+                    imageresult.save(savePath);
                 }
                 //TODO把这个新的路径存储在数据库中，并把新的路径更新到界面之中
-                DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), curPath.c_str(), profileImageMsgData.m_strTimeStamp.c_str());
+                DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), savePath, profileImageMsgData.m_strTimeStamp.c_str());
+                emit signalProfileImageChanged(profileImageMsgData.m_strId.c_str(), savePath);
                 m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
                 m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
-                //TODO 回复一个发送成功的消息
             }
-            m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID] = profileImageMsgData.m_iCurIndex;
         }
         break;
         default:

@@ -1,14 +1,16 @@
 #include "ChatWidgetManager.h"
-#include "module/PublicFunction/PublicFunction.h"
 #include "module/TCPThread/TCPThread.h"
+#include "module/FileManager/FileManager.h"
+#include "module/PublicFunction/PublicFunction.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/PublicDataManager/PublicDataManager.h"
+#include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
+#include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
+#include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
 #include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
-#include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
-#include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
-#include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
 #include <algorithm>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -214,6 +216,36 @@ void ChatWidgetManager::initDBOperateThread()
     m_ptrDBOperateThread=new DatabaseOperateThread(nullptr);
     //为子线程设定id，保证操作的数据库正确
     m_ptrDBOperateThread->setCurUserId(m_strUserId);
+}
+
+//查看一些必需的文件夹和文件是否存在
+void ChatWidgetManager::initDirAndFile()
+{
+    //获取当前程序所在路径
+    QString strAppPath = QCoreApplication::applicationDirPath();
+    
+    //查看data文件夹
+    QString strDataPath = strAppPath + "/data";
+    if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(strDataPath))
+    {
+        Base::fileoperate::FileManager::get_mutable_instance().createDir(strDataPath);
+    }
+
+    //查看对应id的文件夹是否存在
+    QString idPath = strDataPath + "/" + m_strUserId;
+    if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(idPath))
+    {
+        Base::fileoperate::FileManager::get_mutable_instance().createDir(idPath);
+    }
+    //把自己的id对应的文件夹路径保存下来
+    PublicDataManager::get_mutable_instance().setIdDirPath(idPath);
+    
+    //查看image文件夹
+    QString strImagePath = idPath + "/image";
+    if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(strImagePath))
+    {
+        Base::fileoperate::FileManager::get_mutable_instance().createDir(strImagePath);
+    }
 }
 
 void ChatWidgetManager::getFriendList()

@@ -16,7 +16,7 @@ public:
     void setImagePath(const QString& path, const int id);
 
 signals:
-    void signalProfileImageChanged(const QString& path);
+    void signalProfileImageChanged(const QString& id, const QString& path);
 
 private slots :
     void onSignalChooseBtnClicked();

@@ -60,11 +60,11 @@
     <IncludePath>E:\boost_1_75_0;$(IncludePath)</IncludePath>
     <LibraryPath>E:\boost_1_75_0\libs;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash</IntDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash</IntDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
+    <ClCompile Include="module\FileManager\FileManager.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
     <ClCompile Include="module\Log\Log.cpp" />
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
@@ -208,6 +209,7 @@
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />
+    <QtMoc Include="module\FileManager\FileManager.h" />
     <ClInclude Include="module\Log\Log.h" />
     <ClInclude Include="module\MyDefine.h" />
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h" />

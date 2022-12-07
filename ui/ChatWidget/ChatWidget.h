@@ -134,8 +134,16 @@ private slots:
      * 
      * \param imagePath：修改后的头像路径
      */
-    void onSignalProfileImageChanged(const QString& imagePath);
+    void onSignalProfileImageChanged(const QString& id, const QString& imagePath);
 
+    /**
+     * brief:好友的头像修改了以后就更新一下lastchat，Friendlist，并查看是不是和他聊天呢，是就把chatwidget也更新一下.
+     * 
+     * \param id：好友id
+     * \param imagePath：好友新头像路径
+     */
+    void onSignalFriendProfileImageChanged(const QString& id, const QString& imagePath)const;
+    
 private:
     /**
      * brief：初始化界面相关的属性.

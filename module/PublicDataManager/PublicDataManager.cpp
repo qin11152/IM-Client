@@ -79,6 +79,21 @@ void PublicDataManager::setUnreadMsg(const QString& id, int cnt)
     }
 }
 
+void PublicDataManager::setIdDirPath(const QString& path)
+{
+    m_strIdDirPath = path;
+}
+
+void PublicDataManager::setImagePath(const QString& path)
+{
+    m_strImagePath = path;
+}
+
+void PublicDataManager::updateProfileImagePathOfFriendInfoVec(const QString& id, const QString& path)
+{
+    m_vecFriendInfoWithC[m_mapUserInfo[id]].m_strImagePath = path.toStdString();
+}
+
 void PublicDataManager::clearUnreadMsg(const QString& id)
 {
     m_mapUnreadMsgCnt.erase(id);
@@ -87,6 +102,16 @@ void PublicDataManager::clearUnreadMsg(const QString& id)
 int PublicDataManager::getUnreadMsgCnt(const QString& id) const
 {
     return m_mapUnreadMsgCnt.at(id);
+}
+
+QString PublicDataManager::getIdDirPath() const
+{
+    return m_strIdDirPath;
+}
+
+QString PublicDataManager::getImagePath() const
+{
+    return m_strImagePath;
 }
 
 bool PublicDataManager::isIdExistInLastChatList(const QString& id) const

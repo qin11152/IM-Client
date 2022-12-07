@@ -103,6 +103,9 @@
     <ClCompile Include="protocol\getProfileImageJsonData\getProfileImageJsonData.cpp">
       <Filter>protocol\getProfileImageJsonData</Filter>
     </ClCompile>
+    <ClCompile Include="module\FileManager\FileManager.cpp">
+      <Filter>module\FileManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -216,6 +219,9 @@
     </QtMoc>
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h">
       <Filter>ui\ProfileImagePreview</Filter>
+    </QtMoc>
+    <QtMoc Include="module\FileManager\FileManager.h">
+      <Filter>module\FileManager</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +381,9 @@
     </Filter>
     <Filter Include="protocol\getProfileImageJsonData">
       <UniqueIdentifier>{3503ece2-ef1f-45db-a7f2-8d9290191976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\FileManager">
+      <UniqueIdentifier>{14088d81-50bb-4b6b-8a88-fe6810ca711a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

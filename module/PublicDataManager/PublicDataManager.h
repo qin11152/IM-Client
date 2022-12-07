@@ -27,8 +27,19 @@ public:
     void setMyName(const QString& name);
     void setCurrentChatWidgetUserInfo(const CurrentChatWidgetUserInfo& info);
     void setUnreadMsg(const QString& id, int cnt);
+    void setIdDirPath(const QString& path);
+    void setImagePath(const QString& path);
+    /**
+     * brief：好友头像修改后要将其在vec中的头像路径修改一下.
+     * 
+     * \param id：好友id
+     * \param path：好友头像的路径
+     */
+    void updateProfileImagePathOfFriendInfoVec(const QString& id, const QString& path);
     void clearUnreadMsg(const QString& id);
     int getUnreadMsgCnt(const QString& id)const;
+    QString getIdDirPath()const;
+    QString getImagePath()const;
 
     bool isIdExistInLastChatList(const QString& id)const;
     void insertLastChatList(const MyLastChatFriendInfo& info);
@@ -38,6 +49,7 @@ private:
     QString m_strImagePath{ "" };
     //自己头像的时间戳
     QString m_strMyImageTimeStamp{ "" };
+    QString m_strIdDirPath{ "" };   //自己id所在的文件夹路径
 
     std::unordered_map<QString, int> m_mapUnreadMsgCnt;     //记录不同id对应的未读消息
     std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;    //存储好友信息，带首字母，这个是从服务器得到的，有具体信息

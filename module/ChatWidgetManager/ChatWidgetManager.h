@@ -37,6 +37,12 @@ public:
     //设置子线程中最新的lastchat列表
     void setLastChatList(QStringList& m_lastChatList)const;
 
+    /**
+     * brief:初始化每个账号所需要的文件夹和文件，如果不存在就创建.
+     * 
+     */
+    void initDirAndFile();
+
     //从服务端获取当前用户的好友列表
     void getFriendList();
     //通知服务端客户端上线
