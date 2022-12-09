@@ -4,6 +4,7 @@
 #include "ui/MyLineEdit/MyLineEdit.h"
 #include "module/Log/Log.h"
 #include "module/TCPThread/TCPThread.h"
+#include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicDataManager/PublicDataManager.h"
@@ -383,6 +384,7 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
     {
         return;
     }
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "setBusyIndicatorStateFlag", Q_ARG(QVariant, true));
     //查询聊天记录的起始位置是聊天页面当前的数量,加载的总数量是canLoadCount
     DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(id, vecMyChatMessageInfo, canLoadCount,
         m_ptrChatMessageWid->getRecordCount());
@@ -417,7 +419,8 @@ void ChatWidget::onSignalUpdateChatMessage(const QString id)
             Q_ARG(QVariant, (item.m_strMessage)), Q_ARG(QVariant, item.m_bIsSelf),
             Q_ARG(QVariant, (item.m_strName.mid(0, 1))), Q_ARG(QVariant, strId), Q_ARG(QVariant, imagePath));
     }
-    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, curCount));
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "setBusyIndicatorStateFlag", Q_ARG(QVariant, false));
+    QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "scrollToPosition", Q_ARG(QVariant, canLoadCount -1));
 }
 
 //好友的头像修改了以后就更新一下lastchat，Friendlist，并查看是不是和他聊天呢，是就把chatwidget也更新一下
@@ -659,8 +662,15 @@ void ChatWidget::initLastChatList()
         QString imagePath = "";
         if (friendInfo.m_strImagePath.substr(0, 4) != "qrc:")
         {
-            //如果是本地图片，需要加上file:///
-            imagePath = QString("file:///") + friendInfo.m_strImagePath.c_str();
+            if (Base::fileoperate::FileManager::get_mutable_instance().checkFileExist(friendInfo.m_strImagePath.c_str()))
+            {
+                //如果是本地图片，需要加上file:///
+                imagePath = QString("file:///") + friendInfo.m_strImagePath.c_str();
+            }
+            else
+            {
+                imagePath = kDefaultProfileImage;
+            }
         }
         else
         {

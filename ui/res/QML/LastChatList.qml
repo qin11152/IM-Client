@@ -16,6 +16,7 @@ Rectangle
         {
             if(friendListModel.get(i).idx===strId)
             {
+                friendListModel.get(i).imagePath="";
                 friendListModel.get(i).imagePath=strImagePath;
                 break;
             }
@@ -83,6 +84,7 @@ Rectangle
     //插入元素到model中
     function insertElementToModel(strImagePath,strName,strId)
     {
+        console.log("444");
         friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
         main.signalNeedUpdateLastChat();
     }

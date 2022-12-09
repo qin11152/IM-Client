@@ -37,14 +37,16 @@ Rectangle
 
     function scrollToPosition(iPosition)
     {
-        if(messageView.count-iPosition<10)
-        {
-            messageView.positionViewAtIndex(messageView.count-iPosition,ListView.Visible);
-        }
-        else
-        {
-            messageView.positionViewAtIndex(10,ListView.Visible);
-        }
+        console.log("count",iPosition);
+        messageView.positionViewAtIndex(iPosition,ListView.Beginning)
+//        if(messageView.count-iPosition<10)
+//        {
+//            messageView.positionViewAtIndex(messageView.count-iPosition,ListView.Beginning);
+//        }
+//        else
+//        {
+//            messageView.positionViewAtIndex(10,ListView.Beginning);
+//        }
     }
 
     function insertMessageModel(strName,strMessage,bIsSelf,strShou,strId,strImagePath)
@@ -70,6 +72,29 @@ Rectangle
         iRecordCount=iCount;
     }
 
+    function setBusyIndicatorStateFlag(bFlag)
+    {
+        console.log("state:",bFlag);
+        if(bFlag)
+        {
+            busyIndi.running=bFlag;
+        }
+        else
+        {
+            time.start();
+        }
+    }
+
+    Timer
+    {
+        id:time;
+        interval: 300;
+        onTriggered:
+        {
+            busyIndi.running=false;
+        }
+    }
+
     id: main;
     width: 300;
     height: 300;
@@ -79,48 +104,78 @@ Rectangle
     {
         id: messageModel;
     }
-    ListView
+
+    Rectangle
     {
-        id:messageView;
-        model: messageModel;
-        delegate: messageDelegate;
-        anchors.fill: parent;
-        orientation: ListView.Vertical
-        property bool needUpddateModel:false;
-        ScrollBar.vertical: ScrollBar
+        id:viewWrapper;
+        anchors.left: parent.left;
+        anchors.top: parent.top//busyIndiRect.bottom;
+        width: parent.width;
+        height: parent.height//parent.height-busyIndiRect.height;
+        ListView
         {
-            id: scrollBar;
-            visible: false;
-            policy: ScrollBar.AsNeeded;
-        }
-        //移动结束了，看是否需要更新数据
-        onMovementEnded:
-        {
-            if(needUpddateModel===true)
+            id:messageView;
+            model: messageModel;
+            delegate: messageDelegate;
+            anchors.fill: parent;
+            orientation: ListView.Vertical
+            property bool needUpddateModel:false;
+            clip: true;
+            ScrollBar.vertical: ScrollBar
             {
-                main.signalUpdateChatModel(strIdx);
-                needUpddateModel=false;
+                id: scrollBar;
+                visible: false;
+                policy: ScrollBar.AsNeeded;
             }
-        }
-        //每次y坐标变化了就看看是不是到了顶部了
-        onContentYChanged:
-        {
-            // 下拉刷新判断逻辑：已经到头了，还下拉一定距离
-            if (contentY < originY)
+            //移动结束了，看是否需要更新数据
+            onMovementEnded:
             {
-                var dy = contentY - originY;
-                if (dy < -20)
+                if(needUpddateModel===true)
                 {
-                    needUpddateModel = true;
+                    main.signalUpdateChatModel(strIdx);
+                    needUpddateModel=false;
+                }
+            }
+            //每次y坐标变化了就看看是不是到了顶部了
+            onContentYChanged:
+            {
+                // 下拉刷新判断逻辑：已经到头了，还下拉一定距离
+                if (contentY < originY)
+                {
+                    var dy = contentY - originY;
+                    if (dy < -20)
+                    {
+                        needUpddateModel = true;
+                    }
                 }
             }
         }
     }
 
+    Rectangle
+    {
+        id:busyIndiRect;
+        width: 40;
+        height: 40;
+        color: "transparent";
+        anchors.left: parent.left;
+        anchors.top: parent.top;
+        anchors.leftMargin: (parent.width-width)/2;
+        BusyIndicator
+        {
+            id:busyIndi;
+            width: parent.width;
+            height: parent.height;
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            running: false;
+        }
+    }
+
+
     Component
     {
         id: messageDelegate;
-
 
         Rectangle
         {
