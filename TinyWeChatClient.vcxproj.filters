@@ -106,6 +106,12 @@
     <ClCompile Include="module\FileManager\FileManager.cpp">
       <Filter>module\FileManager</Filter>
     </ClCompile>
+    <ClCompile Include="ui\AddFriendWidget\AddFriendWidget.cpp">
+      <Filter>ui\AddFriendWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp">
+      <Filter>ui\PublicGUI\NotifyLabel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -223,6 +229,12 @@
     <QtMoc Include="module\FileManager\FileManager.h">
       <Filter>module\FileManager</Filter>
     </QtMoc>
+    <QtMoc Include="ui\AddFriendWidget\AddFriendWidget.h">
+      <Filter>ui\AddFriendWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h">
+      <Filter>ui\PublicGUI\NotifyLabel</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\ChatWidget\ChatWidget.ui">
@@ -242,6 +254,9 @@
     </QtUic>
     <QtUic Include="ui\ProfileImagePreview\ProfileImagePreview.ui">
       <Filter>ui\ProfileImagePreview</Filter>
+    </QtUic>
+    <QtUic Include="ui\AddFriendWidget\AddFriendWidget.ui">
+      <Filter>ui\AddFriendWidget</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +399,15 @@
     </Filter>
     <Filter Include="module\FileManager">
       <UniqueIdentifier>{14088d81-50bb-4b6b-8a88-fe6810ca711a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\AddFriendWidget">
+      <UniqueIdentifier>{c6733f45-bd38-49cb-acd1-1cd3295be379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\PublicGUI">
+      <UniqueIdentifier>{6030838b-69ed-49bd-82ae-5c30153b3b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\PublicGUI\NotifyLabel">
+      <UniqueIdentifier>{3e133391-d691-4b1b-98a9-4ea845a01656}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

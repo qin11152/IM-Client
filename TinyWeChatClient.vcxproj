@@ -171,6 +171,7 @@
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
     <ClCompile Include="TODO.cpp" />
+    <ClCompile Include="ui\AddFriendWidget\AddFriendWidget.cpp" />
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp" />
     <ClCompile Include="ui\MytextEdit\MyTextEdit.cpp" />
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp" />
+    <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
     <QtRcc Include="ui\res\LogInWidget.qrc" />
     <ClCompile Include="main.cpp" />
@@ -186,6 +188,7 @@
     <QtMoc Include="ui\LogInWidget\LogInWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ui\AddFriendWidget\AddFriendWidget.ui" />
     <QtUic Include="ui\ChatWidget\ChatWidget.ui" />
     <QtUic Include="ui\LogInWidget\LogInWidget.ui" />
     <QtUic Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.ui" />
@@ -201,6 +204,8 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h" />
+    <QtMoc Include="ui\AddFriendWidget\AddFriendWidget.h" />
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />
     <QtMoc Include="ui\MytextEdit\MyTextEdit.h" />
     <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h" />
