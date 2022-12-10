@@ -5,14 +5,17 @@
 
 #pragma once
 
-#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/MyDefine.h"
-#include "ProfileImagePreview/ProfileImagePreview.h"
-#include <QWidget>
+#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
+#include "ui/AddFriendWidget/AddFriendWidget.h"
+#include "ui/ProfileImagePreview/ProfileImagePreview.h"
+
 #include <QTimer>
-#include <QSystemTrayIcon>
+#include <QWidget>
 #include <QQuickWidget>
 #include <QSqlDatabase>
+#include <QSystemTrayIcon>
+
 #include <mutex>
 #include <condition_variable>
 
@@ -187,7 +190,7 @@ private:
     QTimer* m_ptrNullMessageTimer{ nullptr };   //空的聊天界面
     QQuickWidget* m_ptrLastChatWidget{ nullptr }; //上次聊天列表界面
     QQuickWidget* m_ptrFriendListWidget{ nullptr }; //好友列表界面
-    QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
+    //QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
     QQuickWidget* m_ptrSearchFriendList{ nullptr };//搜索好友时显示的界面
     QQuickWidget* m_ptrEmptyWid{ nullptr };     //空的界面
     QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
@@ -195,6 +198,7 @@ private:
     TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
     ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
     MyChatMessageQuickWid* m_ptrChatMessageWid{ nullptr }; //实际的聊天界面
+    AddFriendWidget* m_ptrAddFriendWid{ nullptr }; //添加好友界面
 
     //这个用户的id
     QString m_strUserId{""};

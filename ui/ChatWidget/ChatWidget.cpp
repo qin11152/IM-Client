@@ -357,7 +357,17 @@ void ChatWidget::onSignalFriendListBtn()
 
 void ChatWidget::onSignalAddFriendBtn()
 {
-    ui->chatStackedWidget->SwitchToChatPage(AddFriendWid);
+    //ui->chatStackedWidget->SwitchToChatPage(AddFriendWid);
+    //如果添加好友界面为空，就创建一个
+    if (nullptr == m_ptrAddFriendWid)
+    {
+        m_ptrAddFriendWid = new AddFriendWidget();
+        m_ptrAddFriendWid->show();
+    }
+    else
+    {
+        m_ptrAddFriendWid->show();
+    }
 }
 
 void ChatWidget::onSignalSideBarProfileImageBtn()
@@ -453,13 +463,13 @@ void ChatWidget::initUi()
     ui->textEdit->setFontPointSize(16);
 
     //未添加和已添加的好友
-    m_ptrNewFriendAndAreadyAddWidget->setSource(QUrl("qrc:/QML/QML/addFriend.qml"));
-    m_ptrAddFriendQMLRoot = reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject());
-    //qml的界面大小随quickwidget变化
-    m_ptrNewFriendAndAreadyAddWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
-    //把添加好友的界面加入到stackedwid中
-    ui->chatStackedWidget->addWidget(m_ptrNewFriendAndAreadyAddWidget);
-    ui->chatStackedWidget->insertToMap(AddFriendWid, m_ptrNewFriendAndAreadyAddWidget);
+    //m_ptrNewFriendAndAreadyAddWidget->setSource(QUrl("qrc:/QML/QML/addFriend.qml"));
+    //m_ptrAddFriendQMLRoot = reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject());
+    ////qml的界面大小随quickwidget变化
+    //m_ptrNewFriendAndAreadyAddWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
+    ////把添加好友的界面加入到stackedwid中
+    //ui->chatStackedWidget->addWidget(m_ptrNewFriendAndAreadyAddWidget);
+    //ui->chatStackedWidget->insertToMap(AddFriendWid, m_ptrNewFriendAndAreadyAddWidget);
 
 
     //把空的界面加入到stackedwid,有时会用到空白界面
@@ -514,12 +524,12 @@ void ChatWidget::initConnect()
     //QML页面通知要更新lastchat了
     connect(m_ptrLastChatQMLRoot, SIGNAL(signalNeedUpdateLastChat()), this, SLOT(onSignalNeedUpdateLastChat()));
     //连接QML页面添加好友界面同意信号
-    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)),
-        ChatWidgetManager::Instance().get(), SLOT(onSignalAgreeAddFriend(QString)));
+    //connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)),
+    //    ChatWidgetManager::Instance().get(), SLOT(onSignalAgreeAddFriend(QString)));
     //QML页面主动添加好友信号处理
-    connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()),
-        SIGNAL(signalRequestAddFriend(QString, QString)), ChatWidgetManager::Instance().get(),
-        SLOT(onSignalRequestAddFriend(QString, QString)));
+    //connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()),
+    //    SIGNAL(signalRequestAddFriend(QString, QString)), ChatWidgetManager::Instance().get(),
+    //    SLOT(onSignalRequestAddFriend(QString, QString)));
     //QML页面上次聊天界面用户被点击
     connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString,QString)), this,
         SLOT(onSignalLastChatItemClicked(QString,QString)));
@@ -589,7 +599,7 @@ void ChatWidget::initConnect()
 void ChatWidget::initData()
 {
     m_ptrFriendListWidget = new QQuickWidget();
-    m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
+    //m_ptrNewFriendAndAreadyAddWidget = new QQuickWidget();
     m_ptrLastChatWidget = new QQuickWidget();
     m_ptrSearchFriendList = new QQuickWidget();
 
@@ -822,8 +832,11 @@ void ChatWidget::onSignalIconTwinkleTimerout()
 
 void ChatWidget::setProfileImage(const QString& strImage)
 {
-    if (strImage.mid(0, 4) == "qrc:");
-    auto tmpPath = strImage.mid(3);
+    QString tmpPath = strImage;
+    if (strImage.mid(0, 4) == "qrc:")
+    {
+        tmpPath = strImage.mid(3);
+    }
     QImage image(tmpPath);
     QPixmap pixmap=QPixmap::fromImage(image);
     QPixmap fitpixmap = pixmap.scaled(50, 50, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
