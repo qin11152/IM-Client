@@ -171,6 +171,8 @@
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
     <ClCompile Include="TODO.cpp" />
+    <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp" />
+    <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendWidget.cpp" />
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
@@ -204,6 +206,8 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h" />
+    <QtMoc Include="ui\AddFriendWidget\AddFriendModel.h" />
     <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendWidget.h" />
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />

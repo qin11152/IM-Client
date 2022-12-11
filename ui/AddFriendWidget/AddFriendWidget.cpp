@@ -7,6 +7,7 @@ AddFriendWidget::AddFriendWidget(QWidget *parent)
     ui.setupUi(this);
     initUI();
     initConnect();
+    initData();
 }
 
 AddFriendWidget::~AddFriendWidget()
@@ -25,11 +26,31 @@ void AddFriendWidget::initUI()
     ui.verifyInfoLineEdit->setPlaceholderText(QString::fromLocal8Bit("请输入验证内容"));
 
     m_notifyLabel = new NotifyLabel(this);
+    setFixedSize({ 800,400 });
 }
 
 void AddFriendWidget::initConnect()
 {
     connect(ui.pushButton, &QPushButton::clicked, this, &AddFriendWidget::onSignalAddBtnClicked);
+}
+
+void AddFriendWidget::initData()
+{
+    std::vector<AddFriendInfo> vecAddFriendInfo;
+    for (int i = 0; i < 2; ++i)
+    {
+        auto tmpinfo = AddFriendInfo();
+        tmpinfo.isValid = false;
+        tmpinfo.m_strFriendId = QString::number(i);
+        tmpinfo.m_strProfileImagePath = "D:/q.jpg";
+        tmpinfo.m_strVerifyInfo = "dakjshdkjas";
+        vecAddFriendInfo.push_back(tmpinfo);
+    }
+    m_ptrModel = new AddFriendModel(ui.listView);
+    m_ptrModel->setData(vecAddFriendInfo);
+    m_ptrDelegate = new AddFriendDelegate();
+    ui.listView->setModel(m_ptrModel);
+    ui.listView->setItemDelegate(m_ptrDelegate);
 }
 
 void AddFriendWidget::onSignalAddBtnClicked()

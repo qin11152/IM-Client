@@ -1016,5 +1016,8 @@ ChatWidget::~ChatWidget()
     }
     m_ptrProfileImagePreviewWid = nullptr;
 
+    delete m_ptrAddFriendWid;
+    m_ptrAddFriendWid = nullptr;
+
     TCPThread::get_mutable_instance().exit();
 }

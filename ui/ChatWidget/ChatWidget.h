@@ -6,9 +6,9 @@
 #pragma once
 
 #include "module/MyDefine.h"
-#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "ui/AddFriendWidget/AddFriendWidget.h"
 #include "ui/ProfileImagePreview/ProfileImagePreview.h"
+#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 
 #include <QTimer>
 #include <QWidget>

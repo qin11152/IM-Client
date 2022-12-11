@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ui_AddFriendWidget.h"
+#include "ui/AddFriendWidget/AddFriendModel.h"
+#include "ui/AddFriendWidget/AddFriendDelegate.h"
 #include "ui/PublicGUI/NotifyLabel/NotifyLabel.h"
 
 #include <QWidget>
@@ -35,7 +37,15 @@ private:
      */
     void initConnect();
 
+    /**
+     * brief：初始化数据.
+     * 
+     */
+    void initData();
+
 private:
     Ui::AddFriendWidgetClass ui;
     NotifyLabel* m_notifyLabel{ nullptr };
+    AddFriendModel* m_ptrModel{ nullptr };
+    AddFriendDelegate* m_ptrDelegate{ nullptr };
 };

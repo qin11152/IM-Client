@@ -112,6 +112,12 @@
     <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp">
       <Filter>ui\PublicGUI\NotifyLabel</Filter>
     </ClCompile>
+    <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp">
+      <Filter>ui\AddFriendWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp">
+      <Filter>ui\AddFriendWidget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -234,6 +240,12 @@
     </QtMoc>
     <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h">
       <Filter>ui\PublicGUI\NotifyLabel</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\AddFriendWidget\AddFriendModel.h">
+      <Filter>ui\AddFriendWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h">
+      <Filter>ui\AddFriendWidget</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
