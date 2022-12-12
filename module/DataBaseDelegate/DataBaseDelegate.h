@@ -66,7 +66,7 @@ public:
     //获取所有好友的头像时间戳
     bool queryProfileTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp)const;
     //根据name把响应的好友请求置为true
-    bool updateFriendRequestStateAcordName(const QString& name)const;
+    bool updateFriendRequestStateAcordId(const QString& id)const;
     //更新好友头像时间戳
     bool updateFriendImageTimestamp(QString& id,std::pair<QString, QString>& newInfo)const;
     //更新好友头像路径

@@ -432,13 +432,13 @@ bool DataBaseDelegate::queryProfileTimeStamp(std::unordered_map<std::string, std
     return true;
 }
 
-bool DataBaseDelegate::updateFriendRequestStateAcordName(const QString& name)const
+bool DataBaseDelegate::updateFriendRequestStateAcordId(const QString& id)const
 {
-    const QString str = "update friendRequest set isvalid=true where name = '" + name+"'";
+    const QString str = "update friendRequest set isvalid=true where id =" + id;
     QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
-        _LOG(Logcxx::Level::ERRORS, "update friend request state acord name failed");
+        _LOG(Logcxx::Level::ERRORS, "update friend request state acord id failed");
         return false;
     }
     return true;

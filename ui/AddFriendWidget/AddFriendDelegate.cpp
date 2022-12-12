@@ -1,6 +1,9 @@
 ﻿#include "MyDefine.h"
 #include "AddFriendDelegate.h"
+
+#include <QDebug>
 #include <QPainter>
+#include <QMouseEvent>
 #include <QApplication>
 
 AddFriendDelegate::AddFriendDelegate(QObject *parent)
@@ -14,7 +17,7 @@ void AddFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
 {
     //QStyledItemDelegate::paint(painter, option, index);
 
-    QString strId = index.data((int)UserRoleDefine::AddFriendId).toString();
+    QString strId = index.data((int)UserRoleDefine::AddFriendName).toString();
     QString strImagePath = index.data((int)UserRoleDefine::AddFriendImagePath).toString();
     QString strVerifyInfo = index.data((int)UserRoleDefine::AddFriednVerifyInfo).toString();
     bool isValid = index.data((int)UserRoleDefine::AddFriendValid).toBool();
@@ -30,16 +33,34 @@ void AddFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
     painter->drawText(idRect, strId);
     painter->drawText(verifyRect, strVerifyInfo);
 
-    QStyleOptionButton button;
-    button.rect = QRect(option.rect.right() - 230, option.rect.y() - 10, 200, 40);
-    button.state |= QStyle::State_Enabled;
+    if (!isValid)
+    {
+        QStyleOptionButton button;
+        button.rect = QRect(option.rect.right() - 120, option.rect.y() + 10, 80, 40);
+        //button.state |= QStyle::State_Enabled;
+        button.text = QString::fromLocal8Bit("同意");
 
-    QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+    }
+    else
+    {
+        painter->drawText(QRect{ option.rect.right() - 120, option.rect.y() + 10, 80, 40 },Qt::AlignVCenter|Qt::AlignHCenter, QString::fromLocal8Bit("已添加"));
+    }
 }
 
 bool AddFriendDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index)
 {
-    return true;
+    auto pEvent = reinterpret_cast<QMouseEvent*>(event);
+    if (pEvent->button() == Qt::LeftButton)
+    {
+        if (option.rect.contains(pEvent->pos()))
+        {
+            QString id = index.data(int(UserRoleDefine::AddFriendId)).toString();
+            emit signalAgreeAdd(id);
+            return true;
+        }
+    }
+    return false;
 }
 
 QSize AddFriendDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const

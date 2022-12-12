@@ -25,10 +25,11 @@ Q_DECLARE_METATYPE(std::string);
 
 enum class UserRoleDefine
 {
-    AddFriendId = Qt::UserRole + 1,
-    AddFriendImagePath=Qt::UserRole+2,
-    AddFriednVerifyInfo=Qt::UserRole+3,
-    AddFriendValid=Qt::UserRole+4,
+    AddFriendName = Qt::UserRole + 1,
+    AddFriendImagePath = Qt::UserRole + 2,
+    AddFriednVerifyInfo = Qt::UserRole + 3,
+    AddFriendValid = Qt::UserRole + 4,
+    AddFriendId = Qt::UserRole+5,
 };
 
 enum FriendListType
@@ -155,7 +156,8 @@ public:
 
 struct AddFriendInfo
 {
-    QString m_strFriendId{ "" };        //好友的id
+    QString m_strId{ "" };              //好友id
+    QString m_strFriendName{ "" };      //好友的名字
     QString m_strProfileImagePath{ "" };//好友头像的路径
     QString m_strVerifyInfo{ "" };      //好友的验证消息
     bool isValid{ false };              //是否已经加了好友

@@ -513,6 +513,8 @@ void ChatWidget::initUi()
     m_ptrTrayIcon->show();
     m_ptrTrayIcon->installEventFilter(this);
 
+    initAddFriendWid();
+    
     setProfileImage(PublicDataManager::get_mutable_instance().getImagePath());
 }
 
@@ -605,6 +607,7 @@ void ChatWidget::initData()
 
     m_ptrIconTwinkleTimer=new QTimer();
     m_ptrProfileImagePreviewWid = new ProfileImagePreview();
+    m_ptrAddFriendWid = new AddFriendWidget();
 
     //先去从缓存的数据库中获取到相关的数据并更新到实际的数据库，然后在执行相关操作
     auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite2");
@@ -621,8 +624,6 @@ void ChatWidget::initData()
     //这时候主线程对备份数据库操作完成了，子线程可以连接了
     ChatWidgetManager::Instance()->initDBThreadConnect();
     ChatWidgetManager::Instance()->getLastChatListFromDB(PublicDataManager::get_mutable_instance().getMyLastChatFriendInfoVec());
-
-    //ChatWidgetManager::Instance()->getFriendList();
 }
 
 void ChatWidget::getLastChatFromBackup(std::vector<QString>& tmpOrder, QSqlDatabase& db)
@@ -701,6 +702,30 @@ void ChatWidget::initAllChatWid()
     {
         initChatMessageWidAcordId(item);
     }
+}
+
+void ChatWidget::initAddFriendWid()
+{
+    std::vector<MyAddFriendInfo> tmp = {};
+    DataBaseDelegate::Instance()->queryAddFriendInfoFromDB(m_strUserId, tmp);
+    std::vector<AddFriendInfo> tmp2 = {};
+    for (auto& item : tmp)
+    {
+        AddFriendInfo tmpInfo;
+        tmpInfo.isValid = item.m_bIsValid;
+        tmpInfo.m_strId = item.m_strFriendId;
+        tmpInfo.m_strFriendName = item.m_strFriendName;
+        tmpInfo.m_strVerifyInfo = item.m_strVerifyMsg;
+        QString path = "";
+        DataBaseDelegate::Instance()->queryProfileImagePath(item.m_strFriendId, path);
+        if (path.isEmpty())
+        {
+            path = kDefaultProfileImage;
+        }
+        tmpInfo.m_strProfileImagePath = path;
+        tmp2.push_back(tmpInfo);
+    }
+    m_ptrAddFriendWid->setData(tmp2);
 }
 
 void ChatWidget::onSignalHideRedRectangleInLastChat(const QString id)

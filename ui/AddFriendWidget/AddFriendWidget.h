@@ -15,11 +15,17 @@ public:
     AddFriendWidget(QWidget *parent = nullptr);
     ~AddFriendWidget();
 
+    void setData(std::vector<AddFriendInfo>& vecFriendInfo);
+
+    void updateModel(const QString& id, bool validState);
+
 private slots:
     /**
      * brief：当发送按钮点击后.
      */
     void onSignalAddBtnClicked();
+
+    void onSignalAgreeClicked(const QString& id);
 
 protected:
     void closeEvent(QCloseEvent* event)override;

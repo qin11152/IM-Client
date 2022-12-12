@@ -92,20 +92,16 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
     emit signalGetFriendListFinished();
 }
 
-void ChatWidgetManager::onSignalAgreeAddFriend(QString friendName)
+void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
 {
-    QString strId = "";
-    //从数据库中找到这个名字对应的id，然后返回给服务器
-    DataBaseDelegate::Instance()->queryFriendRequestAcordName(friendName, strId);
     AddFriendResponseJsonData addFriendResponseJsonData;
     addFriendResponseJsonData.m_strMyId = m_strUserId.toStdString();
-    addFriendResponseJsonData.m_strFriendId = strId.toStdString();
+    addFriendResponseJsonData.m_strFriendId = friendId.toStdString();
     addFriendResponseJsonData.m_bResult = true;
     //发送给服务器
     TCPThread::get_mutable_instance().sendMessage(addFriendResponseJsonData.generateJson());
-    //emit signalSendMsg(addFriendResponseJsonData.generateJson());
     //修改注册表中的状态为true
-    DataBaseDelegate::Instance()->updateFriendRequestStateAcordName(friendName);
+    DataBaseDelegate::Instance()->updateFriendRequestStateAcordId(friendId);
 }
 
 void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verifyMsg)

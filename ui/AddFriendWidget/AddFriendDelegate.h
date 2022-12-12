@@ -10,6 +10,9 @@ public:
     AddFriendDelegate(QObject* parent = nullptr);
     ~AddFriendDelegate();
 
+signals:
+    void signalAgreeAdd(const QString& id);
+
 protected:
     /**
      * brief：重绘事件，绘制自己需要的内容.

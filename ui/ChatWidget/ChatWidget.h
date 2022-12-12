@@ -66,6 +66,8 @@ private slots:
     void initLastChatList();
     //初始化聊天界面
     void initAllChatWid();
+    //初始化添加好友界面
+    void initAddFriendWid();
 
     //文本框输入获得焦点
     void onSignalTextEditIsFocus(bool isFocus);

@@ -2,9 +2,9 @@
 
 #include "MyDefine.h"
 
-#include <QStandardItemModel>
+#include <QAbstractListModel>
 
-class AddFriendModel  : public QStandardItemModel
+class AddFriendModel  : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -13,6 +13,16 @@ public:
     ~AddFriendModel();
 
     void setData(std::vector< AddFriendInfo>& addFriendInfo);
+    
+    /**
+     * brief：根据id修改model中的状态.
+     * 
+     * \param id：id
+     * \param validState：验证状态
+     */
+    void updateModel(const QString& id, bool validState);
+
+    void insertRow(const std::vector<AddFriendInfo>& addFriendInfo);
 
 protected:
     QVariant data(QModelIndex const& index, int role) const override;
