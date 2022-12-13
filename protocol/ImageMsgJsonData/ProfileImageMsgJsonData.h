@@ -17,6 +17,7 @@ public:
     std::string m_strTimeStamp{ "" };   //时间戳,发送到服务端就不一样了，所以一并发送过去
     int m_iCurIndex{ 0 };               //当前处于分的第几段
     int m_iSumIndex{ 0 };               //总共分了几段
+    ProfileImageType m_eImageType{ ProfileImageType::UpdateProfileImage };  //传递头像的需求
 
     MessageType m_strType{ MessageType::ProfileImageMsg };
 };

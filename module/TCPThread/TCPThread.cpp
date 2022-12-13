@@ -225,9 +225,19 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
                 {
                     imageresult.save(savePath);
                 }
-                //TODO把这个新的路径存储在数据库中，并把新的路径更新到界面之中
+                //TODO这里需要判断有没有这个id对应的数据
+                //把这个新的路径存储在数据库中，并把新的路径更新到界面之中
                 DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), savePath, profileImageMsgData.m_strTimeStamp.c_str());
-                emit signalProfileImageChanged(profileImageMsgData.m_strId.c_str(), savePath);
+                //更新头像的处理
+                if (ProfileImageType::UpdateProfileImage == profileImageMsgData.m_eImageType)
+                {
+                    emit signalProfileImageChanged(profileImageMsgData.m_strId.c_str(), savePath);
+                }
+                //服务器推送了一个添加你好友的人的头像
+                else if(ProfileImageType::AddFriendProfileImage== profileImageMsgData.m_eImageType)
+                {
+                    emit signalAddFriendProfileImage(profileImageMsgData.m_strId.c_str(), savePath);
+                }
                 m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
                 m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
             }

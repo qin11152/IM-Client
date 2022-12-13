@@ -53,6 +53,8 @@ signals:
     void signalTimeoutNoHeartPackage();
     //某个好友头像更新了的信号
     void signalProfileImageChanged(const QString& id,const QString& path);
+    //添加好友时服务器推送过来的头像信息
+    void signalAddFriendProfileImage(const QString& id, const QString& path);
 
     /////为了能够在子线程中发送接受消息，需要再封装一层
     //发送消息信号

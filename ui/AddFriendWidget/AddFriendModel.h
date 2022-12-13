@@ -20,7 +20,15 @@ public:
      * \param id：id
      * \param validState：验证状态
      */
-    void updateModel(const QString& id, bool validState);
+    void updateModelValidState(const QString& id, bool validState);
+
+    /**
+     * brief：更新模型中的头像路径.
+     * 
+     * \param id：id
+     * \param path：头像路径
+     */
+    void updateModelImagePath(const QString& id, const QString& path);
 
     void insertRow(const std::vector<AddFriendInfo>& addFriendInfo);
 

@@ -16,7 +16,7 @@ AddFriendWidget::~AddFriendWidget()
 
 void AddFriendWidget::onSignalAgreeClicked(const QString& id)
 {
-    updateModel(id, true);
+    updateModelValidState(id, true);
     ChatWidgetManager::Instance()->onSignalAgreeAddFriend(id);
 }
 
@@ -31,9 +31,14 @@ void AddFriendWidget::setData(std::vector<AddFriendInfo>& vecFriendInfo)
     m_ptrModel->setData(vecFriendInfo);
 }
 
-void AddFriendWidget::updateModel(const QString& id, bool validState)
+void AddFriendWidget::updateModelValidState(const QString& id, bool validState)
 {
-    m_ptrModel->updateModel(id, validState);
+    m_ptrModel->updateModelValidState(id, validState);
+}
+
+void AddFriendWidget::updateModelImagePath(const QString& id, const QString& path)
+{
+    m_ptrModel->updateModelImagePath(id, path);
 }
 
 void AddFriendWidget::initUI()

@@ -15,13 +15,25 @@ void AddFriendModel::setData(std::vector<AddFriendInfo>&addFriendInfo)
 }
 
 //根据id修改模型中的状态
-void AddFriendModel::updateModel(const QString& id, bool validState)
+void AddFriendModel::updateModelValidState(const QString& id, bool validState)
 {
     for (auto& item : m_vecAddFriendInfo)
     {
         if (item.m_strId == id)
         {
             item.isValid = validState;
+            break;
+        }
+    }
+}
+
+void AddFriendModel::updateModelImagePath(const QString& id, const QString& path)
+{
+    for (auto& item : m_vecAddFriendInfo)
+    {
+        if (item.m_strId == id)
+        {
+            item.m_strProfileImagePath = path;
             break;
         }
     }

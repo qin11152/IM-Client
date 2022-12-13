@@ -448,6 +448,12 @@ void ChatWidget::onSignalFriendProfileImageChanged(const QString& id, const QStr
     }
 }
 
+void ChatWidget::onSignalAddFriendProfileImage(const QString& id, const QString& imagePath) const
+{
+    m_ptrAddFriendWid->updateModelImagePath(id, imagePath);
+    DataBaseDelegate::Instance()->updateProfileImagePath(id, imagePath);
+}
+
 void ChatWidget::initUi()
 {
     //设置图标
@@ -461,15 +467,6 @@ void ChatWidget::initUi()
     ui->widget_3->setPalette(pal);
     ui->label->setVisible(false);
     ui->textEdit->setFontPointSize(16);
-
-    //未添加和已添加的好友
-    //m_ptrNewFriendAndAreadyAddWidget->setSource(QUrl("qrc:/QML/QML/addFriend.qml"));
-    //m_ptrAddFriendQMLRoot = reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject());
-    ////qml的界面大小随quickwidget变化
-    //m_ptrNewFriendAndAreadyAddWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
-    ////把添加好友的界面加入到stackedwid中
-    //ui->chatStackedWidget->addWidget(m_ptrNewFriendAndAreadyAddWidget);
-    //ui->chatStackedWidget->insertToMap(AddFriendWid, m_ptrNewFriendAndAreadyAddWidget);
 
 
     //把空的界面加入到stackedwid,有时会用到空白界面
@@ -595,6 +592,8 @@ void ChatWidget::initConnect()
     connect(m_ptrProfileImagePreviewWid, &ProfileImagePreview::signalProfileImageChanged, this, &ChatWidget::onSignalProfileImageChanged);
     //好友头像更换后的处理
     connect(&TCPThread::get_mutable_instance(), &TCPThread::signalProfileImageChanged, this, &ChatWidget::onSignalFriendProfileImageChanged, Qt::QueuedConnection);
+    //收到添加好友人的头像
+    connect(&TCPThread::get_mutable_instance(), &TCPThread::signalAddFriendProfileImage, this, &ChatWidget::onSignalAddFriendProfileImage, Qt::QueuedConnection);
 }
 
 //初始化一些指针和需要的数据

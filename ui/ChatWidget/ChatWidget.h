@@ -149,6 +149,14 @@ private slots:
      */
     void onSignalFriendProfileImageChanged(const QString& id, const QString& imagePath)const;
     
+    /**
+     * brief：服务器推送了一个添加你好友的人的头像，更新到model和数据库中.
+     * 
+     * \param id：id
+     * \param imagePath：头像路径
+     */
+    void onSignalAddFriendProfileImage(const QString& id, const QString& imagePath)const;
+
 private:
     /**
      * brief：初始化界面相关的属性.

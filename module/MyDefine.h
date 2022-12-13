@@ -23,6 +23,46 @@ constexpr char kFriendRequetName[] = "friendRequest";
 
 Q_DECLARE_METATYPE(std::string);
 
+enum class DatabaseOperateType
+{
+    None = 0,
+    UpdateLastChat,
+};
+
+enum class MessageType
+{
+    Default,
+    RegisterRequest,
+    RegisterResponse,
+    LoginRequest,
+    LoginResponse,
+    InitialRequest,
+    GroupChat,
+    SingleChat,
+    AddFriendRequest,
+    AddFriendResponse,
+    AddFriendNotify,
+    HeartPackage,
+    FriendListRequest,
+    FriendListResponse,
+    RefreshFriendListRequest,
+    RefreshFriendListResponse,
+    GetFriendList,
+    GetFriendListReply,
+    ProfileImageMsg,
+    getFriendProfileImage,
+    getFriendProfileImageReply,
+};
+
+/**
+ * brief：根据不同的需求来传递头像，做出不同处理.
+ */
+enum class ProfileImageType
+{
+    UpdateProfileImage=0,       //要求更新头像
+    AddFriendProfileImage,      //添加好友时传送的头像
+};
+
 enum class UserRoleDefine
 {
     AddFriendName = Qt::UserRole + 1,
@@ -78,37 +118,6 @@ public:
     std::string m_strFriendId{ "" };      //好友的id
     std::string m_strFriendName{ "" };     //好友的昵称
     std::string m_strFriendImageTimeStamp{ "" };    //好友头像时间戳
-};
-
-enum class DatabaseOperateType
-{
-    None=0,
-    UpdateLastChat,
-};
-
-enum class MessageType
-{
-    Default,
-    RegisterRequest,
-    RegisterResponse,
-    LoginRequest,
-    LoginResponse,
-    InitialRequest,
-    GroupChat,
-    SingleChat,
-    AddFriendRequest,
-    AddFriendResponse,
-    AddFriendNotify,
-    HeartPackage,
-    FriendListRequest,
-    FriendListResponse,
-    RefreshFriendListRequest,
-    RefreshFriendListResponse,
-    GetFriendList,
-    GetFriendListReply,
-    ProfileImageMsg,
-    getFriendProfileImage,
-    getFriendProfileImageReply,
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;

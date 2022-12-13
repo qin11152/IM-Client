@@ -17,8 +17,9 @@ public:
 
     void setData(std::vector<AddFriendInfo>& vecFriendInfo);
 
-    void updateModel(const QString& id, bool validState);
+    void updateModelValidState(const QString& id, bool validState);
 
+    void updateModelImagePath(const QString& id, const QString& path);
 private slots:
     /**
      * brief：当发送按钮点击后.
