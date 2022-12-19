@@ -1,12 +1,15 @@
 #include "DataBaseDelegate.h"
 #include "module/Log/Log.h"
-#include <QApplication>
-#include <QSqlQuery>
-#include <QMessageBox>
-#include <QSqlError>
-#include <QSqlRecord>
+
 #include <QDir>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include <QMessageBox>
+#include <QApplication>
+
+
 
 using SingletonPtr = std::shared_ptr<DataBaseDelegate>;
 std::mutex DataBaseDelegate::m_mutex;

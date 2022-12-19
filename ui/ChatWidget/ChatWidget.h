@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "module/MyDefine.h"
+#include "module/stdafx.h"
 #include "ui/AddFriendWidget/AddFriendWidget.h"
 #include "ui/ProfileImagePreview/ProfileImagePreview.h"
 #include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
@@ -16,8 +16,6 @@
 #include <QSqlDatabase>
 #include <QSystemTrayIcon>
 
-#include <mutex>
-#include <condition_variable>
 
 namespace Ui 
 { 

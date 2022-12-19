@@ -153,6 +153,10 @@
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
     <ClCompile Include="module\PublicFunction\PinYInTable.h" />
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp" />
+    <ClCompile Include="module\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="module\TCPThread\MyTCPSocket.cpp" />
     <ClCompile Include="module\TCPThread\TCPThread.cpp" />
     <ClCompile Include="module\ThreadPool\ThreadPool.cpp" />
@@ -225,6 +229,7 @@
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
     <QtMoc Include="module\TCPThread\TCPThread.h" />
     <QtMoc Include="module\TCPThread\MyTCPSocket.h" />
+    <ClInclude Include="module\stdafx.h" />
     <ClInclude Include="module\ThreadPool\ThreadPool.h" />
     <ClInclude Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.h" />
     <ClInclude Include="protocol\AddFriendRequestJsonData\AddFriendRequestJsonData.h" />

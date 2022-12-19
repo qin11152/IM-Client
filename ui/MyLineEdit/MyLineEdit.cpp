@@ -1,5 +1,5 @@
 #include "MyLineEdit.h"
-#include "module/MyDefine.h"
+#include "module/stdafx.h"
 
 MyLineEdit::MyLineEdit(QWidget *parent)
     : QLineEdit(parent)

@@ -1,4 +1,4 @@
-﻿#include "MyDefine.h"
+﻿#include "module/stdafx.h"
 #include "AddFriendDelegate.h"
 
 #include <QDebug>

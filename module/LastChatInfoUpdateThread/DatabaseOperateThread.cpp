@@ -1,11 +1,13 @@
+#include "module/Log/Log.h"
 #include "DatabaseOperateThread.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
-#include "module/Log/Log.h"
+
 #include <QDir>
-#include <QApplication>
-#include <QSqlQuery>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QApplication>
+
 
 DatabaseOperateThread::DatabaseOperateThread(QObject *parent)
     : QThread(parent)

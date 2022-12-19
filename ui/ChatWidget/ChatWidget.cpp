@@ -12,6 +12,7 @@
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
+
 #include <QDir>
 #include <ctime>
 #include <QSound>

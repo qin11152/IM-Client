@@ -4,10 +4,12 @@
 
 #pragma once
 
+#include "module/stdafx.h"
+#include "ui_MyChatMessageQuickWid.h"
+
 #include <QQuickWidget>
 #include <QQuickView>
-#include <atomic>
-#include "ui_MyChatMessageQuickWid.h"
+
 
 class MyChatMessageQuickWid : public QQuickWidget
 {

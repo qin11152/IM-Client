@@ -1,7 +1,8 @@
 #pragma once
 
-#include <QWidget>
 #include "ui_ProfileImagePreview.h"
+
+#include <QWidget>
 
 class ProfileImagePreview : public QWidget
 {

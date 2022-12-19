@@ -1,11 +1,14 @@
 #pragma once
 
-#include <QThread>
-#include <QTimer>
-#include "../module/MyDefine.h"
+
+#include "module/stdafx.h"
 #include "module/TCPThread/MyTCPSocket.h"
+
 #include "boost/noncopyable.hpp"
 #include <boost/serialization/singleton.hpp>
+
+#include <QThread>
+#include <QTimer>
 
 struct LengthInfo
 {

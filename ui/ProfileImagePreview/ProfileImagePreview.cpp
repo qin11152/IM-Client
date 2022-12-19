@@ -1,15 +1,14 @@
 #include "ProfileImagePreview.h"
-#include "module/PublicDataManager/PublicDataManager.h"
-#include "module/TCPThread/TCPThread.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/Log/Log.h"
+#include "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
+#include "module/PublicDataManager/PublicDataManager.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+
 #include <QImageReader>
 #include <QPainter>
 #include <QFileDialog>
 #include <QBuffer>
-#include <fstream>
-#include <chrono>
 
 
 constexpr QSize kImageCompressSize{ 100,100 };

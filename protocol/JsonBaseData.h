@@ -1,14 +1,6 @@
 #pragma once
 
-#include "module/MyDefine.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <rapidjson/writer.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/document.h>
-#include <string>
-#include <type_traits>
-#include <map>
+#include "module/stdafx.h"
 
 using namespace boost::property_tree;
 using namespace rapidjson;

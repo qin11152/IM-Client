@@ -1,5 +1,4 @@
 #include "PublicDataManager.h"
-#include <algorithm>
 
 std::vector<MyFriendInfoWithFirstC>& PublicDataManager::getMyFriendInfoWithCVec()
 {

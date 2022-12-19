@@ -1,16 +1,16 @@
+#include "module/stdafx.h"
 #include "RegisterWidget.h"
 #include "ui_RegisterWidget.h"
-//#include "../../module/TCPConnect/TCPConnect.h"
 #include "module/TCPThread/TCPThread.h"
-#include "../../protocol/RegisterJsonData/RegisterJsonData.h"
-#include "../../protocol/RegisterReplyData/RegisterReplyData.h"
-#include <iostream>
-#include <QJsonDocument>
-#include <QJsonObject>
+#include "protocol/RegisterJsonData/RegisterJsonData.h"
+#include "protocol/RegisterReplyData/RegisterReplyData.h"
+
 #include <QJsonArray>
-#include <QJsonParseError>
+#include <QJsonObject>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QJsonDocument>
+#include <QJsonParseError>
 
 
 RegisterWidget::RegisterWidget(QWidget *parent)

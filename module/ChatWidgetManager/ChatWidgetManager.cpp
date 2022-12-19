@@ -11,7 +11,7 @@
 #include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
 #include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
-#include <algorithm>
+
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QApplication>

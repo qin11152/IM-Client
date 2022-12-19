@@ -3,13 +3,10 @@
 /************************************************************************/
 #pragma once
 
-#include "../MyDefine.h"
-#include "module/LastChatInfoUpdateThread/DatabaseOperateThread.h"
+#include "module/stdafx.h"
 #include "module/ThreadPool/ThreadPool.h"
+#include "module/LastChatInfoUpdateThread/DatabaseOperateThread.h"
 #include <QObject>
-#include <mutex>
-#include <memory>
-#include <vector>
 
 class ChatWidgetManager : public QObject
 {

@@ -1,12 +1,10 @@
 #pragma once
 
-#include "../module/MyDefine.h"
+#include "module/stdafx.h"
+
 #include <QObject>
-#include <QSqlDatabase>
 #include <QThread>
-#include <memory>
-#include <mutex>
-#include <vector>
+#include <QSqlDatabase>
 
 
 class DataBaseDelegate : public QObject

@@ -118,6 +118,9 @@
     <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp">
       <Filter>ui\AddFriendWidget</Filter>
     </ClCompile>
+    <ClCompile Include="module\stdafx.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -162,9 +165,6 @@
     <ClInclude Include="module\PublicFunction\PublicFunction.h">
       <Filter>module\PublicFunction</Filter>
     </ClInclude>
-    <ClInclude Include="module\MyDefine.h">
-      <Filter>protocol</Filter>
-    </ClInclude>
     <ClInclude Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.h">
       <Filter>protocol\AddFriendResponseJsonData</Filter>
     </ClInclude>
@@ -182,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="protocol\getProfileImageJsonData\getProfileImageJsonData.h">
       <Filter>protocol\getProfileImageJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\stdafx.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="module\MyDefine.h">
+      <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -420,6 +426,9 @@
     </Filter>
     <Filter Include="ui\PublicGUI\NotifyLabel">
       <UniqueIdentifier>{3e133391-d691-4b1b-98a9-4ea845a01656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\ChatWidget\FriendListModel">
+      <UniqueIdentifier>{52f9f476-a90f-4852-a755-0c71d0272f70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

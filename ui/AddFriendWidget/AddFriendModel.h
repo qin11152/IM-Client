@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MyDefine.h"
+#include "module/stdafx.h"
 
 #include <QAbstractListModel>
 

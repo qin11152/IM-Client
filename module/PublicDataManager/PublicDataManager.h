@@ -1,7 +1,8 @@
 //所有公共的数据（如id等）都存储在这，需要的时候从这里调用，单例
 
 #pragma once
-#include "module/MyDefine.h"
+#include "module/stdafx.h"
+
 #include <boost/serialization/singleton.hpp>
 #include <QObject>
 using namespace boost;

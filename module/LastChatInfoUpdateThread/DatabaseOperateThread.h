@@ -3,7 +3,8 @@
 ///一个能够在子线程中操作数据库的类，当有些耗时数据库的操作需要在子线程中进行时，可以使用此类
 ///
 
-#include "module/MyDefine.h"
+#include "module/stdafx.h"
+
 #include <QThread>
 #include <QSqlDatabase>
 

@@ -1,8 +1,9 @@
 #pragma once
 
+#include "module/stdafx.h"
+
 #include <QStackedWidget>
 #include <QQuickWidget>
-#include <map>
 
 class MyStackedWidget : public QStackedWidget
 {

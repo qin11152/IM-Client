@@ -9,7 +9,6 @@
 #include <QBuffer>
 #include <QPixmap>
 #include <QApplication>
-#include <Windows.h>
 
 
 TCPThread::TCPThread(QObject *parent)

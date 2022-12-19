@@ -1,11 +1,6 @@
 #pragma once
-#include <functional>
-#include <future>
-#include <deque>
-#include <mutex>
-#include <condition_variable>
-#include <vector>
-#include <thread>
+#include "module/stdafx.h"
+
 #include "boost/noncopyable.hpp"
 
 using ThreadTask = std::function<void()>;

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "ui_LogInWidget.h"
-#include "../RegisterWidget/RegisterWidget.h"
-#include "../../module/DataBaseDelegate/DataBaseDelegate.h"
+#include "ui/RegisterWidget/RegisterWidget.h"
+#include "module/DataBaseDelegate/DataBaseDelegate.h"
+
 #include <QWidget>
 
 class LogInWidget : public QWidget
