@@ -65,11 +65,17 @@ enum class ProfileImageType
 
 enum class UserRoleDefine
 {
+    //添加好友模型中使用
     AddFriendName = Qt::UserRole + 1,
     AddFriendImagePath = Qt::UserRole + 2,
     AddFriednVerifyInfo = Qt::UserRole + 3,
     AddFriendValid = Qt::UserRole + 4,
-    AddFriendId = Qt::UserRole+5,
+    AddFriendId = Qt::UserRole + 5,
+
+    //好友列表中使用
+    FriendListId = Qt::UserRole + 6,
+    FriendListName = Qt::UserRole + 7,
+	FriendListImagePath = Qt::UserRole + 8,
 };
 
 enum FriendListType

@@ -179,6 +179,8 @@
     <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendWidget.cpp" />
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
+    <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListModel.cpp" />
+    <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
     <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp" />
@@ -210,6 +212,8 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.h" />
+    <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListModel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendModel.h" />
     <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h" />

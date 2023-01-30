@@ -121,6 +121,12 @@
     <ClCompile Include="module\stdafx.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListModel.cpp">
+      <Filter>ui\ChatWidget\FriendListModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.cpp">
+      <Filter>ui\ChatWidget\FriendListModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -252,6 +258,12 @@
     </QtMoc>
     <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h">
       <Filter>ui\AddFriendWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListModel.h">
+      <Filter>ui\ChatWidget\FriendListModel</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.h">
+      <Filter>ui\ChatWidget\FriendListModel</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
