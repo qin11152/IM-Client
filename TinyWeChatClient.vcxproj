@@ -261,6 +261,7 @@
     <None Include="ui\res\QML\chatMessage.qml" />
     <None Include="ui\res\QML\friendList.qml" />
     <None Include="ui\res\QML\LastChatList.qml" />
+    <None Include="ui\res\QML\searchFriend.qml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

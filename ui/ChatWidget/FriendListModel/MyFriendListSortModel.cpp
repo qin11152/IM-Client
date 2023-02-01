@@ -1,4 +1,5 @@
 #include "MyFriendListSortModel.h"
+#include "module/PublicFunction/PublicFunction.h"
 
 MyFriendListSortModel::MyFriendListSortModel(QObject *parent)
 	: QSortFilterProxyModel(parent)
@@ -25,8 +26,14 @@ bool MyFriendListSortModel::filterAcceptsRow(int source_row, const QModelIndex& 
 		{
 			QVariant rule = filterItem.second;
 			QVariant mode = sourceIndex.data(filterItem.first);
-			//根据索引中对应的规则返回数据
-			if (filterItem.second == sourceIndex.data(filterItem.first))
+			//搜索框输入的名字
+			auto filterStr = filterItem.second.toString();
+			//模型中这个人的名字
+			auto nameOfModel = sourceIndex.data(filterItem.first).toString();
+			nameOfModel = Base::PinYin::convertToPinYin(nameOfModel);
+			//qDebug() << "filter:" << filterStr << "name:" << nameOfModel;
+			//如果包含搜索的这个内容就认为搜索成功
+			if (nameOfModel.contains(filterStr))
 			{
 				bMatch = true;
 				break;

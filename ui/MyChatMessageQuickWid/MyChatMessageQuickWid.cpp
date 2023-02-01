@@ -59,3 +59,8 @@ void MyChatMessageQuickWid::SetUserId(QString id)
     m_strId = id;
     //DataBaseDelegate::Instance()->queryInitialAcordIdFromDB(id, m_strInitial);
 }
+
+void MyChatMessageQuickWid::focusInEvent(QFocusEvent* event)
+{
+	emit signalFocusChanged(true);
+}

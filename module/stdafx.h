@@ -4,6 +4,8 @@
 
 #include <Windows.h>
 
+#include <QDebug>
+
 #include <map>
 #include <list>
 #include <deque>

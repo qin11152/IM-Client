@@ -302,6 +302,9 @@
     <None Include="ui\res\QML\friendList.qml">
       <Filter>ui\res\QML</Filter>
     </None>
+    <None Include="ui\res\QML\searchFriend.qml">
+      <Filter>ui\res\QML</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -14,5 +14,6 @@
         <file>QML/LastChatList.qml</file>
         <file>QML/addFriend.qml</file>
         <file>QML/friendList.qml</file>
+        <file>QML/searchFriend.qml</file>
     </qresource>
 </RCC>

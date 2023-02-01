@@ -52,6 +52,8 @@ public:
 protected slots:
 	//事件过滤器的重载
 	bool eventFilter(QObject* watched, QEvent* event)override;
+	//最小化事件
+	void changeEvent(QEvent* event)override;
 
 private slots:
 	//manager处理好友列表完毕
@@ -69,7 +71,10 @@ private slots:
 	//初始化添加好友界面
 	void initAddFriendWid();
 
-	//搜索输入框失去焦点后
+	//对话框或文本输入框获得了焦点
+	void onSignalTextOrChatFocusIn(bool isFocus);
+
+	//搜索输入框焦点变化
 	void onSignalSearchTextLoseFocus(bool isFocus);
 
 	/**
@@ -197,6 +202,12 @@ private:
 	//用完了就把临时数据库断开连接
 	void disConnectBackupDB(QSqlDatabase& db)const;
 
+	/**
+	 * brief：进入到搜索界面后有多种情况能够回到上次聊天界面，封装成函数.
+	 * 
+	 */
+	void convertFromSearchWid2LastChatWid()const;
+
 private:
 	Ui::ChatWidget *ui;
 	QObject* m_ptrLastChatQMLRoot{ nullptr }; //上次聊天qml的根对象
@@ -207,14 +218,15 @@ private:
 	QQuickWidget* m_ptrFriendListWidget{ nullptr }; //好友列表界面
 	//QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
 	QQuickWidget* m_ptrSearchFriendList{ nullptr };//搜索好友时显示的界面
-	QQuickWidget* m_ptrEmptyWid{ nullptr };     //空的界面
+	MyChatMessageQuickWid* m_ptrEmptyWid{ nullptr };     //空的界面
 	QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //托盘图标
 	QTimer* m_ptrIconTwinkleTimer{ nullptr };   //托盘图标闪烁用定时器
 	TrayIconState m_iTrayState{ TrayIconState::Normal };        //托盘图标的状态，是否为闪烁
 	ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //头像预览窗口
 	MyChatMessageQuickWid* m_ptrChatMessageWid{ nullptr }; //实际的聊天界面
 	AddFriendWidget* m_ptrAddFriendWid{ nullptr }; //添加好友界面
-	MyFriendListSortModel* m_ptrFriendListModel{ nullptr }; //好友列表model
+	MyFriendListModel* m_ptrSearchFriendModel{ nullptr };		//搜索好友列表model
+	MyFriendListSortModel* m_ptrSearchFriendSortModel{ nullptr }; //搜索好友列表排序的model
 
 	//这个用户的id
 	QString m_strUserId{""};

@@ -53,6 +53,12 @@ public:
     //设置用户名称
     void setUserName(QString strUserName) { m_strUserName = strUserName; setInitial(m_strUserName.mid(0, 1)); }
 
+signals:
+    void signalFocusChanged(bool bFocus);
+
+protected:
+    void focusInEvent(QFocusEvent* event)override;
+
 private:
     Ui::MyChatMessageQuickWid ui;
     //当前页面中加载聊天记录的数量

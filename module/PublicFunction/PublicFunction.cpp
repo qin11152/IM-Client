@@ -31,7 +31,7 @@ namespace Base
                     //这里不是中文，我们不做任何处理，保留;
                     pinyins.append(chinese.at(i));
                 }
-                pinyins.append(" ");
+                //pinyins.append(" ");
             }
             return pinyins;
         }

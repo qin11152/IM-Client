@@ -7,14 +7,14 @@ MyFriendListModel::MyFriendListModel(QObject *parent)
 MyFriendListModel::~MyFriendListModel()
 {}
 
-void MyFriendListModel::setData(std::vector<FriendListInfo>& friendListInfo)
+void MyFriendListModel::setData(std::vector<MyFriendInfoWithFirstC>& friendListInfo)
 {
 	beginResetModel();
 	m_vecFriendListInfo = friendListInfo;
 	endResetModel();
 }
 
-void MyFriendListModel::addData(const FriendListInfo& friendListInfo)
+void MyFriendListModel::addData(const MyFriendInfoWithFirstC& friendListInfo)
 {
 	beginInsertRows(QModelIndex(), 0, 0);
 	m_vecFriendListInfo.insert(m_vecFriendListInfo.begin(), friendListInfo);
@@ -30,11 +30,11 @@ QVariant MyFriendListModel::data(const QModelIndex& index, int role) const
 	switch (role)
 	{
 	case (int)UserRoleDefine::FriendListId:
-		return m_vecFriendListInfo[index.row()].m_strFriendId;
+		return m_vecFriendListInfo[index.row()].m_strId.c_str();
 	case (int)UserRoleDefine::FriendListName:
-		return m_vecFriendListInfo[index.row()].m_strFriendName;
+		return m_vecFriendListInfo[index.row()].m_strName.c_str();
 	case (int)UserRoleDefine::FriendListImagePath:
-		return m_vecFriendListInfo[index.row()].m_strFriendImagePath;
+		return m_vecFriendListInfo[index.row()].m_strImagePath.c_str();
 	default:
 		return QVariant();
 	}		
@@ -54,14 +54,18 @@ QMap<int, QVariant> MyFriendListModel::itemData(const QModelIndex& index) const
 	
 	auto tmpInfo = m_vecFriendListInfo[iDataIndex];
 	
-	roles.insert((int)UserRoleDefine::FriendListId, tmpInfo.m_strFriendId);
-	roles.insert((int)UserRoleDefine::FriendListName, tmpInfo.m_strFriendName);
-	roles.insert((int)UserRoleDefine::FriendListImagePath, tmpInfo.m_strFriendImagePath);
+	roles.insert((int)UserRoleDefine::FriendListId, tmpInfo.m_strId.c_str());
+	roles.insert((int)UserRoleDefine::FriendListName, tmpInfo.m_strName.c_str());
+	roles.insert((int)UserRoleDefine::FriendListImagePath, tmpInfo.m_strImagePath.c_str());
 	
 	return roles;
 }
 
 QHash<int, QByteArray> MyFriendListModel::roleNames() const
 {
-	return QHash<int, QByteArray>();
+	QHash<int, QByteArray> roles;
+	roles[(int)UserRoleDefine::FriendListName] = "name";
+	roles[(int)UserRoleDefine::FriendListImagePath] = "imagePath";
+	roles[(int)UserRoleDefine::FriendListId] = "idx";
+	return roles;
 }

@@ -1,7 +1,9 @@
 #include "MyStackedWidget.h"
 
+//#include <QMouseEvent>
+
 MyStackedWidget::MyStackedWidget(QWidget *parent)
-    : QStackedWidget(parent)
+	: QStackedWidget(parent)
 {
 }
 
@@ -11,8 +13,8 @@ MyStackedWidget::~MyStackedWidget()
 
 void MyStackedWidget::SwitchToChatPage(int iId)
 {
-    int index = indexOf(m_mapIdWidgetReference[iId]);
-    setCurrentIndex(index);
+	int index = indexOf(m_mapIdWidgetReference[iId]);
+	setCurrentIndex(index);
 }
 
 //************************************
@@ -25,29 +27,35 @@ void MyStackedWidget::SwitchToChatPage(int iId)
 //************************************
 void MyStackedWidget::SwitchToChatPageAcordIndex(int index)
 {
-    setCurrentIndex(index);
+	setCurrentIndex(index);
 }
 
 void MyStackedWidget::insertToMap(int iId,QWidget* wid)
 {
-    m_mapIdWidgetReference[iId] = wid;
+	m_mapIdWidgetReference[iId] = wid;
 }
 
 void MyStackedWidget::removeFromMap(int iId)
 {
-    m_mapIdWidgetReference.erase(iId);
+	m_mapIdWidgetReference.erase(iId);
 }
 
 QWidget* MyStackedWidget::getWidAcord2Id(int iId)
 {
-    return m_mapIdWidgetReference[iId];
+	return m_mapIdWidgetReference[iId];
 }
 
 bool MyStackedWidget::isWidCreate(int id)
 {
-    if (m_mapIdWidgetReference.contains(id))
-    {
-        return true;
-    }
-    return false;
+	if (m_mapIdWidgetReference.contains(id))
+	{
+		return true;
+	}
+	return false;
+}
+
+void MyStackedWidget::focusInEvent(QFocusEvent* event)
+{
+	emit signalFocusChanged(true);
+	qDebug() << "focus changed";
 }

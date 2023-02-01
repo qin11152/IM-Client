@@ -1,5 +1,6 @@
 #pragma once
 
+#include "module/stdafx.h"
 #include <QSortFilterProxyModel>
 
 class MyFriendListSortModel  : public QSortFilterProxyModel

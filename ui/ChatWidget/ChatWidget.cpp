@@ -19,6 +19,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QPushButton>
+#include <QQmlContext>
 
 
 const QString ChatRecordTable = "chatrecord";
@@ -98,24 +99,23 @@ void ChatWidget::onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo)
 	DataBaseDelegate::Instance()->createUserChatTable(QString::fromStdString(friendInfo.m_strId));
 }
 
+void ChatWidget::changeEvent(QEvent* event)
+{
+	if (this->windowState() == Qt::WindowMinimized)
+	{
+		ui->lineEdit->clearFocus();
+		convertFromSearchWid2LastChatWid();
+	}
+}
+
 void ChatWidget::onSignalSearchTextChange(const QString& searchMsg)
 {
 	//把输入的字符串中的中文转换为拼音
 	QString strPinYin = "";
-	for (auto& item : searchMsg)
-	{
-		if (Base::PinYin::IsChinese(item))
-		{
-			strPinYin += Base::PinYin::convertToPinYin(item);
-		}
-		else
-		{
-			strPinYin += item;
-		}
-	}
+	strPinYin = Base::PinYin::convertToPinYin(searchMsg);
 	std::map<int, QVariant> tmpMap;
 	tmpMap[(int)UserRoleDefine::FriendListName] = QVariant(strPinYin);
-	m_ptrFriendListModel->setFilterMap(tmpMap);
+	m_ptrSearchFriendSortModel->setFilterMap(tmpMap);
 }
 
 //点击发送消息后的处理
@@ -336,23 +336,23 @@ void ChatWidget::onSignalSearchTextLoseFocus(bool isFocus)
 	if (isFocus)
 	{
 		//如果获得了焦点就切换到好友列表界面，还需要设置一下过滤规则，这个根据输入的内容确定
-		ui->friendStackedWidget->setCurrentIndex(FriendListWidget);
+		ui->friendStackedWidget->setCurrentIndex(SearchFriendWidget);
 		//颜色修改一下
 		QPalette pal = ui->widget_3->palette();
 		pal.setColor(QPalette::Window, Qt::white);
 		ui->widget_3->setPalette(pal);
 	}
-	else
-	{
-		//颜色修改回去
-		QPalette pal = ui->widget_3->palette();
-		pal.setColor(QPalette::Window, QColor(238, 238, 238));
-		ui->widget_3->setPalette(pal);
-		if (ui->lineEdit->text().isEmpty())
-		{
-			ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
-		}
-	}
+	//else
+	//{
+	//	//颜色修改回去
+	//	QPalette pal = ui->widget_3->palette();
+	//	pal.setColor(QPalette::Window, QColor(238, 238, 238));
+	//	ui->widget_3->setPalette(pal);
+	//	if (ui->lineEdit->text().isEmpty())
+	//	{
+	//		ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+	//	}
+	//}
 }
 
 void ChatWidget::onSignalChatBtn()
@@ -481,7 +481,7 @@ void ChatWidget::initUi()
 
 
 	//把空的界面加入到stackedwid,有时会用到空白界面
-	m_ptrEmptyWid = new QQuickWidget();
+	m_ptrEmptyWid = new MyChatMessageQuickWid();
 	ui->chatStackedWidget->addWidget(m_ptrEmptyWid);
 	ui->chatStackedWidget->insertToMap(EmptyWid, m_ptrEmptyWid);
 	ui->chatStackedWidget->SwitchToChatPage(EmptyWid);
@@ -505,6 +505,13 @@ void ChatWidget::initUi()
 	m_ptrFriendListWidget->setSource(QUrl("qrc:/QML/QML/friendList.qml"));
 	m_ptrFriendListWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
 	m_ptrFriendListQMLRoot = reinterpret_cast<QObject*>(m_ptrFriendListWidget->rootObject());
+
+	m_ptrSearchFriendModel = new MyFriendListModel;
+	m_ptrSearchFriendSortModel = new MyFriendListSortModel;
+	m_ptrSearchFriendSortModel->setSourceModel(m_ptrSearchFriendModel);
+	m_ptrSearchFriendList->rootContext()->setContextProperty("searchFriendModel", m_ptrSearchFriendSortModel);
+	m_ptrSearchFriendList->setSource(QUrl("qrc:/QML/QML/searchFriend.qml"));
+	m_ptrSearchFriendList->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
 
 	//设置颜色
 	ui->friendStackedWidget->setAttribute(Qt::WA_TranslucentBackground);
@@ -532,13 +539,7 @@ void ChatWidget::initConnect()
 	connect(ui->pushButton, &QPushButton::clicked, this, &ChatWidget::onSignalSendMessage);
 	//QML页面通知要更新lastchat了
 	connect(m_ptrLastChatQMLRoot, SIGNAL(signalNeedUpdateLastChat()), this, SLOT(onSignalNeedUpdateLastChat()));
-	//连接QML页面添加好友界面同意信号
-	//connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()), SIGNAL(signalAgreeAdd(QString)),
-	//    ChatWidgetManager::Instance().get(), SLOT(onSignalAgreeAddFriend(QString)));
-	//QML页面主动添加好友信号处理
-	//connect(reinterpret_cast<QObject*>(m_ptrNewFriendAndAreadyAddWidget->rootObject()),
-	//    SIGNAL(signalRequestAddFriend(QString, QString)), ChatWidgetManager::Instance().get(),
-	//    SLOT(onSignalRequestAddFriend(QString, QString)));
+	
 	//QML页面上次聊天界面用户被点击
 	connect(m_ptrLastChatQMLRoot, SIGNAL(signalFriendListClicked(QString,QString)), this,
 		SLOT(onSignalLastChatItemClicked(QString,QString)));
@@ -557,20 +558,7 @@ void ChatWidget::initConnect()
 	//收到服务端好友同意请求后
 	connect(ChatWidgetManager::Instance().get(), &ChatWidgetManager::signalBecomeFriend, this,
 		&ChatWidget::onSignalBecomeFriend);
-#if 0
-	//收到好友消息列表后，由manager去处理数据
-	connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvFriendListMessage, this,
-		&ChatWidget::onSignalRecvFriendList);
-	//收到服务端好友聊天消息
-	connect(TCPConnect::Instance().get(), &TCPConnect::signalRecvSingleChatMessage, this,
-		&ChatWidget::onSignalSingleChatMessage);
-	//收到服务端好友添加请求
-	connect(TCPConnect::Instance().get(), &TCPConnect::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
-		&ChatWidgetManager::onSignalNewFriendRequest);
-	//收到服务端同意好友添加
-	connect(TCPConnect::Instance().get(), &TCPConnect::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
-		&ChatWidgetManager::onSignalBecomeFriend);
-#endif
+	
 	//收到好友消息列表后，由manager去处理数据
 	connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvFriendListMessage, this,
 		&ChatWidget::onSignalRecvFriendList, Qt::QueuedConnection);
@@ -590,8 +578,14 @@ void ChatWidget::initConnect()
 	connect(ui->addFriendPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalAddFriendBtn);
 	connect(ui->profileImageButton, &QPushButton::clicked, this, &ChatWidget::onSignalSideBarProfileImageBtn);
 
+	//搜索框获取焦点响应
 	connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
+	//搜索框内容发生变化响应
 	connect(ui->lineEdit, &MyLineEdit::textChanged, this, &ChatWidget::onSignalSearchTextChange);
+	//对话框或文本输入框获取焦点后的响应
+	connect(ui->textEdit, &MyTextEdit::signalTextEditIsFocus, this, &ChatWidget::onSignalTextOrChatFocusIn);
+	connect(m_ptrEmptyWid, &MyChatMessageQuickWid::signalFocusChanged, this, &ChatWidget::onSignalTextOrChatFocusIn);
+	connect(m_ptrChatMessageWid, &MyChatMessageQuickWid::signalFocusChanged, this, &ChatWidget::onSignalTextOrChatFocusIn);
 
 	//聊天界面上划要求更新聊天界面内的内容
 	connect(m_ptrChatMessageWid->getRootObj(), SIGNAL(signalUpdateChatModel(QString)), this,
@@ -672,6 +666,18 @@ void ChatWidget::disConnectBackupDB(QSqlDatabase& db)const
 	db.removeDatabase(dataName);
 }
 
+void ChatWidget::convertFromSearchWid2LastChatWid() const
+{
+	if (ui->friendStackedWidget->currentWidget() == m_ptrSearchFriendList)
+	{
+		QPalette pal = ui->widget_3->palette();
+		pal.setColor(QPalette::Window, QColor(238, 238, 238));
+		ui->widget_3->setPalette(pal);
+		ui->lineEdit->clear();
+		ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+	}
+}
+
 //收到服务器返回的好友列表后初始化lastchat
 void ChatWidget::initLastChatList()
 {
@@ -736,6 +742,14 @@ void ChatWidget::initAddFriendWid()
 		tmp2.push_back(tmpInfo);
 	}
 	m_ptrAddFriendWid->setData(tmp2);
+}
+
+void ChatWidget::onSignalTextOrChatFocusIn(bool isFocus)
+{
+	if(isFocus)
+	{
+		convertFromSearchWid2LastChatWid();
+	}
 }
 
 void ChatWidget::onSignalHideRedRectangleInLastChat(const QString id)
@@ -925,6 +939,8 @@ void ChatWidget::initFriendList()
 								  Q_ARG(QVariant, QString::fromStdString(item.m_strId)),
 								  Q_ARG(QVariant, QString::fromStdString(item.m_strFirstChacter)));
 	}
+	auto friendInfoVec = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec();
+	m_ptrSearchFriendModel->setData(friendInfoVec);
 	initLastChatList();
 	m_bLastChatInitFinished = true;
 	m_con.notify_one();
