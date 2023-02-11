@@ -92,6 +92,8 @@ private slots:
 	void onSignalFriendListItemClicked(QString strId,QString name);
 	//底部托盘被点击后
 	void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
+	//搜索好友页面头像点击
+	void onSignalSearchFriendProfileImageClicked(const QString id, const QString& name);
 
 	//收到好友聊天消息后
 	void onSignalSingleChatMessage(const QString& chatMessage);

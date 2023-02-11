@@ -54,17 +54,17 @@ Rectangle {
                         searchFriendView.lastItem.color="transparent";
                     }
                     color="grey";
-                    searchFriendView.currentIndex=index;
-                    searchFriendView.lastIndex=index;
+                    searchFriendView.currentIndex=idx;
+                    searchFriendView.lastIndex=idx;
                     searchFriendView.lastItem=searchFriendView.currentItem;
-                    searchFriend.signalFriendListClicked(strIdx,name);
+                    searchFriend.signalSearchFriendListClicked(idx,name);
                 }
                 hoverEnabled: true;
                 //鼠标移动到上方时变为银色，如果移动到上次点击的item则不做处理
                 onEntered:
                 {
                     scrollBar.visible=true;
-                    if(searchFriendView.currentIndex===index)
+                    if(searchFriendView.currentIndex===idx)
                     {
                         return;
                     }
@@ -74,7 +74,7 @@ Rectangle {
                 onExited:
                 {
                     scrollBar.visible=false;
-                    if(searchFriendView.currentIndex===index)
+                    if(searchFriendView.currentIndex===idx)
                     {
                         return;
                     }

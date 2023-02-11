@@ -592,7 +592,9 @@ void ChatWidget::initConnect()
 		SLOT(onSignalUpdateChatMessage(QString)));
 	//聊天界面中点击了头像
 	connect(m_ptrChatMessageWid->getRootObj(), SIGNAL(signalProfileImageClicked(QString)), this, SLOT(onSignalChatWidProfileImageClicked(QString)));
-
+	//搜索好友界面点击了头像
+	connect(reinterpret_cast<QObject*>(m_ptrSearchFriendList->rootObject()), SIGNAL(signalSearchFriendListClicked(QString,QString)), this, SLOT(onSignalSearchFriendProfileImageClicked(QString,QString)));
+	
 	//自己的头像换了
 	connect(m_ptrProfileImagePreviewWid, &ProfileImagePreview::signalProfileImageChanged, this, &ChatWidget::onSignalProfileImageChanged);
 	//好友头像更换后的处理
@@ -833,6 +835,52 @@ void ChatWidget::onSignalNeedUpdateLastChat()const
 void ChatWidget::onSignalChatWidProfileImageClicked(const QString id)
 {
 	onSignalChatWidOpenProfileImagePreview(id.toInt());
+}
+
+//搜索好友界面中点击了头像
+void ChatWidget::onSignalSearchFriendProfileImageClicked(const QString id, const QString& name)
+{
+	//左侧列表界面设为lastchat
+	ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+
+	//如果不存在才添加，如果不是这个界面，还要切换
+	auto friendVec = PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec();
+	auto friendInfo = friendVec[PublicDataManager::get_mutable_instance().getMyUsetInfoMap()[id]];
+	//获取上次聊天内容
+	QString imagePath = "";
+	if ("" == friendInfo.m_strImagePath)
+	{
+		imagePath = kDefaultProfileImage;
+	}
+	else
+	{
+		imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+	}
+	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "judgeAndInsertToModel", Q_ARG(QVariant, name.mid(0, 1)),
+		Q_ARG(QVariant, name), Q_ARG(QVariant, id));
+
+	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "switchToItemAndChangeColor", Q_ARG(QVariant, id));
+
+	//插入到上次聊天的数据库中
+	//DataBaseDelegate::Instance()->insertLastChat(strId);
+	if (!PublicDataManager::get_mutable_instance().isIdExistInLastChatList(id))
+	{
+		DataBaseDelegate::Instance()->insertLastChat(id);
+		PublicDataManager::get_mutable_instance().insertLastChatList({ name, id });
+	}
+
+	//如果当前聊天页面不是这个人
+	if (id != PublicDataManager::get_mutable_instance().getCurrentChatWidgetUserInfo().userId.c_str())
+	{
+		//现在的聊天页面换成这个id
+		PublicDataManager::get_mutable_instance().setCurrentChatWidgetUserInfo(CurrentChatWidgetUserInfo(10, name.toStdString()));
+		initChatMessageWidAcordId(MyLastChatFriendInfo(name, id));
+		ui->chatStackedWidget->SwitchToChatPage(ChatWid);
+	}
+
+	//去除掉红点
+	onSignalHideRedRectangleInLastChat(id);
+	ui->nickNameLabel->setText(name);
 }
 
 //底部栏闪烁槽函数
