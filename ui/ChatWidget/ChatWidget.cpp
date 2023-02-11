@@ -185,11 +185,16 @@ void ChatWidget::onSignalSendMessage()
 														   QString::fromStdString(singleChatData.m_strTime), true,
 														   m_strUserName);
 		}
+		QString imagePath = PublicDataManager::get_mutable_instance().getImagePath();
+		if (imagePath.mid(0, 4) != "qrc:")
+		{
+			imagePath = "file:///" + imagePath;
+		}
 
 		//更新到界面中
 		QMetaObject::invokeMethod(m_ptrChatMessageWid->getRootObj(), "appendMessageModel", Q_ARG(QVariant, m_strUserName),
-								  Q_ARG(QVariant, lineEditMessage), Q_ARG(QVariant, true),
-								  Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, m_strUserId),Q_ARG(QVariant,""));
+			Q_ARG(QVariant, lineEditMessage), Q_ARG(QVariant, true),
+			Q_ARG(QVariant, m_strUserName.mid(0, 1)), Q_ARG(QVariant, m_strUserId), Q_ARG(QVariant, imagePath));
 		QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "updateLastChatMsg", Q_ARG(QVariant, lineEditMessage),Q_ARG(QVariant, id));
 		//把消息更新到界面中
 		ui->textEdit->clear();
@@ -237,8 +242,12 @@ void ChatWidget::onSignalFriendListItemClicked(QString strId, QString name)
 	else
 	{
 		imagePath = QString::fromStdString(friendInfo.m_strImagePath);
+		if (imagePath.mid(0, 4) != "qrc:")
+		{
+			imagePath = QString("file:///") + imagePath;
+		}	
 	}
-	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "judgeAndInsertToModel", Q_ARG(QVariant, name.mid(0, 1)),
+	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "judgeAndInsertToModel", Q_ARG(QVariant, imagePath),
 							  Q_ARG(QVariant, name), Q_ARG(QVariant, strId));
 
 	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "switchToItemAndChangeColor", Q_ARG(QVariant, strId));
@@ -358,6 +367,7 @@ void ChatWidget::onSignalSearchTextLoseFocus(bool isFocus)
 void ChatWidget::onSignalChatBtn()
 {
 	ui->friendStackedWidget->setCurrentIndex(LastChatWidget);
+	ui->chatStackedWidget->SwitchToChatPage(ChatWid);
 }
 
 void ChatWidget::onSignalFriendListBtn()
