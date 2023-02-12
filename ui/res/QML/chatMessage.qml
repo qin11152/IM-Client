@@ -2,12 +2,15 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.12
 
+import CPPService 1.0
+
 Rectangle
 {
     //开始的时候聊天记录数量肯定是0
     //这里的聊天记录数量是已经加载进页面的聊天记录数量
     property int iRecordCount:0;
     property string strIdx:"";
+    property bool showMoreIsVisible:false;
 
     signal signalUpdateChatModel(string id);
     signal signalProfileImageClicked(string id);
@@ -37,7 +40,7 @@ Rectangle
 
     function scrollToPosition(iPosition)
     {
-        console.log("count",iPosition);
+        //console.log("count",iPosition);
         messageView.positionViewAtIndex(iPosition,ListView.Beginning)
 //        if(messageView.count-iPosition<10)
 //        {
@@ -74,7 +77,7 @@ Rectangle
 
     function setBusyIndicatorStateFlag(bFlag)
     {
-        console.log("state:",bFlag);
+        //console.log("state:",bFlag);
         if(bFlag)
         {
             busyIndi.running=bFlag;
@@ -82,6 +85,24 @@ Rectangle
         else
         {
             time.start();
+        }
+    }
+    property int coucccc:0;
+    function getRecordCount()
+    {
+        coucccc= DataBase.getChatRecordCountFromDB(strIdx);
+        return coucccc;
+    }
+
+    function needUpdate()
+    {
+        if(getRecordCount()>messageModel.count)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -99,7 +120,19 @@ Rectangle
     width: 300;
     height: 300;
     color: "transparent";
-
+    MouseArea
+    {
+        anchors.fill: parent;
+        onWheel:
+            {
+                if(showMoreIsVisible && wheel.angleDelta.y>0)
+                {
+                    main.signalUpdateChatModel(strIdx);
+                    showMore.visible=false;
+                    showMoreIsVisible=false;
+                }
+            }
+    }    
     ListModel
     {
         id: messageModel;
@@ -126,15 +159,56 @@ Rectangle
                 id: scrollBar;
                 visible: false;
                 policy: ScrollBar.AsNeeded;
+                onPositionChanged:
+                {
+                    if(!pressed)
+                    {
+                        return;
+                    }
+
+                    if(needUpdate() && !showMoreIsVisible && position===0)
+                    {
+                        showMoreIsVisible=true;
+                        showMore.visible=true;
+                    }
+                    if(showMoreIsVisible && position!==0)
+                    {
+                        showMoreIsVisible=false;
+                        showMore.visible=false;
+                    }
+                }
             }
             //移动结束了，看是否需要更新数据
             onMovementEnded:
             {
+                //首先如果需要更新才进入逻辑
                 if(needUpddateModel===true)
                 {
-                    main.signalUpdateChatModel(strIdx);
+                    if(!needUpdate())
+                    {
+                        return;
+                    }
+
                     needUpddateModel=false;
+                    //如果没有显示更多按钮，就显示出来
+                    if(!showMoreIsVisible)
+                    {
+                        showMoreIsVisible=true;
+                        showMore.visible=true;
+                    }
+                    //如果显示出来了就更新，并隐藏显示更多按钮
+                    else
+                    {
+                        showMoreIsVisible=false;
+                        showMore.visible=false;
+                        main.signalUpdateChatModel(strIdx);
+                    }
                 }
+                // if(needUpddateModel===true)
+                // {
+                //     main.signalUpdateChatModel(strIdx);
+                //     needUpddateModel=false;
+                // }
             }
             //每次y坐标变化了就看看是不是到了顶部了
             onContentYChanged:
@@ -172,6 +246,33 @@ Rectangle
         }
     }
 
+    Rectangle
+    {
+        id:showMore;
+        width: 60;
+        height: 30;
+        color: "transparent";
+        anchors.left: parent.left;
+        anchors.top: parent.top;
+        anchors.leftMargin: (parent.width-width)/2;
+        visible:false;
+        Text
+        {
+            text:"show more";
+            color:"blue";
+            anchors.centerIn: parent;
+            MouseArea{
+                anchors.fill: parent;
+                hoverEnabled: true;
+                onClicked:
+                {
+                    main.signalUpdateChatModel(strIdx);
+                    showMore.visible=false;
+                    showMoreIsVisible=false;
+                }
+            }
+        }
+    }
 
     Component
     {

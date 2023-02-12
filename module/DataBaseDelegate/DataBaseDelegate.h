@@ -21,7 +21,7 @@ public:
     //为数据库设置用户的id
     void setUserId(const QString& id);
     //根据id获取聊天记录数量
-    int getChatRecordCountFromDB(const QString& id)const;
+    Q_INVOKABLE int getChatRecordCountFromDB(const QString& id)const;
     //创建与某个用户的聊天记录表
     bool createUserChatTable(const QString& userid)const;
     //创建上次聊天表

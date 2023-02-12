@@ -20,9 +20,17 @@
 #include <QSqlRecord>
 #include <QPushButton>
 #include <QQmlContext>
+#include <QQmlEngine>
 
 
 const QString ChatRecordTable = "chatrecord";
+
+QObject* getDataBaseSingleInstance(QQmlEngine* engine, QJSEngine* scriptEngine)
+{
+	auto instance= DataBaseDelegate::Instance().get();
+	QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
+	return instance;
+}
 
 ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
 	: QWidget(parent),
@@ -489,6 +497,8 @@ void ChatWidget::initUi()
 	ui->label->setVisible(false);
 	ui->textEdit->setFontPointSize(16);
 
+
+	qmlRegisterSingletonType<DataBaseDelegate>("CPPService", 1, 0, "DataBase", getDataBaseSingleInstance);
 
 	//把空的界面加入到stackedwid,有时会用到空白界面
 	m_ptrEmptyWid = new MyChatMessageQuickWid();
