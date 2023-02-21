@@ -20,7 +20,7 @@
       <Filter>ui\LogInWidget</Filter>
     </ClCompile>
     <ClCompile Include="module\Log\Log.cpp">
-      <Filter>protocol\Log</Filter>
+      <Filter>module\Log</Filter>
     </ClCompile>
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp">
       <Filter>protocol\LoginInReplyData</Filter>
@@ -127,6 +127,9 @@
     <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.cpp">
       <Filter>ui\ChatWidget\FriendListModel</Filter>
     </ClCompile>
+    <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp">
+      <Filter>module\GroupChatManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -139,7 +142,7 @@
       <Filter>protocol\LoginInJsonData</Filter>
     </ClInclude>
     <ClInclude Include="module\Log\Log.h">
-      <Filter>protocol\Log</Filter>
+      <Filter>module\Log</Filter>
     </ClInclude>
     <ClInclude Include="protocol\LoginInReplyData\LoginInReplyData.h">
       <Filter>protocol\LoginInReplyData</Filter>
@@ -265,6 +268,9 @@
     <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.h">
       <Filter>ui\ChatWidget\FriendListModel</Filter>
     </QtMoc>
+    <QtMoc Include="module\GroupChatManager\GroupChatManager.h">
+      <Filter>module\GroupChatManager</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\ChatWidget\ChatWidget.ui">
@@ -364,9 +370,6 @@
     <Filter Include="protocol\LoginInJsonData">
       <UniqueIdentifier>{1938169d-b63b-4e81-864a-65af88534044}</UniqueIdentifier>
     </Filter>
-    <Filter Include="protocol\Log">
-      <UniqueIdentifier>{25641486-35c9-4b55-9b0b-96676ac8db5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="protocol\LoginInReplyData">
       <UniqueIdentifier>{cf3fddbe-766d-495d-9f20-4456e2610019}</UniqueIdentifier>
     </Filter>
@@ -444,6 +447,24 @@
     </Filter>
     <Filter Include="ui\ChatWidget\FriendListModel">
       <UniqueIdentifier>{52f9f476-a90f-4852-a755-0c71d0272f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\GroupChatManager">
+      <UniqueIdentifier>{99112411-a90a-4637-8364-cb8de9437226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\GroupChat">
+      <UniqueIdentifier>{9faad5d5-6b3f-447e-9e08-c327a3cfdd6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\GroupChat\StartGroupChat">
+      <UniqueIdentifier>{e067abf2-065d-42f6-b41d-cc19fad27fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\GroupChatJsonData">
+      <UniqueIdentifier>{60e695c3-e20c-4159-879c-667d444b35eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\StartGroupChatJsonData">
+      <UniqueIdentifier>{e2da21cd-a6e4-4c8b-8b6b-eacec6bbf877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\Log">
+      <UniqueIdentifier>{25641486-35c9-4b55-9b0b-96676ac8db5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
