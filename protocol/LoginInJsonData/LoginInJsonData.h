@@ -1,5 +1,6 @@
 #pragma once
 #include "../JsonBaseData.h"
+
 class LoginInJsonData :
     public JsonBaseData
 {

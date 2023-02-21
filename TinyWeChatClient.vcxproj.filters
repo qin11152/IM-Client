@@ -130,6 +130,9 @@
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp">
       <Filter>module\GroupChatManager</Filter>
     </ClCompile>
+    <ClCompile Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
+      <Filter>protocol\StartGroupChatJsonData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="module\MyDefine.h">
       <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.h">
+      <Filter>protocol\StartGroupChatJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,7 @@ enum class MessageType
 	LoginRequest,
 	LoginResponse,
 	InitialRequest,
+	StartGroupChat,
 	GroupChat,
 	SingleChat,
 	AddFriendRequest,
@@ -197,5 +198,7 @@ struct CurrentChatWidgetUserInfo
 /************************************************************************/
 /* ¹«¹²º¯Êý                                                                     */
 /************************************************************************/
+
+
 
 
