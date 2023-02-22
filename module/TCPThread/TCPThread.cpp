@@ -104,7 +104,7 @@ void TCPThread::onSignalTimeoutNoHeartPackage()
 void TCPThread::onSignalTimeoutSendHeartPackage()
 {
 	//发送给服务器的心跳包
-	HeartPackageJsonData heartPackage;
+	protocol::HeartPackageJsonData heartPackage;
 	std::string msg = heartPackage.generateJson();
 	sendMessage(msg);
 	if (m_ptrTimerKeepAlive != nullptr && m_ptrTimerKeepAlive->isActive())
@@ -191,7 +191,7 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 		break;
 		case int(MessageType::ProfileImageMsg) : 
 		{
-			ProfileImageMsgJsonData profileImageMsgData(recvMessage);
+			protocol::ProfileImageMsgJsonData profileImageMsgData(recvMessage);
 			int iNeedSegment = profileImageMsgData.m_iSumIndex;
 			if (m_mapImageUUIDAndSegment.count(profileImageMsgData.m_strUUID) && profileImageMsgData.m_iCurIndex - 1 != m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID])
 			{

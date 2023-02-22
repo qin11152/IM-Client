@@ -99,7 +99,7 @@ void RegisterWidget::onRegisterClicked()
     else
     {
         //qDebug() << "edit content is:" << ui->nickLineEdit->text() << "  " << ui->firstPasswordLineEdit->text();
-        RegisterJsonData reg("");
+        protocol::RegisterJsonData reg("");
         reg.m_strUserName = ui->nickLineEdit->text().toStdString();
         reg.m_strUserPassword = ui->firstPasswordLineEdit->text().toStdString();
         reg.m_strType = MessageType::RegisterRequest;

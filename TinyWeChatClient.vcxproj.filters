@@ -130,8 +130,14 @@
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp">
       <Filter>module\GroupChatManager</Filter>
     </ClCompile>
-    <ClCompile Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
+    <ClCompile Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.cpp">
+      <Filter>protocol\StartGroupChatReplyJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
       <Filter>protocol\StartGroupChatJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\GroupChatJsonData\GroupChatJsonData.cpp">
+      <Filter>protocol\GroupChatJsonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,8 +207,14 @@
     <ClInclude Include="module\MyDefine.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.h">
+    <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h">
+      <Filter>protocol\StartGroupChatReplyJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h">
       <Filter>protocol\StartGroupChatJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h">
+      <Filter>protocol\GroupChatJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -471,6 +483,9 @@
     </Filter>
     <Filter Include="module\Log">
       <UniqueIdentifier>{25641486-35c9-4b55-9b0b-96676ac8db5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\StartGroupChatReplyJsonData">
+      <UniqueIdentifier>{424dac67-89a7-4210-8e34-b3c8aa35f60b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -163,7 +163,7 @@ void ChatWidget::onSignalSendMessage()
 		std::string timeStamp = Base::timeToString("%F-%T");
 
 		//通过网络将信息发送出去
-		SingleChatMessageJsonData singleChatData;
+		protocol::SingleChatMessageJsonData singleChatData;
 		singleChatData.m_strSendUserId = m_strUserId.toStdString();
 		singleChatData.m_strRecvUserId = (id).toStdString();
 		singleChatData.m_strMessage = lineEditMessage.toStdString();
@@ -301,7 +301,7 @@ void ChatWidget::onSignalSingleChatMessage(const QString& chatMessage)
 	}
 	QApplication::alert(this);
 	//QSound::play(":/res/sound/message.wav");
-	const SingleChatMessageJsonData singleChatData(chatMessage.toStdString());
+	const protocol::SingleChatMessageJsonData singleChatData(chatMessage.toStdString());
 	const QString sendId =QString::fromStdString(singleChatData.m_strSendUserId);
 	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "setLastChatRecord", Q_ARG(QVariant, chatMessage),Q_ARG(QVariant, sendId));
 	//存储在数据库中

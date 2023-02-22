@@ -56,7 +56,7 @@ void LogInWidget::onLogInButtonClicked()
     {
         return;
     }
-    LoginInJsonData loginJsonData("");
+    protocol::LoginInJsonData loginJsonData("");
     loginJsonData.m_strId = ui.userNameLineEdit->text().toStdString();
     m_strUserId = ui.userNameLineEdit->text();
     loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
@@ -74,7 +74,7 @@ void LogInWidget::onRegisterFinished()
 void LogInWidget::onSignalLoginResultRecv(const QString& msg)
 {
     //先解析数据
-    LoginInReplyData loginReplyData(msg.toStdString());
+    protocol::LoginInReplyData loginReplyData(msg.toStdString());
     //如果登录成功
     if (loginReplyData.m_bLoginInResult)
     {

@@ -38,7 +38,7 @@ void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& Ima
     }
     for (int i = 0; i < iNeedSlice; ++i)
     {
-        ProfileImageMsgJsonData tmpImageData;
+        protocol::ProfileImageMsgJsonData tmpImageData;
         tmpImageData.m_strId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
         tmpImageData.m_strImageName = ImageName.toStdString();
         tmpImageData.m_strUUID = strUUID.toStdString();

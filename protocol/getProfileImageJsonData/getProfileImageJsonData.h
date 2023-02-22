@@ -2,16 +2,19 @@
 
 #include "../JsonBaseData.h"
 
-class getProfileImageJsonData :
-    public JsonBaseData
+namespace protocol
 {
-public:
-    getProfileImageJsonData(const std::string& message = "");
-    void parse(const std::string& message)override;
-    std::string generateJson()override;
+    class getProfileImageJsonData :
+        public JsonBaseData
+    {
+    public:
+        getProfileImageJsonData(const std::string& message = "");
+        void parse(const std::string& message)override;
+        std::string generateJson()override;
 
-    std::string m_strId{ "" };
+        std::string m_strId{ "" };
 
-    MessageType m_strType{ MessageType::getFriendProfileImage };
-};
+        MessageType m_strType{ MessageType::getFriendProfileImage };
+    };
+}
 

@@ -73,7 +73,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 		_LOG(Logcxx::Level::INFO, "ChatWidgetManager::onSignalRecvFriendList");
 	}
 #endif
-	GetFriendListReplyData getFriendListReplyData(friendList.toStdString());
+	protocol::GetFriendListReplyData getFriendListReplyData(friendList.toStdString());
 	for (auto& item : getFriendListReplyData.m_vecFriendList)
 	{
 #if defined(QT_DEBUG)
@@ -105,7 +105,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 
 void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
 {
-	AddFriendResponseJsonData addFriendResponseJsonData;
+	protocol::AddFriendResponseJsonData addFriendResponseJsonData;
 	addFriendResponseJsonData.m_strMyId = m_strUserId.toStdString();
 	addFriendResponseJsonData.m_strFriendId = friendId.toStdString();
 	addFriendResponseJsonData.m_bResult = true;
@@ -117,7 +117,7 @@ void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
 
 void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verifyMsg)
 {
-	AddFriendRequestJsonData addFriendRequestData;
+	protocol::AddFriendRequestJsonData addFriendRequestData;
 	addFriendRequestData.m_strFriendId = friendId.toStdString();
 	addFriendRequestData.m_strVerifyMsg = verifyMsg.toStdString();
 	addFriendRequestData.m_strMyId = m_strUserId.toStdString();
@@ -129,7 +129,7 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
 void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 {
 	//通知界面改变，上次聊天的界面添加一个新的好友项
-	const AddFriendNotify addFriendNotifyData(msg.toStdString());
+	const protocol::AddFriendNotify addFriendNotifyData(msg.toStdString());
 	MyFriendInfoWithFirstC tmp;
 	if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
 	{
@@ -153,7 +153,7 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 {
 	//写入数据库
-	const AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
+	const protocol::AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
 	const char* name = addFriendRequestData.m_strName.c_str();
 	const char* friendId = addFriendRequestData.m_strFriendId.c_str();
 	const char* verifyMsg = addFriendRequestData.m_strVerifyMsg.c_str();
@@ -257,7 +257,7 @@ void ChatWidgetManager::initDirAndFile()
 
 void ChatWidgetManager::getFriendList()
 {
-	GetFriendListJsonData getFriendListData;
+	protocol::GetFriendListJsonData getFriendListData;
 	getFriendListData.m_strUserId = m_strUserId.toStdString();
 	auto tmpStr = getFriendListData.generateJson();
 	TCPThread::get_mutable_instance().sendMessage(tmpStr);
@@ -267,7 +267,7 @@ void ChatWidgetManager::getFriendList()
 //向服务器发送初始化消息，告知此id在线
 void ChatWidgetManager::notifyServerOnline()
 {
-	InitialRequestJsonData initialJosnData;
+	protocol::InitialRequestJsonData initialJosnData;
 	initialJosnData.m_strId = m_strUserId.toStdString();
 	std::string sendMessage = initialJosnData.generateJson();
 	//emit signalSendMsg(sendMessage);
@@ -310,7 +310,7 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 		if (0 == mapTimeStamp.count(item.m_strId) || item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
 		{
 			//TODO 发送消息到服务器，获取新头像
-			getProfileImageJsonData tmpInfo;
+			protocol::getProfileImageJsonData tmpInfo;
 			tmpInfo.m_strId = item.m_strId;
 			TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
 		}

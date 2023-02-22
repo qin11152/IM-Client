@@ -168,6 +168,7 @@
     <ClCompile Include="protocol\GetFriendListJsonData\GetFriendListJsonData.cpp" />
     <ClCompile Include="protocol\GetFriendListReplyData\GetFriendListReplyData.cpp" />
     <ClCompile Include="protocol\getProfileImageJsonData\getProfileImageJsonData.cpp" />
+    <ClCompile Include="protocol\GroupChatJsonData\GroupChatJsonData.cpp" />
     <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp" />
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp" />
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
@@ -175,6 +176,8 @@
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
+    <ClCompile Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.cpp" />
+    <ClCompile Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.cpp" />
     <ClCompile Include="TODO.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp" />
@@ -182,7 +185,6 @@
     <ClCompile Include="ui\ChatWidget\ChatWidget.cpp" />
     <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListModel.cpp" />
     <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.cpp" />
-    <ClCompile Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
     <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp" />
@@ -214,7 +216,9 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ui\GroupChat\StartGroupChatJsonData\StartGroupChatJsonData.h" />
+    <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
+    <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h" />
+    <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h" />
     <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.h" />
     <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListModel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h" />

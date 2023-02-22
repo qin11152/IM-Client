@@ -38,6 +38,7 @@ enum class MessageType
 	LoginResponse,
 	InitialRequest,
 	StartGroupChat,
+	StartGroupChatReply,
 	GroupChat,
 	SingleChat,
 	AddFriendRequest,
