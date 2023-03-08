@@ -8,6 +8,7 @@
 #include "module/stdafx.h"
 #include "ui/AddFriendWidget/AddFriendWidget.h"
 #include "ui/ProfileImagePreview/ProfileImagePreview.h"
+#include "ui/StartGroupChatWidget/StartGroupChatWidget.h"
 #include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "ui/ChatWidget/FriendListModel/MyFriendListModel.h"
 #include "ui/ChatWidget/FriendListModel/MyFriendListSortModel.h"
@@ -169,6 +170,8 @@ private slots:
 	 */
 	void onSignalAddFriendProfileImage(const QString& id, const QString& imagePath)const;
 
+	void onSignalStartGroupChatClicked();
+
 private:
 	/**
 	 * brief：初始化界面相关的属性.
@@ -218,6 +221,7 @@ private:
 	QTimer* m_ptrNullMessageTimer{ nullptr };   //空的聊天界面
 	QQuickWidget* m_ptrLastChatWidget{ nullptr }; //上次聊天列表界面
 	QQuickWidget* m_ptrFriendListWidget{ nullptr }; //好友列表界面
+	StartGroupChatWidget* m_ptrStartGroupChatWidget{ nullptr }; //创建群聊界面
 	//QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //显示已添加和新好友请求的界面
 	QQuickWidget* m_ptrSearchFriendList{ nullptr };//搜索好友时显示的界面
 	MyChatMessageQuickWid* m_ptrEmptyWid{ nullptr };     //空的界面

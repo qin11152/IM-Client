@@ -216,7 +216,34 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="MyLineEdit" name="lineEdit"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="MyLineEdit" name="lineEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="startGroupChatBtn">
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/LogInWidget.qrc">
+                <normaloff>:/LogInWidget/image/startGroupChat.png</normaloff>:/LogInWidget/image/startGroupChat.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

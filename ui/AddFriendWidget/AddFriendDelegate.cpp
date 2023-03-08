@@ -17,7 +17,7 @@ void AddFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
 {
     //QStyledItemDelegate::paint(painter, option, index);
 
-    QString strId = index.data((int)UserRoleDefine::AddFriendName).toString();
+    QString strName = index.data((int)UserRoleDefine::AddFriendName).toString();
     QString strImagePath = index.data((int)UserRoleDefine::AddFriendImagePath).toString();
     QString strVerifyInfo = index.data((int)UserRoleDefine::AddFriednVerifyInfo).toString();
     bool isValid = index.data((int)UserRoleDefine::AddFriendValid).toBool();
@@ -30,7 +30,7 @@ void AddFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
     displayOption.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
 
     painter->drawPixmap(imageRect, QPixmap(strImagePath));
-    painter->drawText(idRect, strId);
+    painter->drawText(idRect, strName);
     painter->drawText(verifyRect, strVerifyInfo);
 
     if (!isValid)
@@ -51,9 +51,10 @@ void AddFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
 bool AddFriendDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index)
 {
     auto pEvent = reinterpret_cast<QMouseEvent*>(event);
+    auto btnRect=QRect(option.rect.right() - 120, option.rect.y() + 10, 80, 40);
     if (pEvent->button() == Qt::LeftButton)
     {
-        if (option.rect.contains(pEvent->pos()))
+        if (btnRect.contains(pEvent->pos()))
         {
             QString id = index.data(int(UserRoleDefine::AddFriendId)).toString();
             emit signalAgreeAdd(id);

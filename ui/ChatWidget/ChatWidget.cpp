@@ -483,6 +483,16 @@ void ChatWidget::onSignalAddFriendProfileImage(const QString& id, const QString&
 	DataBaseDelegate::Instance()->updateProfileImagePath(id, imagePath);
 }
 
+void ChatWidget::onSignalStartGroupChatClicked()
+{
+	if (!m_ptrStartGroupChatWidget)
+	{
+		m_ptrStartGroupChatWidget = new StartGroupChatWidget();
+	}
+	m_ptrStartGroupChatWidget->setModelData(PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec());
+	m_ptrStartGroupChatWidget->show();
+}
+
 void ChatWidget::initUi()
 {
 	//设置图标
@@ -598,6 +608,9 @@ void ChatWidget::initConnect()
 	connect(ui->addFriendPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalAddFriendBtn);
 	connect(ui->profileImageButton, &QPushButton::clicked, this, &ChatWidget::onSignalSideBarProfileImageBtn);
 
+	//点击发起群聊
+	connect(ui->startGroupChatBtn, &QPushButton::clicked, this, &ChatWidget::onSignalStartGroupChatClicked);
+
 	//搜索框获取焦点响应
 	connect(ui->lineEdit, &MyLineEdit::signalIsFocus, this, &ChatWidget::onSignalSearchTextLoseFocus);
 	//搜索框内容发生变化响应
@@ -634,6 +647,8 @@ void ChatWidget::initData()
 	m_ptrIconTwinkleTimer=new QTimer();
 	m_ptrProfileImagePreviewWid = new ProfileImagePreview();
 	m_ptrAddFriendWid = new AddFriendWidget();
+
+	m_ptrStartGroupChatWidget = new StartGroupChatWidget();
 
 	//先去从缓存的数据库中获取到相关的数据并更新到实际的数据库，然后在执行相关操作
 	auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite2");
@@ -1137,6 +1152,9 @@ ChatWidget::~ChatWidget()
 
 	delete m_ptrAddFriendWid;
 	m_ptrAddFriendWid = nullptr;
+
+	delete m_ptrStartGroupChatWidget;
+	m_ptrStartGroupChatWidget = nullptr;
 
 	TCPThread::get_mutable_instance().exit();
 }

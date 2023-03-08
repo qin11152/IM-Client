@@ -139,6 +139,24 @@
     <ClCompile Include="protocol\GroupChatJsonData\GroupChatJsonData.cpp">
       <Filter>protocol\GroupChatJsonData</Filter>
     </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\StartGroupChatWidget.cpp">
+      <Filter>ui\StartGroupChatWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendModel.cpp">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendDelegate.cpp">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.cpp">
+      <Filter>ui\StartGroupChatWidget\AddedGroupFriendMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.cpp">
+      <Filter>ui\StartGroupChatWidget\AddedGroupFriendMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.cpp">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -289,6 +307,24 @@
     <QtMoc Include="module\GroupChatManager\GroupChatManager.h">
       <Filter>module\GroupChatManager</Filter>
     </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\StartGroupChatWidget.h">
+      <Filter>ui\StartGroupChatWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendModel.h">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendDelegate.h">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.h">
+      <Filter>ui\StartGroupChatWidget\AddedGroupFriendMVC</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.h">
+      <Filter>ui\StartGroupChatWidget\AddedGroupFriendMVC</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.h">
+      <Filter>ui\StartGroupChatWidget\ChooseFriendGroupMVC</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\ChatWidget\ChatWidget.ui">
@@ -311,6 +347,9 @@
     </QtUic>
     <QtUic Include="ui\AddFriendWidget\AddFriendWidget.ui">
       <Filter>ui\AddFriendWidget</Filter>
+    </QtUic>
+    <QtUic Include="ui\StartGroupChatWidget\StartGroupChatWidget.ui">
+      <Filter>ui\StartGroupChatWidget</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -486,6 +525,15 @@
     </Filter>
     <Filter Include="protocol\StartGroupChatReplyJsonData">
       <UniqueIdentifier>{424dac67-89a7-4210-8e34-b3c8aa35f60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\StartGroupChatWidget">
+      <UniqueIdentifier>{9c0466d7-0c11-4673-9353-361bb654475a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\StartGroupChatWidget\AddedGroupFriendMVC">
+      <UniqueIdentifier>{9826a2aa-9e70-4c65-b62f-36626949c130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC">
+      <UniqueIdentifier>{34804826-bd7c-418a-8dc6-a776d6421305}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

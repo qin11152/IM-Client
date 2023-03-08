@@ -193,6 +193,12 @@
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp" />
     <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendDelegate.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendModel.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.cpp" />
+    <ClCompile Include="ui\StartGroupChatWidget\StartGroupChatWidget.cpp" />
     <QtRcc Include="ui\res\LogInWidget.qrc" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -207,6 +213,7 @@
     <QtUic Include="ui\MyLineEdit\MyLineEdit.ui" />
     <QtUic Include="ui\ProfileImagePreview\ProfileImagePreview.ui" />
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui" />
+    <QtUic Include="ui\StartGroupChatWidget\StartGroupChatWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h" />
@@ -219,6 +226,12 @@
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h" />
     <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendDelegate.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendModel.h" />
+    <QtMoc Include="ui\StartGroupChatWidget\StartGroupChatWidget.h" />
     <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.h" />
     <QtMoc Include="ui\ChatWidget\FriendListModel\MyFriendListModel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendDelegate.h" />
