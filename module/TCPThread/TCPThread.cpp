@@ -19,6 +19,7 @@ TCPThread::TCPThread(QObject *parent)
 
 TCPThread::~TCPThread()
 {
+	unInit();
 }
 
 void TCPThread::unInit()
@@ -38,7 +39,6 @@ void TCPThread::run()
 	initConnect();
 	//connectHost();
 	exec();
-	unInit();
 }
 
 void TCPThread::sendMessage(std::string message)
