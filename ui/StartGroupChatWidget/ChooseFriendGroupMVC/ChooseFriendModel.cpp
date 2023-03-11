@@ -7,11 +7,21 @@ ChooseFriendModel::ChooseFriendModel(QObject *parent)
 ChooseFriendModel::~ChooseFriendModel()
 {}
 
-void ChooseFriendModel::setData(std::vector<MyFriendInfoWithFirstC>&friendInfo)
+void ChooseFriendModel::setData(std::vector<MyFriendInfoForStartGroupChat>&friendInfo)
 {
 	beginResetModel();
 	m_vecFriendInfo = friendInfo;
+	for (int i = 0; i < m_vecFriendInfo.size(); ++i)
+	{
+		m_mapItemPosAcordId[m_vecFriendInfo[i].m_strId.c_str()] = i;
+	}
 	endResetModel();
+}
+
+void ChooseFriendModel::updateModelSelectedState(const QString& id)
+{
+	int iPos = m_mapItemPosAcordId[id];
+	m_vecFriendInfo[iPos].m_bIsSelected = !m_vecFriendInfo[iPos].m_bIsSelected;
 }
 
 QVariant ChooseFriendModel::data(QModelIndex const& index, int role) const
@@ -30,6 +40,9 @@ QVariant ChooseFriendModel::data(QModelIndex const& index, int role) const
 		break;
 	case (int)UserRoleDefine::FriendListImagePath:
 		return m_vecFriendInfo[index.row()].m_strImagePath.c_str();
+		break;
+	case (int)UserRoleDefine::ChooseFriendIsSelected:
+		return m_vecFriendInfo[index.row()].m_bIsSelected;
 		break;
 	default:
 		return QVariant();
@@ -54,6 +67,7 @@ QMap<int, QVariant> ChooseFriendModel::itemData(const QModelIndex& index) const
 	roles.insert((int)UserRoleDefine::FriendListId, tmpInfo.m_strId.c_str());
 	roles.insert((int)UserRoleDefine::FriendListName, tmpInfo.m_strName.c_str());
 	roles.insert((int)UserRoleDefine::FriendListImagePath, tmpInfo.m_strImagePath.c_str());
+	roles.insert((int)UserRoleDefine::ChooseFriendIsSelected, tmpInfo.m_bIsSelected);
 
 	return roles;
 }
@@ -64,5 +78,6 @@ QHash<int, QByteArray> ChooseFriendModel::roleNames() const
 	roles[(int)UserRoleDefine::FriendListName] = "name";
 	roles[(int)UserRoleDefine::FriendListImagePath] = "imagePath";
 	roles[(int)UserRoleDefine::FriendListId] = "idx";
+	roles[(int)UserRoleDefine::ChooseFriendIsSelected] = "selected";
 	return roles;
 }

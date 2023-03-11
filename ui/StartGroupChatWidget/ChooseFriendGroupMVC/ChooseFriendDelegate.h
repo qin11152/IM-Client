@@ -11,7 +11,12 @@ public:
 	~ChooseFriendDelegate();
 
 signals:
-	void signalChooseOneFriend(const QString& id);
+	/**
+	 * brief:选中页面点击后发出的信号.
+	 * [param] id:点击的id
+	 * [newState]:点击之后的状态，新的状态
+	 */
+	void signalClickChooseFriendBox(const QString& id,bool newState);
 
 protected:
 	/**

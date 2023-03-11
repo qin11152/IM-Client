@@ -489,7 +489,7 @@ void ChatWidget::onSignalStartGroupChatClicked()
 	{
 		m_ptrStartGroupChatWidget = new StartGroupChatWidget();
 	}
-	m_ptrStartGroupChatWidget->setModelData(PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec());
+	m_ptrStartGroupChatWidget->setModelData(PublicDataManager::get_mutable_instance().getFriendInfoForStartGroupChat());
 	m_ptrStartGroupChatWidget->show();
 }
 

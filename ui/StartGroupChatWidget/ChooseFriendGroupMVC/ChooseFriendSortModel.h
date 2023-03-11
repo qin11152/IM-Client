@@ -3,13 +3,13 @@
 #include "module/stdafx.h"
 #include <QSortFilterProxyModel>
 
-class ChooseFriendSortMOdel  : public QSortFilterProxyModel
+class ChooseFriendSortModel  : public QSortFilterProxyModel
 {
 	Q_OBJECT
 
 public:
-	ChooseFriendSortMOdel(QObject* parent = nullptr);
-	~ChooseFriendSortMOdel();
+	ChooseFriendSortModel(QObject* parent = nullptr);
+	~ChooseFriendSortModel();
 
 	void setFilterMap(const std::map<int, QVariant>& mapFilter);
 

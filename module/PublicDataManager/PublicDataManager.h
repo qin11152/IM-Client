@@ -13,6 +13,7 @@ public:
 
     std::vector<MyFriendInfoWithFirstC>& getMyFriendInfoWithCVec();
     std::vector<MyLastChatFriendInfo>& getMyLastChatFriendInfoVec();
+    std::vector<MyFriendInfoForStartGroupChat>& getFriendInfoForStartGroupChat();
     std::unordered_map<QString, int>& getMyUsetInfoMap();
     QString getMyId()const;
     QString getMyName()const;
@@ -54,6 +55,7 @@ private:
 
     std::unordered_map<QString, int> m_mapUnreadMsgCnt;     //记录不同id对应的未读消息
     std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;    //存储好友信息，带首字母，这个是从服务器得到的，有具体信息
+    std::vector<MyFriendInfoForStartGroupChat> m_vecFriendInfoForStartGroupChat;    //好友信息，用于发起群聊
     std::unordered_map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
     std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //上次聊天页面里的好友,这个是从数据库得到的顺序，只有id不包含其他信息
     CurrentChatWidgetUserInfo m_stuCurrentChatUserInfo;     //当前聊天界面中的相关信息（聊天记录数量，用户id）

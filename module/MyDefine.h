@@ -78,6 +78,9 @@ enum class UserRoleDefine
 	FriendListId = Qt::UserRole + 6,
 	FriendListName = Qt::UserRole + 7,
 	FriendListImagePath = Qt::UserRole + 8,
+	
+	//选择好友发起群聊列表中是否为选中状态
+	ChooseFriendIsSelected = Qt::UserRole + 9,
 };
 
 enum FriendListType
@@ -118,6 +121,16 @@ public:
 		m_strId = id;
 		m_strFirstChacter = firstC;
 	}*/
+};
+
+struct MyFriendInfoForStartGroupChat
+{
+public:
+	std::string m_strName{ "" };
+	std::string m_strImagePath{ "qrc:///LogInWidget/image/lv.jpg" };
+	std::string m_strId{ "" };
+
+	bool m_bIsSelected{ false };
 };
 
 class FriendInfo

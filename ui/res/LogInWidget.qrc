@@ -9,6 +9,7 @@
         <file>image/icontrans.png</file>
         <file>image/lv.jpg</file>
         <file>image/startGroupChat.png</file>
+        <file>image/close.png</file>
     </qresource>
     <qresource prefix="/QML">
         <file>QML/chatMessage.qml</file>

@@ -52,7 +52,7 @@ bool AddFriendDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, co
 {
     auto pEvent = reinterpret_cast<QMouseEvent*>(event);
     auto btnRect=QRect(option.rect.right() - 120, option.rect.y() + 10, 80, 40);
-    if (pEvent->button() == Qt::LeftButton)
+    if (QEvent::MouseButtonPress == event->type())
     {
         if (btnRect.contains(pEvent->pos()))
         {

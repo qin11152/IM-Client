@@ -1,9 +1,5 @@
 #include "ChooseFriendDelegate.h"
 
-#include <QPainter>
-#include <QMouseEvent>
-#include <QApplication>
-
 ChooseFriendDelegate::ChooseFriendDelegate(QObject *parent)
 	: QStyledItemDelegate(parent)
 {}
@@ -15,6 +11,7 @@ void ChooseFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
 {
 	QString strNmae = index.data((int)UserRoleDefine::FriendListName).toString();
 	QString strImagePath = index.data((int)UserRoleDefine::FriendListImagePath).toString();
+	auto isSelected=index.data((int)UserRoleDefine::ChooseFriendIsSelected).toBool();
 
 	if (strImagePath.startsWith("qrc:"))
 	{
@@ -34,19 +31,30 @@ void ChooseFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
 	QStyleOptionButton button;
 	button.rect = checkBoxRect;
 	button.state |= QStyle::State_Enabled;
-	button.state |= QStyle::State_On;
+
+	//如果model中为选中状态
+	if (isSelected)
+	{
+		button.state |= QStyle::State_On;
+	}
+	else
+	{
+		button.state |= QStyle::State_Off;
+	}
 	QApplication::style()->drawControl(QStyle::CE_CheckBox, &button, painter);
 }
 
 bool ChooseFriendDelegate::editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index)
 {
-	auto pEvent = reinterpret_cast<QMouseEvent*>(event);
-	if (pEvent->button() == Qt::LeftButton)
+	//auto pEvent = reinterpret_cast<QMouseEvent*>(event);
+	if (QEvent::MouseButtonPress==event->type())
 	{
-		if (option.rect.contains(pEvent->pos()))
+		QRect CheckBoxRect(option.rect.x() + 25, option.rect.y() + 20, 20, 20);
+		auto pEvent = reinterpret_cast<QMouseEvent*>(event);
+		if (CheckBoxRect.contains(pEvent->pos()))
 		{
 			QString id = index.data(int(UserRoleDefine::FriendListId)).toString();
-			//emit signalChooseOneFriend(id);
+			emit signalClickChooseFriendBox(id,!index.data((int)UserRoleDefine::ChooseFriendIsSelected).toBool());
 			return true;
 		}
 	}
