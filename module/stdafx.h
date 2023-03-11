@@ -2,10 +2,15 @@
 
 #include "module/Log/Log.h"
 #include "module/MyDefine.h"
+#include "module/PublicFunction/PublicFunction.h"
+#include "module/PublicDataManager/PublicDataManager.h"
 
 #include <Windows.h>
 
 #include <QDebug>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QApplication>
 
 #include <map>
 #include <list>
