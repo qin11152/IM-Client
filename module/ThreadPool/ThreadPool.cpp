@@ -15,7 +15,7 @@ void ThreadPool::startPool()
     for (int i = 0; i < m_iThreadNumber; ++i)
     {
         std::thread t(&ThreadPool::doTask, this);
-        m_vecThread.push_back(move(t));
+        m_vecThread.push_back(std::move(t));
     }
 }
 
@@ -59,7 +59,7 @@ void ThreadPool::doTask()
                 return;
             }
             //有任务就把顶端的拿出来
-            task = move(m_dequeTask.front());
+            task = std::move(m_dequeTask.front());
             m_dequeTask.pop_front();
         }
         //出了上边的作用域,lck就自动解锁了
