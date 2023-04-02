@@ -447,9 +447,9 @@ bool DataBaseDelegate::updateFriendRequestStateAcordId(const QString& id)const
 	return true;
 }
 
-bool DataBaseDelegate::updateFriendImageTimestamp(QString& id, std::pair<QString, QString>& newInfo) const
+bool DataBaseDelegate::updateFriendImageTimestamp(const QString& id, const QString& newInfo) const
 {
-	QString str = "update profileImage set timestamp='" + newInfo.second + "' where id=" + newInfo.first;
+	QString str = "update profileImage set timestamp='" + newInfo + "' where id=" + id;
 	QSqlQuery query(m_dataBase);
 	if (!query.exec(str))
 	{

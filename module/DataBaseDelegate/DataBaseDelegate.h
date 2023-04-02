@@ -66,7 +66,7 @@ public:
     //根据name把响应的好友请求置为true
     bool updateFriendRequestStateAcordId(const QString& id)const;
     //更新好友头像时间戳
-    bool updateFriendImageTimestamp(QString& id,std::pair<QString, QString>& newInfo)const;
+    bool updateFriendImageTimestamp(const QString& id,const QString& newInfo)const;
     //更新好友头像路径
     bool updateProfileImagePath(const QString& id, const QString& path)const;
     //更新头像路径和时间戳
