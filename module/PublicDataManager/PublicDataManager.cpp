@@ -28,6 +28,15 @@ std::vector<MyFriendInfoForStartGroupChat>& PublicDataManager::getFriendInfoForS
 	return m_vecFriendInfoForStartGroupChat;
 }
 
+void PublicDataManager::getFriendImagePathVec(std::vector<std::string>& vecId)
+{
+	std::vector<std::string> vecImagePath;
+	for (int i = 0; i < vecId.size(); ++i)
+	{
+		vecId.push_back(m_vecFriendInfoWithC[m_mapUserInfo[QString::fromStdString(vecId[i])]].m_strImagePath);
+	}
+}
+
 std::unordered_map<QString, int>& PublicDataManager::getMyUsetInfoMap()
 {
 	return m_mapUserInfo;
@@ -129,6 +138,21 @@ QString PublicDataManager::getIdDirPath() const
 QString PublicDataManager::getImagePath() const
 {
 	return m_strImagePath;
+}
+
+void PublicDataManager::addFriendInfoWithC(const MyFriendInfoWithFirstC& friendInfo)
+{
+	for (int i = 0; i < m_vecFriendInfoWithC.size(); ++i)
+	{
+		if (friendInfo.m_strFirstChacter <= m_vecFriendInfoWithC[i].m_strFirstChacter)
+		{
+			m_vecFriendInfoWithC.insert(m_vecFriendInfoWithC.begin() + i, friendInfo);
+			m_mapUserInfo[friendInfo.m_strId.c_str()] = i;
+			return;
+		}
+	}
+	m_vecFriendInfoWithC.push_back(friendInfo);
+	m_mapUserInfo[friendInfo.m_strId.c_str()]  =m_vecFriendInfoWithC.size()  -1;
 }
 
 bool PublicDataManager::isIdExistInLastChatList(const QString& id) const

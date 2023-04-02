@@ -14,6 +14,7 @@ public:
     std::vector<MyFriendInfoWithFirstC>& getMyFriendInfoWithCVec();
     std::vector<MyLastChatFriendInfo>& getMyLastChatFriendInfoVec();
     std::vector<MyFriendInfoForStartGroupChat>& getFriendInfoForStartGroupChat();
+    void getFriendImagePathVec(std::vector<std::string>& vecId);
     std::unordered_map<QString, int>& getMyUsetInfoMap();
     QString getMyId()const;
     QString getMyName()const;
@@ -42,6 +43,13 @@ public:
     int getUnreadMsgCnt(const QString& id)const;
     QString getIdDirPath()const;
     QString getImagePath()const;
+
+    /**
+     * brief：当添加了好友以后添加到vec中.
+     * 
+     * \param friendInfo：新添加的好友的信息
+     */
+    void addFriendInfoWithC(const MyFriendInfoWithFirstC& friendInfo);
 
     bool isIdExistInLastChatList(const QString& id)const;
     void insertLastChatList(const MyLastChatFriendInfo& info);
