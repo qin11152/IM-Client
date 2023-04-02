@@ -10,8 +10,9 @@ namespace protocol
         void parse(const std::string& message)override;
         std::string generateJson()override;
 
-        std::string m_strGroupChatId{ "" };
+        std::string m_strGroupId{ "" };
         std::string m_strGuid{ "" };
+        std::vector<std::string> m_vecGroupChatId;
         bool m_bIsSuccess{ false };
 
         MessageType m_strType{ MessageType::StartGroupChatReply };
