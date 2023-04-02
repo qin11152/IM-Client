@@ -10,12 +10,6 @@
 #include <QThread>
 #include <QTimer>
 
-struct LengthInfo
-{
-    int length;
-    LengthInfo(int l) :length(l) {}
-};
-
 class ChatWidget;
 
 class TCPThread  : public QThread, public boost::noncopyable, public boost::serialization::singleton<TCPThread>
@@ -36,6 +30,20 @@ public slots:
     void sendMessage(std::string message);
     //调用该函数发送图片消息
     void sendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
+    //发送带有图片的消息(base64)
+    void sendJsonWithImage(const QString& strBase64Image, const QString& jsonStr);
+    //发送图片，包含头部+json字符串+图片信息
+    /**
+     * brief：发送图片消息的接口，把图片消息的描述放在json中.
+     * 
+     * \param filePath：要发送的图片的路径
+     * \param jsonMsgOfImage：包含图片信息的json字符串
+     */
+    void sendImage(const char* filePath, const char* jsonMsgOfImage = "");
+
+    void sendImage(const QByteArray& image, const char* jsonMsgOfImage = "");
+
+
 
 signals:
     //收到注册结果的消息
@@ -64,8 +72,14 @@ signals:
     void signalSendMsg(const std::string& msg);
     //发送图片消息信号
     void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
+    //带有图片的json消息信号
+    void signalSendJsonWithImage(const QString& strBase64Image, const QString& jsonStr);
+
     //连接的信号
     void signalConnect();
+    //真正发送图片的信号
+    void signalSendIma(const QString& filePath,const QString& jsonMsg);
+    void signalQtSendIma(const QByteArray& image, const QString& jsonMsg);
 
 private slots:
     //超过时间还没收到回复

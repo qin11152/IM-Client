@@ -61,6 +61,25 @@ void TCPThread::sendImageMsg(const QString& strBase64Image, const QString& Image
 	emit signalSendImageMsg(strBase64Image, ImageName, suffix, timeStamp);
 }
 
+void TCPThread::sendJsonWithImage(const QString& strBase64Image, const QString& jsonStr)
+{
+	if (!m_bIsConnected)
+	{
+		connectHost();
+	}
+	emit signalSendJsonWithImage(strBase64Image, jsonStr);
+}
+
+void TCPThread::sendImage(const char* filePath, const char* jsonMsgOfImage)
+{
+	emit signalSendIma(filePath,jsonMsgOfImage);
+}
+
+void TCPThread::sendImage(const QByteArray& image, const char* jsonMsgOfImage)
+{
+	emit signalQtSendIma(image, jsonMsgOfImage);
+}
+
 void TCPThread::connectHost()
 {
 	emit signalConnect();
@@ -76,6 +95,8 @@ void TCPThread::initConnect()
 	connect(m_ptrTimerRecvHeartPackage, &QTimer::timeout, this, &TCPThread::onSignalTimeoutNoHeartPackage);
 	connect(this, &TCPThread::signalConnect, m_ptrTcpSocket, &MyTCPSocket::connectHost);
 	connect(m_ptrTcpSocket, &MyTCPSocket::signalConnectResult, this, &TCPThread::onConnectResult);
+	connect(this, &TCPThread::signalSendIma, m_ptrTcpSocket, &MyTCPSocket::sendImage);
+	connect(this, &TCPThread::signalQtSendIma, m_ptrTcpSocket, &MyTCPSocket::sendQImage);
 }
 
 void TCPThread::disConnect()
@@ -120,29 +141,80 @@ void TCPThread::onSignalRecvMessage()
 	QByteArray message = m_ptrTcpSocket->readAll();
 	memcpy(m_msgBuffer + m_endPosOfBuffer, message.toStdString().c_str(), message.length());
 	m_endPosOfBuffer += message.length();
-	//当缓冲区的长度大于包头长度时就可以进入业务处理逻辑了
-	while (m_endPosOfBuffer > PackageLength)
+	
+	int pos = 0;
+	
+	//要读到固定的包头才行
+	while (pos < m_endPosOfBuffer && memcmp(m_msgBuffer + pos, "&q*b", 4) != 0)
 	{
-		//char msgLength[PackageLength + 1]{ 0 };
-		//memcpy(msgLength, m_msgBuffer, PackageLength);
-		std::string msgLength(m_msgBuffer, PackageLength);
-		int iMsgLength = atoi(msgLength.c_str());
-		//判断收到的数据是否大于包头的长度
-		if (m_endPosOfBuffer - PackageLength >= iMsgLength)
+		pos += 4;
+	}
+	memcpy(m_msgBuffer, m_msgBuffer + pos, m_endPosOfBuffer - pos);
+	m_endPosOfBuffer -= pos;
+
+	//当缓冲区的长度大于包头长度时就可以进入业务处理逻辑了
+	while (m_endPosOfBuffer > sizeof(PackageHead))
+	{
+		char lengthStr[sizeof(PackageHead) + 1]{ 0 };
+		memcpy(lengthStr, m_msgBuffer, sizeof(PackageHead));
+		auto head = reinterpret_cast<PackageHead*>(lengthStr);
+		int iMsgLength = head->length;
+
+		if (0x0011 == head->cmdId)
 		{
-			//char recvMessage[10 * 1024]{ 0 };
-			//memcpy(recvMessage, m_msgBuffer + PackageLength, iMsgLength);
-			std::string recvMessage(m_msgBuffer + PackageLength, iMsgLength);
-			onHandleMessage(recvMessage);
-			//把处理完的数据覆盖掉
-			memcpy(m_msgBuffer, m_msgBuffer + PackageLength + iMsgLength, kMsgBufferLength - (PackageLength + iMsgLength));
-			//更新一下尾部的位置
-			m_endPosOfBuffer -= PackageLength + iMsgLength;
+
+			//判断收到的数据是否大于包头的长度
+			if (m_endPosOfBuffer - PackageLength >= iMsgLength)
+			{
+				std::string test(m_msgBuffer + PackageLength, iMsgLength);
+				//因已取出一部分信息，要把大缓冲区的内容更新一下
+				memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
+				//尾部标识也更新一下
+				m_endPosOfBuffer -= (iMsgLength + PackageLength);
+				onHandleMessage(test);
+			}
+			//不够长就退出，包头数据保存，下次在收到数据会插入尾部
+			else
+			{
+				char buf[1024]{ 0 };
+				while (m_endPosOfBuffer - PackageLength < iMsgLength)
+				{
+					int len = m_ptrTcpSocket->read(buf, 1024);
+					m_endPosOfBuffer += len;
+					memcpy(m_msgBuffer + m_endPosOfBuffer, buf, len);
+					memset(buf, 0, 1024);
+				}
+				std::string test(m_msgBuffer + PackageLength, iMsgLength);
+				//因已取出一部分信息，要把大缓冲区的内容更新一下
+				memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
+				//尾部标识也更新一下
+				m_endPosOfBuffer -= (iMsgLength + PackageLength);
+				onHandleMessage(test);
+			}
 		}
-		//不够长就退出，包头数据保存，下次在收到数据会插入尾部
-		else
+		else if (0x0012 == head->cmdId)
 		{
-			break;
+			//接受图片
+			int needReadLength = iMsgLength;
+			std::string tmpStr(m_msgBuffer + PackageLength, (m_endPosOfBuffer - PackageLength));
+			needReadLength -= (m_endPosOfBuffer - PackageLength);
+			memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
+			//尾部标识也更新一下
+			m_endPosOfBuffer -= (iMsgLength + PackageLength);
+			//打开文件并写入
+			std::string fileName = "D:/test.jpg";
+			std::ofstream file(fileName, std::ios::binary);
+			file.write(tmpStr.c_str(), tmpStr.length());
+			char recvBuf[1024]{ 0 };
+			while (needReadLength > 0)
+			{
+				int num = m_ptrTcpSocket->read(recvBuf, 1024);
+				needReadLength -= num;
+				file.write(recvBuf, num);
+				memset(recvBuf, 0, 1024);
+				needReadLength -= num;
+			}
+			file.close();
 		}
 	}
 }
