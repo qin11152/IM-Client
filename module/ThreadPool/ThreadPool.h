@@ -1,7 +1,10 @@
 #pragma once
-#include "module/stdafx.h"
 
+#include "module/stdafx.h"
 #include "boost/noncopyable.hpp"
+
+#include <deque>
+#include <future>
 
 using ThreadTask = std::function<void()>;
 

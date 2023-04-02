@@ -7,6 +7,7 @@ ThreadPool::ThreadPool(int number)
 
 ThreadPool::~ThreadPool()
 {
+    stopPool();
 }
 
 void ThreadPool::startPool()
