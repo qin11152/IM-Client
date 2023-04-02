@@ -101,6 +101,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 	}
 	compareImageTimestap(vecFriendInfoWithC);
 	emit signalGetFriendListFinished();
+	TCPThread::get_mutable_instance().sendImage("D:/1.jpg");
 }
 
 void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
@@ -313,6 +314,14 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 			protocol::getProfileImageJsonData tmpInfo;
 			tmpInfo.m_strId = item.m_strId;
 			TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
+		}
+		if (0 == mapTimeStamp.count(item.m_strId))
+		{
+			DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(item.m_strId.c_str(), "", item.m_strImageTimestamp.c_str());
+		}
+		else if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
+		{
+			DataBaseDelegate::Instance()->updateFriendImageTimestamp(item.m_strId.c_str(), item.m_strImageTimestamp.c_str());
 		}
 	}
 }
