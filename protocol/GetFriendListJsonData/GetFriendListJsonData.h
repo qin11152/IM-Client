@@ -10,7 +10,7 @@ namespace protocol
         virtual void parse(const std::string& message) override;
         virtual std::string generateJson() override;
 
-        MessageType m_strType{ MessageType::GetFriendList };
+        MessageType m_strType{ MessageType::GetFriendListRequest };
         std::string m_strUserId{ "" };
     };
 }

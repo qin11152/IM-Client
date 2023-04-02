@@ -4,7 +4,8 @@
 #include <QObject>
 #include <string>
 
-constexpr int PackageLength = 8;
+#define Test
+
 constexpr int TwinkleTime = 700;
 inline const char* kDefaultProfileImage = "qrc:///LogInWidget/image/lv.jpg";
 inline const char* kDefaultProfileImageWidget = ":LogInWidget/image/lv.jpg";
@@ -16,6 +17,8 @@ constexpr int kMsgBufferLength = 1024 * 10;
 
 constexpr char kHostIp[] = "43.142.158.231";
 constexpr int kHostPort = 9999;
+
+constexpr int kMaxGroupName = 15;
 
 constexpr char kProfileTableName[] = "profileImage";
 constexpr char kLastChatTableName[] = "lastChatList";
@@ -32,6 +35,7 @@ enum class DatabaseOperateType
 enum class MessageType
 {
 	Default,
+	InfoWithImage,
 	RegisterRequest,
 	RegisterResponse,
 	LoginRequest,
@@ -49,11 +53,16 @@ enum class MessageType
 	FriendListResponse,
 	RefreshFriendListRequest,
 	RefreshFriendListResponse,
-	GetFriendList,
+	GetFriendListRequest,
 	GetFriendListReply,
 	ProfileImageMsg,
 	getFriendProfileImage,
 	getFriendProfileImageReply,
+};
+
+enum class ImageMessageType
+{
+	Normal = 0,
 };
 
 /**
