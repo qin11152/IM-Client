@@ -12,6 +12,7 @@
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
+#include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
 
 #include <QDir>
 #include <ctime>
@@ -815,12 +816,11 @@ void ChatWidget::onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo)
 	onUpdateFriendListUI();
 	//把这个好友的头像时间戳插入到数据库,先使用默认的头像路径
 	DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(friendInfo.m_strId.c_str(), kDefaultProfileImage, friendInfo.m_strImageTimestamp.c_str());
-	//TODO 从服务器获取一下这个好友的头像
 }
 
 void ChatWidget::onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo)
 {
-	PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().push_back(friendInfo);
+	PublicDataManager::get_mutable_instance().addFriendInfoWithC(friendInfo);
 }
 
 void ChatWidget::onSortFriendList()

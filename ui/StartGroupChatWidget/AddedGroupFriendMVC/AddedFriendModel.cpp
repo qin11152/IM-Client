@@ -59,6 +59,26 @@ void AddedFriendModel::removeAcordId(const QString& id)
 	}
 }
 
+std::vector<std::string> AddedFriendModel::getAllId()
+{
+	std::vector<std::string> allId;
+	for (auto& item : m_vecAddedFriend)
+	{
+		allId.push_back(item.m_strId);
+	}
+	return allId;
+}
+
+std::string AddedFriendModel::getGroupName()
+{
+	std::string name = "";
+	for (int i = 0; name.size() < kMaxGroupName && i < m_vecAddedFriend.size(); ++i)
+	{
+		name += m_vecAddedFriend[i].m_strName;
+	}
+	return name;
+}
+
 QVariant AddedFriendModel::data(QModelIndex const& index, int role) const
 {
 	if (!index.isValid() || index.row() < 0 || index.row() >= m_vecAddedFriend.size())

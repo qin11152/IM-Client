@@ -33,6 +33,15 @@ public:
 	 */
 	void removeAcordId(const QString& id);
 
+	std::vector< std::string> getAllId();
+
+	/**
+	 * brief：获取群聊名称.
+	 * 
+	 * \return 
+	 */
+	std::string getGroupName();
+
 protected:
 	QVariant data(QModelIndex const& index, int role) const override;
 	int rowCount(QModelIndex const& parent = QModelIndex()) const override;

@@ -1,4 +1,8 @@
 #include "StartGroupChatWidget.h"
+#include "module/TCPThread/TCPThread.h"
+#include "protocol/ImageJsonData/StartGroupChatJsonData/StartGroupChatJsonData.h"
+
+#include <QBuffer>
 
 StartGroupChatWidget::StartGroupChatWidget(QWidget *parent)
 	: QWidget(parent)
@@ -22,6 +26,41 @@ void StartGroupChatWidget::setModelData(std::vector<MyFriendInfoForStartGroupCha
 
 void StartGroupChatWidget::onSignalFinishClicked()
 {
+	//从model中获取所有的id，暂时不考虑群主概念
+	if (m_ptrAddFriendModel)
+	{
+		std::vector<std::string> vecId = m_ptrAddFriendModel->getAllId();
+		//只有选中的数量大于1才发起群聊，等于1那就打开和这个人的对话
+
+		//根据几个好友的头像绘制九宫格头像
+		std::vector<std::string> vecFriendImagePath;
+		PublicDataManager::get_mutable_instance().getFriendImagePathVec(vecFriendImagePath);
+
+		if (vecId.size() > 1)
+		{
+			//TODO 发送创建群聊的请求
+			vecId.push_back(PublicDataManager::get_mutable_instance().getMyId().toStdString());
+		}
+		//根据id生成群头像
+		auto image = Base::image::generateGridImage(vecId.size(), vecId);
+
+		protocol::StartGroupChatInnerData startGroupChatInnerData;
+		startGroupChatInnerData.m_strGroupName = m_ptrAddFriendModel->getGroupName();
+		startGroupChatInnerData.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
+		startGroupChatInnerData.m_vecGroupChat = vecId;
+
+		//Qimage转qbytearray
+		QByteArray ba;
+		QBuffer buffer(&ba);
+		buffer.open(QIODevice::WriteOnly);
+		image.save(&buffer, "PNG");
+
+		protocol::StartGroupJsonData startGroupChat;
+		startGroupChat.m_strImageSuffix = "png";
+		startGroupChat.m_iImageLenth = buffer.size();
+		startGroupChat.m_stInnerData = startGroupChatInnerData;
+		TCPThread::get_mutable_instance().sendImage(ba, startGroupChat.generateJson().c_str());
+	}
 }
 
 void StartGroupChatWidget::onSignalCancelClicked()
