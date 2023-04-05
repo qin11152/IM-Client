@@ -26,23 +26,26 @@ void StartGroupChatWidget::setModelData(std::vector<MyFriendInfoForStartGroupCha
 
 void StartGroupChatWidget::onSignalFinishClicked()
 {
+	hide();
 	//从model中获取所有的id，暂时不考虑群主概念
 	if (m_ptrAddFriendModel)
 	{
 		std::vector<std::string> vecId = m_ptrAddFriendModel->getAllId();
 		//只有选中的数量大于1才发起群聊，等于1那就打开和这个人的对话
+		m_ptrAddFriendModel->clearModel();
+
+		if (vecId.size() <= 1)
+		{
+			return;
+		}
 
 		//根据几个好友的头像绘制九宫格头像
 		std::vector<std::string> vecFriendImagePath;
-		PublicDataManager::get_mutable_instance().getFriendImagePathVec(vecFriendImagePath);
+		//vecFriendImagePath.push_back(PublicDataManager::get_mutable_instance().getImagePath().toStdString());
+		PublicDataManager::get_mutable_instance().getFriendImagePathVec(vecId, vecFriendImagePath);
 
-		if (vecId.size() > 1)
-		{
-			//TODO 发送创建群聊的请求
-			vecId.push_back(PublicDataManager::get_mutable_instance().getMyId().toStdString());
-		}
 		//根据id生成群头像
-		auto image = Base::image::generateGridImage(vecId.size(), vecId);
+		auto image = Base::image::generateGridImage(vecFriendImagePath.size(), vecFriendImagePath);
 
 		protocol::StartGroupChatInnerData startGroupChatInnerData;
 		startGroupChatInnerData.m_strGroupName = m_ptrAddFriendModel->getGroupName();
