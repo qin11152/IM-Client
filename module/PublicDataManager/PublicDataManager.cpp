@@ -28,12 +28,12 @@ std::vector<MyFriendInfoForStartGroupChat>& PublicDataManager::getFriendInfoForS
 	return m_vecFriendInfoForStartGroupChat;
 }
 
-void PublicDataManager::getFriendImagePathVec(std::vector<std::string>& vecId)
+void PublicDataManager::getFriendImagePathVec(std::vector<std::string>& vecId, std::vector<std::string>& strImagePath)
 {
-	std::vector<std::string> vecImagePath;
+	strImagePath.push_back(PublicDataManager::getImagePath().toStdString());
 	for (int i = 0; i < vecId.size(); ++i)
 	{
-		vecId.push_back(m_vecFriendInfoWithC[m_mapUserInfo[QString::fromStdString(vecId[i])]].m_strImagePath);
+		strImagePath.push_back(m_vecFriendInfoWithC[m_mapUserInfo[QString::fromStdString(vecId[i])]].m_strImagePath);
 	}
 }
 

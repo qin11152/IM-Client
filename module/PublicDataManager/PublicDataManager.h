@@ -14,7 +14,7 @@ public:
     std::vector<MyFriendInfoWithFirstC>& getMyFriendInfoWithCVec();
     std::vector<MyLastChatFriendInfo>& getMyLastChatFriendInfoVec();
     std::vector<MyFriendInfoForStartGroupChat>& getFriendInfoForStartGroupChat();
-    void getFriendImagePathVec(std::vector<std::string>& vecId);
+    void getFriendImagePathVec(std::vector<std::string>& vecId, std::vector<std::string>& strImagePath);
     std::unordered_map<QString, int>& getMyUsetInfoMap();
     QString getMyId()const;
     QString getMyName()const;

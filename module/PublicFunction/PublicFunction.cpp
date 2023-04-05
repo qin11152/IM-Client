@@ -52,8 +52,15 @@ namespace Base
 
 QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFriendImagePath)
 {
+	for (auto& item : vecFriendImagePath)
+	{
+		if (item.starts_with("qrc:"))
+		{
+			item = item.substr(3);
+		}
+	}
 	//根据好友头像路径vec的大小
-	QImage image(50, 50, QImage::Format_ARGB32);
+	QImage image(500, 500, QImage::Format_ARGB32);
 	switch (cnt)
 	{
 	case 3:
@@ -63,10 +70,10 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 12, 0, 25, 25 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 120, 0, 250, 250 }, QPixmap(vecFriendImagePath[0].c_str()));
 
-		painter.drawPixmap({0,25,25,25}, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({25,25,25,25}, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({0,250,250,250}, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({250,250,250,250}, QPixmap(vecFriendImagePath[2].c_str()));
 	}
 	break;
 	case 4:
@@ -76,10 +83,10 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 0, 0, 25, 25 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 25, 0, 25, 25 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 0, 25, 25, 25 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 25, 25, 25, 25 }, QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 0, 0, 250, 250 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 250, 0, 250, 250 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 0, 250, 25, 25 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 250, 250, 250, 250 }, QPixmap(vecFriendImagePath[3].c_str()));
 	}
 	break;
 	case 5:
@@ -89,11 +96,11 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 8, 8, 16, 16 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 24, 8, 16, 16 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 0,24,16,16 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 16,24,16,16 },QPixmap(vecFriendImagePath[3].c_str()));
-		painter.drawPixmap({ 32,24,16,16 },QPixmap(vecFriendImagePath[4].c_str()));
+		painter.drawPixmap({ 80, 80, 160, 160 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 240, 80, 160, 160 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 0,240,160,160 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 160,240,160,160 },QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 320,240,160,160 },QPixmap(vecFriendImagePath[4].c_str()));
 	}
 	break;
 	case 6:
@@ -103,12 +110,12 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 0, 8, 16, 16 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 16, 8, 16, 16 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 32, 8, 16, 16 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 8, 24, 16, 16 }, QPixmap(vecFriendImagePath[3].c_str()));
-		painter.drawPixmap({ 24, 24, 16, 16 }, QPixmap(vecFriendImagePath[4].c_str()));
-		painter.drawPixmap({ 40, 24, 16, 16 }, QPixmap(vecFriendImagePath[5].c_str()));
+		painter.drawPixmap({ 0, 80, 160, 160 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 160, 80, 160, 160 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 320, 80, 160, 160 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 0, 240, 160, 160 }, QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 160, 240, 160, 160 }, QPixmap(vecFriendImagePath[4].c_str()));
+		painter.drawPixmap({ 320, 240, 160, 160 }, QPixmap(vecFriendImagePath[5].c_str()));
 	}
 	break;
 	case 7:
@@ -118,13 +125,13 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 16, 0, 16, 16 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 0, 16, 16, 16 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 16, 16, 16, 16 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 32, 16, 16, 16 }, QPixmap(vecFriendImagePath[3].c_str()));
-		painter.drawPixmap({ 0, 32, 16, 16 }, QPixmap(vecFriendImagePath[4].c_str()));
-		painter.drawPixmap({ 16, 32, 16, 16 }, QPixmap(vecFriendImagePath[5].c_str()));
-		painter.drawPixmap({ 32, 32, 16, 16 }, QPixmap(vecFriendImagePath[6].c_str()));
+		painter.drawPixmap({ 160, 0, 160, 160 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 0, 160, 160, 160 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 160, 160, 160, 160 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 320, 160, 160, 160 }, QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 0, 320, 160, 160 }, QPixmap(vecFriendImagePath[4].c_str()));
+		painter.drawPixmap({ 160, 320, 160, 160 }, QPixmap(vecFriendImagePath[5].c_str()));
+		painter.drawPixmap({ 320, 320, 160, 160 }, QPixmap(vecFriendImagePath[6].c_str()));
 	}
 	break;
 	case 8:
@@ -134,14 +141,14 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 8, 0, 16, 16 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 24, 0, 16, 16 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 0, 16, 16, 16 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 16, 16, 16, 16 }, QPixmap(vecFriendImagePath[3].c_str()));
-		painter.drawPixmap({ 32, 16, 16, 16 }, QPixmap(vecFriendImagePath[4].c_str()));
-		painter.drawPixmap({ 0, 32, 16, 16 }, QPixmap(vecFriendImagePath[5].c_str()));
-		painter.drawPixmap({ 16, 32, 16, 16 }, QPixmap(vecFriendImagePath[6].c_str()));
-		painter.drawPixmap({ 32, 32, 16, 16 }, QPixmap(vecFriendImagePath[7].c_str()));
+		painter.drawPixmap({ 80, 0, 160, 160 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 240, 0, 160, 160 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 0, 160, 160, 160 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 160, 160, 160, 160 }, QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 320, 160, 160, 160 }, QPixmap(vecFriendImagePath[4].c_str()));
+		painter.drawPixmap({ 0, 320, 160, 160 }, QPixmap(vecFriendImagePath[5].c_str()));
+		painter.drawPixmap({ 160, 320, 160, 160 }, QPixmap(vecFriendImagePath[6].c_str()));
+		painter.drawPixmap({ 320, 320, 160, 160 }, QPixmap(vecFriendImagePath[7].c_str()));
 	}
 	break;
 	case 9:
@@ -151,15 +158,15 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-		painter.drawPixmap({ 0, 0, 16, 16 }, QPixmap(vecFriendImagePath[0].c_str()));
-		painter.drawPixmap({ 16, 0, 16, 16 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 32, 0, 16, 16 }, QPixmap(vecFriendImagePath[2].c_str()));
-		painter.drawPixmap({ 0, 16, 16, 16 }, QPixmap(vecFriendImagePath[3].c_str()));
-		painter.drawPixmap({ 16, 16, 16, 16 }, QPixmap(vecFriendImagePath[4].c_str()));
-		painter.drawPixmap({ 32, 16, 16, 16 }, QPixmap(vecFriendImagePath[5].c_str()));
-		painter.drawPixmap({ 0, 32, 16, 16 }, QPixmap(vecFriendImagePath[6].c_str()));
-		painter.drawPixmap({ 16, 32, 16, 16 }, QPixmap(vecFriendImagePath[7].c_str()));
-		painter.drawPixmap({ 32, 32, 16, 16 }, QPixmap(vecFriendImagePath[8].c_str()));
+		painter.drawPixmap({ 0, 0, 160, 160 }, QPixmap(vecFriendImagePath[0].c_str()));
+		painter.drawPixmap({ 160, 0, 160, 160 }, QPixmap(vecFriendImagePath[1].c_str()));
+		painter.drawPixmap({ 320, 0, 160, 160 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 0, 160, 160, 160 }, QPixmap(vecFriendImagePath[3].c_str()));
+		painter.drawPixmap({ 160, 160, 160, 160 }, QPixmap(vecFriendImagePath[4].c_str()));
+		painter.drawPixmap({ 320, 160, 160, 160 }, QPixmap(vecFriendImagePath[5].c_str()));
+		painter.drawPixmap({ 0, 320, 160, 160 }, QPixmap(vecFriendImagePath[6].c_str()));
+		painter.drawPixmap({ 160, 320, 160, 160 }, QPixmap(vecFriendImagePath[7].c_str()));
+		painter.drawPixmap({ 320, 320, 160, 160 }, QPixmap(vecFriendImagePath[8].c_str()));
 	}
 	break;
 	default:
