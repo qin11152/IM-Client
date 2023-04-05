@@ -13,7 +13,7 @@ constexpr int kSegmentLength = 9000;
 
 constexpr int kHeartTimeoutTime = 300 * 1000;
 constexpr int kKeepAlivePackageTime = 299 * 1000;
-constexpr int kMsgBufferLength = 1024 * 10;
+constexpr size_t kMsgBufferLength = 1024 * 10;
 
 constexpr char kHostIp[] = "43.142.158.231";
 constexpr int kHostPort = 9999;
