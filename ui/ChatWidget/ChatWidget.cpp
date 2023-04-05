@@ -971,7 +971,7 @@ void ChatWidget::setProfileImage(const QString& strImage)
 	}
 	QImage image(tmpPath);
 	QPixmap pixmap=QPixmap::fromImage(image);
-	QPixmap fitpixmap = pixmap.scaled(50, 50, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	QPixmap fitpixmap = pixmap.scaled(500, 500, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 	ui->profileImageButton->setIcon(QIcon(fitpixmap));
 	ui->profileImageButton->setIconSize(QSize(50, 50));
 	ui->profileImageButton->setFlat(true);
