@@ -75,11 +75,7 @@ void MyTCPSocket::sendImage(const QString& filePath, const QString& jsonMsgOfIma
     memcpy(head.flagBit, "&q*b", 4);
     if (jsonMsgOfImage.length() > 0)
     {
-        head.length = size + jsonMsgOfImage.length();
-    }
-    else
-    {
-        head.length = size;
+        head.length =  jsonMsgOfImage.length();
     }
     head.cmdId = 0x0012;
 
@@ -111,11 +107,7 @@ void MyTCPSocket::sendQImage(const QByteArray& image, const QString& jsonMsgOfIm
     memcpy(head.flagBit, "&q*b", 4);
     if (jsonMsgOfImage.length() > 0)
     {
-        head.length = size + jsonMsgOfImage.length();
-    }
-    else
-    {
-        head.length = size;
+        head.length =  jsonMsgOfImage.length();
     }
     head.cmdId = 0x0012;
 

@@ -142,7 +142,7 @@ void TCPThread::onSignalRecvMessage()
 	memcpy(m_msgBuffer + m_endPosOfBuffer, message.toStdString().c_str(), message.length());
 	m_endPosOfBuffer += message.length();
 	
-	int pos = 0;
+	size_t pos = 0;
 	
 	//要读到固定的包头才行
 	while (pos < m_endPosOfBuffer && memcmp(m_msgBuffer + pos, "&q*b", 4) != 0)
@@ -158,7 +158,7 @@ void TCPThread::onSignalRecvMessage()
 		char lengthStr[sizeof(PackageHead) + 1]{ 0 };
 		memcpy(lengthStr, m_msgBuffer, sizeof(PackageHead));
 		auto head = reinterpret_cast<PackageHead*>(lengthStr);
-		int iMsgLength = head->length;
+		size_t iMsgLength = head->length;
 
 		if (0x0011 == head->cmdId)
 		{

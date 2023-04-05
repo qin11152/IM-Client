@@ -101,7 +101,7 @@ private:
     QTimer* m_ptrTimerKeepAlive{ nullptr };
     QTimer* m_ptrTimerRecvHeartPackage{ nullptr };
     char m_msgBuffer[kMsgBufferLength]{ 0 };                      //用于存储消息的缓冲区
-    int m_endPosOfBuffer = 0;                                     //消息缓冲区的尾部
+    size_t m_endPosOfBuffer = 0;                                     //消息缓冲区的尾部
 
     //处理服务器传来的图片消息
     std::unordered_map<std::string, std::string> m_mapImageUUIDAndBase64;

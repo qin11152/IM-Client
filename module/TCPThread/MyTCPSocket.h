@@ -9,7 +9,7 @@ struct PackageHead
     unsigned int length;
     unsigned char cmdId;
 };
-constexpr int PackageLength = sizeof(PackageHead);
+constexpr size_t PackageLength = sizeof(PackageHead);
 
 class MyTCPSocket : public QTcpSocket, public boost::noncopyable
 {
