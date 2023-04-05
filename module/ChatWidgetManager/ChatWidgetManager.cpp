@@ -101,7 +101,6 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 	}
 	compareImageTimestap(vecFriendInfoWithC);
 	emit signalGetFriendListFinished();
-	TCPThread::get_mutable_instance().sendImage("D:/1.jpg");
 }
 
 void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
