@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 /*****************************************************************//**
  * \file   NotifyLabel.h
- * \brief  Í¨Öªlabel£¬ÓÃÓÚÏÔÊ¾Í¨ÖªĞÅÏ¢£¬¶¨Ê±ÏûÊ§
+ * \brief  é€šçŸ¥labelï¼Œç”¨äºæ˜¾ç¤ºé€šçŸ¥ä¿¡æ¯ï¼Œå®šæ—¶æ¶ˆå¤±
  * 
  * \author Administrator
  * \date   December 2022
@@ -18,7 +18,7 @@ public:
     NotifyLabel(QWidget* parent = nullptr);
     ~NotifyLabel();
     /**
-     * brief£ºÓÃÀ´Éè¶¨ÏÔÊ¾µÄÎ»ÖÃ£¬Èç¹û²»ÉèÖÃÔòÏÔÊ¾ÔÚÄ¬ÈÏµÄÎ»ÖÃ.
+     * briefï¼šç”¨æ¥è®¾å®šæ˜¾ç¤ºçš„ä½ç½®ï¼Œå¦‚æœä¸è®¾ç½®åˆ™æ˜¾ç¤ºåœ¨é»˜è®¤çš„ä½ç½®.
      * 
      * \param x
      * \param y
@@ -29,62 +29,62 @@ public:
     void setPositions(int x, int y, int w, int h);
 
     /**
-     * brief:ÓÃÀ´Éè¶¨ÒªÏÔÊ¾µÄÏûÏ¢.
+     * brief:ç”¨æ¥è®¾å®šè¦æ˜¾ç¤ºçš„æ¶ˆæ¯.
      * 
      * \param notifyInfo
      */
     void setNitifyText(const char* notifyInfo);
 
     /*
-     * brief£º¿ªÊ¼ÏÔÊ¾.
+     * briefï¼šå¼€å§‹æ˜¾ç¤º.
      *
      */
     void showNotify();
 
     /**
-     * brief£ºÍ£Ö¹ÏÔÊ¾.
+     * briefï¼šåœæ­¢æ˜¾ç¤º.
      * 
      */
     void stopNotify();
 
     /**
-     * brief£ºÉè¶¨ÏÔÊ¾¶à¾Ã.
+     * briefï¼šè®¾å®šæ˜¾ç¤ºå¤šä¹….
      * 
      * \param interval
      */
     void setShowTime(const int interval);
 
     /**
-     * brief£º²é¿´ÊÇ·ñÕıÔÚÊ¹ÓÃ.
+     * briefï¼šæŸ¥çœ‹æ˜¯å¦æ­£åœ¨ä½¿ç”¨.
      * 
      * \return 
      */
     bool getRunningState()const { return m_bIsRunning; }
 
     /**
-     * brief£ºÅĞ¶ÏlabelÎÄ±¾ÊÇ·ñĞèÒªÅÜÂíµÆÏÔÊ¾.
+     * briefï¼šåˆ¤æ–­labelæ–‡æœ¬æ˜¯å¦éœ€è¦è·‘é©¬ç¯æ˜¾ç¤º.
      * 
      */
     void upateLabelRollingState();
 
 private slots:
     /**
-     * brief£ºÉè¶¨µÄÏÔÊ¾Ê±¼äµ½ÁË.
+     * briefï¼šè®¾å®šçš„æ˜¾ç¤ºæ—¶é—´åˆ°äº†.
      */
     void onSignalTimeout();
     
     /**
-     * brief£ºÅÜÂíµÆ¶¨Ê±Æ÷.
+     * briefï¼šè·‘é©¬ç¯å®šæ—¶å™¨.
      * 
      */
     void onSignalScrollTimeout();
 
 private:
-    QTimer* m_timer{ nullptr };     //¶¨Ê±ÏûÊ§µÄtimer
-    QTimer* m_scrollTimer{ nullptr };//ÅÜÂíµÆÓÃ¶¨Ê±Æ÷
-    QRect m_rect;                   //ÓÃÀ´¼ÇÂ¼ÒªÏÔÊ¾µÄÎ»ÖÃ
-    int m_iTimerInterval{ 5 * 1000 };//Ä¬ÈÏ¶¨Ê±Ê±¼ä
-    int m_iScrollDisplayPos{ 0 };   //µ±Ç°ÅÜÂíµÆÏÔÊ¾µÄ×Ö·ûÎ»ÖÃ
-    bool m_bIsRunning{ false };     //ÊÇ·ñÔÚÔËĞĞ
+    QTimer* m_timer{ nullptr };     //å®šæ—¶æ¶ˆå¤±çš„timer
+    QTimer* m_scrollTimer{ nullptr };//è·‘é©¬ç¯ç”¨å®šæ—¶å™¨
+    QRect m_rect;                   //ç”¨æ¥è®°å½•è¦æ˜¾ç¤ºçš„ä½ç½®
+    int m_iTimerInterval{ 5 * 1000 };//é»˜è®¤å®šæ—¶æ—¶é—´
+    int m_iScrollDisplayPos{ 0 };   //å½“å‰è·‘é©¬ç¯æ˜¾ç¤ºçš„å­—ç¬¦ä½ç½®
+    bool m_bIsRunning{ false };     //æ˜¯å¦åœ¨è¿è¡Œ
     QString m_strNotifyInfo;
 };

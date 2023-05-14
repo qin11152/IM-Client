@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ui_LogInWidget.h"
 #include "ui/RegisterWidget/RegisterWidget.h"
@@ -13,7 +13,7 @@ class LogInWidget : public QWidget
 public:
     LogInWidget(QWidget* parent = Q_NULLPTR);
     ~LogInWidget() override;
-    //ÎŞĞè¿½±´¹¹Ôìº¯ÊıºÍ¸³Öµ¹¹Ôìº¯Êı
+    //æ— éœ€æ‹·è´æ„é€ å‡½æ•°å’Œèµ‹å€¼æ„é€ å‡½æ•°
     LogInWidget(const LogInWidget&) = delete;
     LogInWidget& operator=(const LogInWidget&) = delete;
 
@@ -21,24 +21,24 @@ signals:
     void signalLoginWidSendMsg(std::string msg);
 
 private slots:
-    //×¢²á°´Å¥µã»÷ÏìÓ¦ÊÂ¼ş
+    //æ³¨å†ŒæŒ‰é’®ç‚¹å‡»å“åº”äº‹ä»¶
     void onRegisterButtonClicked();
-    //µÇÂ¼°´Å¥µã»÷ÏìÓ¦ÊÂ¼ş
+    //ç™»å½•æŒ‰é’®ç‚¹å‡»å“åº”äº‹ä»¶
     void onLogInButtonClicked();
-    //×¢²áÍê³ÉÁË
+    //æ³¨å†Œå®Œæˆäº†
     void onRegisterFinished();
-    //µÇÂ¼ĞÅºÅ·µ»Ø
+    //ç™»å½•ä¿¡å·è¿”å›
     void onSignalLoginResultRecv(const QString& msg);
 
 private:
     Ui::LogInWidget ui;
-    RegisterWidget* m_ptrRegisterWidget{nullptr}; //×¢²á½çÃæÖ¸Õë
-    QString m_strUserId{""}; //´æ´¢µÇÂ¼ÓÃ»§id
+    RegisterWidget* m_ptrRegisterWidget{nullptr}; //æ³¨å†Œç•Œé¢æŒ‡é’ˆ
+    QString m_strUserId{""}; //å­˜å‚¨ç™»å½•ç”¨æˆ·id
     //TCPThread* m_ptrTCPThread{ nullptr };
     bool isLogin{ false };
 
     void initUi();
-    //³õÊ¼»¯ĞÅºÅ²ÛµÄÁ¬½Ó
+    //åˆå§‹åŒ–ä¿¡å·æ§½çš„è¿æ¥
     void initConnection();
 };
 

@@ -1,4 +1,4 @@
-#include "ThreadPool.h"
+ï»¿#include "ThreadPool.h"
 
 ThreadPool::ThreadPool(int number)
     :m_iThreadNumber(number)
@@ -22,13 +22,13 @@ void ThreadPool::startPool()
 
 void ThreadPool::stopPool()
 {
-    //ÔËĞĞ×´Ì¬ÖÃÎªfalse
+    //è¿è¡ŒçŠ¶æ€ç½®ä¸ºfalse
     m_bRunning = false;
-    //Âß¼­ºÍÎö¹¹º¯ÊıÒ»Ñù
+    //é€»è¾‘å’Œææ„å‡½æ•°ä¸€æ ·
     m_dequeNotEmptyCV.notify_all();
     for (auto& item : m_vecThread)
     {
-        //»ØÊÕÏß³Ì×ÊÔ´
+        //å›æ”¶çº¿ç¨‹èµ„æº
         if (item.joinable())
         {
             item.join();
@@ -40,31 +40,31 @@ void ThreadPool::doTask()
 {
     while (1)
     {
-        //Òª»ñÈ¡µÄÈÎÎñ
+        //è¦è·å–çš„ä»»åŠ¡
         ThreadTask task;
         {
             std::unique_lock<std::mutex> lck(m_mutex);
-            //ÕıÔÚÔËĞĞ×´Ì¬ÇÒdeque´óĞ¡Îª¿Õ
+            //æ­£åœ¨è¿è¡ŒçŠ¶æ€ä¸”dequeå¤§å°ä¸ºç©º
             /*if (m_bIsRunning && 0 == m_deqTask.size())
             {
                 printf("thread id:%d,", GetCurrentThreadId());
                 printf("wiat state\n");
-                //Ã»ÓĞÈÎÎñµÄÊ±ºò¾ÍµÈ´ı
+                //æ²¡æœ‰ä»»åŠ¡çš„æ—¶å€™å°±ç­‰å¾…
                 m_conDequeNotEmpty.wait(lck);
             }*/
-            //µÈ´ıÈÎÎñ¶ÓÁĞ²»¿Õ»òÕß×´Ì¬ÎªÍË³ö
+            //ç­‰å¾…ä»»åŠ¡é˜Ÿåˆ—ä¸ç©ºæˆ–è€…çŠ¶æ€ä¸ºé€€å‡º
             m_dequeNotEmptyCV.wait(lck, [this]() {return !m_bRunning || !m_dequeTask.empty(); });
-            //²»ÔÚÔËĞĞ×´Ì¬ÇÒÈÎÎñ¶ÓÁĞ¿ÕÁËÄÇ¾ÍÍË³ö
+            //ä¸åœ¨è¿è¡ŒçŠ¶æ€ä¸”ä»»åŠ¡é˜Ÿåˆ—ç©ºäº†é‚£å°±é€€å‡º
             if (!m_bRunning && m_dequeTask.empty())
             {
                 return;
             }
-            //ÓĞÈÎÎñ¾Í°Ñ¶¥¶ËµÄÄÃ³öÀ´
+            //æœ‰ä»»åŠ¡å°±æŠŠé¡¶ç«¯çš„æ‹¿å‡ºæ¥
             task = std::move(m_dequeTask.front());
             m_dequeTask.pop_front();
         }
-        //³öÁËÉÏ±ßµÄ×÷ÓÃÓò,lck¾Í×Ô¶¯½âËøÁË
-        //Ö´ĞĞÈÎÎñ
+        //å‡ºäº†ä¸Šè¾¹çš„ä½œç”¨åŸŸ,lckå°±è‡ªåŠ¨è§£é”äº†
+        //æ‰§è¡Œä»»åŠ¡
         task();
     }
 }

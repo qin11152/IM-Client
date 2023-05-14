@@ -1,4 +1,4 @@
-#include "StartGroupChatWidget.h"
+ï»¿#include "StartGroupChatWidget.h"
 #include "module/TCPThread/TCPThread.h"
 #include "protocol/ImageJsonData/StartGroupChatJsonData/StartGroupChatJsonData.h"
 
@@ -27,11 +27,11 @@ void StartGroupChatWidget::setModelData(std::vector<MyFriendInfoForStartGroupCha
 void StartGroupChatWidget::onSignalFinishClicked()
 {
 	hide();
-	//´ÓmodelÖÐ»ñÈ¡ËùÓÐµÄid£¬ÔÝÊ±²»¿¼ÂÇÈºÖ÷¸ÅÄî
+	//ä»Žmodelä¸­èŽ·å–æ‰€æœ‰çš„idï¼Œæš‚æ—¶ä¸è€ƒè™‘ç¾¤ä¸»æ¦‚å¿µ
 	if (m_ptrAddFriendModel)
 	{
 		std::vector<std::string> vecId = m_ptrAddFriendModel->getAllId();
-		//Ö»ÓÐÑ¡ÖÐµÄÊýÁ¿´óÓÚ1²Å·¢ÆðÈºÁÄ£¬µÈÓÚ1ÄÇ¾Í´ò¿ªºÍÕâ¸öÈËµÄ¶Ô»°
+		//åªæœ‰é€‰ä¸­çš„æ•°é‡å¤§äºŽ1æ‰å‘èµ·ç¾¤èŠï¼Œç­‰äºŽ1é‚£å°±æ‰“å¼€å’Œè¿™ä¸ªäººçš„å¯¹è¯
 		m_ptrAddFriendModel->clearModel();
 
 		if (vecId.size() <= 1)
@@ -39,20 +39,20 @@ void StartGroupChatWidget::onSignalFinishClicked()
 			return;
 		}
 
-		//¸ù¾Ý¼¸¸öºÃÓÑµÄÍ·Ïñ»æÖÆ¾Å¹¬¸ñÍ·Ïñ
+		//æ ¹æ®å‡ ä¸ªå¥½å‹çš„å¤´åƒç»˜åˆ¶ä¹å®«æ ¼å¤´åƒ
 		std::vector<std::string> vecFriendImagePath;
 		//vecFriendImagePath.push_back(PublicDataManager::get_mutable_instance().getImagePath().toStdString());
 		PublicDataManager::get_mutable_instance().getFriendImagePathVec(vecId, vecFriendImagePath);
 
-		//¸ù¾ÝidÉú³ÉÈºÍ·Ïñ
+		//æ ¹æ®idç”Ÿæˆç¾¤å¤´åƒ
 		auto image = Base::image::generateGridImage(vecFriendImagePath.size(), vecFriendImagePath);
 
 		protocol::StartGroupChatInnerData startGroupChatInnerData;
 		startGroupChatInnerData.m_strGroupName = m_ptrAddFriendModel->getGroupName();
 		startGroupChatInnerData.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
 		startGroupChatInnerData.m_vecGroupChat = vecId;
-
-		//Qimage×ªqbytearray
+		return;
+		//Qimageè½¬qbytearray
 		QByteArray ba;
 		QBuffer buffer(&ba);
 		buffer.open(QIODevice::WriteOnly);
@@ -81,7 +81,7 @@ void StartGroupChatWidget::onSignalUpdateSelectedState(const QString& id, bool n
 	{
 		m_ptrChooseFriendModel->updateModelSelectedState(id);
 	}
-	//TODO ¸üÐÂµ½ÒÑÑ¡ÔñµÄÒ³ÃæÖÐ
+	//TODO æ›´æ–°åˆ°å·²é€‰æ‹©çš„é¡µé¢ä¸­
 	if (m_ptrAddFriendModel)
 	{
 		m_ptrAddFriendModel->onStateChanged(id, newState);
@@ -119,7 +119,7 @@ void StartGroupChatWidget::initUI()
 	setFixedSize({ 755,550 });
 
 	ui.searchLineEdit->setFixedSize({ 300,40 });
-	ui.searchLineEdit->setPlaceholderText(QString::fromLocal8Bit("ÇëÊäÈëºÃÓÑÃû³ÆËÑË÷"));
+	ui.searchLineEdit->setPlaceholderText(QString::fromLocal8Bit("è¯·è¾“å…¥å¥½å‹åç§°æœç´¢"));
 
 	ui.addedListView->setAttribute(Qt::WA_TranslucentBackground);
 	ui.addedListView->setFixedSize({ 380,440 });

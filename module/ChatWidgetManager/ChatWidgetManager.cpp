@@ -1,4 +1,4 @@
-#include "ChatWidgetManager.h"
+ï»¿#include "ChatWidgetManager.h"
 #include "module/Log/Log.h"
 #include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
@@ -19,24 +19,24 @@
 
 
 using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
-//³õÊ¼»¯¾²Ì¬³ÉÔ±º¯Êı
+//åˆå§‹åŒ–é™æ€æˆå‘˜å‡½æ•°
 SingletonPtr ChatWidgetManager::m_SingletonPtr = nullptr;
 
 std::mutex ChatWidgetManager::m_mutex;
 
 SingletonPtr ChatWidgetManager::Instance()
 {
-	//Ë«ÖØ±£»¤£¬µÚÒ»ÖØÅĞ¿Õ£¬±ÜÃâÉú³É¶à¸ö
+	//åŒé‡ä¿æŠ¤ï¼Œç¬¬ä¸€é‡åˆ¤ç©ºï¼Œé¿å…ç”Ÿæˆå¤šä¸ª
 	if (m_SingletonPtr == nullptr)
 	{
 		std::lock_guard<std::mutex> lck(m_mutex);
-		//¼ÓËøºóÅĞ¿Õ£¬±ÜÃâ¶àÏß³ÌÉú³É¶à¸öÊµÀı
+		//åŠ é”ååˆ¤ç©ºï¼Œé¿å…å¤šçº¿ç¨‹ç”Ÿæˆå¤šä¸ªå®ä¾‹
 		if (m_SingletonPtr == nullptr)
 		{
 			m_SingletonPtr = std::shared_ptr<ChatWidgetManager>(new ChatWidgetManager);
 		}
 	}
-	//·µ»ØÖ¸Õë
+	//è¿”å›æŒ‡é’ˆ
 	return m_SingletonPtr;
 }
 
@@ -78,19 +78,19 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 	{
 #if defined(QT_DEBUG)
 		qDebug() << "friend id:" << item.m_strFriendId.c_str() << ",name:" << item.m_strFriendName.c_str();
-		_LOG(Logcxx::Level::INFO, "friend id:%s;name:%s¡£", item.m_strFriendId.c_str(), item.m_strFriendName.c_str());
+		_LOG(Logcxx::Level::INFO, "friend id:%s;name:%sã€‚", item.m_strFriendId.c_str(), item.m_strFriendName.c_str());
 #endif
-		//Ìí¼Óµ½qmlÒ³ÃælistmodelÖĞ
+		//æ·»åŠ åˆ°qmlé¡µé¢listmodelä¸­
 		QString strShouZiMu = Base::PinYin::convertToPinYin(QString::fromStdString(item.m_strFriendName)).toUpper().mid(0, 1);
 		MyFriendInfoWithFirstC tmpFriendInfo;
 		tmpFriendInfo.m_strFirstChacter = strShouZiMu.toStdString();
 		tmpFriendInfo.m_strId = item.m_strFriendId;
 		tmpFriendInfo.m_strName = item.m_strFriendName;
 		tmpFriendInfo.m_strImageTimestamp = item.m_strFriendImageTimeStamp;
-		//´ÓÊı¾İ¿â»ñÈ¡Í·ÏñÂ·¾¶
+		//ä»æ•°æ®åº“è·å–å¤´åƒè·¯å¾„
 		QString strImage = "";
 		DataBaseDelegate::Instance()->queryProfileImagePath(item.m_strFriendId.c_str(), strImage);
-		//Èç¹ûÊı¾İ¿âÖĞÃ»ÓĞÍ·ÏñÂ·¾¶£¬ÔòÊ¹ÓÃÄ¬ÈÏÍ·Ïñ
+		//å¦‚æœæ•°æ®åº“ä¸­æ²¡æœ‰å¤´åƒè·¯å¾„ï¼Œåˆ™ä½¿ç”¨é»˜è®¤å¤´åƒ
 		if (strImage.isEmpty())
 		{
 			strImage = kDefaultProfileImage;
@@ -109,9 +109,9 @@ void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
 	addFriendResponseJsonData.m_strMyId = m_strUserId.toStdString();
 	addFriendResponseJsonData.m_strFriendId = friendId.toStdString();
 	addFriendResponseJsonData.m_bResult = true;
-	//·¢ËÍ¸ø·şÎñÆ÷
+	//å‘é€ç»™æœåŠ¡å™¨
 	TCPThread::get_mutable_instance().sendMessage(addFriendResponseJsonData.generateJson());
-	//ĞŞ¸Ä×¢²á±íÖĞµÄ×´Ì¬Îªtrue
+	//ä¿®æ”¹æ³¨å†Œè¡¨ä¸­çš„çŠ¶æ€ä¸ºtrue
 	DataBaseDelegate::Instance()->updateFriendRequestStateAcordId(friendId);
 }
 
@@ -128,7 +128,7 @@ void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verif
 
 void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 {
-	//Í¨Öª½çÃæ¸Ä±ä£¬ÉÏ´ÎÁÄÌìµÄ½çÃæÌí¼ÓÒ»¸öĞÂµÄºÃÓÑÏî
+	//é€šçŸ¥ç•Œé¢æ”¹å˜ï¼Œä¸Šæ¬¡èŠå¤©çš„ç•Œé¢æ·»åŠ ä¸€ä¸ªæ–°çš„å¥½å‹é¡¹
 	const protocol::AddFriendNotify addFriendNotifyData(msg.toStdString());
 	MyFriendInfoWithFirstC tmp;
 	if (m_strUserId.toStdString() == addFriendNotifyData.m_strId1)
@@ -152,12 +152,12 @@ void ChatWidgetManager::onSignalBecomeFriend(const QString& msg)
 
 void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 {
-	//Ğ´ÈëÊı¾İ¿â
+	//å†™å…¥æ•°æ®åº“
 	const protocol::AddFriendRequestJsonData addFriendRequestData(msg.toStdString().c_str());
 	const char* name = addFriendRequestData.m_strName.c_str();
 	const char* friendId = addFriendRequestData.m_strFriendId.c_str();
 	const char* verifyMsg = addFriendRequestData.m_strVerifyMsg.c_str();
-	//Ìí¼ÓºÃÓÑµÄ½çÃæ²åÈëÒ»¸öĞÂµÄ
+	//æ·»åŠ å¥½å‹çš„ç•Œé¢æ’å…¥ä¸€ä¸ªæ–°çš„
 	DataBaseDelegate::Instance()->insertAddFriendRequest(friendId, name, verifyMsg);
 	QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest",
 							  Q_ARG(QVariant, Base::PinYin::convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name),
@@ -166,7 +166,7 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 
 void ChatWidgetManager::onSignalUpdateLastChat()
 {
-	//ÓÉ×ÓÏß³ÌÈ¥´¦Àí
+	//ç”±å­çº¿ç¨‹å»å¤„ç†
 	if (!m_ptrDBOperateThread)
 	{
 		m_ptrDBOperateThread = new DatabaseOperateThread();
@@ -177,7 +177,7 @@ void ChatWidgetManager::onSignalUpdateLastChat()
 	onSignalGetModelOrder(tmpOrder);
 	setLastChatList(tmpOrder);
 
-	//ÉèÖÃ²Ù×÷ÀàĞÍÎª¸üĞÂÉÏ´ÎÁÄÌìÊı¾İ¿â
+	//è®¾ç½®æ“ä½œç±»å‹ä¸ºæ›´æ–°ä¸Šæ¬¡èŠå¤©æ•°æ®åº“
 	m_ptrDBOperateThread->setOperateType(DatabaseOperateType::UpdateLastChat);
 	m_ptrDBOperateThread->start();
 }
@@ -221,33 +221,33 @@ void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* Friend
 void ChatWidgetManager::initDBOperateThread()
 {
 	m_ptrDBOperateThread=new DatabaseOperateThread(nullptr);
-	//Îª×ÓÏß³ÌÉè¶¨id£¬±£Ö¤²Ù×÷µÄÊı¾İ¿âÕıÈ·
+	//ä¸ºå­çº¿ç¨‹è®¾å®šidï¼Œä¿è¯æ“ä½œçš„æ•°æ®åº“æ­£ç¡®
 	m_ptrDBOperateThread->setCurUserId(m_strUserId);
 }
 
-//²é¿´Ò»Ğ©±ØĞèµÄÎÄ¼ş¼ĞºÍÎÄ¼şÊÇ·ñ´æÔÚ
+//æŸ¥çœ‹ä¸€äº›å¿…éœ€çš„æ–‡ä»¶å¤¹å’Œæ–‡ä»¶æ˜¯å¦å­˜åœ¨
 void ChatWidgetManager::initDirAndFile()
 {
-	//»ñÈ¡µ±Ç°³ÌĞòËùÔÚÂ·¾¶
+	//è·å–å½“å‰ç¨‹åºæ‰€åœ¨è·¯å¾„
 	QString strAppPath = QCoreApplication::applicationDirPath();
 	
-	//²é¿´dataÎÄ¼ş¼Ğ
+	//æŸ¥çœ‹dataæ–‡ä»¶å¤¹
 	QString strDataPath = strAppPath + "/data";
 	if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(strDataPath))
 	{
 		Base::fileoperate::FileManager::get_mutable_instance().createDir(strDataPath);
 	}
 
-	//²é¿´¶ÔÓ¦idµÄÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ
+	//æŸ¥çœ‹å¯¹åº”idçš„æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨
 	QString idPath = strDataPath + "/" + m_strUserId;
 	if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(idPath))
 	{
 		Base::fileoperate::FileManager::get_mutable_instance().createDir(idPath);
 	}
-	//°Ñ×Ô¼ºµÄid¶ÔÓ¦µÄÎÄ¼ş¼ĞÂ·¾¶±£´æÏÂÀ´
+	//æŠŠè‡ªå·±çš„idå¯¹åº”çš„æ–‡ä»¶å¤¹è·¯å¾„ä¿å­˜ä¸‹æ¥
 	PublicDataManager::get_mutable_instance().setIdDirPath(idPath);
 	
-	//²é¿´imageÎÄ¼ş¼Ğ
+	//æŸ¥çœ‹imageæ–‡ä»¶å¤¹
 	QString strImagePath = idPath + "/image";
 	if (!Base::fileoperate::FileManager::get_mutable_instance().checkDirExist(strImagePath))
 	{
@@ -264,7 +264,7 @@ void ChatWidgetManager::getFriendList()
 	//emit signalSendMsg(tmpStr);
 }
 
-//Ïò·şÎñÆ÷·¢ËÍ³õÊ¼»¯ÏûÏ¢£¬¸æÖª´ËidÔÚÏß
+//å‘æœåŠ¡å™¨å‘é€åˆå§‹åŒ–æ¶ˆæ¯ï¼Œå‘ŠçŸ¥æ­¤idåœ¨çº¿
 void ChatWidgetManager::notifyServerOnline()
 {
 	protocol::InitialRequestJsonData initialJosnData;
@@ -276,7 +276,7 @@ void ChatWidgetManager::notifyServerOnline()
 
 void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
 {
-	//map½á¹¹Ìå£¬´æ´¢ÉÏ´Î¹Ø±ÕÊ±ÁÄÌìÁĞ±íÖĞµÄË³Ğò
+	//mapç»“æ„ä½“ï¼Œå­˜å‚¨ä¸Šæ¬¡å…³é—­æ—¶èŠå¤©åˆ—è¡¨ä¸­çš„é¡ºåº
 	DataBaseDelegate::Instance()->queryLastChatListFromDB(vecLastChatFriend);
 }
 
@@ -300,7 +300,7 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 	while (query.next())
 	{
 		QSqlRecord record = query.record();
-		//²éÑ¯µ½Õâ¸öid
+		//æŸ¥è¯¢åˆ°è¿™ä¸ªid
 		std::string id = record.value(0).toString().toStdString();
 		const std::string timeStamp = record.value(1).toString().toStdString();
 		mapTimeStamp[id] = timeStamp;
@@ -309,7 +309,7 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 	{
 		if (0 == mapTimeStamp.count(item.m_strId) || item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
 		{
-			//TODO ·¢ËÍÏûÏ¢µ½·şÎñÆ÷£¬»ñÈ¡ĞÂÍ·Ïñ
+			//TODO å‘é€æ¶ˆæ¯åˆ°æœåŠ¡å™¨ï¼Œè·å–æ–°å¤´åƒ
 			protocol::getProfileImageJsonData tmpInfo;
 			tmpInfo.m_strId = item.m_strId;
 			TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
@@ -327,19 +327,19 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 
 std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QString strId)
 {
-	//ÏÈ¿´Õâ¸öidµÄÁÄÌì¼ÇÂ¼ÓĞ¶àÉÙ
+	//å…ˆçœ‹è¿™ä¸ªidçš„èŠå¤©è®°å½•æœ‰å¤šå°‘
 	int iMessageCount = DataBaseDelegate::Instance()->getChatRecordCountFromDB(strId);
-	//Èç¹û´óÓÚ10Ìõ¾Í¼ÓÔØÊ®Ìõ£¬Ğ¡ÓÚÊ®Ìõ¾ÍÓĞ¶àÉÙ¼ÓÔØ¶àÉÙ
+	//å¦‚æœå¤§äº10æ¡å°±åŠ è½½åæ¡ï¼Œå°äºåæ¡å°±æœ‰å¤šå°‘åŠ è½½å¤šå°‘
 	int needLoadCount = (std::min)(10, iMessageCount);
 
-	//»ñÈ¡ÁÄÌì¼ÇÂ¼
+	//è·å–èŠå¤©è®°å½•
 	std::vector<MyChatMessageInfo> vecMyChatMessageInfo;
 
 	if (0 == needLoadCount)
 	{
 		return vecMyChatMessageInfo;
 	}
-	//²éÑ¯ÁÄÌì¼ÇÂ¼µÄÆğÊ¼Î»ÖÃÊÇÁÄÌìÒ³Ãæµ±Ç°µÄÊıÁ¿,²éÑ¯µÄÊıÁ¿¾ÍÊÇneedcount
+	//æŸ¥è¯¢èŠå¤©è®°å½•çš„èµ·å§‹ä½ç½®æ˜¯èŠå¤©é¡µé¢å½“å‰çš„æ•°é‡,æŸ¥è¯¢çš„æ•°é‡å°±æ˜¯needcount
 	DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
 	return vecMyChatMessageInfo;
 }

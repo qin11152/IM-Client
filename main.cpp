@@ -1,4 +1,4 @@
-#include "ui/LogInWidget/LogInWidget.h"
+ï»¿#include "ui/LogInWidget/LogInWidget.h"
 #include  "module/Log/Log.h"
 #include <QtWidgets/QApplication>
 
@@ -6,9 +6,9 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	qRegisterMetaType<std::string>("std::string");
-	//¿çÆ½Ì¨»ñÈ¡µ±Ç°³ÌĞòËùÔÚÂ·¾¶
+	//è·¨å¹³å°è·å–å½“å‰ç¨‹åºæ‰€åœ¨è·¯å¾„
 	QString strPath = QCoreApplication::applicationDirPath();
-	//ÉèÖÃlog4cxxÅäÖÃÎÄ¼şÂ·¾¶
+	//è®¾ç½®log4cxxé…ç½®æ–‡ä»¶è·¯å¾„
 	std::string strLog4cxxPath = strPath.toStdString() + "/log4cxx.properties";
 	Logcxx::get_mutable_instance().Init(strLog4cxxPath.c_str());
 	_LOG(Logcxx::Level::INFO, "main start");

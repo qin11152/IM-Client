@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -26,6 +26,6 @@ protected:
 	void focusInEvent(QFocusEvent* event)override;
 
 private:
-	//intÎªidÖµ£¬quickwidgetÊÇ¶ÔÓ¦chatmessage qmlÈİÆ÷Ö¸Õë£¬·½±ã¸ù¾İidÕÒµ½Ö¸Õë
+	//intä¸ºidå€¼ï¼Œquickwidgetæ˜¯å¯¹åº”chatmessage qmlå®¹å™¨æŒ‡é’ˆï¼Œæ–¹ä¾¿æ ¹æ®idæ‰¾åˆ°æŒ‡é’ˆ
 	std::map<int, QWidget*> m_mapIdWidgetReference;
 };

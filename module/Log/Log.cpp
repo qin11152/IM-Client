@@ -1,4 +1,4 @@
-#include "Log.h"
+﻿#include "Log.h"
 #include <cstdarg>
 #include <boost/format.hpp>
 #include <log4cxx/logger.h>  

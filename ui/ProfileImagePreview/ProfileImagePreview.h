@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ui_ProfileImagePreview.h"
 
@@ -29,9 +29,9 @@ protected:
 
 private:
     void initConnect();
-    //½«Ñ¡ÔñµÄÍ¼Æ¬Ñ¹Ëõ²¢´«Êä¸ø·şÎñÆ÷
+    //å°†é€‰æ‹©çš„å›¾ç‰‡å‹ç¼©å¹¶ä¼ è¾“ç»™æœåŠ¡å™¨
     void compressAndSendImage(const QImage& image,const std::string& timeStamp);
-    //É¾³ıÊı¾İ¿âÖĞÂ·¾¶ÏÂÍ¼Æ¬£¬±£´æÍ¼Æ¬²¢½«Â·¾¶¸üĞÂ½øÈ¥
+    //åˆ é™¤æ•°æ®åº“ä¸­è·¯å¾„ä¸‹å›¾ç‰‡ï¼Œä¿å­˜å›¾ç‰‡å¹¶å°†è·¯å¾„æ›´æ–°è¿›å»
     void saveImageAndUpdateDB(const QImage& image, const std::string& timeStamp);
 
 private:

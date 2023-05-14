@@ -1,5 +1,5 @@
-/************************************************************************/
-/* ¸ÃÀàÎªÁÄÌì½çÃæµÄqmlÈİÆ÷Àà£¬¿ÉÒÔ±£´æµ±Ç°µÄÁÄÌì¼ÇÂ¼ÊıÁ¿µÈ
+ï»¿/************************************************************************/
+/* è¯¥ç±»ä¸ºèŠå¤©ç•Œé¢çš„qmlå®¹å™¨ç±»ï¼Œå¯ä»¥ä¿å­˜å½“å‰çš„èŠå¤©è®°å½•æ•°é‡ç­‰
 /************************************************************************/
 
 #pragma once
@@ -18,39 +18,39 @@ class MyChatMessageQuickWid : public QQuickWidget
 public:
     MyChatMessageQuickWid(QWidget *parent = Q_NULLPTR);
     ~MyChatMessageQuickWid();
-    //Ôö¼ÓÒ³ÃæÖĞ¼ÇÂ¼µÄÁÄÌì¼ÇÂ¼ºÍ×ÜÁÄÌì¼ÇÂ¼µÄÊıÁ¿
+    //å¢åŠ é¡µé¢ä¸­è®°å½•çš„èŠå¤©è®°å½•å’Œæ€»èŠå¤©è®°å½•çš„æ•°é‡
     void addTotalAndCurrentRecordCount(int cnt);
-    //Ôö¼ÓÒ³ÃæÖĞ¼ÇÂ¼µÄÁÄÌì¼ÇÂ¼ÊıÁ¿
+    //å¢åŠ é¡µé¢ä¸­è®°å½•çš„èŠå¤©è®°å½•æ•°é‡
     void addCurrentRecordCount(int cnt);
-    //ĞŞ¸ÄÒ³ÃæÖĞÒÑ¾­¼ÓÔØÁËµÄÁÄÌì¼ÇÂ¼µÄÊıÁ¿
+    //ä¿®æ”¹é¡µé¢ä¸­å·²ç»åŠ è½½äº†çš„èŠå¤©è®°å½•çš„æ•°é‡
     void setRecordCount(int cnt);
-    //»ñÈ¡Ò³ÃæÖĞ¼ÇÂ¼µÄµÄÁÄÌì¼ÇÂ¼ÊıÁ¿
+    //è·å–é¡µé¢ä¸­è®°å½•çš„çš„èŠå¤©è®°å½•æ•°é‡
     int getRecordCount()const;
-    //ÉèÖÃÁÄÌì¼ÇÂ¼×ÜÊıÁ¿
+    //è®¾ç½®èŠå¤©è®°å½•æ€»æ•°é‡
     void setTotalRecordCount(int cnt);
-    //»ñµÃÁÄÌì¼ÇÂ¼×ÜÊıÁ¿
+    //è·å¾—èŠå¤©è®°å½•æ€»æ•°é‡
     int getTotalRecordCount()const;
-    //ĞŞ¸ÄÎ´¶ÁÁÄÌì¼ÇÂ¼ÊıÁ¿
+    //ä¿®æ”¹æœªè¯»èŠå¤©è®°å½•æ•°é‡
     void setUnreadMsgCnt() { m_iUnreadMsgCnt++; }
-    //»ñÈ¡Î´¶ÁÁÄÌì¼ÇÂ¼ÊıÁ¿
+    //è·å–æœªè¯»èŠå¤©è®°å½•æ•°é‡
     int getUnreadMsgCnt()const { return m_iUnreadMsgCnt; }
-    //Î´¶ÁÏûÏ¢ÖÃ0
+    //æœªè¯»æ¶ˆæ¯ç½®0
     void clearUnreadMsgCnt() { m_iUnreadMsgCnt = 0; }
-    //ÉèÖÃ¸ù¶ÔÏó
+    //è®¾ç½®æ ¹å¯¹è±¡
     void setRootObj();
-    //»ñÈ¡¸ù¶ÔÏóÓëQML½øĞĞ½»»¥
+    //è·å–æ ¹å¯¹è±¡ä¸QMLè¿›è¡Œäº¤äº’
     QObject* getRootObj()const;
-    //ÉèÖÃidµÄ½è¿Ú£¬Íâ²¿¸æÖªÕâ¸ö½çÃæ¶ÔÓ¦µÄÓÃ»§idÊÇ¶àÉÙ
+    //è®¾ç½®idçš„å€Ÿå£ï¼Œå¤–éƒ¨å‘ŠçŸ¥è¿™ä¸ªç•Œé¢å¯¹åº”çš„ç”¨æˆ·idæ˜¯å¤šå°‘
     void SetUserId(QString id);
-    //»ñÈ¡id½Ó¿Ú
+    //è·å–idæ¥å£
     QString GetUserId()const { return m_strId; }
-    //ÉèÖÃÊ××ÖÄ¸
+    //è®¾ç½®é¦–å­—æ¯
     void setInitial(QString strInitial) { m_strInitial = strInitial; }
-    //»ñÈ¡Ê××ÖÄ¸
+    //è·å–é¦–å­—æ¯
     QString GetInitial()const { return m_strInitial; }
-    //»ñÈ¡ÓÃ»§Ãû³Æ
+    //è·å–ç”¨æˆ·åç§°
     QString getUserName()const { return m_strUserName; }
-    //ÉèÖÃÓÃ»§Ãû³Æ
+    //è®¾ç½®ç”¨æˆ·åç§°
     void setUserName(QString strUserName) { m_strUserName = strUserName; setInitial(m_strUserName.mid(0, 1)); }
 
 signals:
@@ -61,19 +61,19 @@ protected:
 
 private:
     Ui::MyChatMessageQuickWid ui;
-    //µ±Ç°Ò³ÃæÖĞ¼ÓÔØÁÄÌì¼ÇÂ¼µÄÊıÁ¿
+    //å½“å‰é¡µé¢ä¸­åŠ è½½èŠå¤©è®°å½•çš„æ•°é‡
     std::atomic<int> m_iChatRecordCount{ 0 };
-    //ÁÄÌì¼ÇÂ¼×ÜÊıÁ¿
+    //èŠå¤©è®°å½•æ€»æ•°é‡
     std::atomic<int> m_iTotalRecordCount{ 0 };
-    //¸ù¶ÔÏó£¬ÓÃÓÚºÍqml½øĞĞ½»»¥
+    //æ ¹å¯¹è±¡ï¼Œç”¨äºå’Œqmlè¿›è¡Œäº¤äº’
     QObject* m_ptrRootObj{ nullptr };
-    //ÓÃ»§µÄid
+    //ç”¨æˆ·çš„id
     QString m_strId{ "-1" };
-    //ÓÃ»§µÄÊ××ÖÄ¸
+    //ç”¨æˆ·çš„é¦–å­—æ¯
     QString m_strInitial{ "" };
-    //ÓÃ»§µÄÃû³Æ
+    //ç”¨æˆ·çš„åç§°
     QString m_strUserName{ "" };
-    //Î´¶ÁÏûÏ¢ÊıÁ¿
+    //æœªè¯»æ¶ˆæ¯æ•°é‡
     int m_iUnreadMsgCnt{ 0 };
 
 };

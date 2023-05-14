@@ -1,4 +1,4 @@
-#include "TCPThread.h"
+ï»¿#include "TCPThread.h"
 #include "module/Log/Log.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicDataManager/PublicDataManager.h"
@@ -87,7 +87,7 @@ void TCPThread::connectHost()
 
 void TCPThread::initConnect()
 {
-	//ÓĞÏûÏ¢µ½À´Ê±£¬¶ÁÈ¡ÏûÏ¢£¬²¢·¢ËÍ¸ø¿Í»§¶Ë
+	//æœ‰æ¶ˆæ¯åˆ°æ¥æ—¶ï¼Œè¯»å–æ¶ˆæ¯ï¼Œå¹¶å‘é€ç»™å®¢æˆ·ç«¯
 	connect(m_ptrTcpSocket, &QTcpSocket::readyRead, this, &TCPThread::onSignalRecvMessage);
 	connect(m_ptrTimerKeepAlive, &QTimer::timeout, this, &TCPThread::onSignalTimeoutSendHeartPackage);
 	connect(this, &TCPThread::signalSendMsg, m_ptrTcpSocket, &MyTCPSocket::sendMsg);
@@ -107,7 +107,7 @@ void TCPThread::disConnect()
 
 void TCPThread::init()
 {
-	//´´½¨socket
+	//åˆ›å»ºsocket
 	m_ptrTcpSocket = new MyTCPSocket();
 	m_ptrTimerKeepAlive = new QTimer();
 	m_ptrTimerRecvHeartPackage = new QTimer();
@@ -124,7 +124,7 @@ void TCPThread::onSignalTimeoutNoHeartPackage()
 
 void TCPThread::onSignalTimeoutSendHeartPackage()
 {
-	//·¢ËÍ¸ø·şÎñÆ÷µÄĞÄÌø°ü
+	//å‘é€ç»™æœåŠ¡å™¨çš„å¿ƒè·³åŒ…
 	protocol::HeartPackageJsonData heartPackage;
 	std::string msg = heartPackage.generateJson();
 	sendMessage(msg);
@@ -144,7 +144,7 @@ void TCPThread::onSignalRecvMessage()
 	
 	size_t pos = 0;
 	
-	//Òª¶Áµ½¹Ì¶¨µÄ°üÍ·²ÅĞĞ
+	//è¦è¯»åˆ°å›ºå®šçš„åŒ…å¤´æ‰è¡Œ
 	while (pos < m_endPosOfBuffer && memcmp(m_msgBuffer + pos, "&q*b", 4) != 0)
 	{
 		pos += 4;
@@ -152,7 +152,7 @@ void TCPThread::onSignalRecvMessage()
 	memcpy(m_msgBuffer, m_msgBuffer + pos, m_endPosOfBuffer - pos);
 	m_endPosOfBuffer -= pos;
 
-	//µ±»º³åÇøµÄ³¤¶È´óÓÚ°üÍ·³¤¶ÈÊ±¾Í¿ÉÒÔ½øÈëÒµÎñ´¦ÀíÂß¼­ÁË
+	//å½“ç¼“å†²åŒºçš„é•¿åº¦å¤§äºåŒ…å¤´é•¿åº¦æ—¶å°±å¯ä»¥è¿›å…¥ä¸šåŠ¡å¤„ç†é€»è¾‘äº†
 	while (m_endPosOfBuffer > sizeof(PackageHead))
 	{
 		char lengthStr[sizeof(PackageHead) + 1]{ 0 };
@@ -163,17 +163,17 @@ void TCPThread::onSignalRecvMessage()
 		if (0x0011 == head->cmdId)
 		{
 
-			//ÅĞ¶ÏÊÕµ½µÄÊı¾İÊÇ·ñ´óÓÚ°üÍ·µÄ³¤¶È
+			//åˆ¤æ–­æ”¶åˆ°çš„æ•°æ®æ˜¯å¦å¤§äºåŒ…å¤´çš„é•¿åº¦
 			if (m_endPosOfBuffer - PackageLength >= iMsgLength)
 			{
 				std::string test(m_msgBuffer + PackageLength, iMsgLength);
-				//ÒòÒÑÈ¡³öÒ»²¿·ÖĞÅÏ¢£¬Òª°Ñ´ó»º³åÇøµÄÄÚÈİ¸üĞÂÒ»ÏÂ
+				//å› å·²å–å‡ºä¸€éƒ¨åˆ†ä¿¡æ¯ï¼Œè¦æŠŠå¤§ç¼“å†²åŒºçš„å†…å®¹æ›´æ–°ä¸€ä¸‹
 				memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
-				//Î²²¿±êÊ¶Ò²¸üĞÂÒ»ÏÂ
+				//å°¾éƒ¨æ ‡è¯†ä¹Ÿæ›´æ–°ä¸€ä¸‹
 				m_endPosOfBuffer -= (iMsgLength + PackageLength);
 				onHandleMessage(test);
 			}
-			//²»¹»³¤¾ÍÍË³ö£¬°üÍ·Êı¾İ±£´æ£¬ÏÂ´ÎÔÚÊÕµ½Êı¾İ»á²åÈëÎ²²¿
+			//ä¸å¤Ÿé•¿å°±é€€å‡ºï¼ŒåŒ…å¤´æ•°æ®ä¿å­˜ï¼Œä¸‹æ¬¡åœ¨æ”¶åˆ°æ•°æ®ä¼šæ’å…¥å°¾éƒ¨
 			else
 			{
 				char buf[1024]{ 0 };
@@ -185,23 +185,23 @@ void TCPThread::onSignalRecvMessage()
 					memset(buf, 0, 1024);
 				}
 				std::string test(m_msgBuffer + PackageLength, iMsgLength);
-				//ÒòÒÑÈ¡³öÒ»²¿·ÖĞÅÏ¢£¬Òª°Ñ´ó»º³åÇøµÄÄÚÈİ¸üĞÂÒ»ÏÂ
+				//å› å·²å–å‡ºä¸€éƒ¨åˆ†ä¿¡æ¯ï¼Œè¦æŠŠå¤§ç¼“å†²åŒºçš„å†…å®¹æ›´æ–°ä¸€ä¸‹
 				memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
-				//Î²²¿±êÊ¶Ò²¸üĞÂÒ»ÏÂ
+				//å°¾éƒ¨æ ‡è¯†ä¹Ÿæ›´æ–°ä¸€ä¸‹
 				m_endPosOfBuffer -= (iMsgLength + PackageLength);
 				onHandleMessage(test);
 			}
 		}
 		else if (0x0012 == head->cmdId)
 		{
-			//½ÓÊÜÍ¼Æ¬
+			//æ¥å—å›¾ç‰‡
 			int needReadLength = iMsgLength;
 			std::string tmpStr(m_msgBuffer + PackageLength, (m_endPosOfBuffer - PackageLength));
 			needReadLength -= (m_endPosOfBuffer - PackageLength);
 			memcpy(m_msgBuffer, m_msgBuffer + iMsgLength + PackageLength, kMsgBufferLength - iMsgLength - PackageLength);
-			//Î²²¿±êÊ¶Ò²¸üĞÂÒ»ÏÂ
+			//å°¾éƒ¨æ ‡è¯†ä¹Ÿæ›´æ–°ä¸€ä¸‹
 			m_endPosOfBuffer -= (iMsgLength + PackageLength);
-			//´ò¿ªÎÄ¼ş²¢Ğ´Èë
+			//æ‰“å¼€æ–‡ä»¶å¹¶å†™å…¥
 			std::string fileName = "D:/test.jpg";
 			std::ofstream file(fileName, std::ios::binary);
 			file.write(tmpStr.c_str(), tmpStr.length());
@@ -267,7 +267,7 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 			int iNeedSegment = profileImageMsgData.m_iSumIndex;
 			if (m_mapImageUUIDAndSegment.count(profileImageMsgData.m_strUUID) && profileImageMsgData.m_iCurIndex - 1 != m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID])
 			{
-				//TODO »Ø¸´Ò»¸öuuid·¢ËÍÊ§°ÜµÄÏûÏ¢
+				//TODO å›å¤ä¸€ä¸ªuuidå‘é€å¤±è´¥çš„æ¶ˆæ¯
 				m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
 				m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
 			}
@@ -275,8 +275,8 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 			m_mapImageUUIDAndSegment[profileImageMsgData.m_strUUID] = profileImageMsgData.m_iCurIndex;
 			if (profileImageMsgData.m_iCurIndex == profileImageMsgData.m_iSumIndex)
 			{
-				//Èç¹ûÊÕµ½µÄÆ¬Êıµ½´ïÁË×îºóÒ»¸öÁË
-				// ÏÈ½«Ö®Ç°µÄÍ¼Æ¬É¾³ı
+				//å¦‚æœæ”¶åˆ°çš„ç‰‡æ•°åˆ°è¾¾äº†æœ€åä¸€ä¸ªäº†
+				// å…ˆå°†ä¹‹å‰çš„å›¾ç‰‡åˆ é™¤
 				
 				QString oldPath = "";
 				DataBaseDelegate::Instance()->queryProfileImagePath(profileImageMsgData.m_strId.c_str(), oldPath);
@@ -285,10 +285,10 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 					QFile::remove(oldPath);
 				}
 
-				//½«Í¼Æ¬±£´æµ½±¾µØ£¬²¢½«Í¼Æ¬µÄÂ·¾¶±£´æµ½Êı¾İ¿âÖĞ
+				//å°†å›¾ç‰‡ä¿å­˜åˆ°æœ¬åœ°ï¼Œå¹¶å°†å›¾ç‰‡çš„è·¯å¾„ä¿å­˜åˆ°æ•°æ®åº“ä¸­
 				QString savePath = PublicDataManager::get_mutable_instance().getIdDirPath() + "/image/" + profileImageMsgData.m_strId.c_str() + "." + profileImageMsgData.m_strSuffix.c_str();
 
-				//qt BASE64×ªÍ¼Æ¬
+				//qt BASE64è½¬å›¾ç‰‡
 				QByteArray ba;
 				ba.append(m_mapImageUUIDAndBase64[profileImageMsgData.m_strUUID].c_str());
 				QByteArray bb = QByteArray::fromBase64(ba);
@@ -301,15 +301,15 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 				{
 					imageresult.save(savePath);
 				}
-				//TODOÕâÀïĞèÒªÅĞ¶ÏÓĞÃ»ÓĞÕâ¸öid¶ÔÓ¦µÄÊı¾İ
-				//°ÑÕâ¸öĞÂµÄÂ·¾¶´æ´¢ÔÚÊı¾İ¿âÖĞ£¬²¢°ÑĞÂµÄÂ·¾¶¸üĞÂµ½½çÃæÖ®ÖĞ
+				//TODOè¿™é‡Œéœ€è¦åˆ¤æ–­æœ‰æ²¡æœ‰è¿™ä¸ªidå¯¹åº”çš„æ•°æ®
+				//æŠŠè¿™ä¸ªæ–°çš„è·¯å¾„å­˜å‚¨åœ¨æ•°æ®åº“ä¸­ï¼Œå¹¶æŠŠæ–°çš„è·¯å¾„æ›´æ–°åˆ°ç•Œé¢ä¹‹ä¸­
 				DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), savePath, profileImageMsgData.m_strTimeStamp.c_str());
-				//¸üĞÂÍ·ÏñµÄ´¦Àí
+				//æ›´æ–°å¤´åƒçš„å¤„ç†
 				if (ProfileImageType::UpdateProfileImage == profileImageMsgData.m_eImageType)
 				{
 					emit signalProfileImageChanged(profileImageMsgData.m_strId.c_str(), savePath);
 				}
-				//·şÎñÆ÷ÍÆËÍÁËÒ»¸öÌí¼ÓÄãºÃÓÑµÄÈËµÄÍ·Ïñ
+				//æœåŠ¡å™¨æ¨é€äº†ä¸€ä¸ªæ·»åŠ ä½ å¥½å‹çš„äººçš„å¤´åƒ
 				else if(ProfileImageType::AddFriendProfileImage== profileImageMsgData.m_eImageType)
 				{
 					emit signalAddFriendProfileImage(profileImageMsgData.m_strId.c_str(), savePath);

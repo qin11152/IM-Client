@@ -1,4 +1,4 @@
-#include "MyChatMessageQuickWid.h"
+ï»¿#include "MyChatMessageQuickWid.h"
 #include "../DataBaseDelegate/DataBaseDelegate.h"
 
 MyChatMessageQuickWid::MyChatMessageQuickWid(QWidget *parent)
@@ -11,7 +11,7 @@ MyChatMessageQuickWid::~MyChatMessageQuickWid()
 {
 }
 
-//ÉèÖÃºÍµ±Ç°ÓÃ»§µÄÁÄÌì¼ÇÂ¼ÊıÁ¿
+//è®¾ç½®å’Œå½“å‰ç”¨æˆ·çš„èŠå¤©è®°å½•æ•°é‡
 void MyChatMessageQuickWid::addTotalAndCurrentRecordCount(int cnt)
 {
 	m_iChatRecordCount += cnt;
@@ -28,7 +28,7 @@ void MyChatMessageQuickWid::setRecordCount(int cnt)
 	m_iChatRecordCount = cnt;
 }
 
-//»ñµÃµ±Ç°ÓÃ»§ÁÄÌì¼ÇÂ¼ÊıÁ¿
+//è·å¾—å½“å‰ç”¨æˆ·èŠå¤©è®°å½•æ•°é‡
 int MyChatMessageQuickWid::getRecordCount() const
 {
 	return m_iChatRecordCount;

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -13,14 +13,14 @@ public:
 	~ChooseFriendModel();
 
 	/**
-	 * brief:Ïò·¢ÆğÈºÁÄ½çÃæÖĞµÄºÃÓÑmodelÉèÖÃÊı¾İ.
+	 * brief:å‘å‘èµ·ç¾¤èŠç•Œé¢ä¸­çš„å¥½å‹modelè®¾ç½®æ•°æ®.
 	 * 
-	 * \param friendInfo:µ±Ç°µÄºÃÓÑÁĞ±í
+	 * \param friendInfo:å½“å‰çš„å¥½å‹åˆ—è¡¨
 	 */
 	void setData(std::vector<MyFriendInfoForStartGroupChat>& friendInfo);
 
 	/**
-	 * brief:¸üĞÂmodelÖĞÑ¡Ôñ×´Ì¬.
+	 * brief:æ›´æ–°modelä¸­é€‰æ‹©çŠ¶æ€.
 	 * 
 	 * \param id
 	 */
@@ -35,5 +35,5 @@ protected:
 private:
 	std::vector<MyFriendInfoForStartGroupChat> m_vecFriendInfo;
 
-	std::unordered_map<QString, int> m_mapItemPosAcordId;	//¸ù¾İid²éÕÒvecÖĞµÄÎ»ÖÃ£¬¿Õ¼ä»»Ê±¼ä
+	std::unordered_map<QString, int> m_mapItemPosAcordId;	//æ ¹æ®idæŸ¥æ‰¾vecä¸­çš„ä½ç½®ï¼Œç©ºé—´æ¢æ—¶é—´
 };

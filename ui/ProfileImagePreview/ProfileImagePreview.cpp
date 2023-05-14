@@ -1,4 +1,4 @@
-#include "ProfileImagePreview.h"
+ï»¿#include "ProfileImagePreview.h"
 #include "module/Log/Log.h"
 #include "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
@@ -17,7 +17,7 @@ ProfileImagePreview::ProfileImagePreview(QWidget *parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
-    //Òş²Ø×î´ó»¯°´Å¥
+    //éšè—æœ€å¤§åŒ–æŒ‰é’®
     setWindowFlag(Qt::WindowMaximizeButtonHint, true);
     setFixedSize(QSize(400,400));
     setWindowTitle("");
@@ -36,27 +36,27 @@ void ProfileImagePreview::setImagePath(const QString& path, const int id)
 
 void ProfileImagePreview::onSignalChooseBtnClicked()
 {
-    //ÓÃ»§µã»÷Ñ¡ÔñÍ·Ïñ°´Å¥
+    //ç”¨æˆ·ç‚¹å‡»é€‰æ‹©å¤´åƒæŒ‰é’®
     QFileDialog* fileDialog = new QFileDialog(this);
 
-    //¶¨ÒåÎÄ¼ş¶Ô»°¿ò±êÌâ
-    fileDialog->setWindowTitle(QString::fromLocal8Bit("Ñ¡ÔñÍ¼Æ¬"));
+    //å®šä¹‰æ–‡ä»¶å¯¹è¯æ¡†æ ‡é¢˜
+    fileDialog->setWindowTitle(QString::fromLocal8Bit("é€‰æ‹©å›¾ç‰‡"));
 
-    //ÉèÖÃ´ò¿ªµÄÎÄ¼şÂ·¾¶
+    //è®¾ç½®æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„
     fileDialog->setDirectory("./");
 
-    //ÉèÖÃÎÄ¼ş¹ıÂËÆ÷,Ö»ÏÔÊ¾jpg,png, ÎÄ¼ş,¶à¸ö¹ıÂËÎÄ¼şÊ¹ÓÃ¿Õ¸ñ¸ô¿ª
+    //è®¾ç½®æ–‡ä»¶è¿‡æ»¤å™¨,åªæ˜¾ç¤ºjpg,png, æ–‡ä»¶,å¤šä¸ªè¿‡æ»¤æ–‡ä»¶ä½¿ç”¨ç©ºæ ¼éš”å¼€
     fileDialog->setNameFilter(tr("File(*.jpg* *.png* *.jpeg*)"));
 
-    //ÉèÖÃ¿ÉÒÔÑ¡Ôñ¶à¸öÎÄ¼ş,Ä¬ÈÏÎªÖ»ÄÜÑ¡ÔñÒ»¸öÎÄ¼şQFileDialog::ExistingFiles
+    //è®¾ç½®å¯ä»¥é€‰æ‹©å¤šä¸ªæ–‡ä»¶,é»˜è®¤ä¸ºåªèƒ½é€‰æ‹©ä¸€ä¸ªæ–‡ä»¶QFileDialog::ExistingFiles
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
 
-    //ÉèÖÃÊÓÍ¼Ä£Ê½
+    //è®¾ç½®è§†å›¾æ¨¡å¼
     fileDialog->setViewMode(QFileDialog::Detail);
 
     fileDialog->show();
 
-    //»ñÈ¡Ñ¡ÔñµÄÎÄ¼şµÄÂ·¾¶
+    //è·å–é€‰æ‹©çš„æ–‡ä»¶çš„è·¯å¾„
     QStringList fileNames;
     if (fileDialog->exec()) {
         fileNames = fileDialog->selectedFiles();
@@ -70,7 +70,7 @@ void ProfileImagePreview::onSignalChooseBtnClicked()
         std::string timeStamp = Base::timeToString("%F-%T");
         compressAndSendImage(image, timeStamp);
         saveImageAndUpdateDB(image, timeStamp);
-        //ÒòÎªÊÇ×Ô¼ºµÄÍ·Ïñ»»ÁË£¬ËùÒÔidÊÇ×Ô¼ºµÄid
+        //å› ä¸ºæ˜¯è‡ªå·±çš„å¤´åƒæ¢äº†ï¼Œæ‰€ä»¥idæ˜¯è‡ªå·±çš„id
         emit signalProfileImageChanged(PublicDataManager::get_mutable_instance().getMyId(), m_strPagePath);
         update();
     }
@@ -128,9 +128,9 @@ void ProfileImagePreview::compressAndSendImage(const QImage& image, const std::s
     QByteArray byteArr;
     QBuffer buffer(&byteArr);
     QFileInfo info(m_strPagePath);
-    QString suffix = info.suffix();//»ñÈ¡ÎÄ¼şºó×º
+    QString suffix = info.suffix();//è·å–æ–‡ä»¶åç¼€
     QByteArray stc = suffix.toLatin1();
-    image.save(&buffer, stc.data());//½«QStringÀàĞÍµÄºó×ºÃû¸ÄÎªchar*
+    image.save(&buffer, stc.data());//å°†QStringç±»å‹çš„åç¼€åæ”¹ä¸ºchar*
     QString str_base64 = byteArr.toBase64();
     QString name = PublicDataManager::get_mutable_instance().getMyId();
     TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data(), timeStamp.c_str());
@@ -141,7 +141,7 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
     QString id = PublicDataManager::get_mutable_instance().getMyId();
     QString lastPath = "";
     DataBaseDelegate::Instance()->queryProfileImagePath(id,lastPath);
-    //Èç¹ûÒÑÓĞÂ·¾¶ÇÒÒÑ´æÔÚÍ¼Æ¬ÔòÉ¾³ı
+    //å¦‚æœå·²æœ‰è·¯å¾„ä¸”å·²å­˜åœ¨å›¾ç‰‡åˆ™åˆ é™¤
     if (!lastPath.isEmpty())
     {
         QFile image(lastPath);
@@ -151,7 +151,7 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
         }
     }
     QFileInfo info(m_strPagePath);
-    QString suffix = info.suffix();//»ñÈ¡ÎÄ¼şºó×º
+    QString suffix = info.suffix();//è·å–æ–‡ä»¶åç¼€
     QString savePath = PublicDataManager::get_mutable_instance().getIdDirPath() + "/image/" + id + "." + suffix;
     PublicDataManager::get_mutable_instance().setImagePath(savePath);
     image.save(savePath);

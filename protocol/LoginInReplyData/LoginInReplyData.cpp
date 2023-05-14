@@ -1,4 +1,4 @@
-#include "LoginInReplyData.h"
+﻿#include "LoginInReplyData.h"
 
 namespace protocol
 {

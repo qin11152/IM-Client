@@ -1,4 +1,4 @@
-#include "AddFriendWidget.h"
+ï»¿#include "AddFriendWidget.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
 
 AddFriendWidget::AddFriendWidget(QWidget *parent)
@@ -43,8 +43,8 @@ void AddFriendWidget::updateModelImagePath(const QString& id, const QString& pat
 
 void AddFriendWidget::initUI()
 {
-    ui.accountLineEdit->setPlaceholderText(QString::fromLocal8Bit("ÇëÊäÈëºÃÓÑÕËºÅ"));
-    ui.verifyInfoLineEdit->setPlaceholderText(QString::fromLocal8Bit("ÇëÊäÈëÑéÖ¤ÄÚÈÝ"));
+    ui.accountLineEdit->setPlaceholderText(QString::fromLocal8Bit("è¯·è¾“å…¥å¥½å‹è´¦å·"));
+    ui.verifyInfoLineEdit->setPlaceholderText(QString::fromLocal8Bit("è¯·è¾“å…¥éªŒè¯å†…å®¹"));
 
     m_notifyLabel = new NotifyLabel(this);
     setFixedSize({ 800,400 });
@@ -68,7 +68,7 @@ void AddFriendWidget::onSignalAddBtnClicked()
 {
     if (ui.accountLineEdit->text().isEmpty())
     {
-        m_notifyLabel->setNitifyText(QString::fromLocal8Bit("ÇëÊäÈëºÃÓÑÕËºÅ").toStdString().c_str());
+        m_notifyLabel->setNitifyText(QString::fromLocal8Bit("è¯·è¾“å…¥å¥½å‹è´¦å·").toStdString().c_str());
         m_notifyLabel->showNotify();
         return;
     }

@@ -1,4 +1,4 @@
-#include "module/stdafx.h"
+ï»¿#include "module/stdafx.h"
 #include "RegisterWidget.h"
 #include "ui_RegisterWidget.h"
 #include "module/TCPThread/TCPThread.h"
@@ -43,7 +43,7 @@ void RegisterWidget::onfirstPasswordLineEditEditingFinished(const QString&text)
 {
     QRegularExpression rx("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$");
     //QRegExp rx("^(?!(?:[^a-zA-Z]+|\D+|[a-zA-Z0-9]+)$).{8,}$");
-    //µÃµ½±È¶Ô½á¹û
+    //å¾—åˆ°æ¯”å¯¹ç»“æžœ
     auto machResult = rx.match(text);
     if(!machResult.hasMatch())
     {
@@ -125,8 +125,8 @@ void RegisterWidget::onMsgHandle(const QString& msg)
         const int id = m_ptree.get<int>("UserId");
         if (registerResult == true)
         {
-            const QString tmp = QString::fromLocal8Bit("×¢²á³É¹¦,ÄúµÄidÎª") + QString::number(id) + QString::fromLocal8Bit("ÇëÀÎ¼Ç");
-            switch (QMessageBox::information(this, QString::fromLocal8Bit("×¢²á½á¹û"),
+            const QString tmp = QString::fromLocal8Bit("æ³¨å†ŒæˆåŠŸ,æ‚¨çš„idä¸º") + QString::number(id) + QString::fromLocal8Bit("è¯·ç‰¢è®°");
+            switch (QMessageBox::information(this, QString::fromLocal8Bit("æ³¨å†Œç»“æžœ"),
                 tmp, QMessageBox::Ok),0)
             {
             case 0:
@@ -141,8 +141,8 @@ void RegisterWidget::onMsgHandle(const QString& msg)
         }
         else
         {
-            QMessageBox::warning(this, QString::fromLocal8Bit("×¢²áÊ§°Ü"),
-                QString::fromLocal8Bit("Î´ÄÜ³É¹¦×¢²á£¬ÇëÔÙ´Î³¢ÊÔ"),
+            QMessageBox::warning(this, QString::fromLocal8Bit("æ³¨å†Œå¤±è´¥"),
+                QString::fromLocal8Bit("æœªèƒ½æˆåŠŸæ³¨å†Œï¼Œè¯·å†æ¬¡å°è¯•"),
                 QMessageBox::Ok);
         }
     }
@@ -150,8 +150,8 @@ void RegisterWidget::onMsgHandle(const QString& msg)
 
 void RegisterWidget::onSignalConnectedFailed()
 {
-    QMessageBox::warning(this, QString::fromLocal8Bit("ÎÞ·¨Á¬½Ó·þÎñÆ÷"),
-        QString::fromLocal8Bit("Î´ÄÜÓë·þÎñÆ÷½¨Á¢Á¬½Ó£¬Çëµ÷ÕûÍøÂçºóÖØÊÔ"),
+    QMessageBox::warning(this, QString::fromLocal8Bit("æ— æ³•è¿žæŽ¥æœåŠ¡å™¨"),
+        QString::fromLocal8Bit("æœªèƒ½ä¸ŽæœåŠ¡å™¨å»ºç«‹è¿žæŽ¥ï¼Œè¯·è°ƒæ•´ç½‘ç»œåŽé‡è¯•"),
         QMessageBox::Ok);
 }
 
@@ -170,7 +170,7 @@ void RegisterWidget::initUi()
     ui->label->setVisible(false);
     ui->label_2->setVisible(false);
     setWindowFlag(Qt::WindowStaysOnTopHint);
-    setWindowTitle("×¢²á");
+    setWindowTitle("æ³¨å†Œ");
 }
 
 RegisterWidget::~RegisterWidget()

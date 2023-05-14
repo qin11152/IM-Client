@@ -1,4 +1,4 @@
-#include "GroupChatManager.h"
+﻿#include "GroupChatManager.h"
 
 GroupChatManager::GroupChatManager(QObject *parent)
 	: QObject(parent)

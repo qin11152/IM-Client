@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 /////
-///Ò»¸öÄÜ¹»ÔÚ×ÓÏß³ÌÖĞ²Ù×÷Êı¾İ¿âµÄÀà£¬µ±ÓĞĞ©ºÄÊ±Êı¾İ¿âµÄ²Ù×÷ĞèÒªÔÚ×ÓÏß³ÌÖĞ½øĞĞÊ±£¬¿ÉÒÔÊ¹ÓÃ´ËÀà
+///ä¸€ä¸ªèƒ½å¤Ÿåœ¨å­çº¿ç¨‹ä¸­æ“ä½œæ•°æ®åº“çš„ç±»ï¼Œå½“æœ‰äº›è€—æ—¶æ•°æ®åº“çš„æ“ä½œéœ€è¦åœ¨å­çº¿ç¨‹ä¸­è¿›è¡Œæ—¶ï¼Œå¯ä»¥ä½¿ç”¨æ­¤ç±»
 ///
 
 #include "module/stdafx.h"
@@ -22,38 +22,38 @@ public:
 
 
     void setLastChatQML(QObject* ptr) { m_ptrLastChatQML = ptr; }
-    //Éè¶¨Ïß³Ì²Ù×÷µÄÀàĞÍ
+    //è®¾å®šçº¿ç¨‹æ“ä½œçš„ç±»å‹
     void setOperateType(const DatabaseOperateType& operateType);
-    //Éè¶¨µ±Ç°µÇÂ¼ÓÃ»§µÄid
+    //è®¾å®šå½“å‰ç™»å½•ç”¨æˆ·çš„id
     void setCurUserId(const QString& curId = "");
-    //³õÊ¼»¯Á¬½ÓµÈ²Ù×÷
+    //åˆå§‹åŒ–è¿æ¥ç­‰æ“ä½œ
     void init();
-    //Éè¶¨×îĞÂµÄlastchatÁĞ±í
+    //è®¾å®šæœ€æ–°çš„lastchatåˆ—è¡¨
     void setLastChatList(QStringList& lastChatList);
 
 protected:
     void run()override;
 
 private:
-    //ÅĞ¶Ï±íÊÇ·ñ´æÔÚ
+    //åˆ¤æ–­è¡¨æ˜¯å¦å­˜åœ¨
     bool isTableExist(const QString& tableName)const;
-    //´´½¨lastchat±í
+    //åˆ›å»ºlastchatè¡¨
     bool createLastChat()const;
-    //Çå¿Õlastchat±í
+    //æ¸…ç©ºlastchatè¡¨
     bool clearLastChat() const;
-    //ÏòlastchatÖĞ²åÈë¼ÇÂ¼
+    //å‘lastchatä¸­æ’å…¥è®°å½•
     bool insertLastChat(const QString& id)const;
-    //»ñÈ¡×îĞÂµÄlastchatË³Ğò
+    //è·å–æœ€æ–°çš„lastchaté¡ºåº
     void getLastChatOrder(QStringList& modelOrder)const;
 
 private:
     QObject* m_ptrLastChatQML{ nullptr };
-    //ÓÃÀ´Ö¸¶¨Ïß³Ì²Ù×÷Ê±Ö´ĞĞÄÄÒ»ÖÖ²Ù×÷
+    //ç”¨æ¥æŒ‡å®šçº¿ç¨‹æ“ä½œæ—¶æ‰§è¡Œå“ªä¸€ç§æ“ä½œ
     DatabaseOperateType m_threadOperateType{ DatabaseOperateType::None };
-    //Êı¾İ¿â³ÉÔ±
+    //æ•°æ®åº“æˆå‘˜
     QSqlDatabase m_dataBase;
-    //µ±Ç°µÇÂ¼ÓÃ»§µÄid
+    //å½“å‰ç™»å½•ç”¨æˆ·çš„id
     QString m_strCurrentUserId{ "" };
-    //×îĞÂµÄlastchatÁĞ±í
+    //æœ€æ–°çš„lastchatåˆ—è¡¨
     QStringList m_lastChatList;
 };

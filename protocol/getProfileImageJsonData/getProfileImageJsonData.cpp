@@ -1,4 +1,4 @@
-#include "getProfileImageJsonData.h"
+﻿#include "getProfileImageJsonData.h"
 
 namespace protocol
 {

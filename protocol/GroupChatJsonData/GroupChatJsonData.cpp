@@ -1,4 +1,4 @@
-#include "GroupChatJsonData.h"
+﻿#include "GroupChatJsonData.h"
 
 namespace protocol
 {

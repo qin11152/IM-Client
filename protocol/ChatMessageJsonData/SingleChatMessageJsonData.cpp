@@ -1,4 +1,4 @@
-#include "SingleChatMessageJsonData.h"
+﻿#include "SingleChatMessageJsonData.h"
 
 namespace protocol
 {

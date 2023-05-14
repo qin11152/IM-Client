@@ -1,4 +1,4 @@
-#include "../JsonBaseData.h"
+﻿#include "../JsonBaseData.h"
 
 namespace protocol
 {

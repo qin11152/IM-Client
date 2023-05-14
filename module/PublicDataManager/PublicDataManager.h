@@ -1,4 +1,4 @@
-//ËùÓĞ¹«¹²µÄÊı¾İ£¨ÈçidµÈ£©¶¼´æ´¢ÔÚÕâ£¬ĞèÒªµÄÊ±ºò´ÓÕâÀïµ÷ÓÃ£¬µ¥Àı
+ï»¿//æ‰€æœ‰å…¬å…±çš„æ•°æ®ï¼ˆå¦‚idç­‰ï¼‰éƒ½å­˜å‚¨åœ¨è¿™ï¼Œéœ€è¦çš„æ—¶å€™ä»è¿™é‡Œè°ƒç”¨ï¼Œå•ä¾‹
 
 #pragma once
 #include "module/stdafx.h"
@@ -20,7 +20,7 @@ public:
     QString getMyName()const;
     CurrentChatWidgetUserInfo getCurrentChatWidgetUserInfo()const;
 
-    //¸ù¾İid»ñÈ¡ÓÃ»§ĞÅÏ¢
+    //æ ¹æ®idè·å–ç”¨æˆ·ä¿¡æ¯
     MyFriendInfoWithFirstC getFriendInfoAcordId(const QString& id);
 
     void setMyFriendInfoWithC(const std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
@@ -33,10 +33,10 @@ public:
     void setIdDirPath(const QString& path);
     void setImagePath(const QString& path);
     /**
-     * brief£ººÃÓÑÍ·ÏñĞŞ¸ÄºóÒª½«ÆäÔÚvecÖĞµÄÍ·ÏñÂ·¾¶ĞŞ¸ÄÒ»ÏÂ.
+     * briefï¼šå¥½å‹å¤´åƒä¿®æ”¹åè¦å°†å…¶åœ¨vecä¸­çš„å¤´åƒè·¯å¾„ä¿®æ”¹ä¸€ä¸‹.
      * 
-     * \param id£ººÃÓÑid
-     * \param path£ººÃÓÑÍ·ÏñµÄÂ·¾¶
+     * \param idï¼šå¥½å‹id
+     * \param pathï¼šå¥½å‹å¤´åƒçš„è·¯å¾„
      */
     void updateProfileImagePathOfFriendInfoVec(const QString& id, const QString& path);
     void clearUnreadMsg(const QString& id);
@@ -45,9 +45,9 @@ public:
     QString getImagePath()const;
 
     /**
-     * brief£ºµ±Ìí¼ÓÁËºÃÓÑÒÔºóÌí¼Óµ½vecÖĞ.
+     * briefï¼šå½“æ·»åŠ äº†å¥½å‹ä»¥åæ·»åŠ åˆ°vecä¸­.
      * 
-     * \param friendInfo£ºĞÂÌí¼ÓµÄºÃÓÑµÄĞÅÏ¢
+     * \param friendInfoï¼šæ–°æ·»åŠ çš„å¥½å‹çš„ä¿¡æ¯
      */
     void addFriendInfoWithC(const MyFriendInfoWithFirstC& friendInfo);
 
@@ -57,15 +57,15 @@ private:
     QString m_strId{ "" };
     QString m_strName{ "" };
     QString m_strImagePath{ "" };
-    //×Ô¼ºÍ·ÏñµÄÊ±¼ä´Á
+    //è‡ªå·±å¤´åƒçš„æ—¶é—´æˆ³
     QString m_strMyImageTimeStamp{ "" };
-    QString m_strIdDirPath{ "" };   //×Ô¼ºidËùÔÚµÄÎÄ¼ş¼ĞÂ·¾¶
+    QString m_strIdDirPath{ "" };   //è‡ªå·±idæ‰€åœ¨çš„æ–‡ä»¶å¤¹è·¯å¾„
 
-    std::unordered_map<QString, int> m_mapUnreadMsgCnt;     //¼ÇÂ¼²»Í¬id¶ÔÓ¦µÄÎ´¶ÁÏûÏ¢
-    std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;    //´æ´¢ºÃÓÑĞÅÏ¢£¬´øÊ××ÖÄ¸£¬Õâ¸öÊÇ´Ó·şÎñÆ÷µÃµ½µÄ£¬ÓĞ¾ßÌåĞÅÏ¢
-    std::vector<MyFriendInfoForStartGroupChat> m_vecFriendInfoForStartGroupChat;    //ºÃÓÑĞÅÏ¢£¬ÓÃÓÚ·¢ÆğÈºÁÄ
-    std::unordered_map<QString, int> m_mapUserInfo;     //´æ´¢ºÃÓÑidºÍ¸ÃidÔÚvecÖĞ¶ÔÓ¦µÄÎ»ÖÃ£¬ÒÔ±ã²éÕÒĞÅÏ¢
-    std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //ÉÏ´ÎÁÄÌìÒ³ÃæÀïµÄºÃÓÑ,Õâ¸öÊÇ´ÓÊı¾İ¿âµÃµ½µÄË³Ğò£¬Ö»ÓĞid²»°üº¬ÆäËûĞÅÏ¢
-    CurrentChatWidgetUserInfo m_stuCurrentChatUserInfo;     //µ±Ç°ÁÄÌì½çÃæÖĞµÄÏà¹ØĞÅÏ¢£¨ÁÄÌì¼ÇÂ¼ÊıÁ¿£¬ÓÃ»§id£©
+    std::unordered_map<QString, int> m_mapUnreadMsgCnt;     //è®°å½•ä¸åŒidå¯¹åº”çš„æœªè¯»æ¶ˆæ¯
+    std::vector<MyFriendInfoWithFirstC> m_vecFriendInfoWithC;    //å­˜å‚¨å¥½å‹ä¿¡æ¯ï¼Œå¸¦é¦–å­—æ¯ï¼Œè¿™ä¸ªæ˜¯ä»æœåŠ¡å™¨å¾—åˆ°çš„ï¼Œæœ‰å…·ä½“ä¿¡æ¯
+    std::vector<MyFriendInfoForStartGroupChat> m_vecFriendInfoForStartGroupChat;    //å¥½å‹ä¿¡æ¯ï¼Œç”¨äºå‘èµ·ç¾¤èŠ
+    std::unordered_map<QString, int> m_mapUserInfo;     //å­˜å‚¨å¥½å‹idå’Œè¯¥idåœ¨vecä¸­å¯¹åº”çš„ä½ç½®ï¼Œä»¥ä¾¿æŸ¥æ‰¾ä¿¡æ¯
+    std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //ä¸Šæ¬¡èŠå¤©é¡µé¢é‡Œçš„å¥½å‹,è¿™ä¸ªæ˜¯ä»æ•°æ®åº“å¾—åˆ°çš„é¡ºåºï¼Œåªæœ‰idä¸åŒ…å«å…¶ä»–ä¿¡æ¯
+    CurrentChatWidgetUserInfo m_stuCurrentChatUserInfo;     //å½“å‰èŠå¤©ç•Œé¢ä¸­çš„ç›¸å…³ä¿¡æ¯ï¼ˆèŠå¤©è®°å½•æ•°é‡ï¼Œç”¨æˆ·idï¼‰
 };
 

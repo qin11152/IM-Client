@@ -1,5 +1,5 @@
-#include "NotifyLabel.h"
-#include <QDesktopWidget>
+ï»¿#include "NotifyLabel.h"
+#include <QScreen>
 #include <QApplication>
 
 constexpr int kDefaultWidth = 800;
@@ -11,10 +11,12 @@ NotifyLabel::NotifyLabel(QWidget *parent)
     
     if (!parent)
     {
-        QDesktopWidget* desktopWidget = QApplication::desktop();
-        QRect screenRect = desktopWidget->screenGeometry();
+
+        QRect screenRect = QGuiApplication::primaryScreen()->geometry();
+        //èŽ·å–è®¾å¤‡åƒç´ æ¯”
+        double devicePixelRatio = QGuiApplication::primaryScreen()->devicePixelRatio();
         int screenWidth = screenRect.width();
-        int screenHeight = screenRect.height();
+        int screenHeight = screenRect.height();        
         m_rect = QRect((screenWidth - kDefaultWidth) / 2, screenHeight - kDefaultHeight, kDefaultWidth, kDefaultHeight);
     }
     else
@@ -52,11 +54,11 @@ void NotifyLabel::showNotify()
         m_timer = new QTimer(this);
     }
     setGeometry(m_rect);
-    //qt¸ù¾Ý¸ß¶ÈÉèÖÃ×ÖÌå´óÐ¡
+    //qtæ ¹æ®é«˜åº¦è®¾ç½®å­—ä½“å¤§å°
     QFont font = this->font();
     font.setPixelSize(m_rect.height() * 0.4);
     setFont(font);
-    //qtÉèÖÃlabelÑùÊ½±í£¬Ô²½Ç¾ØÐÎ£¬×ÖÌåºìÉ«£¬×ÖÌå¾ÓÖÐ
+    //qtè®¾ç½®labelæ ·å¼è¡¨ï¼Œåœ†è§’çŸ©å½¢ï¼Œå­—ä½“çº¢è‰²ï¼Œå­—ä½“å±…ä¸­
     setStyleSheet(QString("QLabel{border-radius:%1px;background-color:rgb(119, 221, 255);color:rgb(255, 0, 0);}").arg(m_rect.height() / 2));
 
     upateLabelRollingState();
@@ -87,11 +89,15 @@ void NotifyLabel::setShowTime(const int interval)
     m_iTimerInterval = interval;
 }
 
-//ÅÐ¶ÏlabelÖÐµÄÎÄ±¾ÊÇ·ñÐèÒªÅÜÂíµÆÏÔÊ¾
+//åˆ¤æ–­labelä¸­çš„æ–‡æœ¬æ˜¯å¦éœ€è¦è·‘é©¬ç¯æ˜¾ç¤º
 void NotifyLabel::upateLabelRollingState()
 {
     QFontMetrics fm(font());
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+    int textWidth = fm.horizontalAdvance(text());
+#else
     int textWidth = fm.width(text());
+#endif
     if (textWidth > m_rect.width())
     {
         m_scrollTimer->start();

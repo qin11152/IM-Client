@@ -1,4 +1,4 @@
-#include "AddFriendResponseJsonData.h"
+﻿#include "AddFriendResponseJsonData.h"
 
 namespace protocol
 {

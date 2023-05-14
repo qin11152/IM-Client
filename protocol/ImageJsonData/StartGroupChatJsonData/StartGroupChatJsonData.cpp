@@ -1,4 +1,4 @@
-#include "StartGroupChatJsonData.h"
+ï»¿#include "StartGroupChatJsonData.h"
 
 namespace protocol
 {
@@ -23,7 +23,7 @@ namespace protocol
 		m_strGroupName = m_ptree.get<std::string>("GroupName");
 		m_strGuid = "";
 		m_strStarterId = m_ptree.get<std::string>("StartId");
-		//´ÓjsonÊı×éÖĞÌáÈ¡gruopchatid
+		//ä»jsonæ•°ç»„ä¸­æå–gruopchatid
 		for (auto& item : m_ptree.get_child("GroupChatId"))
 		{
 			m_vecGroupChat.push_back(item.second.get_value<std::string>());
@@ -32,7 +32,7 @@ namespace protocol
 
 	std::string StartGroupChatInnerData::generateJson()
 	{
-		//rapisjsonÉú³Éjson
+		//rapisjsonç”Ÿæˆjson
 		StringBuffer strbuf;
 		Writer<rapidjson::StringBuffer> writer(strbuf);
 
@@ -88,7 +88,7 @@ namespace protocol
 
 	std::string StartGroupJsonData::generateJson()
 	{
-		//rapisjsonÉú³Éjson
+		//rapisjsonç”Ÿæˆjson
 		StringBuffer strbuf;
 		Writer<rapidjson::StringBuffer> writer(strbuf);
 

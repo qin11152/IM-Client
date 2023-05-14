@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 #include "module/ThreadPool/ThreadPool.h"
@@ -14,14 +14,14 @@ namespace Base
     namespace image
     {
         /**
-         * brief£º»æÖÆ¾Å¹¬¸ñÑùÊ½µÄÈºÍ·Ïñ.
+         * briefï¼šç»˜åˆ¶ä¹å®«æ ¼æ ·å¼çš„ç¾¤å¤´åƒ.
          * 
-         * int cnt£ºÈº³ÉÔ±ÊıÁ¿
+         * int cntï¼šç¾¤æˆå‘˜æ•°é‡
          */
         QImage generateGridImage(int cnt, std::vector<std::string>& vecFriendImagePath);
     }
 
-    //½«Ê±¼ä°´ÕÕÖ¸¶¨¸ñÊ½Êä³öÎª×Ö·û´®
+    //å°†æ—¶é—´æŒ‰ç…§æŒ‡å®šæ ¼å¼è¾“å‡ºä¸ºå­—ç¬¦ä¸²
     std::string timeToString(const std::string& format = "%Y-%m-%d %H:%M:%S");
 }
 

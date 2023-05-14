@@ -1,4 +1,4 @@
-#include "LogInWidget.h"
+ï»¿#include "LogInWidget.h"
 //#include "../../module/TCPConnect/TCPConnect.h"
 #include "../../protocol/LoginInJsonData/LoginInJsonData.h"
 #include "protocol/LoginInReplyData/LoginInReplyData.h"
@@ -12,7 +12,7 @@ LogInWidget::LogInWidget(QWidget* parent)
     ui.setupUi(this);
     m_ptrRegisterWidget = new RegisterWidget();
     ui.passwordLineEdit->setAttribute(Qt::WA_InputMethodEnabled, false);
-    setWindowTitle(QString::fromLocal8Bit("qÎ¢ĞÅ"));
+    setWindowTitle(QString::fromLocal8Bit("qå¾®ä¿¡"));
     TCPThread::get_mutable_instance().start();
     initConnection();
 }
@@ -24,7 +24,7 @@ LogInWidget::~LogInWidget()
         TCPThread::get_mutable_instance().quit();
     }
     Sleep(100);
-    //Îö¹¹µô×¢²áÒ³ÃæÖ¸Õë
+    //ææ„æ‰æ³¨å†Œé¡µé¢æŒ‡é’ˆ
     if (m_ptrRegisterWidget != nullptr)
     {
         delete m_ptrRegisterWidget;
@@ -35,14 +35,14 @@ LogInWidget::~LogInWidget()
 void LogInWidget::onRegisterButtonClicked()
 {
     showMinimized();
-    //Èç¹ûÃ»´´½¨£¬¾Í´´½¨×¢²á½çÃæ²¢ÏÔÊ¾
+    //å¦‚æœæ²¡åˆ›å»ºï¼Œå°±åˆ›å»ºæ³¨å†Œç•Œé¢å¹¶æ˜¾ç¤º
     if (m_ptrRegisterWidget == nullptr)
     {
         m_ptrRegisterWidget = new RegisterWidget();
-        //ÒÆ¶¯µ½ÖĞĞÄÎ»ÖÃ
+        //ç§»åŠ¨åˆ°ä¸­å¿ƒä½ç½®
         m_ptrRegisterWidget->showNormal();
     }
-    //´´½¨¹ı¾ÍÖ±½ÓÏÔÊ¾
+    //åˆ›å»ºè¿‡å°±ç›´æ¥æ˜¾ç¤º
     else
     {
         m_ptrRegisterWidget->cleanLineEdit();
@@ -73,25 +73,25 @@ void LogInWidget::onRegisterFinished()
 
 void LogInWidget::onSignalLoginResultRecv(const QString& msg)
 {
-    //ÏÈ½âÎöÊı¾İ
+    //å…ˆè§£ææ•°æ®
     protocol::LoginInReplyData loginReplyData(msg.toStdString());
-    //Èç¹ûµÇÂ¼³É¹¦
+    //å¦‚æœç™»å½•æˆåŠŸ
     if (loginReplyData.m_bLoginInResult)
     {
-        //´ò¿ª¶ÔÓ¦µÄÁÄÌì½çÃæ
+        //æ‰“å¼€å¯¹åº”çš„èŠå¤©ç•Œé¢
         auto ptrChatWidget = new ChatWidget(m_strUserId, QString::fromStdString(loginReplyData.m_strUserName));
-        //¸Ã½çÃæÒş²Ø,Ò»»áºóÎö¹¹
+        //è¯¥ç•Œé¢éšè—,ä¸€ä¼šåææ„
         isLogin = true;
         hide();
         close();
-        //ÁÄÌì½çÃæÏÔÊ¾
+        //èŠå¤©ç•Œé¢æ˜¾ç¤º
         ptrChatWidget->show();
     }
     else
-    //µÇÂ½Ê§°Ü´¦Àí
+    //ç™»é™†å¤±è´¥å¤„ç†
     {
-        QMessageBox::warning(this, QString::fromLocal8Bit("µÇÂ¼Ê§°Ü"),
-                             QString::fromLocal8Bit("ÃÜÂë´íÎó£¬ÇëÔÙ´Î³¢ÊÔ"),
+        QMessageBox::warning(this, QString::fromLocal8Bit("ç™»å½•å¤±è´¥"),
+                             QString::fromLocal8Bit("å¯†ç é”™è¯¯ï¼Œè¯·å†æ¬¡å°è¯•"),
                              QMessageBox::Ok);
     }
 }

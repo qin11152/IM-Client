@@ -16,7 +16,7 @@
 
 #include <QDir>
 #include <ctime>
-#include <QSound>
+#include <QSoundEffect>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QPushButton>
@@ -519,7 +519,7 @@ void ChatWidget::initUi()
 
 	//把实际的聊天界面添加到stackwid中，和每个人聊天都用这个wid
 	m_ptrChatMessageWid = new MyChatMessageQuickWid();
-	m_ptrChatMessageWid->setSource(QUrl(QStringLiteral("qrc:/QML/QML/chatMessage.qml")));
+	m_ptrChatMessageWid->setSource(QUrl(("qrc:/QML/QML/chatMessage.qml")));
 	m_ptrChatMessageWid->setRootObj();
 	m_ptrChatMessageWid->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
 	m_ptrChatMessageWid->setClearColor(QColor(238, 238, 238));
@@ -528,7 +528,7 @@ void ChatWidget::initUi()
 
 
 	//上次聊天列表设置qml文件
-	m_ptrLastChatWidget->setSource(QUrl(QStringLiteral("qrc:/QML/QML/LastChatList.qml")));
+	m_ptrLastChatWidget->setSource(QUrl("qrc:/QML/QML/LastChatList.qml"));
 	m_ptrLastChatWidget->setResizeMode(QQuickWidget::ResizeMode::SizeRootObjectToView);
 	//得到根对象
 	m_ptrLastChatQMLRoot = reinterpret_cast<QObject*>(m_ptrLastChatWidget->rootObject());

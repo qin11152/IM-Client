@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define BOOST_BIND_GLOBAL_PLACEHOLDERS
 #define coid void;
 #include <QObject>
@@ -66,29 +66,29 @@ enum class ImageMessageType
 };
 
 /**
- * brief£º¸ù¾İ²»Í¬µÄĞèÇóÀ´´«µİÍ·Ïñ£¬×ö³ö²»Í¬´¦Àí.
+ * briefï¼šæ ¹æ®ä¸åŒçš„éœ€æ±‚æ¥ä¼ é€’å¤´åƒï¼Œåšå‡ºä¸åŒå¤„ç†.
  */
 enum class ProfileImageType
 {
-	UpdateProfileImage=0,       //ÒªÇó¸üĞÂÍ·Ïñ
-	AddFriendProfileImage,      //Ìí¼ÓºÃÓÑÊ±´«ËÍµÄÍ·Ïñ
+	UpdateProfileImage=0,       //è¦æ±‚æ›´æ–°å¤´åƒ
+	AddFriendProfileImage,      //æ·»åŠ å¥½å‹æ—¶ä¼ é€çš„å¤´åƒ
 };
 
 enum class UserRoleDefine
 {
-	//Ìí¼ÓºÃÓÑÄ£ĞÍÖĞÊ¹ÓÃ
+	//æ·»åŠ å¥½å‹æ¨¡å‹ä¸­ä½¿ç”¨
 	AddFriendName = Qt::UserRole + 1,
 	AddFriendImagePath = Qt::UserRole + 2,
 	AddFriednVerifyInfo = Qt::UserRole + 3,
 	AddFriendValid = Qt::UserRole + 4,
 	AddFriendId = Qt::UserRole + 5,
 
-	//ºÃÓÑÁĞ±íÖĞÊ¹ÓÃ
+	//å¥½å‹åˆ—è¡¨ä¸­ä½¿ç”¨
 	FriendListId = Qt::UserRole + 6,
 	FriendListName = Qt::UserRole + 7,
 	FriendListImagePath = Qt::UserRole + 8,
 	
-	//Ñ¡ÔñºÃÓÑ·¢ÆğÈºÁÄÁĞ±íÖĞÊÇ·ñÎªÑ¡ÖĞ×´Ì¬
+	//é€‰æ‹©å¥½å‹å‘èµ·ç¾¤èŠåˆ—è¡¨ä¸­æ˜¯å¦ä¸ºé€‰ä¸­çŠ¶æ€
 	ChooseFriendIsSelected = Qt::UserRole + 9,
 };
 
@@ -120,7 +120,7 @@ public:
 	std::string m_strImagePath{ "qrc:///LogInWidget/image/lv.jpg" };
 	std::string m_strId{""};
 	std::string m_strFirstChacter{""};
-	//Í·ÏñµÄÊ±¼ä´Á£¬Èç¹û²»Í¬ËµÃ÷ĞŞ¸Ä¹ıÁË£¬¾ÍÖØĞÂ»ñÈ¡Ò»ÏÂÍ·Ïñ
+	//å¤´åƒçš„æ—¶é—´æˆ³ï¼Œå¦‚æœä¸åŒè¯´æ˜ä¿®æ”¹è¿‡äº†ï¼Œå°±é‡æ–°è·å–ä¸€ä¸‹å¤´åƒ
 	std::string m_strImageTimestamp{ "" };
 
 	/*MyFriendInfoWithFirstC(std::string name, std::string imagePath, std::string id, std::string firstC, )
@@ -145,9 +145,9 @@ public:
 class FriendInfo
 {
 public:
-	std::string m_strFriendId{ "" };      //ºÃÓÑµÄid
-	std::string m_strFriendName{ "" };     //ºÃÓÑµÄêÇ³Æ
-	std::string m_strFriendImageTimeStamp{ "" };    //ºÃÓÑÍ·ÏñÊ±¼ä´Á
+	std::string m_strFriendId{ "" };      //å¥½å‹çš„id
+	std::string m_strFriendName{ "" };     //å¥½å‹çš„æ˜µç§°
+	std::string m_strFriendImageTimeStamp{ "" };    //å¥½å‹å¤´åƒæ—¶é—´æˆ³
 };
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
@@ -195,21 +195,21 @@ public:
 
 struct AddFriendInfo
 {
-	QString m_strId{ "" };              //ºÃÓÑid
-	QString m_strFriendName{ "" };      //ºÃÓÑµÄÃû×Ö
-	QString m_strProfileImagePath{ "" };//ºÃÓÑÍ·ÏñµÄÂ·¾¶
-	QString m_strVerifyInfo{ "" };      //ºÃÓÑµÄÑéÖ¤ÏûÏ¢
-	bool isValid{ false };              //ÊÇ·ñÒÑ¾­¼ÓÁËºÃÓÑ
+	QString m_strId{ "" };              //å¥½å‹id
+	QString m_strFriendName{ "" };      //å¥½å‹çš„åå­—
+	QString m_strProfileImagePath{ "" };//å¥½å‹å¤´åƒçš„è·¯å¾„
+	QString m_strVerifyInfo{ "" };      //å¥½å‹çš„éªŒè¯æ¶ˆæ¯
+	bool isValid{ false };              //æ˜¯å¦å·²ç»åŠ äº†å¥½å‹
 };
 
 /**
- * brief µ±Ç°ÁÄÌì½çÃæÖĞµÄÁÄÌìÏà¹ØĞÅÏ¢
+ * brief å½“å‰èŠå¤©ç•Œé¢ä¸­çš„èŠå¤©ç›¸å…³ä¿¡æ¯
  */
 struct CurrentChatWidgetUserInfo
 {
-	//µ±Ç°½çÃæÖĞµÄÁÄÌì¼ÇÂ¼ÊıÁ¿
+	//å½“å‰ç•Œé¢ä¸­çš„èŠå¤©è®°å½•æ•°é‡
 	int recordCount;
-	//µ±Ç°ÁÄÌì½çÃæÖĞÁÄÌìÈËµÄid
+	//å½“å‰èŠå¤©ç•Œé¢ä¸­èŠå¤©äººçš„id
 	std::string userId;
 
 	CurrentChatWidgetUserInfo(int cnt = 10, std::string id = "0")
@@ -219,7 +219,7 @@ struct CurrentChatWidgetUserInfo
 	}
 };
 /************************************************************************/
-/* ¹«¹²º¯Êı                                                                     */
+/* å…¬å…±å‡½æ•°                                                                     */
 /************************************************************************/
 
 

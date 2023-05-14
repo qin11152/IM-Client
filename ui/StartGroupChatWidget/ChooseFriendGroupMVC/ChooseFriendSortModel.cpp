@@ -1,4 +1,4 @@
-#include "ChooseFriendSortModel.h"
+ï»¿#include "ChooseFriendSortModel.h"
 
 ChooseFriendSortModel::ChooseFriendSortModel(QObject *parent)
 	: QSortFilterProxyModel(parent)
@@ -18,20 +18,20 @@ bool ChooseFriendSortModel::filterAcceptsRow(int source_row, const QModelIndex& 
 	if (0 < m_mapFilter.size())
 	{
 		bool bMatch = false;
-		//¸ù¾İĞĞ¡¢ÁĞºÍ¸¸¶ÔÏó»ñÈ¡Ä£ĞÍÖĞµÄÊı¾İ
-		//ÒòÎªÔÚÉ¸Ñ¡ĞĞ£¬ËùÒÔÁĞÎª0
+		//æ ¹æ®è¡Œã€åˆ—å’Œçˆ¶å¯¹è±¡è·å–æ¨¡å‹ä¸­çš„æ•°æ®
+		//å› ä¸ºåœ¨ç­›é€‰è¡Œï¼Œæ‰€ä»¥åˆ—ä¸º0
 		QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
 		for (auto& filterItem : m_mapFilter)
 		{
 			QVariant rule = filterItem.second;
 			QVariant mode = sourceIndex.data(filterItem.first);
-			//ËÑË÷¿òÊäÈëµÄÃû×Ö
+			//æœç´¢æ¡†è¾“å…¥çš„åå­—
 			auto filterStr = filterItem.second.toString();
-			//Ä£ĞÍÖĞÕâ¸öÈËµÄÃû×Ö
+			//æ¨¡å‹ä¸­è¿™ä¸ªäººçš„åå­—
 			auto nameOfModel = sourceIndex.data(filterItem.first).toString();
 			nameOfModel = Base::PinYin::convertToPinYin(nameOfModel);
 			//qDebug() << "filter:" << filterStr << "name:" << nameOfModel;
-			//Èç¹û°üº¬ËÑË÷µÄÕâ¸öÄÚÈİ¾ÍÈÏÎªËÑË÷³É¹¦
+			//å¦‚æœåŒ…å«æœç´¢çš„è¿™ä¸ªå†…å®¹å°±è®¤ä¸ºæœç´¢æˆåŠŸ
 			if (nameOfModel.contains(filterStr))
 			{
 				bMatch = true;

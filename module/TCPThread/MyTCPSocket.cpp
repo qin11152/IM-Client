@@ -1,4 +1,4 @@
-#include "MyTCPSocket.h"
+ï»¿#include "MyTCPSocket.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
 
@@ -14,7 +14,7 @@ MyTCPSocket::~MyTCPSocket()
 
 void MyTCPSocket::sendMsg(const std::string& msg)
 {
-    //utf8±àÂë
+    //utf8ç¼–ç 
     int length = msg.length();
     PackageHead head;
     memcpy(head.flagBit, "&q*b", 4);
@@ -32,11 +32,11 @@ void MyTCPSocket::sendMsg(const std::string& msg)
 
 void MyTCPSocket::sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix, const QString& timeStamp)
 {
-    //Éú³Éuuid±íÃ÷Õâ¸öÍ¼Æ¬µÄÎ¨Ò»ĞÔ
+    //ç”Ÿæˆuuidè¡¨æ˜è¿™ä¸ªå›¾ç‰‡çš„å”¯ä¸€æ€§
     QString strUUID = QUuid::createUuid().toString();
-    //Èç¹ûÍ¼Æ¬ĞÅÏ¢µÄ³¤¶È´óÓÚĞèÒª·ÖÆ¬µÄ³¤¶È£¬Ôò·ÖÆ¬·¢ËÍ
+    //å¦‚æœå›¾ç‰‡ä¿¡æ¯çš„é•¿åº¦å¤§äºéœ€è¦åˆ†ç‰‡çš„é•¿åº¦ï¼Œåˆ™åˆ†ç‰‡å‘é€
     int iNeedSlice = strBase64Image.length() / kSegmentLength;
-    //Èç¹û²»ÊÇÕû³ı£¬ĞèÒªµÄÆ¬Êı+1
+    //å¦‚æœä¸æ˜¯æ•´é™¤ï¼Œéœ€è¦çš„ç‰‡æ•°+1
     if (0 != strBase64Image.length() % kSegmentLength)
     {
         iNeedSlice++;
@@ -87,7 +87,7 @@ void MyTCPSocket::sendImage(const QString& filePath, const QString& jsonMsgOfIma
         sends += write(jsonMsgOfImage.toStdString().c_str(), jsonMsgOfImage.length());
     }
 
-    //¶ÁÈ¡Í¼Æ¬ÎÄ¼ş²¢·¢ËÍ³öÈ¥
+    //è¯»å–å›¾ç‰‡æ–‡ä»¶å¹¶å‘é€å‡ºå»
     char* imageBuf=new char[size];
     fread(imageBuf, size, 1, fp);
     fclose(fp);
@@ -130,7 +130,7 @@ void MyTCPSocket::sendJsonWithImage(const QString& strBase64Image, const QString
 void MyTCPSocket::connectHost()
 {
     connectToHost(kHostIp, kHostPort);
-    //Èç¹ûÁ¬½Ó²»ÉÏ£¬¾Í·¢³öĞÅºÅ¸æËß¿Í»§¶Ë
+    //å¦‚æœè¿æ¥ä¸ä¸Šï¼Œå°±å‘å‡ºä¿¡å·å‘Šè¯‰å®¢æˆ·ç«¯
     if (!waitForConnected(7000))
     {
         emit signalConnectResult(false);

@@ -1,4 +1,4 @@
-#include "PublicFunction.h"
+ï»¿#include "PublicFunction.h"
 #include "PinYInTable.h"
 #include <QDir>
 #include <QDateTime>
@@ -25,12 +25,12 @@ namespace Base
 				int unicode = QString::number(chinese.at(i).unicode(), 10).toInt();
 				if (unicode >= 0x4E00 && unicode <= 0x9FA5)
 				{
-					//ÕâÀïµÄUnicode_Table¾ÍÊÇ°´ÕÕUNICODEÃ¿¸öÖĞÎÄ¶ÔÓ¦µÄÆ´ÒôÊı×é;
+					//è¿™é‡Œçš„Unicode_Tableå°±æ˜¯æŒ‰ç…§UNICODEæ¯ä¸ªä¸­æ–‡å¯¹åº”çš„æ‹¼éŸ³æ•°ç»„;
 					pinyins.append(Unicode_Table[unicode - 0x4E00]);
 				}
 				else
 				{
-					//ÕâÀï²»ÊÇÖĞÎÄ£¬ÎÒÃÇ²»×öÈÎºÎ´¦Àí£¬±£Áô;
+					//è¿™é‡Œä¸æ˜¯ä¸­æ–‡ï¼Œæˆ‘ä»¬ä¸åšä»»ä½•å¤„ç†ï¼Œä¿ç•™;
 					pinyins.append(chinese.at(i));
 				}
 				//pinyins.append(" ");
@@ -39,7 +39,7 @@ namespace Base
 		}
 	}
 
-	//Ê¹ÓÃput_time£¬°´ÕÕ¸ñÊ½ÒªÇó½«Ê±¼ä×ª»»Îª×Ö·û´®
+	//ä½¿ç”¨put_timeï¼ŒæŒ‰ç…§æ ¼å¼è¦æ±‚å°†æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²
 	std::string timeToString(const std::string& format)
 	{
 		std::time_t t = std::time(nullptr);
@@ -59,13 +59,13 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 			item = item.substr(3);
 		}
 	}
-	//¸ù¾İºÃÓÑÍ·ÏñÂ·¾¶vecµÄ´óĞ¡
+	//æ ¹æ®å¥½å‹å¤´åƒè·¯å¾„vecçš„å¤§å°
 	QImage image(500, 500, QImage::Format_ARGB32);
 	switch (cnt)
 	{
 	case 3:
 	{
-		//»æÖÆÒ»¸ö50¡Á50µÄÍ¼Æ¬£¬°´ÕÕvecÖĞµÄÂ·¾¶£¬µÚÒ»¸öÔÚµÚÒ»ĞĞ¾ÓÖĞ£¬µÚ¶şÈı¸öÔÚµÚ¶şĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50Ã—50çš„å›¾ç‰‡ï¼ŒæŒ‰ç…§vecä¸­çš„è·¯å¾„ï¼Œç¬¬ä¸€ä¸ªåœ¨ç¬¬ä¸€è¡Œå±…ä¸­ï¼Œç¬¬äºŒä¸‰ä¸ªåœ¨ç¬¬äºŒè¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -78,7 +78,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 4:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,Á½ĞĞÁ½ÁĞ£¬Ç°Á½¸öÔÚµÚÒ»ĞĞ£¬ºóÁ½¸öÔÚµÚ¶şĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸¤è¡Œä¸¤åˆ—ï¼Œå‰ä¸¤ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œåä¸¤ä¸ªåœ¨ç¬¬äºŒè¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -91,7 +91,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 5:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,Á½ĞĞÈıÁĞ£¬Ç°Á½¸öÔÚµÚÒ»ĞĞ£¬ºóÈı¸öÔÚµÚ¶şĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸¤è¡Œä¸‰åˆ—ï¼Œå‰ä¸¤ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œåä¸‰ä¸ªåœ¨ç¬¬äºŒè¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -105,7 +105,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 6:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,Á½ĞĞÈıÁĞ£¬Ç°Èı¸öÔÚµÚÒ»ĞĞ£¬ºóÈı¸öÔÚµÚ¶şĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸¤è¡Œä¸‰åˆ—ï¼Œå‰ä¸‰ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œåä¸‰ä¸ªåœ¨ç¬¬äºŒè¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -120,7 +120,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 7:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,ÈıĞĞÈıÁĞ£¬µÚÒ»¸öÔÚµÚÒ»ĞĞ£¬µÚ¶şµ½ËÄ¸öÔÚµÚ¶şĞĞ£¬×îºóÈı¸öÔÚµÚÈıĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸‰è¡Œä¸‰åˆ—ï¼Œç¬¬ä¸€ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œç¬¬äºŒåˆ°å››ä¸ªåœ¨ç¬¬äºŒè¡Œï¼Œæœ€åä¸‰ä¸ªåœ¨ç¬¬ä¸‰è¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -136,7 +136,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 8:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,ÈıĞĞÈıÁĞ£¬Ç°Á½¸öÔÚµÚÒ»ĞĞ£¬µÚÈıµ½Îå¸öÔÚµÚ¶şĞĞ£¬×îºóÈı¸öÔÚµÚÈıĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸‰è¡Œä¸‰åˆ—ï¼Œå‰ä¸¤ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œç¬¬ä¸‰åˆ°äº”ä¸ªåœ¨ç¬¬äºŒè¡Œï¼Œæœ€åä¸‰ä¸ªåœ¨ç¬¬ä¸‰è¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);
@@ -153,7 +153,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 	break;
 	case 9:
 	{
-		//»æÖÆÒ»¸ö50*50µÄÍ¼Æ¬,ÈıĞĞÈıÁĞ£¬Ç°Èı¸öÔÚµÚÒ»ĞĞ£¬µÚËÄµ½Áù¸öÔÚµÚ¶şĞĞ£¬×îºóÈı¸öÔÚµÚÈıĞĞ
+		//ç»˜åˆ¶ä¸€ä¸ª50*50çš„å›¾ç‰‡,ä¸‰è¡Œä¸‰åˆ—ï¼Œå‰ä¸‰ä¸ªåœ¨ç¬¬ä¸€è¡Œï¼Œç¬¬å››åˆ°å…­ä¸ªåœ¨ç¬¬äºŒè¡Œï¼Œæœ€åä¸‰ä¸ªåœ¨ç¬¬ä¸‰è¡Œ
 		image.fill(Qt::transparent);
 		QPainter painter(&image);
 		painter.setRenderHint(QPainter::Antialiasing, true);

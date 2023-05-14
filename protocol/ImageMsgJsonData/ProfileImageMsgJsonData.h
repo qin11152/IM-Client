@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../JsonBaseData.h"
 
@@ -12,14 +12,14 @@ namespace protocol
         std::string generateJson()override;
 
         std::string m_strId{ "" };
-        std::string m_strUUID{ "" };        //Î¨Ò»±êÊ¶£¬±íÃ÷ÊÇÕâ¸öÍ¼Æ¬
-        std::string m_strBase64Msg{ "" };   //»ùÓÚBASE64±àÂëµÄÍ¼Æ¬ĞÅÏ¢
-        std::string m_strImageName{ "" };   //Í¼Æ¬µÄÃû³Æ
-        std::string m_strSuffix{ "" };      //Í¼Æ¬ºó×ºÀàĞÍ
-        std::string m_strTimeStamp{ "" };   //Ê±¼ä´Á,·¢ËÍµ½·şÎñ¶Ë¾Í²»Ò»ÑùÁË£¬ËùÒÔÒ»²¢·¢ËÍ¹ıÈ¥
-        int m_iCurIndex{ 0 };               //µ±Ç°´¦ÓÚ·ÖµÄµÚ¼¸¶Î
-        int m_iSumIndex{ 0 };               //×Ü¹²·ÖÁË¼¸¶Î
-        ProfileImageType m_eImageType{ ProfileImageType::UpdateProfileImage };  //´«µİÍ·ÏñµÄĞèÇó
+        std::string m_strUUID{ "" };        //å”¯ä¸€æ ‡è¯†ï¼Œè¡¨æ˜æ˜¯è¿™ä¸ªå›¾ç‰‡
+        std::string m_strBase64Msg{ "" };   //åŸºäºBASE64ç¼–ç çš„å›¾ç‰‡ä¿¡æ¯
+        std::string m_strImageName{ "" };   //å›¾ç‰‡çš„åç§°
+        std::string m_strSuffix{ "" };      //å›¾ç‰‡åç¼€ç±»å‹
+        std::string m_strTimeStamp{ "" };   //æ—¶é—´æˆ³,å‘é€åˆ°æœåŠ¡ç«¯å°±ä¸ä¸€æ ·äº†ï¼Œæ‰€ä»¥ä¸€å¹¶å‘é€è¿‡å»
+        int m_iCurIndex{ 0 };               //å½“å‰å¤„äºåˆ†çš„ç¬¬å‡ æ®µ
+        int m_iSumIndex{ 0 };               //æ€»å…±åˆ†äº†å‡ æ®µ
+        ProfileImageType m_eImageType{ ProfileImageType::UpdateProfileImage };  //ä¼ é€’å¤´åƒçš„éœ€æ±‚
 
         MessageType m_strType{ MessageType::ProfileImageMsg };
     };

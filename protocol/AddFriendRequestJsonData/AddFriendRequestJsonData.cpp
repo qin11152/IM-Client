@@ -1,4 +1,4 @@
-#include "AddFriendRequestJsonData.h"
+﻿#include "AddFriendRequestJsonData.h"
 
 namespace protocol
 {

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "protocol/ImageJsonData/ImageJsonDataBase.h"
 
@@ -29,6 +29,6 @@ namespace protocol
 		void parse(const std::string& message)override;
 		std::string generateJson()override;
 
-		StartGroupChatInnerData m_stInnerData;   //ÄÚ²¿¿É°üº¬Ò»²ãÊı¾İ£¬¿ÉÎª¿Õ
+		StartGroupChatInnerData m_stInnerData;   //å†…éƒ¨å¯åŒ…å«ä¸€å±‚æ•°æ®ï¼Œå¯ä¸ºç©º
 	};
 }

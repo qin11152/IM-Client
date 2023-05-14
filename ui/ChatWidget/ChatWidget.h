@@ -1,5 +1,5 @@
-/************************************************************************/
-/*ÁÄÌìÖ÷½çÃæ£¬¼´ÓÃ»§µÇÂ¼ºó½øĞĞÁÄÌìµÈ²Ù×÷µÄ½çÃæ£¬Ò²ÊÇ×îÎªÖØÒªµÄ½çÃæ 
+ï»¿/************************************************************************/
+/*èŠå¤©ä¸»ç•Œé¢ï¼Œå³ç”¨æˆ·ç™»å½•åè¿›è¡ŒèŠå¤©ç­‰æ“ä½œçš„ç•Œé¢ï¼Œä¹Ÿæ˜¯æœ€ä¸ºé‡è¦çš„ç•Œé¢ 
 */
 /************************************************************************/
 
@@ -27,7 +27,7 @@ namespace Ui
 
 
 /**
- * brief: ÁÄÌì½çÃæÖĞµÄ¼¸¸öwidget£¬°üÀ¨¿ÕµÄ½çÃæ£¬Ìí¼ÓºÃÓÑµÄ½çÃæºÍÁÄÌì½çÃæ.
+ * brief: èŠå¤©ç•Œé¢ä¸­çš„å‡ ä¸ªwidgetï¼ŒåŒ…æ‹¬ç©ºçš„ç•Œé¢ï¼Œæ·»åŠ å¥½å‹çš„ç•Œé¢å’ŒèŠå¤©ç•Œé¢.
  */
 enum ChatStackedWidgetCommonWidget
 {
@@ -47,126 +47,126 @@ public:
 	ChatWidget& operator=(const ChatWidget& l) = delete;
 	MyChatMessageQuickWid* getChatMsgWidAcordId(QString id);
 
-	//ÏñÉÏ´ÎÁÄÌìÁĞ±íÖĞÌí¼ÓÒ»¸öĞÂµÄ£¬Ò»°ãÊÇÌí¼ÓÁËĞÂµÄºÃÓÑµÄÊ±ºòµ÷ÓÃ
+	//åƒä¸Šæ¬¡èŠå¤©åˆ—è¡¨ä¸­æ·»åŠ ä¸€ä¸ªæ–°çš„ï¼Œä¸€èˆ¬æ˜¯æ·»åŠ äº†æ–°çš„å¥½å‹çš„æ—¶å€™è°ƒç”¨
 	void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
 
 protected slots:
-	//ÊÂ¼ş¹ıÂËÆ÷µÄÖØÔØ
+	//äº‹ä»¶è¿‡æ»¤å™¨çš„é‡è½½
 	bool eventFilter(QObject* watched, QEvent* event)override;
-	//×îĞ¡»¯ÊÂ¼ş
+	//æœ€å°åŒ–äº‹ä»¶
 	void changeEvent(QEvent* event)override;
 
 private slots:
-	//manager´¦ÀíºÃÓÑÁĞ±íÍê±Ï
+	//managerå¤„ç†å¥½å‹åˆ—è¡¨å®Œæ¯•
 	void initFriendList();
 	/**
-	 * brief.³õÊ¼»¯´Ëid¶ÔÓ¦µÄÁÄÌì½çÃæ£¬Èç¹ûÓĞÊ®Ìõ¾ÍÌí¼ÓÊ®ÌõÁÄÌì¼ÇÂ¼£¬Ã»ÓĞ¾ÍÓĞ¼¸ÌõÌí¼Ó¼¸Ìõ
+	 * brief.åˆå§‹åŒ–æ­¤idå¯¹åº”çš„èŠå¤©ç•Œé¢ï¼Œå¦‚æœæœ‰åæ¡å°±æ·»åŠ åæ¡èŠå¤©è®°å½•ï¼Œæ²¡æœ‰å°±æœ‰å‡ æ¡æ·»åŠ å‡ æ¡
 	 * 
-	 * \param lastChatInfo£ºĞÕÃûºÍid
+	 * \param lastChatInfoï¼šå§“åå’Œid
 	 */
 	void initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo);
-	//³õÊ¼»¯ÉÏ´ÎÁÄÌìÁĞ±í
+	//åˆå§‹åŒ–ä¸Šæ¬¡èŠå¤©åˆ—è¡¨
 	void initLastChatList();
-	//³õÊ¼»¯ÁÄÌì½çÃæ
+	//åˆå§‹åŒ–èŠå¤©ç•Œé¢
 	void initAllChatWid();
-	//³õÊ¼»¯Ìí¼ÓºÃÓÑ½çÃæ
+	//åˆå§‹åŒ–æ·»åŠ å¥½å‹ç•Œé¢
 	void initAddFriendWid();
 
-	//¶Ô»°¿ò»òÎÄ±¾ÊäÈë¿ò»ñµÃÁË½¹µã
+	//å¯¹è¯æ¡†æˆ–æ–‡æœ¬è¾“å…¥æ¡†è·å¾—äº†ç„¦ç‚¹
 	void onSignalTextOrChatFocusIn(bool isFocus);
 
-	//ËÑË÷ÊäÈë¿ò½¹µã±ä»¯
+	//æœç´¢è¾“å…¥æ¡†ç„¦ç‚¹å˜åŒ–
 	void onSignalSearchTextLoseFocus(bool isFocus);
 
 	/**
-	 * brief£ºËÑË÷ÏûÏ¢¿òÖĞµÄÄÚÈİ·¢ÉúÁË±ä»¯.
+	 * briefï¼šæœç´¢æ¶ˆæ¯æ¡†ä¸­çš„å†…å®¹å‘ç”Ÿäº†å˜åŒ–.
 	 * 
-	 * \param searchMsg£ºËÑË÷µÄÄÚÈİ
+	 * \param searchMsgï¼šæœç´¢çš„å†…å®¹
 	 */
 	void onSignalSearchTextChange(const QString& searchMsg);
 
-	//·¢ËÍÏûÏ¢°´Å¥±»µã»÷ºó
+	//å‘é€æ¶ˆæ¯æŒ‰é’®è¢«ç‚¹å‡»å
 	void onSignalSendMessage();
-	//ÉÏ´ÎÁÄÌìÁĞ±í±»µã»÷ºó
+	//ä¸Šæ¬¡èŠå¤©åˆ—è¡¨è¢«ç‚¹å‡»å
 	void onSignalLastChatItemClicked(const QString strId, const QString strName);
-	//ºÃÓÑÁĞ±í±»µã»÷
+	//å¥½å‹åˆ—è¡¨è¢«ç‚¹å‡»
 	void onSignalFriendListItemClicked(QString strId,QString name);
-	//µ×²¿ÍĞÅÌ±»µã»÷ºó
+	//åº•éƒ¨æ‰˜ç›˜è¢«ç‚¹å‡»å
 	void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
-	//ËÑË÷ºÃÓÑÒ³ÃæÍ·Ïñµã»÷
+	//æœç´¢å¥½å‹é¡µé¢å¤´åƒç‚¹å‡»
 	void onSignalSearchFriendProfileImageClicked(const QString id, const QString& name);
 
-	//ÊÕµ½ºÃÓÑÁÄÌìÏûÏ¢ºó
+	//æ”¶åˆ°å¥½å‹èŠå¤©æ¶ˆæ¯å
 	void onSignalSingleChatMessage(const QString& chatMessage);
-	//ÊÕµ½ºÃÓÑÁĞ±íÏûÏ¢
+	//æ”¶åˆ°å¥½å‹åˆ—è¡¨æ¶ˆæ¯
 	void onSignalRecvFriendList(const QString& friendList);
-	//ÓĞºÃÓÑÍ¬ÒâÁËºÃÓÑÇëÇó
+	//æœ‰å¥½å‹åŒæ„äº†å¥½å‹è¯·æ±‚
 	void onSignalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
-	//ÏòºÃÓÑÁĞ±íÖĞÌí¼ÓºÃÓÑ
+	//å‘å¥½å‹åˆ—è¡¨ä¸­æ·»åŠ å¥½å‹
 	void onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo);
 
-	//µã»÷²à±ßÀ¸»á»°°´Å¥
+	//ç‚¹å‡»ä¾§è¾¹æ ä¼šè¯æŒ‰é’®
 	void onSignalChatBtn();
-	//µã»÷×ó²àÍ¨Ñ¶Â¼°´Å¥
+	//ç‚¹å‡»å·¦ä¾§é€šè®¯å½•æŒ‰é’®
 	void onSignalFriendListBtn();
-	//µã»÷²à±ßÀ¸Ìí¼ÓºÃÓÑ°´Å¥
+	//ç‚¹å‡»ä¾§è¾¹æ æ·»åŠ å¥½å‹æŒ‰é’®
 	void onSignalAddFriendBtn();
-	//µã»÷²à±ßÀ¸Í·Ïñ°´Å¥
+	//ç‚¹å‡»ä¾§è¾¹æ å¤´åƒæŒ‰é’®
 	void onSignalSideBarProfileImageBtn();
 
-	//ºÍÄ³¸öºÃÓÑµÄÁÄÌìÒ³ÃæÒªÇóË¢ĞÂ½çÃæ£¬Ò²¾ÍÊÇÒªÇóÔö¼ÓÁÄÌì¼ÇÂ¼
+	//å’ŒæŸä¸ªå¥½å‹çš„èŠå¤©é¡µé¢è¦æ±‚åˆ·æ–°ç•Œé¢ï¼Œä¹Ÿå°±æ˜¯è¦æ±‚å¢åŠ èŠå¤©è®°å½•
 	void onSignalUpdateChatMessage(const QString id);
-	//ÉèÖÃºìÉ«ÌáÊ¾ÏÔÊ¾²¢´«µİÕıÈ·µÄÊıÁ¿
+	//è®¾ç½®çº¢è‰²æç¤ºæ˜¾ç¤ºå¹¶ä¼ é€’æ­£ç¡®çš„æ•°é‡
 	void onSignalSetRedRectangleShow(const QString& id)const;
-	//µã»÷ºóÈ¡ÏûºìÉ«ÏûÏ¢ÌáÊ¾¿ò
+	//ç‚¹å‡»åå–æ¶ˆçº¢è‰²æ¶ˆæ¯æç¤ºæ¡†
 	void onSignalHideRedRectangleInLastChat(const QString id);
 
-	//°´ÕÕÊ××ÖÄ¸µÄÓ¢ÎÄ¶ÔºÃÓÑÁĞ±íÅÅĞò
+	//æŒ‰ç…§é¦–å­—æ¯çš„è‹±æ–‡å¯¹å¥½å‹åˆ—è¡¨æ’åº
 	void onSortFriendList();
-	//Ë¢ĞÂ½çÃæÖĞµÄºÃÓÑÁĞ±í
+	//åˆ·æ–°ç•Œé¢ä¸­çš„å¥½å‹åˆ—è¡¨
 	void onUpdateFriendListUI()const;
-	//QML½çÃæÍ¨ÖªÉÏ´ÎÁÄÌì½çÃæĞèÒªĞ´ÈëÊı¾İ¿â
+	//QMLç•Œé¢é€šçŸ¥ä¸Šæ¬¡èŠå¤©ç•Œé¢éœ€è¦å†™å…¥æ•°æ®åº“
 	void onSignalNeedUpdateLastChat()const;
-	//QMLÒ³ÃæÍ¨Öª´ò¿ªÍ·ÏñÔ¤ÀÀ
+	//QMLé¡µé¢é€šçŸ¥æ‰“å¼€å¤´åƒé¢„è§ˆ
 	void onSignalChatWidProfileImageClicked(const QString id);
 
-	//ĞèÒªµ×²¿À¸ÉÁË¸²Ûº¯Êı
+	//éœ€è¦åº•éƒ¨æ é—ªçƒæ§½å‡½æ•°
 	void onSignalTrayIconTwinkle(const bool bNeed);
-	//ÉÁË¸¶¨Ê±Æ÷µ½Ê±
+	//é—ªçƒå®šæ—¶å™¨åˆ°æ—¶
 	void onSignalIconTwinkleTimerout();
 
 	/**
-	 * brief£ºĞŞ¸Ä²à±ßÀ¸ÖĞÍ·Ïñ.
+	 * briefï¼šä¿®æ”¹ä¾§è¾¹æ ä¸­å¤´åƒ.
 	 * 
-	 * \param strImage£º´«ÈëµÄÍ·ÏñÂ·¾¶
+	 * \param strImageï¼šä¼ å…¥çš„å¤´åƒè·¯å¾„
 	 */
 	void setProfileImage(const QString& strImage);
 	/**
-	 * brief:ÒªÇó´ò¿ªÍ·ÏñÔ¤ÀÀ¡¢¸ü¸Ä½çÃæ.
+	 * brief:è¦æ±‚æ‰“å¼€å¤´åƒé¢„è§ˆã€æ›´æ”¹ç•Œé¢.
 	 * 
-	 * \param id£º´«ÈëµÄid£¬¸ù¾İidÏÔÊ¾¶ÔÓ¦µÄÍ·Ïñ£¬Èç¹ûidÊÇ×Ô¼ºµÄÔòÓĞĞŞ¸Ä°´Å¥
+	 * \param idï¼šä¼ å…¥çš„idï¼Œæ ¹æ®idæ˜¾ç¤ºå¯¹åº”çš„å¤´åƒï¼Œå¦‚æœidæ˜¯è‡ªå·±çš„åˆ™æœ‰ä¿®æ”¹æŒ‰é’®
 	 */
 	void onSignalChatWidOpenProfileImagePreview(const int id);
 	/**
-	 * brief£ºĞŞ¸ÄÁË×Ô¼ºÍ·ÏñÂ·¾¶ºóÒª¸üĞÂÁÄÌì½çÃæºÍ×óÉÏ½ÇÍ·Ïñ½çÃæ.
+	 * briefï¼šä¿®æ”¹äº†è‡ªå·±å¤´åƒè·¯å¾„åè¦æ›´æ–°èŠå¤©ç•Œé¢å’Œå·¦ä¸Šè§’å¤´åƒç•Œé¢.
 	 * 
-	 * \param imagePath£ºĞŞ¸ÄºóµÄÍ·ÏñÂ·¾¶
+	 * \param imagePathï¼šä¿®æ”¹åçš„å¤´åƒè·¯å¾„
 	 */
 	void onSignalProfileImageChanged(const QString& id, const QString& imagePath);
 
 	/**
-	 * brief:ºÃÓÑµÄÍ·ÏñĞŞ¸ÄÁËÒÔºó¾Í¸üĞÂÒ»ÏÂlastchat£¬Friendlist£¬²¢²é¿´ÊÇ²»ÊÇºÍËûÁÄÌìÄØ£¬ÊÇ¾Í°ÑchatwidgetÒ²¸üĞÂÒ»ÏÂ.
+	 * brief:å¥½å‹çš„å¤´åƒä¿®æ”¹äº†ä»¥åå°±æ›´æ–°ä¸€ä¸‹lastchatï¼ŒFriendlistï¼Œå¹¶æŸ¥çœ‹æ˜¯ä¸æ˜¯å’Œä»–èŠå¤©å‘¢ï¼Œæ˜¯å°±æŠŠchatwidgetä¹Ÿæ›´æ–°ä¸€ä¸‹.
 	 * 
-	 * \param id£ººÃÓÑid
-	 * \param imagePath£ººÃÓÑĞÂÍ·ÏñÂ·¾¶
+	 * \param idï¼šå¥½å‹id
+	 * \param imagePathï¼šå¥½å‹æ–°å¤´åƒè·¯å¾„
 	 */
 	void onSignalFriendProfileImageChanged(const QString& id, const QString& imagePath)const;
 	
 	/**
-	 * brief£º·şÎñÆ÷ÍÆËÍÁËÒ»¸öÌí¼ÓÄãºÃÓÑµÄÈËµÄÍ·Ïñ£¬¸üĞÂµ½modelºÍÊı¾İ¿âÖĞ.
+	 * briefï¼šæœåŠ¡å™¨æ¨é€äº†ä¸€ä¸ªæ·»åŠ ä½ å¥½å‹çš„äººçš„å¤´åƒï¼Œæ›´æ–°åˆ°modelå’Œæ•°æ®åº“ä¸­.
 	 * 
-	 * \param id£ºid
-	 * \param imagePath£ºÍ·ÏñÂ·¾¶
+	 * \param idï¼šid
+	 * \param imagePathï¼šå¤´åƒè·¯å¾„
 	 */
 	void onSignalAddFriendProfileImage(const QString& id, const QString& imagePath)const;
 
@@ -174,12 +174,12 @@ private slots:
 
 private:
 	/**
-	 * brief£º³õÊ¼»¯½çÃæÏà¹ØµÄÊôĞÔ.
+	 * briefï¼šåˆå§‹åŒ–ç•Œé¢ç›¸å…³çš„å±æ€§.
 	 * 
 	 */
 	void initUi();
 	/**
-	 * brief:³õÊ¼»¯ĞÅºÅ²ÛÁ¬½Ó.
+	 * brief:åˆå§‹åŒ–ä¿¡å·æ§½è¿æ¥.
 	 * 
 	 */
 	void initConnect();
@@ -188,53 +188,53 @@ private:
 	// FullName:  ChatWidget::initData
 	// Access:    private 
 	// Returns:   void
-	// Qualifier: ½øÈëÁÄÌì½çÃæÒª½øĞĞ³õÊ¼»¯£¬»ñÈ¡Ò»Ğ©Êı¾İ
+	// Qualifier: è¿›å…¥èŠå¤©ç•Œé¢è¦è¿›è¡Œåˆå§‹åŒ–ï¼Œè·å–ä¸€äº›æ•°æ®
 	//************************************
 	void initData();
 	/**
-	 * brief:´Ó±¸·İÊı¾İ¿âÖĞ»ñÈ¡ÉÏ´ÎÁÄÌìÁĞ±í£¬ÒòÎªĞŞ¸ÄË³ĞòºóÊÇ×ÓÏß³Ì±£´æÔÚ±¸·İÊı¾İ¿âÖĞ.
+	 * brief:ä»å¤‡ä»½æ•°æ®åº“ä¸­è·å–ä¸Šæ¬¡èŠå¤©åˆ—è¡¨ï¼Œå› ä¸ºä¿®æ”¹é¡ºåºåæ˜¯å­çº¿ç¨‹ä¿å­˜åœ¨å¤‡ä»½æ•°æ®åº“ä¸­.
 	 * 
-	 * \param tmpOrder:»ñÈ¡µ½µÄÉÏ´ËÁÄÌìÊı¾İ
-	 * \param db ÒªÁ¬½ÓµÄÊı¾İ¿â
+	 * \param tmpOrder:è·å–åˆ°çš„ä¸Šæ­¤èŠå¤©æ•°æ®
+	 * \param db è¦è¿æ¥çš„æ•°æ®åº“
 	 */
 	void getLastChatFromBackup(std::vector<QString>& tmpOrder,QSqlDatabase& db);
 	/**
-	 * brief£ººÍ±¸·İÊı¾İ¿â½øĞĞÁ¬½Ó£¬±ãÓÚÖ®ºóµÄ×ÓÏß³Ì²Ù×÷.
+	 * briefï¼šå’Œå¤‡ä»½æ•°æ®åº“è¿›è¡Œè¿æ¥ï¼Œä¾¿äºä¹‹åçš„å­çº¿ç¨‹æ“ä½œ.
 	 * 
-	 * \param db ±¸·İÊı¾İ¿â
+	 * \param db å¤‡ä»½æ•°æ®åº“
 	 */
 	void connectToBackupDB(QSqlDatabase& db);
-	//ÓÃÍêÁË¾Í°ÑÁÙÊ±Êı¾İ¿â¶Ï¿ªÁ¬½Ó
+	//ç”¨å®Œäº†å°±æŠŠä¸´æ—¶æ•°æ®åº“æ–­å¼€è¿æ¥
 	void disConnectBackupDB(QSqlDatabase& db)const;
 
 	/**
-	 * brief£º½øÈëµ½ËÑË÷½çÃæºóÓĞ¶àÖÖÇé¿öÄÜ¹»»Øµ½ÉÏ´ÎÁÄÌì½çÃæ£¬·â×°³Éº¯Êı.
+	 * briefï¼šè¿›å…¥åˆ°æœç´¢ç•Œé¢åæœ‰å¤šç§æƒ…å†µèƒ½å¤Ÿå›åˆ°ä¸Šæ¬¡èŠå¤©ç•Œé¢ï¼Œå°è£…æˆå‡½æ•°.
 	 * 
 	 */
 	void convertFromSearchWid2LastChatWid()const;
 
 private:
 	Ui::ChatWidget *ui;
-	QObject* m_ptrLastChatQMLRoot{ nullptr }; //ÉÏ´ÎÁÄÌìqmlµÄ¸ù¶ÔÏó
-	QObject* m_ptrFriendListQMLRoot{ nullptr };//ºÃÓÑÁĞ±íqmlµÄ¸ù¶ÔÏó
-	QObject* m_ptrAddFriendQMLRoot{ nullptr };  //Ìí¼ÓºÃÓÑqml½çÃæµÄ¸ù¶ÔÏó
-	QTimer* m_ptrNullMessageTimer{ nullptr };   //¿ÕµÄÁÄÌì½çÃæ
-	QQuickWidget* m_ptrLastChatWidget{ nullptr }; //ÉÏ´ÎÁÄÌìÁĞ±í½çÃæ
-	QQuickWidget* m_ptrFriendListWidget{ nullptr }; //ºÃÓÑÁĞ±í½çÃæ
-	StartGroupChatWidget* m_ptrStartGroupChatWidget{ nullptr }; //´´½¨ÈºÁÄ½çÃæ
-	//QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //ÏÔÊ¾ÒÑÌí¼ÓºÍĞÂºÃÓÑÇëÇóµÄ½çÃæ
-	QQuickWidget* m_ptrSearchFriendList{ nullptr };//ËÑË÷ºÃÓÑÊ±ÏÔÊ¾µÄ½çÃæ
-	MyChatMessageQuickWid* m_ptrEmptyWid{ nullptr };     //¿ÕµÄ½çÃæ
-	QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //ÍĞÅÌÍ¼±ê
-	QTimer* m_ptrIconTwinkleTimer{ nullptr };   //ÍĞÅÌÍ¼±êÉÁË¸ÓÃ¶¨Ê±Æ÷
-	TrayIconState m_iTrayState{ TrayIconState::Normal };        //ÍĞÅÌÍ¼±êµÄ×´Ì¬£¬ÊÇ·ñÎªÉÁË¸
-	ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //Í·ÏñÔ¤ÀÀ´°¿Ú
-	MyChatMessageQuickWid* m_ptrChatMessageWid{ nullptr }; //Êµ¼ÊµÄÁÄÌì½çÃæ
-	AddFriendWidget* m_ptrAddFriendWid{ nullptr }; //Ìí¼ÓºÃÓÑ½çÃæ
-	MyFriendListModel* m_ptrSearchFriendModel{ nullptr };		//ËÑË÷ºÃÓÑÁĞ±ímodel
-	MyFriendListSortModel* m_ptrSearchFriendSortModel{ nullptr }; //ËÑË÷ºÃÓÑÁĞ±íÅÅĞòµÄmodel
+	QObject* m_ptrLastChatQMLRoot{ nullptr }; //ä¸Šæ¬¡èŠå¤©qmlçš„æ ¹å¯¹è±¡
+	QObject* m_ptrFriendListQMLRoot{ nullptr };//å¥½å‹åˆ—è¡¨qmlçš„æ ¹å¯¹è±¡
+	QObject* m_ptrAddFriendQMLRoot{ nullptr };  //æ·»åŠ å¥½å‹qmlç•Œé¢çš„æ ¹å¯¹è±¡
+	QTimer* m_ptrNullMessageTimer{ nullptr };   //ç©ºçš„èŠå¤©ç•Œé¢
+	QQuickWidget* m_ptrLastChatWidget{ nullptr }; //ä¸Šæ¬¡èŠå¤©åˆ—è¡¨ç•Œé¢
+	QQuickWidget* m_ptrFriendListWidget{ nullptr }; //å¥½å‹åˆ—è¡¨ç•Œé¢
+	StartGroupChatWidget* m_ptrStartGroupChatWidget{ nullptr }; //åˆ›å»ºç¾¤èŠç•Œé¢
+	//QQuickWidget* m_ptrNewFriendAndAreadyAddWidget{ nullptr };  //æ˜¾ç¤ºå·²æ·»åŠ å’Œæ–°å¥½å‹è¯·æ±‚çš„ç•Œé¢
+	QQuickWidget* m_ptrSearchFriendList{ nullptr };//æœç´¢å¥½å‹æ—¶æ˜¾ç¤ºçš„ç•Œé¢
+	MyChatMessageQuickWid* m_ptrEmptyWid{ nullptr };     //ç©ºçš„ç•Œé¢
+	QSystemTrayIcon* m_ptrTrayIcon{ nullptr };  //æ‰˜ç›˜å›¾æ ‡
+	QTimer* m_ptrIconTwinkleTimer{ nullptr };   //æ‰˜ç›˜å›¾æ ‡é—ªçƒç”¨å®šæ—¶å™¨
+	TrayIconState m_iTrayState{ TrayIconState::Normal };        //æ‰˜ç›˜å›¾æ ‡çš„çŠ¶æ€ï¼Œæ˜¯å¦ä¸ºé—ªçƒ
+	ProfileImagePreview* m_ptrProfileImagePreviewWid{ nullptr };     //å¤´åƒé¢„è§ˆçª—å£
+	MyChatMessageQuickWid* m_ptrChatMessageWid{ nullptr }; //å®é™…çš„èŠå¤©ç•Œé¢
+	AddFriendWidget* m_ptrAddFriendWid{ nullptr }; //æ·»åŠ å¥½å‹ç•Œé¢
+	MyFriendListModel* m_ptrSearchFriendModel{ nullptr };		//æœç´¢å¥½å‹åˆ—è¡¨model
+	MyFriendListSortModel* m_ptrSearchFriendSortModel{ nullptr }; //æœç´¢å¥½å‹åˆ—è¡¨æ’åºçš„model
 
-	//Õâ¸öÓÃ»§µÄid
+	//è¿™ä¸ªç”¨æˆ·çš„id
 	QString m_strUserId{""};
 	QString m_strUserName{ "" };
 	bool m_bLastChatInitFinished{ false };

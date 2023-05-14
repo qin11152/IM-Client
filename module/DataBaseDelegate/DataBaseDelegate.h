@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -13,76 +13,76 @@ class DataBaseDelegate : public QObject
     using SingletonPtr = std::shared_ptr<DataBaseDelegate>;
 
 public:
-    //µ¥ÀıÄ£Ê½»ñÈ¡¶ÔÏóÎ¨Ò»·½Ê½
+    //å•ä¾‹æ¨¡å¼è·å–å¯¹è±¡å”¯ä¸€æ–¹å¼
     static SingletonPtr Instance();
     ~DataBaseDelegate() override;
     DataBaseDelegate(DataBaseDelegate& l) = delete;
     DataBaseDelegate& operator=(DataBaseDelegate& l) = delete;
-    //ÎªÊı¾İ¿âÉèÖÃÓÃ»§µÄid
+    //ä¸ºæ•°æ®åº“è®¾ç½®ç”¨æˆ·çš„id
     void setUserId(const QString& id);
-    //¸ù¾İid»ñÈ¡ÁÄÌì¼ÇÂ¼ÊıÁ¿
+    //æ ¹æ®idè·å–èŠå¤©è®°å½•æ•°é‡
     Q_INVOKABLE int getChatRecordCountFromDB(const QString& id)const;
-    //´´½¨ÓëÄ³¸öÓÃ»§µÄÁÄÌì¼ÇÂ¼±í
+    //åˆ›å»ºä¸æŸä¸ªç”¨æˆ·çš„èŠå¤©è®°å½•è¡¨
     bool createUserChatTable(const QString& userid)const;
-    //´´½¨ÉÏ´ÎÁÄÌì±í
+    //åˆ›å»ºä¸Šæ¬¡èŠå¤©è¡¨
     bool createLastChatListTable()const;
-    //´´½¨Í·ÏñĞÅÏ¢±í
+    //åˆ›å»ºå¤´åƒä¿¡æ¯è¡¨
     bool createProfileImageTable()const;
-    //´´½¨ºÃÓÑÇëÇóµÄ±í
+    //åˆ›å»ºå¥½å‹è¯·æ±‚çš„è¡¨
     bool createFriendRequestTable()const;
-    //¸ù¾İid»ñÈ¡×îºóÒ»ÌõÁÄÌì¼ÇÂ¼
+    //æ ¹æ®idè·å–æœ€åä¸€æ¡èŠå¤©è®°å½•
     QString queryLastChatRecord(const QString& id)const;
-    //Ö»ÓĞid
+    //åªæœ‰id
     bool insertLastChat(const QString& id)const;
-    //²åÈëµ½ÉÏ´ÎÁÄÌì±íÖĞ
+    //æ’å…¥åˆ°ä¸Šæ¬¡èŠå¤©è¡¨ä¸­
     bool insertLastChat(const std::vector<QString>& order)const;
-    //Çå¿ÕÉÏ´ÎÁÄÌì±í
+    //æ¸…ç©ºä¸Šæ¬¡èŠå¤©è¡¨
     bool clearLastChat()const;
-    //²åÈëÁÄÌì¼ÇÂ¼
+    //æ’å…¥èŠå¤©è®°å½•
     bool insertChatRecoed(int TotalCount, const QString& userid, const QString& message, const QString& time,
                           bool isSelf, const QString& name)const;
-    //²åÈëÌí¼ÓºÃÓÑÇëÇó
+    //æ’å…¥æ·»åŠ å¥½å‹è¯·æ±‚
     bool insertAddFriendRequest(const QString& id, const QString& name, const QString& verifyMsg)const;
-    //²åÈëºÃÓÑÍ·ÏñÂ·¾¶ºÍÊ±¼ä´Á
+    //æ’å…¥å¥½å‹å¤´åƒè·¯å¾„å’Œæ—¶é—´æˆ³
     bool insertProfilePathAndTimestamp(const QString& id, const QString& path, const QString& timestamp)const;
-    //ÅĞ¶Ï±íÊÇ·ñ´æÔÚ
+    //åˆ¤æ–­è¡¨æ˜¯å¦å­˜åœ¨
     bool isTableExist(const QString& tableName)const;
-    //´ÓÊı¾İ¿âÖĞ²éÕÒ³öÉÏ´Î¹Ø±ÕÊ±µÄÁÄÌìÁĞ±í
+    //ä»æ•°æ®åº“ä¸­æŸ¥æ‰¾å‡ºä¸Šæ¬¡å…³é—­æ—¶çš„èŠå¤©åˆ—è¡¨
     bool queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>& m_tmpVec)const;
-    //¸ù¾İid²éÕÒÁÄÌì¼ÇÂ¼
+    //æ ¹æ®idæŸ¥æ‰¾èŠå¤©è®°å½•
     bool queryChatRecordAcodIdFromDB(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount,
                                      int beginPos)const;
     bool queryInitialAcordIdFromDB(const QString& id, QString& str)const;
-    //»ñÈ¡ºÃÓÑÇëÇóĞÅÏ¢£¬°üÀ¨ÒÑÌí¼ÓºÍÎ´Ìí¼Ó
+    //è·å–å¥½å‹è¯·æ±‚ä¿¡æ¯ï¼ŒåŒ…æ‹¬å·²æ·»åŠ å’Œæœªæ·»åŠ 
     bool queryAddFriendInfoFromDB(QString id, std::vector<MyAddFriendInfo>& addFriendInfo)const;
-    //¸ù¾İnameÈ¥²éÕÒºÃÓÑÇëÇó¶ÔÓ¦µÄid
+    //æ ¹æ®nameå»æŸ¥æ‰¾å¥½å‹è¯·æ±‚å¯¹åº”çš„id
     bool queryFriendRequestAcordName(const QString& name, QString& id)const;
-    //²éÑ¯ºÃÓÑÍ·ÏñÂ·¾¶
+    //æŸ¥è¯¢å¥½å‹å¤´åƒè·¯å¾„
     bool queryProfileImagePath(const QString& id, QString& path)const;
-    //²éÑ¯Í·Ïñ±íÖĞÕâ¸öidÊÇ·ñ´æÔÚ
+    //æŸ¥è¯¢å¤´åƒè¡¨ä¸­è¿™ä¸ªidæ˜¯å¦å­˜åœ¨
     bool queryIsIdExistInProfile(const QString& id)const;
-    //»ñÈ¡ËùÓĞºÃÓÑµÄÍ·ÏñÊ±¼ä´Á
+    //è·å–æ‰€æœ‰å¥½å‹çš„å¤´åƒæ—¶é—´æˆ³
     bool queryProfileTimeStamp(std::unordered_map<std::string, std::string>& mapTimeStamp)const;
-    //¸ù¾İname°ÑÏìÓ¦µÄºÃÓÑÇëÇóÖÃÎªtrue
+    //æ ¹æ®nameæŠŠå“åº”çš„å¥½å‹è¯·æ±‚ç½®ä¸ºtrue
     bool updateFriendRequestStateAcordId(const QString& id)const;
-    //¸üĞÂºÃÓÑÍ·ÏñÊ±¼ä´Á
+    //æ›´æ–°å¥½å‹å¤´åƒæ—¶é—´æˆ³
     bool updateFriendImageTimestamp(const QString& id,const QString& newInfo)const;
-    //¸üĞÂºÃÓÑÍ·ÏñÂ·¾¶
+    //æ›´æ–°å¥½å‹å¤´åƒè·¯å¾„
     bool updateProfileImagePath(const QString& id, const QString& path)const;
-    //¸üĞÂÍ·ÏñÂ·¾¶ºÍÊ±¼ä´Á
+    //æ›´æ–°å¤´åƒè·¯å¾„å’Œæ—¶é—´æˆ³
     bool updateProfilleImagePathAndTimeStamp(const QString& id, const QString& path, const QString& timeStamp)const;
-    //É¾³ı¹ıÆÚµÄºÃÓÑÇëÇó,ÕâÀï²ÉÓÃ30ÌìÎªÆÚÏŞ,ÎŞÂÛÊÇ·ñÍ¬Òâ¶¼É¾³ı
+    //åˆ é™¤è¿‡æœŸçš„å¥½å‹è¯·æ±‚,è¿™é‡Œé‡‡ç”¨30å¤©ä¸ºæœŸé™,æ— è®ºæ˜¯å¦åŒæ„éƒ½åˆ é™¤
     bool deleteExpiredFriendRequest()const;
-    //É¾³ılastchatÖĞµÄÄÚÈİ
+    //åˆ é™¤lastchatä¸­çš„å†…å®¹
     bool deleteLastChatInfo()const;
-    //³õÊ¼»¯Á¬½Ó£¬´´½¨¿â£¬±íµÈ
+    //åˆå§‹åŒ–è¿æ¥ï¼Œåˆ›å»ºåº“ï¼Œè¡¨ç­‰
     void init();
-    //¶Ï¿ªÁ¬½Ó
+    //æ–­å¼€è¿æ¥
     void disConnect();
     
 private:
     /**
-     * bref.³õÊ¼»¯Ïà¹ØÊı¾İ¿â£¬²é¿´ÓĞÃ»ÓĞÒ»Ğ©±ØĞèµÄ±í£¬Ã»ÓĞ¾Í´´½¨
+     * bref.åˆå§‹åŒ–ç›¸å…³æ•°æ®åº“ï¼ŒæŸ¥çœ‹æœ‰æ²¡æœ‰ä¸€äº›å¿…éœ€çš„è¡¨ï¼Œæ²¡æœ‰å°±åˆ›å»º
      * 
      */
     void initTables();
@@ -92,7 +92,7 @@ private:
     static std::mutex m_mutex;
     static SingletonPtr m_SingletonPtr;
     QSqlDatabase m_dataBase;
-    //Êı¾İ¿âÒ²Ó¦ÓÉidÀ´Ö¸¶¨£¬²»Í¬ÓÃ»§µÇÂ¼½¨Á¢²»Í¬Êı¾İ¿â
+    //æ•°æ®åº“ä¹Ÿåº”ç”±idæ¥æŒ‡å®šï¼Œä¸åŒç”¨æˆ·ç™»å½•å»ºç«‹ä¸åŒæ•°æ®åº“
     QString m_strUserId{""};
 
 };

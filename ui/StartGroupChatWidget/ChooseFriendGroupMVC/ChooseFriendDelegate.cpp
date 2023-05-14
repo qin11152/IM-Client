@@ -1,4 +1,4 @@
-#include "ChooseFriendDelegate.h"
+ï»¿#include "ChooseFriendDelegate.h"
 
 ChooseFriendDelegate::ChooseFriendDelegate(QObject *parent)
 	: QStyledItemDelegate(parent)
@@ -32,7 +32,7 @@ void ChooseFriendDelegate::paint(QPainter * painter, const QStyleOptionViewItem 
 	button.rect = checkBoxRect;
 	button.state |= QStyle::State_Enabled;
 
-	//Èç¹ûmodelÖĞÎªÑ¡ÖĞ×´Ì¬
+	//å¦‚æœmodelä¸­ä¸ºé€‰ä¸­çŠ¶æ€
 	if (isSelected)
 	{
 		button.state |= QStyle::State_On;

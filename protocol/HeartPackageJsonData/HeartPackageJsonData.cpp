@@ -1,4 +1,4 @@
-#include "HeartPackageJsonData.h"
+﻿#include "HeartPackageJsonData.h"
 
 namespace protocol
 {

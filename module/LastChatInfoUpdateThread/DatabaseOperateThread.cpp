@@ -1,4 +1,4 @@
-#include "module/Log/Log.h"
+ï»¿#include "module/Log/Log.h"
 #include "DatabaseOperateThread.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
@@ -12,7 +12,7 @@
 DatabaseOperateThread::DatabaseOperateThread(QObject *parent)
     : QThread(parent)
 {
-    //³õÊ¼»¯µÄÊ±ºò£¬ÏÈ°ÑÊı¾İ¿âÁ¬½Ó´ò¿ª
+    //åˆå§‹åŒ–çš„æ—¶å€™ï¼Œå…ˆæŠŠæ•°æ®åº“è¿æ¥æ‰“å¼€
 }
 
 void DatabaseOperateThread::setOperateType(const DatabaseOperateType& operateType)
@@ -27,19 +27,19 @@ void DatabaseOperateThread::setCurUserId(const QString& curId)
 
 void DatabaseOperateThread::init()
 {
-    //ÕâÀïÊ¹ÓÃµÄÊÇsqlite
+    //è¿™é‡Œä½¿ç”¨çš„æ˜¯sqlite
     m_dataBase = QSqlDatabase::addDatabase("QSQLITE","sqlite3");
-    //Ã»ÓĞÊı¾İ¿âÎÄ¼ş¼Ğ¾Í½¨Á¢Ò»¸öÎÄ¼ş¼Ğ
+    //æ²¡æœ‰æ•°æ®åº“æ–‡ä»¶å¤¹å°±å»ºç«‹ä¸€ä¸ªæ–‡ä»¶å¤¹
     const QString fileName = QApplication::applicationDirPath() + "/data";
     const QDir dir(fileName);
     if (!dir.exists())
     {
         if(!dir.mkdir(fileName))
         {
-           _LOG(Logcxx::Level::ERRORS,"´´½¨Êı¾İ¿âÎÄ¼ş¼ĞÊ§°Ü");
+           _LOG(Logcxx::Level::ERRORS,"åˆ›å»ºæ•°æ®åº“æ–‡ä»¶å¤¹å¤±è´¥");
         }
     }
-    //½¨Á¢Ò»¸ö¿â£¬Ã»ÓĞ¾Í½¨Á¢
+    //å»ºç«‹ä¸€ä¸ªåº“ï¼Œæ²¡æœ‰å°±å»ºç«‹
     const QString dataName = QApplication::applicationDirPath() + "/data/thread" + ".db";
     m_dataBase.setDatabaseName(dataName);
     if (!m_dataBase.open())
@@ -53,7 +53,7 @@ void DatabaseOperateThread::setLastChatList(QStringList& lastChatList)
     m_lastChatList = lastChatList;
 }
 
-//²éÑ¯Ä³¸ö±íÊÇ·ñ´æÔÚ
+//æŸ¥è¯¢æŸä¸ªè¡¨æ˜¯å¦å­˜åœ¨
 bool DatabaseOperateThread::isTableExist(const QString& tableName)const
 {
     QSqlQuery query(m_dataBase);
@@ -68,7 +68,7 @@ bool DatabaseOperateThread::isTableExist(const QString& tableName)const
     return false;
 }
 
-//´´ÔìÒ»¸ölastchat±í
+//åˆ›é€ ä¸€ä¸ªlastchatè¡¨
 bool DatabaseOperateThread::createLastChat()const
 {
     const QString str = "create table lastChatList" + m_strCurrentUserId + " (id int)";
@@ -122,11 +122,11 @@ void DatabaseOperateThread::run()
         break;
     case static_cast<int>(DatabaseOperateType::UpdateLastChat):
         {
-            //È»ºó»ñÈ¡µ±Ç°µÄË³Ğò
+            //ç„¶åè·å–å½“å‰çš„é¡ºåº
             //QStringList newModelOrder;
             //getLastChatOrder(newModelOrder);
-            //°ÑµÄË³Ğò´æÈë±íÖĞ
-            //ÏÈ¿´Ò»ÏÂ±íÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ£¬¾Í´´½¨Ò»¸ö±í
+            //æŠŠçš„é¡ºåºå­˜å…¥è¡¨ä¸­
+            //å…ˆçœ‹ä¸€ä¸‹è¡¨æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œå°±åˆ›å»ºä¸€ä¸ªè¡¨
             if(!isTableExist("lastchatlist" + m_strCurrentUserId))
             {
                 createLastChat();

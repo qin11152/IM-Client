@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -15,18 +15,18 @@ public:
     void setData(std::vector< AddFriendInfo>& addFriendInfo);
     
     /**
-     * brief£º¸ù¾İidĞŞ¸ÄmodelÖĞµÄ×´Ì¬.
+     * briefï¼šæ ¹æ®idä¿®æ”¹modelä¸­çš„çŠ¶æ€.
      * 
-     * \param id£ºid
-     * \param validState£ºÑéÖ¤×´Ì¬
+     * \param idï¼šid
+     * \param validStateï¼šéªŒè¯çŠ¶æ€
      */
     void updateModelValidState(const QString& id, bool validState);
 
     /**
-     * brief£º¸üĞÂÄ£ĞÍÖĞµÄÍ·ÏñÂ·¾¶.
+     * briefï¼šæ›´æ–°æ¨¡å‹ä¸­çš„å¤´åƒè·¯å¾„.
      * 
-     * \param id£ºid
-     * \param path£ºÍ·ÏñÂ·¾¶
+     * \param idï¼šid
+     * \param pathï¼šå¤´åƒè·¯å¾„
      */
     void updateModelImagePath(const QString& id, const QString& path);
 

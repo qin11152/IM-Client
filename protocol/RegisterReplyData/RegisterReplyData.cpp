@@ -1,4 +1,4 @@
-#include "RegisterReplyData.h"
+﻿#include "RegisterReplyData.h"
 
 namespace protocol
 {

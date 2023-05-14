@@ -1,4 +1,4 @@
-#include "AddedFriendModel.h"
+ï»¿#include "AddedFriendModel.h"
 
 AddedFriendModel::AddedFriendModel(QObject *parent)
 	: QAbstractListModel(parent)
@@ -12,7 +12,7 @@ AddedFriendModel::~AddedFriendModel()
 
 void AddedFriendModel::onStateChanged(const QString & id, bool newState)
 {
-	//Èç¹ûÎªtrue£¬¾ÍÊÇÑ¡ÖĞÁË£¬¾ÍÌí¼ÓÒ»ÏÂ
+	//å¦‚æœä¸ºtrueï¼Œå°±æ˜¯é€‰ä¸­äº†ï¼Œå°±æ·»åŠ ä¸€ä¸‹
 	if (newState)
 	{
 		auto friendInfo = PublicDataManager::get_mutable_instance().getFriendInfoAcordId(id);

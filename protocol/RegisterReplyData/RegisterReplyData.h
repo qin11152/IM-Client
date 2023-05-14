@@ -1,4 +1,4 @@
-#include "../JsonBaseData.h"
+ï»¿#include "../JsonBaseData.h"
 
 namespace protocol
 {
@@ -13,7 +13,7 @@ namespace protocol
         virtual std::string generateJson()override;
 
         bool m_bRegisterResult{ false };
-        //ÓÃ»§×¢²áºóµÃµ½µÄ×Ô¼ºµÄid
+        //ç”¨æˆ·æ³¨å†Œåå¾—åˆ°çš„è‡ªå·±çš„id
         int m_iId{ -1 };
         MessageType m_strType{ MessageType::RegisterResponse };
     };

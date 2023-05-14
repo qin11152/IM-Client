@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <QWidget>
 #include <QRegularExpression>
@@ -21,7 +21,7 @@ public:
 
 signals:
     void signalShowLoginInWidget();
-    //·¢ËÍÏûÏ¢ĞÅºÅ
+    //å‘é€æ¶ˆæ¯ä¿¡å·
     void signalSendMsg(std::string msg);
 
 protected:
@@ -29,23 +29,23 @@ protected:
 
 private slots:
     void onNickLineEditEditingFinished(const QString& text);
-    //µÚÒ»´ÎÊäÈëÍê£¬¼ì²éÊÇ·ñ·ûºÏÕıÔò±í´ïÊ½ÒªÇó£¬Èç¹ûµÚ¶şĞĞ²»Îª¿Õ£¬»¹Òª²é¿´Á½´ÎÊÇ·ñÏàÍ¬
+    //ç¬¬ä¸€æ¬¡è¾“å…¥å®Œï¼Œæ£€æŸ¥æ˜¯å¦ç¬¦åˆæ­£åˆ™è¡¨è¾¾å¼è¦æ±‚ï¼Œå¦‚æœç¬¬äºŒè¡Œä¸ä¸ºç©ºï¼Œè¿˜è¦æŸ¥çœ‹ä¸¤æ¬¡æ˜¯å¦ç›¸åŒ
     void onfirstPasswordLineEditEditingFinished(const QString&text);
-    //µÚ¶şĞĞÊäÈëÍê£¬¼ì²éÊÇ·ñÁ½´ÎÒ»ÖÂ
+    //ç¬¬äºŒè¡Œè¾“å…¥å®Œï¼Œæ£€æŸ¥æ˜¯å¦ä¸¤æ¬¡ä¸€è‡´
     void onsecondPasswordLineEditEditingFinished(const QString&text);
-    //µã»÷×¢²á°´Å¥£¬¼ì²éÊÇ·ñÄÜ¹»×¢²á£¬²»ĞĞ¾Í·µ»Ø
+    //ç‚¹å‡»æ³¨å†ŒæŒ‰é’®ï¼Œæ£€æŸ¥æ˜¯å¦èƒ½å¤Ÿæ³¨å†Œï¼Œä¸è¡Œå°±è¿”å›
     void onRegisterClicked();
-    //ÊÕµ½·şÎñÆ÷´«À´µÄÏûÏ¢µÄ´¦Àí
+    //æ”¶åˆ°æœåŠ¡å™¨ä¼ æ¥çš„æ¶ˆæ¯çš„å¤„ç†
     void onMsgHandle(const QString& msg);
-    //Á¬½Ó·şÎñÆ÷Ê§°ÜÊ±µÄÌáÊ¾
+    //è¿æ¥æœåŠ¡å™¨å¤±è´¥æ—¶çš„æç¤º
     void onSignalConnectedFailed();
 
 private:
     Ui::RegisterWidget *ui;
 
-    //³õÊ¼»¯²Ûº¯ÊıÁ¬½Ó
+    //åˆå§‹åŒ–æ§½å‡½æ•°è¿æ¥
     void initConnect();
-    //³õÊ¼»¯½çÃæ
+    //åˆå§‹åŒ–ç•Œé¢
     void initUi();
     char m_cBuffer[1024]{ 0 };
     int m_endPosOfBuffer{ -1 };

@@ -1,4 +1,4 @@
-#include "MyStackedWidget.h"
+ï»¿#include "MyStackedWidget.h"
 
 //#include <QMouseEvent>
 
@@ -22,7 +22,7 @@ void MyStackedWidget::SwitchToChatPage(int iId)
 // FullName:  MyStackedWidget::SwitchToChatPageAcordIndex
 // Access:    public 
 // Returns:   void
-// Qualifier: ¸ù¾İstackedwidgetµÄindexÏÔÊ¾ÏàÓ¦µÄ½çÃæ
+// Qualifier: æ ¹æ®stackedwidgetçš„indexæ˜¾ç¤ºç›¸åº”çš„ç•Œé¢
 // Parameter: int index
 //************************************
 void MyStackedWidget::SwitchToChatPageAcordIndex(int index)

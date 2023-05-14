@@ -1,4 +1,4 @@
-#include "DataBaseDelegate.h"
+ï»¿#include "DataBaseDelegate.h"
 #include "module/Log/Log.h"
 
 #include <QDir>
@@ -23,16 +23,16 @@ void DataBaseDelegate::init()
 	kTableAndFuncWithoutParam["lastChatList"] = std::bind(&DataBaseDelegate::createLastChatListTable,this);
 	kTableAndFuncWithoutParam["profileImage"] = std::bind(&DataBaseDelegate::createProfileImageTable, this);
 	kTableAndFuncWithoutParam["friendRequest"] = std::bind(&DataBaseDelegate::createFriendRequestTable, this);
-	//ÕâÀïÊ¹ÓÃµÄÊÇsqlite
+	//è¿™é‡Œä½¿ç”¨çš„æ˜¯sqlite
 	m_dataBase = QSqlDatabase::addDatabase("QSQLITE","sqlite1");
-	//Ã»ÓĞÊı¾İ¿âÎÄ¼ş¼Ğ¾Í½¨Á¢Ò»¸öÎÄ¼ş¼Ğ
+	//æ²¡æœ‰æ•°æ®åº“æ–‡ä»¶å¤¹å°±å»ºç«‹ä¸€ä¸ªæ–‡ä»¶å¤¹
 	QString fileName = QApplication::applicationDirPath() + "/data";
 	QDir dir(fileName);
 	if(!dir.exists())
 	{
 		dir.mkdir(fileName);
 	}
-	//½¨Á¢Ò»¸ö¿â£¬Ã»ÓĞ¾Í½¨Á¢
+	//å»ºç«‹ä¸€ä¸ªåº“ï¼Œæ²¡æœ‰å°±å»ºç«‹
 	QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
 	m_dataBase.setDatabaseName(dataName);
 	if (!m_dataBase.open())
@@ -113,7 +113,7 @@ int DataBaseDelegate::getChatRecordCountFromDB(const QString& id)const
 
 bool DataBaseDelegate::createUserChatTable(const QString& userid)const
 {
-	//Ã¿¸öÓÃ»§¶¼ÓĞÒ»¸ö×Ô¼ºµÄ¿â£¬ÔÚ×Ô¼ºµÄ¿âÖĞºÍÃ¿¸öÈËµÄÁÄÌì¼ÇÂ¼ÊÇÒ»¸ö±í
+	//æ¯ä¸ªç”¨æˆ·éƒ½æœ‰ä¸€ä¸ªè‡ªå·±çš„åº“ï¼Œåœ¨è‡ªå·±çš„åº“ä¸­å’Œæ¯ä¸ªäººçš„èŠå¤©è®°å½•æ˜¯ä¸€ä¸ªè¡¨
 	//QString str = "create table chatrecord" + userid + " (pos INTEGER PRIMARY KEY,message varchar(100) not null,time varchar(100) not null,isself bool,name varchar(30)";
 	const QString str = "CREATE TABLE chatrecord" + userid + "(pos INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(50), time VARCHAR(20), isself  BOOL, name VARCHAR(30));";
 	QSqlQuery query(m_dataBase);
@@ -179,8 +179,8 @@ QString DataBaseDelegate::queryLastChatRecord(const QString& id) const
 	return strRecord;
 }
 
-//²åÈëÊÇ²åÔÚ×îºó±ßµÄ£¬Ò²¾ÍÊÇ×îºóÒ»¸ö²åÈëµÄÔÚ±íµÄ×îÇ°±ß
-//¶øÎÒÃÇÄ¬ÈÏ±íÖĞµÄË³Ğò¾ÍÊÇÏÔÊ¾µÄË³Ğò£¬ËùÒÔÒªÏÔÊ¾µÄµÚÒ»¸öÒª×îºóÒ»¸ö²å
+//æ’å…¥æ˜¯æ’åœ¨æœ€åè¾¹çš„ï¼Œä¹Ÿå°±æ˜¯æœ€åä¸€ä¸ªæ’å…¥çš„åœ¨è¡¨çš„æœ€å‰è¾¹
+//è€Œæˆ‘ä»¬é»˜è®¤è¡¨ä¸­çš„é¡ºåºå°±æ˜¯æ˜¾ç¤ºçš„é¡ºåºï¼Œæ‰€ä»¥è¦æ˜¾ç¤ºçš„ç¬¬ä¸€ä¸ªè¦æœ€åä¸€ä¸ªæ’
 bool DataBaseDelegate::insertLastChat(const QString& id)const
 {
 	QSqlQuery query(m_dataBase);
@@ -372,7 +372,7 @@ bool DataBaseDelegate::queryFriendRequestAcordName(const QString& name,QString& 
 	while (query.next())
 	{
 		QSqlRecord record = query.record();
-		//²éÑ¯µ½Õâ¸öid
+		//æŸ¥è¯¢åˆ°è¿™ä¸ªid
 		id = record.value(0).toString();
 	}
 	return true;
@@ -427,7 +427,7 @@ bool DataBaseDelegate::queryProfileTimeStamp(std::unordered_map<std::string, std
 	while (query.next())
 	{
 		QSqlRecord record = query.record();
-		//²éÑ¯µ½Õâ¸öid
+		//æŸ¥è¯¢åˆ°è¿™ä¸ªid
 		std::string id = record.value(0).toString().toStdString();
 		const std::string timeStamp = record.value(2).toString().toStdString();
 		mapTimeStamp[id] = timeStamp;

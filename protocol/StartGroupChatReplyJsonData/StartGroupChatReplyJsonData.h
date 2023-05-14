@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "protocol/JsonBaseData.h"
 
 namespace protocol

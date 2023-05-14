@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "module/stdafx.h"
 #include <QStyledItemDelegate>
 
@@ -12,26 +12,26 @@ public:
 
 signals:
 	/**
-	 * brief:Ñ¡ÖĞÒ³Ãæµã»÷ºó·¢³öµÄĞÅºÅ.
-	 * [param] id:µã»÷µÄid
-	 * [newState]:µã»÷Ö®ºóµÄ×´Ì¬£¬ĞÂµÄ×´Ì¬
+	 * brief:é€‰ä¸­é¡µé¢ç‚¹å‡»åå‘å‡ºçš„ä¿¡å·.
+	 * [param] id:ç‚¹å‡»çš„id
+	 * [newState]:ç‚¹å‡»ä¹‹åçš„çŠ¶æ€ï¼Œæ–°çš„çŠ¶æ€
 	 */
 	void signalClickChooseFriendBox(const QString& id,bool newState);
 
 protected:
 	/**
-	 * brief£ºÖØ»æÊÂ¼ş£¬»æÖÆ×Ô¼ºĞèÒªµÄÄÚÈİ.
+	 * briefï¼šé‡ç»˜äº‹ä»¶ï¼Œç»˜åˆ¶è‡ªå·±éœ€è¦çš„å†…å®¹.
 	 *
-	 * \param painter£º»­±Ê
-	 * \param option£ºÇøÓò
-	 * \param index£ºÎ»ÖÃ
+	 * \param painterï¼šç”»ç¬”
+	 * \param optionï¼šåŒºåŸŸ
+	 * \param indexï¼šä½ç½®
 	 */
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index)const override;
 
 	bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) override;
 
 	/**
-	 * brief£º·µ»Ø³ß´ç.
+	 * briefï¼šè¿”å›å°ºå¯¸.
 	 *
 	 * \param option
 	 * \param index

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ui_AddFriendWidget.h"
 #include "ui/AddFriendWidget/AddFriendModel.h"
@@ -22,7 +22,7 @@ public:
     void updateModelImagePath(const QString& id, const QString& path);
 private slots:
     /**
-     * brief£ºµ±·¢ËÍ°´Å¥µã»÷ºó.
+     * briefï¼šå½“å‘é€æŒ‰é’®ç‚¹å‡»å.
      */
     void onSignalAddBtnClicked();
 
@@ -33,19 +33,19 @@ protected:
 
 private:
     /**
-     * brief£º³õÊ¼»¯½çÃæÏà¹Ø²Ù×÷.
+     * briefï¼šåˆå§‹åŒ–ç•Œé¢ç›¸å…³æ“ä½œ.
      * 
      */
     void initUI();
     
     /**
-     * brief£º³õÊ¼»¯ĞÅºÅ²ÛÁ¬½Ó.
+     * briefï¼šåˆå§‹åŒ–ä¿¡å·æ§½è¿æ¥.
      * 
      */
     void initConnect();
 
     /**
-     * brief£º³õÊ¼»¯Êı¾İ.
+     * briefï¼šåˆå§‹åŒ–æ•°æ®.
      * 
      */
     void initData();

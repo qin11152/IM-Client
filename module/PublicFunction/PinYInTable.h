@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define UNICODE_START  19968
 #define UNICODE_END    40869

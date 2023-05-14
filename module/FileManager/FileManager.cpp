@@ -1,4 +1,4 @@
-#include "FileManager.h"
+ï»¿#include "FileManager.h"
 #include <QDir>
 
 
@@ -13,7 +13,7 @@ namespace Base
         FileManager::~FileManager()
         {}
 
-        //Qt·ç¸ñ²é¿´¶ÔÓ¦Â·¾¶ÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ£¬²»´æÔÚ¾Í´´½¨
+        //Qté£æ ¼æŸ¥çœ‹å¯¹åº”è·¯å¾„æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨å°±åˆ›å»º
         bool FileManager::checkDirExist(const QString& strDirPath)const
         {
             QDir dir(strDirPath);
@@ -24,14 +24,14 @@ namespace Base
             return true;
         }
 
-        //´´½¨¶ÔÓ¦Â·¾¶ÏÂµÄÎÄ¼ş¼Ğ
+        //åˆ›å»ºå¯¹åº”è·¯å¾„ä¸‹çš„æ–‡ä»¶å¤¹
         bool FileManager::createDir(const QString& strDirPath)const
         {
             QDir dir(strDirPath);
             return dir.mkpath(strDirPath);
         }
 
-        //ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
+        //åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
         bool FileManager::checkFileExist(const QString& strFilePath)const
         {
             QFileInfo fileInfo(strFilePath);
@@ -39,10 +39,10 @@ namespace Base
             return false;
         }
 
-        //¸ù¾İ²Ù×÷ÀàĞÍÖ´ĞĞ´´½¨ÎÄ¼şµÄ²Ù×÷
+        //æ ¹æ®æ“ä½œç±»å‹æ‰§è¡Œåˆ›å»ºæ–‡ä»¶çš„æ“ä½œ
         bool FileManager::createFile(const QString& strFilePath, const FileOperateType& operateType) const
         {
-            //qtÎÄ¼ş²»´æÔÚ¾Í´´Ôì
+            //qtæ–‡ä»¶ä¸å­˜åœ¨å°±åˆ›é€ 
             if (operateType == FileOperateType::Default)
             {
                 QFile file(strFilePath);
@@ -53,14 +53,14 @@ namespace Base
             }
             else
             {
-                //qt´´½¨ÎÄ¼ş¸²¸ÇÖ®Ç°µÄÄÚÈİ
+                //qtåˆ›å»ºæ–‡ä»¶è¦†ç›–ä¹‹å‰çš„å†…å®¹
                 QFile file(strFilePath);
                 return file.open(QIODevice::WriteOnly);
             }
             return false;
         }
     
-        //´ÓÎÄ¼şÖĞ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+        //ä»æ–‡ä»¶ä¸­è¯»å–æ–‡ä»¶å†…å®¹
         void FileManager::readFile(const QString& strFilePath, QString& fileInfo) const
         {
             QFile file(strFilePath);

@@ -1,4 +1,4 @@
-#include "GetFriendListReplyData.h"
+ï»¿#include "GetFriendListReplyData.h"
 
 namespace protocol
 {
@@ -19,23 +19,23 @@ namespace protocol
         ptree m_friendNamelist;
         std::stringstream sstream(message);
         read_json(sstream, m_ptree);
-        //jsonÖĞÓĞÁ½¸öÊı×é£¬Ò»¸öÊı×é´æ·Åid£¬Ò»¸öÊı×é´æ·Åname£¬Á½ÕßË³Ğò¶ÔÓ¦£¬±£Ö¤ÊôÓÚÍ¬Ò»¸öfriend
+        //jsonä¸­æœ‰ä¸¤ä¸ªæ•°ç»„ï¼Œä¸€ä¸ªæ•°ç»„å­˜æ”¾idï¼Œä¸€ä¸ªæ•°ç»„å­˜æ”¾nameï¼Œä¸¤è€…é¡ºåºå¯¹åº”ï¼Œä¿è¯å±äºåŒä¸€ä¸ªfriend
         m_friendIdList = m_ptree.get_child("FriendIdList");
         m_friendNamelist = m_ptree.get_child("FriendNameList");
         for (auto iter = m_friendIdList.begin(); iter != m_friendIdList.end(); ++iter)
         {
-            //±éÀúÊı×éµÃµ½¶ÔÏó£¬»ñÈ¡¶ÔÏóµÄid
+            //éå†æ•°ç»„å¾—åˆ°å¯¹è±¡ï¼Œè·å–å¯¹è±¡çš„id
             auto item = iter->second;
-            //¹¹½¨friendinfo¶ÔÏó
+            //æ„å»ºfriendinfoå¯¹è±¡
             FriendInfo tmp;
             tmp.m_strFriendId = item.get<std::string>("");
-            //´æ´¢ÔÚvecÖĞ
+            //å­˜å‚¨åœ¨vecä¸­
             m_vecFriendList.push_back(tmp);
         }
-        int i = 0;//iÎªµ±Ç°µü´úÆ÷¶ÔÓ¦µÄvecÖĞµÄÎ»ÖÃ
+        int i = 0;//iä¸ºå½“å‰è¿­ä»£å™¨å¯¹åº”çš„vecä¸­çš„ä½ç½®
         for (auto iter = m_friendNamelist.begin(); iter != m_friendNamelist.end(); ++iter, ++i)
         {
-            //°Ñ¶ÔÓ¦µÄÃû×ÖÒ²½âÎöÁË
+            //æŠŠå¯¹åº”çš„åå­—ä¹Ÿè§£æäº†
             auto item = iter->second;
             m_vecFriendList[i].m_strFriendName = item.get<std::string>("");
         }
@@ -56,7 +56,7 @@ namespace protocol
         }
     }
 
-    //ÕâÀï²»ĞèÒª¹¹½¨£¬¾Í²»ÊµÏÖÁË£¬Ö»Ğè°ÑjsonstringÒª½âÎö³öÀ´¾ÍºÃ£¬¶ÔÓ¦µÄ·şÎñ¶ËÖ»ĞèÒª¹¹½¨¾ÍºÃ
+    //è¿™é‡Œä¸éœ€è¦æ„å»ºï¼Œå°±ä¸å®ç°äº†ï¼Œåªéœ€æŠŠjsonstringè¦è§£æå‡ºæ¥å°±å¥½ï¼Œå¯¹åº”çš„æœåŠ¡ç«¯åªéœ€è¦æ„å»ºå°±å¥½
     std::string GetFriendListReplyData::generateJson()
     {
         return "";

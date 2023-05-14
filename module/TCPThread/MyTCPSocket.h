@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "boost/noncopyable.hpp"
 #include <QTCPSocket>
@@ -23,23 +23,23 @@ signals:
     void signalConnectResult(bool bResult);
 
 public slots:
-    //·¢ËÍÏûÏ¢²Ûº¯Êı£¬±ØĞë·â×°Ò»²ã£¬·ñÔò»á³öÏÖ¶àÏß³ÌÎÊÌâ£¨QSocketNotifier: Socket notifiers cannot be enabled or disabled from another thread£©
+    //å‘é€æ¶ˆæ¯æ§½å‡½æ•°ï¼Œå¿…é¡»å°è£…ä¸€å±‚ï¼Œå¦åˆ™ä¼šå‡ºç°å¤šçº¿ç¨‹é—®é¢˜ï¼ˆQSocketNotifier: Socket notifiers cannot be enabled or disabled from another threadï¼‰
     void sendMsg(const std::string& msg);
-    //·¢ËÍÍ¼Æ¬ÏûÏ¢²Ûº¯Êı
+    //å‘é€å›¾ç‰‡æ¶ˆæ¯æ§½å‡½æ•°
     void sendImageMsg(const QString& strBase64Image, const QString& ImageName, const QString& suffix, const QString& timeStamp);
     
-    //·¢ËÍÍ¼Æ¬
+    //å‘é€å›¾ç‰‡
     void sendImage(const QString& filePath, const QString& jsonMsgOfImage);
-    //·¢ËÍqimage
+    //å‘é€qimage
     void sendQImage(const QByteArray& image, const QString& jsonMsgOfImage);
 
-    //·¢ËÍ´øÓĞÍ¼Æ¬µÄjsonÏûÏ¢
+    //å‘é€å¸¦æœ‰å›¾ç‰‡çš„jsonæ¶ˆæ¯
     void sendJsonWithImage(const QString& strBase64Image, const QString& jsonStr);
-    //ÓëÖ÷»úÁ¬½Ó
+    //ä¸ä¸»æœºè¿æ¥
     void connectHost();
 
 private slots:
-    //ÏûÏ¢ÔÚ×Ô¼ºÏß³ÌÄÚ²¿´¦Àí
+    //æ¶ˆæ¯åœ¨è‡ªå·±çº¿ç¨‹å†…éƒ¨å¤„ç†
     void handleMsg();
 
 private:

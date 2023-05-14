@@ -1,4 +1,4 @@
-#include "AddFriendModel.h"
+ï»¿#include "AddFriendModel.h"
 
 AddFriendModel::AddFriendModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -14,7 +14,7 @@ void AddFriendModel::setData(std::vector<AddFriendInfo>&addFriendInfo)
     endResetModel();
 }
 
-//¸ù¾İidĞŞ¸ÄÄ£ĞÍÖĞµÄ×´Ì¬
+//æ ¹æ®idä¿®æ”¹æ¨¡å‹ä¸­çš„çŠ¶æ€
 void AddFriendModel::updateModelValidState(const QString& id, bool validState)
 {
     for (auto& item : m_vecAddFriendInfo)

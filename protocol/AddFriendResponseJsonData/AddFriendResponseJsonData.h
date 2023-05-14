@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "../JsonBaseData.h"
 
 namespace protocol
@@ -10,7 +10,7 @@ namespace protocol
         void parse(const std::string& message)override;
         std::string generateJson()override;
 
-        //ÓÃ»§µÄid
+        //ç”¨æˆ·çš„id
         std::string m_strMyId{ "-1" };
         std::string m_strFriendId{ "-1" };
         bool m_bResult{ false };

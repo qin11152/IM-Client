@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <QStyledItemDelegate>
 
@@ -15,18 +15,18 @@ signals:
 
 protected:
     /**
-     * brief£ºÖØ»æÊÂ¼ş£¬»æÖÆ×Ô¼ºĞèÒªµÄÄÚÈİ.
+     * briefï¼šé‡ç»˜äº‹ä»¶ï¼Œç»˜åˆ¶è‡ªå·±éœ€è¦çš„å†…å®¹.
      * 
-     * \param painter£º»­±Ê
-     * \param option£ºÇøÓò
-     * \param index£ºÎ»ÖÃ
+     * \param painterï¼šç”»ç¬”
+     * \param optionï¼šåŒºåŸŸ
+     * \param indexï¼šä½ç½®
      */
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index)const override;
 
     bool editorEvent(QEvent* event, QAbstractItemModel* model, const QStyleOptionViewItem& option, const QModelIndex& index) override;
 
     /**
-     * brief£º·µ»Ø³ß´ç.
+     * briefï¼šè¿”å›å°ºå¯¸.
      * 
      * \param option
      * \param index

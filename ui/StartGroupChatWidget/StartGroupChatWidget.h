@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ui_StartGroupChatWidget.h"
 #include "ui/StartGroupChatWidget/AddedGroupFriendMVC/AddedFriendModel.h"
@@ -26,19 +26,19 @@ private slots:
 	void onSignalCancelClicked();
 
 	/**
-	 * brief:Ñ¡ÖĞÄ³¸öºÃÓÑÖ®ºóµÄÏìÓ¦.
+	 * brief:é€‰ä¸­æŸä¸ªå¥½å‹ä¹‹åçš„å“åº”.
 	 * 
-	 * \param id:Ñ¡ÔñµÄºÃÓÑµÄid
-	 * \param newState:ĞÂµÄ×´Ì¬
+	 * \param id:é€‰æ‹©çš„å¥½å‹çš„id
+	 * \param newState:æ–°çš„çŠ¶æ€
 	 */
 	void onSignalUpdateSelectedState(const QString& id,bool newState);
 
 	void onSignalSearchChanged(const QString& searchMsg);
 
 	/**
-	 * brief:ÒÑÌí¼ÓÒ³ÃæÉ¾³ıÁËÄ³¸öÈË.
+	 * brief:å·²æ·»åŠ é¡µé¢åˆ é™¤äº†æŸä¸ªäºº.
 	 * 
-	 * \param id:É¾³ıµÄÈËµÄid
+	 * \param id:åˆ é™¤çš„äººçš„id
 	 */
 	void onSignalAddedDeleted(const QString& id);
 

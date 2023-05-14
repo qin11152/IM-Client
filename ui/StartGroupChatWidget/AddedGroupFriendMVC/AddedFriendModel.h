@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -13,30 +13,30 @@ public:
 	~AddedFriendModel();
 
 	/**
-	 * brief:Ñ¡ÔñÄÇ±ß×´Ì¬±ä»¯ºó´«µİµ½Õâ±ß.
+	 * brief:é€‰æ‹©é‚£è¾¹çŠ¶æ€å˜åŒ–åä¼ é€’åˆ°è¿™è¾¹.
 	 * 
-	 * \param id:±ä»¯µÄid
-	 * \param newState:ĞÂµÄÑ¡ÖĞ×´Ì¬£¬true»òfalse
+	 * \param id:å˜åŒ–çš„id
+	 * \param newState:æ–°çš„é€‰ä¸­çŠ¶æ€ï¼Œtrueæˆ–false
 	 */
 	void onStateChanged(const QString& id,bool newState);
 
 	/**
-	 * brief:Çå¿Õmodel.
+	 * brief:æ¸…ç©ºmodel.
 	 * 
 	 */
 	void clearModel();
 
 	/**
-	 * brief:¸ù¾İid´ÓmodelÖĞÒÆ³ıÄ³ĞĞ.
+	 * brief:æ ¹æ®idä»modelä¸­ç§»é™¤æŸè¡Œ.
 	 * 
-	 * \param id:ÒªÒÆ³ıµÄid
+	 * \param id:è¦ç§»é™¤çš„id
 	 */
 	void removeAcordId(const QString& id);
 
 	std::vector< std::string> getAllId();
 
 	/**
-	 * brief£º»ñÈ¡ÈºÁÄÃû³Æ.
+	 * briefï¼šè·å–ç¾¤èŠåç§°.
 	 * 
 	 * \return 
 	 */

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 #include "module/stdafx.h"
@@ -20,24 +20,24 @@ public:
     TCPThread(QObject *parent=nullptr);
     ~TCPThread();
 
-    //·´³õÊ¼»¯
+    //ååˆå§‹åŒ–
     void unInit();
-    //ÖØĞ´runº¯Êı
+    //é‡å†™runå‡½æ•°
     void run()override;
 
 public slots:
-    //µ÷ÓÃ¸Ãº¯ÊıÏñ·şÎñÆ÷·¢ËÍÏûÏ¢
+    //è°ƒç”¨è¯¥å‡½æ•°åƒæœåŠ¡å™¨å‘é€æ¶ˆæ¯
     void sendMessage(std::string message);
-    //µ÷ÓÃ¸Ãº¯Êı·¢ËÍÍ¼Æ¬ÏûÏ¢
+    //è°ƒç”¨è¯¥å‡½æ•°å‘é€å›¾ç‰‡æ¶ˆæ¯
     void sendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
-    //·¢ËÍ´øÓĞÍ¼Æ¬µÄÏûÏ¢(base64)
+    //å‘é€å¸¦æœ‰å›¾ç‰‡çš„æ¶ˆæ¯(base64)
     void sendJsonWithImage(const QString& strBase64Image, const QString& jsonStr);
-    //·¢ËÍÍ¼Æ¬£¬°üº¬Í·²¿+json×Ö·û´®+Í¼Æ¬ĞÅÏ¢
+    //å‘é€å›¾ç‰‡ï¼ŒåŒ…å«å¤´éƒ¨+jsonå­—ç¬¦ä¸²+å›¾ç‰‡ä¿¡æ¯
     /**
-     * brief£º·¢ËÍÍ¼Æ¬ÏûÏ¢µÄ½Ó¿Ú£¬°ÑÍ¼Æ¬ÏûÏ¢µÄÃèÊö·ÅÔÚjsonÖĞ.
+     * briefï¼šå‘é€å›¾ç‰‡æ¶ˆæ¯çš„æ¥å£ï¼ŒæŠŠå›¾ç‰‡æ¶ˆæ¯çš„æè¿°æ”¾åœ¨jsonä¸­.
      * 
-     * \param filePath£ºÒª·¢ËÍµÄÍ¼Æ¬µÄÂ·¾¶
-     * \param jsonMsgOfImage£º°üº¬Í¼Æ¬ĞÅÏ¢µÄjson×Ö·û´®
+     * \param filePathï¼šè¦å‘é€çš„å›¾ç‰‡çš„è·¯å¾„
+     * \param jsonMsgOfImageï¼šåŒ…å«å›¾ç‰‡ä¿¡æ¯çš„jsonå­—ç¬¦ä¸²
      */
     void sendImage(const char* filePath, const char* jsonMsgOfImage = "");
 
@@ -46,74 +46,74 @@ public slots:
 
 
 signals:
-    //ÊÕµ½×¢²á½á¹ûµÄÏûÏ¢
+    //æ”¶åˆ°æ³¨å†Œç»“æœçš„æ¶ˆæ¯
     void signalRecvRegisterMessage(const QString& msg);
-    //ÊÕµ½µÇÂ¼½á¹ûÏûÏ¢
+    //æ”¶åˆ°ç™»å½•ç»“æœæ¶ˆæ¯
     void signalRecvLoginResultMessage(const QString& msg);
-    //ÊÕµ½ÅóÓÑÁÄÌìÏûÏ¢
+    //æ”¶åˆ°æœ‹å‹èŠå¤©æ¶ˆæ¯
     void signalRecvSingleChatMessage(const QString& msg);
-    //ÊÕµ½ºÃÓÑÁĞ±íÏûÏ¢
+    //æ”¶åˆ°å¥½å‹åˆ—è¡¨æ¶ˆæ¯
     void signalRecvFriendListMessage(const QString& msg);
-    //·şÎñ¶Ë·¢ËÍÀ´µÄºÃÓÑÇëÇó
+    //æœåŠ¡ç«¯å‘é€æ¥çš„å¥½å‹è¯·æ±‚
     void signalNewFriendRequest(const QString& msg);
-    //·şÎñ¶Ë·¢À´µÄÌí¼ÓºÃÓÑºóµÄÍ¨Öª
+    //æœåŠ¡ç«¯å‘æ¥çš„æ·»åŠ å¥½å‹åçš„é€šçŸ¥
     void signalBecomeFriendNotify(const QString& msg);
-    //Óë·şÎñÆ÷Á¬½ÓÊ§°ÜĞÅºÅ
+    //ä¸æœåŠ¡å™¨è¿æ¥å¤±è´¥ä¿¡å·
     void signalConnectFailed();
-    //³¬¹ıÒ»¶¨Ê±¼ä»¹Ã»ÊÕµ½·şÎñÆ÷µÄĞÄÌø°ü
+    //è¶…è¿‡ä¸€å®šæ—¶é—´è¿˜æ²¡æ”¶åˆ°æœåŠ¡å™¨çš„å¿ƒè·³åŒ…
     void signalTimeoutNoHeartPackage();
-    //Ä³¸öºÃÓÑÍ·Ïñ¸üĞÂÁËµÄĞÅºÅ
+    //æŸä¸ªå¥½å‹å¤´åƒæ›´æ–°äº†çš„ä¿¡å·
     void signalProfileImageChanged(const QString& id,const QString& path);
-    //Ìí¼ÓºÃÓÑÊ±·şÎñÆ÷ÍÆËÍ¹ıÀ´µÄÍ·ÏñĞÅÏ¢
+    //æ·»åŠ å¥½å‹æ—¶æœåŠ¡å™¨æ¨é€è¿‡æ¥çš„å¤´åƒä¿¡æ¯
     void signalAddFriendProfileImage(const QString& id, const QString& path);
 
-    /////ÎªÁËÄÜ¹»ÔÚ×ÓÏß³ÌÖĞ·¢ËÍ½ÓÊÜÏûÏ¢£¬ĞèÒªÔÙ·â×°Ò»²ã
-    //·¢ËÍÏûÏ¢ĞÅºÅ
+    /////ä¸ºäº†èƒ½å¤Ÿåœ¨å­çº¿ç¨‹ä¸­å‘é€æ¥å—æ¶ˆæ¯ï¼Œéœ€è¦å†å°è£…ä¸€å±‚
+    //å‘é€æ¶ˆæ¯ä¿¡å·
     void signalSendMsg(const std::string& msg);
-    //·¢ËÍÍ¼Æ¬ÏûÏ¢ĞÅºÅ
+    //å‘é€å›¾ç‰‡æ¶ˆæ¯ä¿¡å·
     void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
-    //´øÓĞÍ¼Æ¬µÄjsonÏûÏ¢ĞÅºÅ
+    //å¸¦æœ‰å›¾ç‰‡çš„jsonæ¶ˆæ¯ä¿¡å·
     void signalSendJsonWithImage(const QString& strBase64Image, const QString& jsonStr);
 
-    //Á¬½ÓµÄĞÅºÅ
+    //è¿æ¥çš„ä¿¡å·
     void signalConnect();
-    //ÕæÕı·¢ËÍÍ¼Æ¬µÄĞÅºÅ
+    //çœŸæ­£å‘é€å›¾ç‰‡çš„ä¿¡å·
     void signalSendIma(const QString& filePath,const QString& jsonMsg);
     void signalQtSendIma(const QByteArray& image, const QString& jsonMsg);
 
 private slots:
-    //³¬¹ıÊ±¼ä»¹Ã»ÊÕµ½»Ø¸´
+    //è¶…è¿‡æ—¶é—´è¿˜æ²¡æ”¶åˆ°å›å¤
     void onSignalTimeoutNoHeartPackage();
-    //µ½Ê±¼ä¾Í¸ø·şÎñ¶Ë·¢Ò»¸öĞÄÌø°ü
+    //åˆ°æ—¶é—´å°±ç»™æœåŠ¡ç«¯å‘ä¸€ä¸ªå¿ƒè·³åŒ…
     void onSignalTimeoutSendHeartPackage();
-    //ÊÕµ½ÏûÏ¢µÄ´¦Àí
+    //æ”¶åˆ°æ¶ˆæ¯çš„å¤„ç†
     void onSignalRecvMessage();
-    //ÊÕµ½ÏûÏ¢µÄ´¦Àí·ÖÅÉ
+    //æ”¶åˆ°æ¶ˆæ¯çš„å¤„ç†åˆ†æ´¾
     void onHandleMessage(const std::string& recvMessage);
-    //ÊÕµ½Á¬½ÓµÄ½á¹û
+    //æ”¶åˆ°è¿æ¥çš„ç»“æœ
     void onConnectResult(bool bResult);
 
 private:
-    MyTCPSocket* m_ptrTcpSocket{ nullptr };      //socketÖ¸Õë
-    int m_iPort{ 9999 };                        //·şÎñÆ÷¶Ë¿Ú
-    QString m_strIp{ "43.142.158.231" };         //·şÎñÆ÷ip
-    bool m_bIsConnected{ false };                   //ÊÇ·ñµÚÒ»´Î·¢ËÍÏûÏ¢
+    MyTCPSocket* m_ptrTcpSocket{ nullptr };      //socketæŒ‡é’ˆ
+    int m_iPort{ 9999 };                        //æœåŠ¡å™¨ç«¯å£
+    QString m_strIp{ "43.142.158.231" };         //æœåŠ¡å™¨ip
+    bool m_bIsConnected{ false };                   //æ˜¯å¦ç¬¬ä¸€æ¬¡å‘é€æ¶ˆæ¯
     QTimer* m_ptrTimerKeepAlive{ nullptr };
     QTimer* m_ptrTimerRecvHeartPackage{ nullptr };
-    char m_msgBuffer[kMsgBufferLength]{ 0 };                      //ÓÃÓÚ´æ´¢ÏûÏ¢µÄ»º³åÇø
-    size_t m_endPosOfBuffer = 0;                                     //ÏûÏ¢»º³åÇøµÄÎ²²¿
+    char m_msgBuffer[kMsgBufferLength]{ 0 };                      //ç”¨äºå­˜å‚¨æ¶ˆæ¯çš„ç¼“å†²åŒº
+    size_t m_endPosOfBuffer = 0;                                     //æ¶ˆæ¯ç¼“å†²åŒºçš„å°¾éƒ¨
 
-    //´¦Àí·şÎñÆ÷´«À´µÄÍ¼Æ¬ÏûÏ¢
+    //å¤„ç†æœåŠ¡å™¨ä¼ æ¥çš„å›¾ç‰‡æ¶ˆæ¯
     std::unordered_map<std::string, std::string> m_mapImageUUIDAndBase64;
     std::unordered_map<std::string, int> m_mapImageUUIDAndSegment;
 
-    //Óë·şÎñÆ÷½¨Á¢Á¬½ÓµÄº¯Êı
+    //ä¸æœåŠ¡å™¨å»ºç«‹è¿æ¥çš„å‡½æ•°
     void connectHost();
-    //³õÊ¼»¯²Ûº¯ÊıÁ¬½Ó
+    //åˆå§‹åŒ–æ§½å‡½æ•°è¿æ¥
     void initConnect();
-    //³õÊ¼»¯º¯Êı
+    //åˆå§‹åŒ–å‡½æ•°
     void init();
-    //Óë·şÎñÆ÷¶Ï¿ªÁ¬½Ó
+    //ä¸æœåŠ¡å™¨æ–­å¼€è¿æ¥
     void disConnect();
 };
 

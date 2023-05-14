@@ -1,4 +1,4 @@
-#include "InitialRequestJsonData.h"
+﻿#include "InitialRequestJsonData.h"
 
 namespace protocol
 {

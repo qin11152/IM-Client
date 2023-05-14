@@ -1,6 +1,6 @@
-/*****************************************************************//**
+ï»¿/*****************************************************************//**
  * \file   FileManager.h
- * \brief  ÎÄ¼ş¹ÜÀíÀà£¬ÓÃÓÚ´´½¨ÎÄ¼ş£¬ÎÄ¼ş¼Ğ£¬²Ù×÷ÎÄ¼şµÈ
+ * \brief  æ–‡ä»¶ç®¡ç†ç±»ï¼Œç”¨äºåˆ›å»ºæ–‡ä»¶ï¼Œæ–‡ä»¶å¤¹ï¼Œæ“ä½œæ–‡ä»¶ç­‰
  * 
  * \author Administrator
  * \date   December 2022
@@ -16,9 +16,9 @@ namespace Base
     {
         enum class FileOperateType
         {
-            //²»´æÔÚ¾Í´´½¨
+            //ä¸å­˜åœ¨å°±åˆ›å»º
             Default=0,
-            //´æÔÚ¾Í¸²¸Ç
+            //å­˜åœ¨å°±è¦†ç›–
             ExistAndOverride,
         };
 
@@ -31,43 +31,43 @@ namespace Base
             ~FileManager();
 
             /**
-             * brief:²é¿´ÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ£¬²»´æÔÚ¾Í´´½¨.
-             * param[IN] strDirPath:ÎÄ¼ş¼ĞÂ·¾¶
-             * \return:´´½¨½á¹û
+             * brief:æŸ¥çœ‹æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨å°±åˆ›å»º.
+             * param[IN] strDirPath:æ–‡ä»¶å¤¹è·¯å¾„
+             * \return:åˆ›å»ºç»“æœ
              */
             bool checkDirExist(const QString& strDirPath)const;
 
             /**
-             * brief:´´½¨¶ÔÓ¦Â·¾¶ÏÂµÄÎÄ¼ş¼Ğ.
+             * brief:åˆ›å»ºå¯¹åº”è·¯å¾„ä¸‹çš„æ–‡ä»¶å¤¹.
              * 
-             * \param strDirPath£ºÎÄ¼ş¼ĞÂ·¾¶
-             * \return true:³É¹¦
+             * \param strDirPathï¼šæ–‡ä»¶å¤¹è·¯å¾„
+             * \return true:æˆåŠŸ
              */
             bool createDir(const QString& strDirPath)const;
 
             /**
-             * brief:ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ.
+             * brief:åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨.
              * 
-             * \param strFilePath£ºÎÄ¼şÂ·¾¶
-             * \return true£º³É¹¦
+             * \param strFilePathï¼šæ–‡ä»¶è·¯å¾„
+             * \return trueï¼šæˆåŠŸ
              */
             bool checkFileExist(const QString& strFilePath)const;
             
 
             /**
-             * brief:¶ÁÈ¡¶ÔÓ¦Â·¾¶ÖĞµÄÎÄ¼şÄÚÈİ.
+             * brief:è¯»å–å¯¹åº”è·¯å¾„ä¸­çš„æ–‡ä»¶å†…å®¹.
              * 
-             * \param strFilePath:ÎÄ¼şÂ·¾¶
-             * \param fileInfo£º¶ÁÈ¡ÄÚÈİĞ´Èë¸Ã×Ö·û´®
+             * \param strFilePath:æ–‡ä»¶è·¯å¾„
+             * \param fileInfoï¼šè¯»å–å†…å®¹å†™å…¥è¯¥å­—ç¬¦ä¸²
              */
             void readFile(const QString& strFilePath, QString& fileInfo)const;
 
             /**
-             * brief:¸ù¾İ´«ÈëµÄÄ£Ê½´´½¨ÎÄ¼ş.
+             * brief:æ ¹æ®ä¼ å…¥çš„æ¨¡å¼åˆ›å»ºæ–‡ä»¶.
              *
-             * \param operateType[IN]:²Ù×÷ÀàĞÍ
-             * \param strFilePath[IN]:ÎÄ¼şÂ·¾¶
-             * \return ´´½¨½á¹û
+             * \param operateType[IN]:æ“ä½œç±»å‹
+             * \param strFilePath[IN]:æ–‡ä»¶è·¯å¾„
+             * \return åˆ›å»ºç»“æœ
              */
             bool createFile(const QString& strFilePath, const FileOperateType& operateType=FileOperateType::Default)const;
 

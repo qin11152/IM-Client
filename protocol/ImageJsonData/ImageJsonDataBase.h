@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 
@@ -32,9 +32,9 @@ namespace protocol
         virtual void parse(const std::string& message) = 0;
         virtual std::string generateJson() = 0;
 
-        int m_iImageLenth{ 0 };     //Í¼Æ¬µÄ³¤¶È
+        int m_iImageLenth{ 0 };     //å›¾ç‰‡çš„é•¿åº¦
         std::string m_strImageSuffix{ "" };
-        ImageInnerJsonData m_stInnerData;   //ÄÚ²¿¿É°üº¬Ò»²ãÊı¾İ£¬¿ÉÎª¿Õ
+        ImageInnerJsonData m_stInnerData;   //å†…éƒ¨å¯åŒ…å«ä¸€å±‚æ•°æ®ï¼Œå¯ä¸ºç©º
 
         MessageType m_strType{ MessageType::InfoWithImage };
 

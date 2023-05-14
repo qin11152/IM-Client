@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "module/stdafx.h"
 #include "boost/noncopyable.hpp"
@@ -29,12 +29,12 @@ public:
 
 private:
 
-    std::deque<ThreadTask> m_dequeTask;         //´æ·ÅÈÎÎñµÄ¶ÓÁĞ
-    std::condition_variable m_dequeNotEmptyCV;  //deque·Ç¿ÕÍ¨Öª
-    std::vector<std::thread> m_vecThread;   //Ïß³Ì³ØÖĞµÄÏß³Ì±£´æ
-    std::mutex m_mutex;             //Ëø
-    int m_iThreadNumber{ 0 };       //Ïß³Ì³ØÖĞ×ÓÏß³ÌÊıÁ¿
-    bool m_bRunning{ false };       //ÊÇ·ñÔÚÔËĞĞ
+    std::deque<ThreadTask> m_dequeTask;         //å­˜æ”¾ä»»åŠ¡çš„é˜Ÿåˆ—
+    std::condition_variable m_dequeNotEmptyCV;  //dequeéç©ºé€šçŸ¥
+    std::vector<std::thread> m_vecThread;   //çº¿ç¨‹æ± ä¸­çš„çº¿ç¨‹ä¿å­˜
+    std::mutex m_mutex;             //é”
+    int m_iThreadNumber{ 0 };       //çº¿ç¨‹æ± ä¸­å­çº¿ç¨‹æ•°é‡
+    bool m_bRunning{ false };       //æ˜¯å¦åœ¨è¿è¡Œ
 
 };
 

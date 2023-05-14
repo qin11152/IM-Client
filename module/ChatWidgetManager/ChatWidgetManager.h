@@ -1,5 +1,5 @@
-/************************************************************************/
-/* ÁÄÌì½çÃæÂß¼­²¿ÃÅ¹ÜÀíÀà£¬Ïà¹ØÂß¼­²Ù×÷¾ù¶¨ÒåÔÚ´Ë                                                                   
+ï»¿/************************************************************************/
+/* èŠå¤©ç•Œé¢é€»è¾‘éƒ¨é—¨ç®¡ç†ç±»ï¼Œç›¸å…³é€»è¾‘æ“ä½œå‡å®šä¹‰åœ¨æ­¤                                                                   
 /************************************************************************/
 #pragma once
 
@@ -14,80 +14,80 @@ class ChatWidgetManager : public QObject
 
 public:
     using SingletonPtr = std::shared_ptr<ChatWidgetManager>;
-    //µ¥ÀıÄ£Ê½£¬Î¨Ò»»ñÈ¡ÆäÖ¸ÕëµÄ·½·¨£¬Ê¹ÓÃÁËÖÇÄÜÖ¸Õë£¬×Ô¶¯ÄÚ´æ¹ÜÀí
+    //å•ä¾‹æ¨¡å¼ï¼Œå”¯ä¸€è·å–å…¶æŒ‡é’ˆçš„æ–¹æ³•ï¼Œä½¿ç”¨äº†æ™ºèƒ½æŒ‡é’ˆï¼Œè‡ªåŠ¨å†…å­˜ç®¡ç†
     static SingletonPtr Instance();
-    //ÎŞĞè¿½±´¹¹ÔìºÍ¸³Öµ¹¹Ôìº¯Êı
+    //æ— éœ€æ‹·è´æ„é€ å’Œèµ‹å€¼æ„é€ å‡½æ•°
     ChatWidgetManager(const ChatWidgetManager&) = delete;
     ChatWidgetManager& operator=(const ChatWidgetManager&) = delete;
     ~ChatWidgetManager()override;
 
-    //´«Èëid
+    //ä¼ å…¥id
     void setUserId(QString strId);
-    //´«ÈëÃû×Ö
+    //ä¼ å…¥åå­—
     void setUserName(QString& name);
-    //ÉèÖÃqml¸ù¶ÔÏóÖ¸Õë£¬ÒÔ±ãµ÷ÓÃqmlÖĞµÄº¯Êı
+    //è®¾ç½®qmlæ ¹å¯¹è±¡æŒ‡é’ˆï¼Œä»¥ä¾¿è°ƒç”¨qmlä¸­çš„å‡½æ•°
     void setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot);
-    //³õÊ¼»¯Êı¾İ¿â²Ù×÷×ÓÏß³Ì
+    //åˆå§‹åŒ–æ•°æ®åº“æ“ä½œå­çº¿ç¨‹
     void initDBOperateThread();
-    //³õÊ¼»¯Êı¾İ¿â²Ù×÷×ÓÏß³ÌÁ¬½Ó
+    //åˆå§‹åŒ–æ•°æ®åº“æ“ä½œå­çº¿ç¨‹è¿æ¥
     void initDBThreadConnect();
-    //ÉèÖÃ×ÓÏß³ÌÖĞ×îĞÂµÄlastchatÁĞ±í
+    //è®¾ç½®å­çº¿ç¨‹ä¸­æœ€æ–°çš„lastchatåˆ—è¡¨
     void setLastChatList(QStringList& m_lastChatList)const;
 
     /**
-     * brief:³õÊ¼»¯Ã¿¸öÕËºÅËùĞèÒªµÄÎÄ¼ş¼ĞºÍÎÄ¼ş£¬Èç¹û²»´æÔÚ¾Í´´½¨.
+     * brief:åˆå§‹åŒ–æ¯ä¸ªè´¦å·æ‰€éœ€è¦çš„æ–‡ä»¶å¤¹å’Œæ–‡ä»¶ï¼Œå¦‚æœä¸å­˜åœ¨å°±åˆ›å»º.
      * 
      */
     void initDirAndFile();
 
-    //´Ó·şÎñ¶Ë»ñÈ¡µ±Ç°ÓÃ»§µÄºÃÓÑÁĞ±í
+    //ä»æœåŠ¡ç«¯è·å–å½“å‰ç”¨æˆ·çš„å¥½å‹åˆ—è¡¨
     void getFriendList();
-    //Í¨Öª·şÎñ¶Ë¿Í»§¶ËÉÏÏß
+    //é€šçŸ¥æœåŠ¡ç«¯å®¢æˆ·ç«¯ä¸Šçº¿
     void notifyServerOnline();
-    //»ñÈ¡ÉÏ´ÎÁÄÌìµÄºÃÓÑÁĞ±í
+    //è·å–ä¸Šæ¬¡èŠå¤©çš„å¥½å‹åˆ—è¡¨
     void getLastChatListFromDB(std::vector <MyLastChatFriendInfo>& vecLastChatFriend);
-    //½«»ñÈ¡µ½µÄºÃÓĞÊ±¼ä´ÁºÍÊı¾İ¿âÖĞµÄ½øĞĞ¶Ô±È
+    //å°†è·å–åˆ°çš„å¥½æœ‰æ—¶é—´æˆ³å’Œæ•°æ®åº“ä¸­çš„è¿›è¡Œå¯¹æ¯”
     void compareImageTimestap(std::vector<MyFriendInfoWithFirstC> vecFriendInfo);
 
-    //³õÊ¼»¯µÄÊ±ºò»ñÈ¡ÁÄÌì¼ÇÂ¼£¬10Ìõ»òÕßĞ¡ÓÚ10Ìõ
+    //åˆå§‹åŒ–çš„æ—¶å€™è·å–èŠå¤©è®°å½•ï¼Œ10æ¡æˆ–è€…å°äº10æ¡
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);
-    //ÊÕµ½ºÃÓÑÁĞ±íÏûÏ¢ºó
+    //æ”¶åˆ°å¥½å‹åˆ—è¡¨æ¶ˆæ¯å
 
 public slots:
 
-    //·şÎñÆ÷´«À´µÄºÃÓÑĞÅÏ¢
+    //æœåŠ¡å™¨ä¼ æ¥çš„å¥½å‹ä¿¡æ¯
     void onSignalRecvFriendList(const QString& friendList, std::unordered_map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
-    //ÊÕµ½qmlÒ³ÃæÍ¬ÒâÌí¼ÓºÃÓÑµÄÇëÇó
+    //æ”¶åˆ°qmlé¡µé¢åŒæ„æ·»åŠ å¥½å‹çš„è¯·æ±‚
     void onSignalAgreeAddFriend(const QString& friendId);
-    //qmlÒ³Ãæ·¢ËÍÌí¼ÓÇëÇó
+    //qmlé¡µé¢å‘é€æ·»åŠ è¯·æ±‚
     void onSignalRequestAddFriend(QString friendId, QString verifyMsg);
-    //·şÎñÆ÷Í¨Öª³ÉÎªÁËºÃÓÑ
+    //æœåŠ¡å™¨é€šçŸ¥æˆä¸ºäº†å¥½å‹
     void onSignalBecomeFriend(const QString& msg);
-    //·şÎñÆ÷Í¨ÖªÓĞÈË¼ÓºÃÓÑ
+    //æœåŠ¡å™¨é€šçŸ¥æœ‰äººåŠ å¥½å‹
     void onSignalNewFriendRequest(const QString& msg);
-    //ÒªÇóĞŞ¸ÄÊı¾İ¿âÖĞlastchatµÄÄÚÈİ
+    //è¦æ±‚ä¿®æ”¹æ•°æ®åº“ä¸­lastchatçš„å†…å®¹
     void onSignalUpdateLastChat();
-    //ÒªÇó´ÓlastchatµÄqmlÒ³ÃæÖĞ»ñÈ¡µ±Ç°µÄË³Ğò
+    //è¦æ±‚ä»lastchatçš„qmlé¡µé¢ä¸­è·å–å½“å‰çš„é¡ºåº
     void onSignalGetModelOrder(QStringList& modelOrder);
 
 signals:
     void signalGetFriendListFinished();
-    //ÓĞºÃÓÑÍ¬ÒâÇëÇóÁË,·¢ËÍ¸øchatwidget½çÃæ£¬ÈÃËû¸üĞÂ½çÃæ
+    //æœ‰å¥½å‹åŒæ„è¯·æ±‚äº†,å‘é€ç»™chatwidgetç•Œé¢ï¼Œè®©ä»–æ›´æ–°ç•Œé¢
     void signalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
 
 private:
     ChatWidgetManager(QObject* parent = nullptr);
-    static std::mutex m_mutex;                  //Ëø£¬±£Ö¤Ïß³Ì°²È«
-    static SingletonPtr m_SingletonPtr;         //¸ÃÀàµÄÖÇÄÜÖ¸Õë
-    QString m_strUserId{ "" };                  //×Ô¼ºµÄid
-    QString m_strUserName{ "" };                //×Ô¼ºµÄêÇ³Æ
-    ThreadPool* m_ptrThreadPool{ nullptr };     //Ïß³Ì³Ø
+    static std::mutex m_mutex;                  //é”ï¼Œä¿è¯çº¿ç¨‹å®‰å…¨
+    static SingletonPtr m_SingletonPtr;         //è¯¥ç±»çš„æ™ºèƒ½æŒ‡é’ˆ
+    QString m_strUserId{ "" };                  //è‡ªå·±çš„id
+    QString m_strUserName{ "" };                //è‡ªå·±çš„æ˜µç§°
+    ThreadPool* m_ptrThreadPool{ nullptr };     //çº¿ç¨‹æ± 
 
-    QObject* m_ptrLastChatQMLRoot{ nullptr }; //ÉÏ´ÎÁÄÌìqmlµÄ¸ù¶ÔÏó
-    QObject* m_ptrFriendListQMLRoot{ nullptr };//ºÃÓÑÁĞ±íqmlµÄ¸ù¶ÔÏó
-    QObject* m_ptrAddFriendQMLRoot{ nullptr };  //Ìí¼ÓºÃÓÑqml½çÃæµÄ¸ù¶ÔÏó
+    QObject* m_ptrLastChatQMLRoot{ nullptr }; //ä¸Šæ¬¡èŠå¤©qmlçš„æ ¹å¯¹è±¡
+    QObject* m_ptrFriendListQMLRoot{ nullptr };//å¥½å‹åˆ—è¡¨qmlçš„æ ¹å¯¹è±¡
+    QObject* m_ptrAddFriendQMLRoot{ nullptr };  //æ·»åŠ å¥½å‹qmlç•Œé¢çš„æ ¹å¯¹è±¡
 
-    DatabaseOperateThread* m_ptrDBOperateThread{ nullptr };  //ÓÃÓÚ²Ù×÷lastchatÊı¾İ¿âµÄ×ÓÏß³Ì
+    DatabaseOperateThread* m_ptrDBOperateThread{ nullptr };  //ç”¨äºæ“ä½œlastchatæ•°æ®åº“çš„å­çº¿ç¨‹
 
-    void initConnect();         //³õÊ¼»¯ĞÅºÅ²ÛÁ¬½Ó
+    void initConnect();         //åˆå§‹åŒ–ä¿¡å·æ§½è¿æ¥
 };
