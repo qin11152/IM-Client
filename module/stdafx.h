@@ -13,6 +13,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 
+#include <set>
 #include <map>
 #include <list>
 #include <deque>
@@ -34,6 +35,7 @@
 #include <functional>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <condition_variable>
 
 #include <boost/property_tree/ptree.hpp>

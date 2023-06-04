@@ -48,9 +48,9 @@ void DatabaseOperateThread::init()
     }
 }
 
-void DatabaseOperateThread::setLastChatList(QStringList& lastChatList)
+void DatabaseOperateThread::setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder)
 {
-    m_lastChatList = lastChatList;
+    m_lastChatList = modelOrder;
 }
 
 //查询某个表是否存在
@@ -71,7 +71,7 @@ bool DatabaseOperateThread::isTableExist(const QString& tableName)const
 //创造一个lastchat表
 bool DatabaseOperateThread::createLastChat()const
 {
-    const QString str = "create table lastChatList" + m_strCurrentUserId + " (id int)";
+    const QString str = "create table lastChatList" + m_strCurrentUserId + " (id int,isGroupChat bool)";
     QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
@@ -93,9 +93,10 @@ bool DatabaseOperateThread::clearLastChat() const
     return true;
 }
 
-bool DatabaseOperateThread::insertLastChat(const QString& id)const
+bool DatabaseOperateThread::insertLastChat(const QString& id,bool isGroupChat)const
 {
-    const QString str = "insert into lastChatList" + m_strCurrentUserId + " values(" + id + ")";
+    QString isG = isGroupChat ? "1" : "0";
+    const QString str = "insert into lastChatList" + m_strCurrentUserId + " values(" + id + "," + isG + ")";
     QSqlQuery query(m_dataBase);
     if (!query.exec(str))
     {
@@ -103,13 +104,6 @@ bool DatabaseOperateThread::insertLastChat(const QString& id)const
         return false;
     }
     return true;
-}
-
-void DatabaseOperateThread::getLastChatOrder(QStringList& modelOrder) const
-{
-    QVariant tmp;
-    QMetaObject::invokeMethod(m_ptrLastChatQML, "getModelInfo", Qt::QueuedConnection ,Q_RETURN_ARG(QVariant, tmp));
-    modelOrder = tmp.toStringList();
 }
 
 void DatabaseOperateThread::run()
@@ -122,10 +116,6 @@ void DatabaseOperateThread::run()
         break;
     case static_cast<int>(DatabaseOperateType::UpdateLastChat):
         {
-            //然后获取当前的顺序
-            //QStringList newModelOrder;
-            //getLastChatOrder(newModelOrder);
-            //把的顺序存入表中
             //先看一下表是否存在，如果不存在，就创建一个表
             if(!isTableExist("lastchatlist" + m_strCurrentUserId))
             {
@@ -134,7 +124,7 @@ void DatabaseOperateThread::run()
             clearLastChat();
             for (int i = 0; i < m_lastChatList.size(); ++i)
             {
-                insertLastChat(m_lastChatList.at(i));
+                insertLastChat(m_lastChatList[i].first, m_lastChatList[i].second);
             }
         }
         break;

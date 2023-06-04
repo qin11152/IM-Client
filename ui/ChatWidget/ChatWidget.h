@@ -47,9 +47,6 @@ public:
 	ChatWidget& operator=(const ChatWidget& l) = delete;
 	MyChatMessageQuickWid* getChatMsgWidAcordId(QString id);
 
-	//像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
-	void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
-
 protected slots:
 	//事件过滤器的重载
 	bool eventFilter(QObject* watched, QEvent* event)override;
@@ -65,6 +62,14 @@ private slots:
 	 * \param lastChatInfo：姓名和id
 	 */
 	void initChatMessageWidAcordId(const MyLastChatFriendInfo& lastChatInfo);
+
+	/**
+	 * brief:初始化此群聊id对应的聊天界面，如果有十条就添加十条聊天记录，没有就有几条添加几条.
+	 * 
+	 * \param lastChatGroupInfo：群聊的名称和id
+	 */
+	void initGroupChatMessageWidAcordId(const MyLastChatGroupInfo& lastChatGroupInfo);
+
 	//初始化上次聊天列表
 	void initLastChatList();
 	//初始化聊天界面
@@ -88,9 +93,9 @@ private slots:
 	//发送消息按钮被点击后
 	void onSignalSendMessage();
 	//上次聊天列表被点击后
-	void onSignalLastChatItemClicked(const QString strId, const QString strName);
+	void onSignalLastChatItemClicked(const QString strId, const QString strName,bool bIsGroupChat);
 	//好友列表被点击
-	void onSignalFriendListItemClicked(QString strId,QString name);
+	void onSignalFriendListItemClicked(QString strId,QString name,bool bIsGroupChat);
 	//底部托盘被点击后
 	void onSignalTrayTriggered(QSystemTrayIcon::ActivationReason reason);
 	//搜索好友页面头像点击
@@ -135,6 +140,11 @@ private slots:
 	//闪烁定时器到时
 	void onSignalIconTwinkleTimerout();
 
+	//像上次聊天列表中添加一个新的，一般是添加了新的好友的时候调用
+	void onSignalAdd2LastChat(const MyFriendInfoWithFirstC& friendInfo);
+
+	//群聊相关
+
 	/**
 	 * brief：修改侧边栏中头像.
 	 * 
@@ -168,7 +178,7 @@ private slots:
 	 * \param id：id
 	 * \param imagePath：头像路径
 	 */
-	void onSignalAddFriendProfileImage(const QString& id, const QString& imagePath)const;
+	void onSignalAddFriendProfileImage(const QString& id, const QString& timeStamp, const QString& imagePath)const;
 
 	void onSignalStartGroupChatClicked();
 
@@ -197,7 +207,7 @@ private:
 	 * \param tmpOrder:获取到的上此聊天数据
 	 * \param db 要连接的数据库
 	 */
-	void getLastChatFromBackup(std::vector<QString>& tmpOrder,QSqlDatabase& db);
+	void getLastChatFromBackup(std::vector<std::pair<QString,bool>>& tmpOrder,QSqlDatabase& db);
 	/**
 	 * brief：和备份数据库进行连接，便于之后的子线程操作.
 	 * 

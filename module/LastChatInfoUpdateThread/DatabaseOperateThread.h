@@ -29,8 +29,7 @@ public:
     //初始化连接等操作
     void init();
     //设定最新的lastchat列表
-    void setLastChatList(QStringList& lastChatList);
-
+    void setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder);
 protected:
     void run()override;
 
@@ -42,9 +41,7 @@ private:
     //清空lastchat表
     bool clearLastChat() const;
     //向lastchat中插入记录
-    bool insertLastChat(const QString& id)const;
-    //获取最新的lastchat顺序
-    void getLastChatOrder(QStringList& modelOrder)const;
+    bool insertLastChat(const QString& id,bool isGroupChat)const;
 
 private:
     QObject* m_ptrLastChatQML{ nullptr };
@@ -55,5 +52,5 @@ private:
     //当前登录用户的id
     QString m_strCurrentUserId{ "" };
     //最新的lastchat列表
-    QStringList m_lastChatList;
+    std::vector<std::pair<QString, bool>> m_lastChatList;
 };

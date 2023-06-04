@@ -57,6 +57,16 @@ CurrentChatWidgetUserInfo PublicDataManager::getCurrentChatWidgetUserInfo() cons
 	return m_stuCurrentChatUserInfo;
 }
 
+CurrentChatWidgetState PublicDataManager::getCurrentChatWidgetState() const
+{
+	return m_eCurrentChatWidgetState;
+}
+
+MyGroupChatInfo PublicDataManager::getCurrentGroupChatInfo() const
+{
+	return m_stuGroupChatInfo;
+}
+
 MyFriendInfoWithFirstC PublicDataManager::getFriendInfoAcordId(const QString& id)
 {
 	return m_vecFriendInfoWithC[m_mapUserInfo[id]];
@@ -113,6 +123,11 @@ void PublicDataManager::setIdDirPath(const QString& path)
 void PublicDataManager::setImagePath(const QString& path)
 {
 	m_strImagePath = path;
+}
+
+void PublicDataManager::setCurrentChatWidgetState(CurrentChatWidgetState state)
+{
+	m_eCurrentChatWidgetState = state;
 }
 
 void PublicDataManager::updateProfileImagePathOfFriendInfoVec(const QString& id, const QString& path)

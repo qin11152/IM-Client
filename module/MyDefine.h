@@ -16,7 +16,7 @@ constexpr int kKeepAlivePackageTime = 299 * 1000;
 constexpr size_t kMsgBufferLength = 1024 * 10;
 
 constexpr char kHostIp[] = "43.142.158.231";
-constexpr int kHostPort = 9999;
+constexpr int kHostPort = 19999;
 
 constexpr int kMaxGroupName = 15;
 
@@ -99,6 +99,14 @@ enum FriendListType
 	SearchFriendWidget
 };
 
+//当前聊天窗口的状态，空，单聊或群聊
+enum class CurrentChatWidgetState
+{
+	Empty=0,
+	Single,
+	Group
+};
+
 enum class TrayIconState
 {
 	Normal=0,
@@ -122,6 +130,8 @@ public:
 	std::string m_strFirstChacter{""};
 	//头像的时间戳，如果不同说明修改过了，就重新获取一下头像
 	std::string m_strImageTimestamp{ "" };
+
+	bool m_bIsGroupChat{ false };
 
 	/*MyFriendInfoWithFirstC(std::string name, std::string imagePath, std::string id, std::string firstC, )
 	{
@@ -152,14 +162,33 @@ public:
 
 using MessageTypeBaseType = std::underlying_type<MessageType>::type;
 
+struct ChatBaseInfo
+{
+};
+
 struct MyLastChatFriendInfo
 {
 public:
 	QString m_strId;
 	QString m_strName;
-	MyLastChatFriendInfo(QString name="", QString id="") :
+	bool m_bIsGroup{ false };
+	MyLastChatFriendInfo(QString name = "", QString id = "", bool bIsGroupChat = false) :
 		m_strId(id),
-		m_strName(name)
+		m_strName(name),
+		m_bIsGroup(bIsGroupChat)
+	{}
+};
+
+struct MyLastChatGroupInfo
+{
+public:
+	QString m_strGroupId;
+	QString m_strGroupName;
+	bool m_bIsGroup{ true };
+	MyLastChatGroupInfo(QString name = "", QString id = "", bool bIsGroupChat = false) :
+		m_strGroupId(id),
+		m_strGroupName(name),
+		m_bIsGroup(bIsGroupChat)
 	{}
 };
 
@@ -218,6 +247,33 @@ struct CurrentChatWidgetUserInfo
 	{
 	}
 };
+
+struct MyGroupChatInfo
+{
+	//当前界面中聊天记录的数量
+	int recordCount;
+	//当前聊天界面中聊天群的id
+	std::string groupId;
+
+	MyGroupChatInfo(int cnt = 10, std::string id = "0")
+		:recordCount(cnt),
+		groupId(id)
+	{
+	}
+};
+
+Q_DECLARE_METATYPE(MyGroupChatInfo);
+Q_DECLARE_METATYPE(CurrentChatWidgetUserInfo);
+Q_DECLARE_METATYPE(AddFriendInfo);
+Q_DECLARE_METATYPE(MyAddFriendInfo)
+Q_DECLARE_METATYPE(MyChatMessageInfo)
+Q_DECLARE_METATYPE(MyLastChatGroupInfo)
+Q_DECLARE_METATYPE(MyLastChatFriendInfo)
+Q_DECLARE_METATYPE(FriendInfo)
+Q_DECLARE_METATYPE(MyFriendInfoForStartGroupChat)
+Q_DECLARE_METATYPE(MyFriendInfoWithFirstC)
+Q_DECLARE_METATYPE(MyFriendInfo)
+
 /************************************************************************/
 /* 公共函数                                                                     */
 /************************************************************************/

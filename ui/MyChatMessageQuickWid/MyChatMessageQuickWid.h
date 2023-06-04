@@ -53,6 +53,14 @@ public:
     //设置用户名称
     void setUserName(QString strUserName) { m_strUserName = strUserName; setInitial(m_strUserName.mid(0, 1)); }
 
+    void setGroupId(QString strGroupId) { m_strGroupId = strGroupId; }
+
+    QString getGroupId()const { return m_strGroupId; }
+
+    void setGroupName(const QString& groupName) { m_strGroupName = groupName; }
+
+    QString getGroupName()const { return m_strGroupName; }
+
 signals:
     void signalFocusChanged(bool bFocus);
 
@@ -69,11 +77,17 @@ private:
     QObject* m_ptrRootObj{ nullptr };
     //用户的id
     QString m_strId{ "-1" };
+    //群组的id
+    QString m_strGroupId{ "-1" };
     //用户的首字母
     QString m_strInitial{ "" };
     //用户的名称
     QString m_strUserName{ "" };
+    //群聊的名称
+    QString m_strGroupName{ "" };
     //未读消息数量
     int m_iUnreadMsgCnt{ 0 };
+    //是否为群聊
+    bool m_bIsGroupChat{ false };
 
 };

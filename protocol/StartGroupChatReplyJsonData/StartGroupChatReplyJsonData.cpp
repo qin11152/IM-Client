@@ -18,6 +18,7 @@ namespace protocol
 		read_json(sstream, m_ptree);
 		m_strGroupId = m_ptree.get<std::string>("GroupId");
 		m_strGuid = m_ptree.get<std::string>("Guid");
+		m_strGroupName = m_ptree.get<std::string>("Name");
 		m_bIsSuccess = m_ptree.get<bool>("IsSuccess");
 		for (auto& item : m_ptree.get_child("GroupChatVecId"))
 		{
@@ -37,6 +38,9 @@ namespace protocol
 
 		writer.Key("GroupId");
 		writer.String(m_strGroupId.c_str());
+
+		writer.Key("Name");
+		writer.String(m_strGroupName.c_str());
 
 		writer.Key("Guid");
 		writer.String(m_strGuid.c_str());

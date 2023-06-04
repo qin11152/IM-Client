@@ -51,7 +51,7 @@ void StartGroupChatWidget::onSignalFinishClicked()
 		startGroupChatInnerData.m_strGroupName = m_ptrAddFriendModel->getGroupName();
 		startGroupChatInnerData.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
 		startGroupChatInnerData.m_vecGroupChat = vecId;
-		return;
+		
 		//Qimage转qbytearray
 		QByteArray ba;
 		QBuffer buffer(&ba);

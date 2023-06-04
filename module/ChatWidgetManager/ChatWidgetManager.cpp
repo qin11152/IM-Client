@@ -6,12 +6,14 @@
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
+#include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "protocol/AddFriendNotifyJsonData/AddFriendNotifyJsonData.h"
 #include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
-#include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
 #include "protocol/AddFriendRequestJsonData/AddFriendRequestJsonData.h"
+#include "protocol/AddFriendResponseJsonData/AddFriendResponseJsonData.h"
+#include "protocol/StartGroupChatReplyJsonData/StartGroupChatReplyJsonData.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -59,9 +61,9 @@ void ChatWidgetManager::initDBThreadConnect()
 	m_ptrDBOperateThread->init();
 }
 
-void ChatWidgetManager::setLastChatList(QStringList& m_lastChatList) const
+void ChatWidgetManager::setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder) const
 {
-	m_ptrDBOperateThread->setLastChatList(m_lastChatList);
+	m_ptrDBOperateThread->setLastChatList(modelOrder);
 }
 
 void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::unordered_map<QString, int>& mapUserInfo,
@@ -87,6 +89,7 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 		tmpFriendInfo.m_strId = item.m_strFriendId;
 		tmpFriendInfo.m_strName = item.m_strFriendName;
 		tmpFriendInfo.m_strImageTimestamp = item.m_strFriendImageTimeStamp;
+		tmpFriendInfo.m_bIsGroupChat = false;
 		//从数据库获取头像路径
 		QString strImage = "";
 		DataBaseDelegate::Instance()->queryProfileImagePath(item.m_strFriendId.c_str(), strImage);
@@ -173,20 +176,42 @@ void ChatWidgetManager::onSignalUpdateLastChat()
 		m_ptrDBOperateThread->init();
 	}
 
-	QStringList tmpOrder;
-	onSignalGetModelOrder(tmpOrder);
-	setLastChatList(tmpOrder);
+	std::vector<std::pair<QString, bool>> modelOrder;
+	onSignalGetModelOrder(modelOrder);
+	setLastChatList(modelOrder);
 
 	//设置操作类型为更新上次聊天数据库
 	m_ptrDBOperateThread->setOperateType(DatabaseOperateType::UpdateLastChat);
 	m_ptrDBOperateThread->start();
 }
 
-void ChatWidgetManager::onSignalGetModelOrder(QStringList& modelOrder)
+void ChatWidgetManager::onSignalGetModelOrder(std::vector<std::pair<QString, bool>>& modelOrder)
 {
-	QVariant tmp;
-	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "getModelInfo", Q_RETURN_ARG(QVariant, tmp));
-	modelOrder = tmp.toStringList();
+	QVariant id;
+	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "getModelInfo", Q_RETURN_ARG(QVariant, id));
+	auto idList = id.toList();
+	QVariant isGroup;
+	QMetaObject::invokeMethod(m_ptrLastChatQMLRoot, "getModelGroupState", Q_RETURN_ARG(QVariant, isGroup));
+	auto isGroupList = isGroup.toList();
+	for (int i = 0; i < isGroupList.size(); ++i)
+	{
+		modelOrder.push_back(std::pair<QString,bool>( idList.at(i).toString(), isGroupList.at(i).toBool()));
+	}
+}
+
+void ChatWidgetManager::onSignalStartGroupChatReply(const QString& msg)
+{
+	//需要看下头像有没有，没有得获取好友头像
+	protocol::StartGroupChatReplyJsonData startGroupChatReplyData(msg.toStdString());
+	auto GroupVec = startGroupChatReplyData.m_vecGroupChatId;
+	compareImageTimeStamp(GroupVec);
+
+	//通知界面lastchat增加这个群聊
+	MyFriendInfoWithFirstC friendInfo;
+	friendInfo.m_bIsGroupChat = true;
+	friendInfo.m_strId = startGroupChatReplyData.m_strGroupId;
+	friendInfo.m_strName = startGroupChatReplyData.m_strGroupName;
+	emit signalAddGroupChat2LastChat(friendInfo);
 }
 
 ChatWidgetManager::ChatWidgetManager(QObject* parent)
@@ -216,6 +241,8 @@ void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* Friend
 	m_ptrFriendListQMLRoot = FriendListQMLRoot;
 	m_ptrAddFriendQMLRoot = AddFriendQMLRoot;
 	m_ptrDBOperateThread->setLastChatQML(m_ptrLastChatQMLRoot);
+	std::vector<std::pair<QString, bool>> modelOrder;
+	onSignalGetModelOrder(modelOrder);
 }
 
 void ChatWidgetManager::initDBOperateThread()
@@ -314,13 +341,45 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 			tmpInfo.m_strId = item.m_strId;
 			TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
 		}
-		if (0 == mapTimeStamp.count(item.m_strId))
-		{
-			DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(item.m_strId.c_str(), "", item.m_strImageTimestamp.c_str());
-		}
 		else if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
 		{
 			DataBaseDelegate::Instance()->updateFriendImageTimestamp(item.m_strId.c_str(), item.m_strImageTimestamp.c_str());
+		}
+	}
+}
+
+void ChatWidgetManager::compareImageTimeStamp(std::vector<std::string> vecId)
+{
+	auto dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlitecompareimage");
+	QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + m_strUserId + ".db";
+	dataBase.setDatabaseName(dataName);
+	if (!dataBase.open())
+	{
+		qDebug() << "open database failed";
+	}
+	const QString str = "select id, timestamp from profileImage";
+	std::unordered_set<std::string> setTimeStamp;
+	QSqlQuery query(dataBase);
+	if (!query.exec(str))
+	{
+		return;
+	}
+
+	while (query.next())
+	{
+		QSqlRecord record = query.record();
+		//查询到这个id
+		std::string id = record.value(0).toString().toStdString();
+		setTimeStamp.insert(id);
+	}
+	for (auto& item : vecId)
+	{
+		if (0 == setTimeStamp.count(item))
+		{
+			//TODO 发送消息到服务器，获取新头像
+			protocol::getProfileImageJsonData tmpInfo;
+			tmpInfo.m_strId = item;
+			TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
 		}
 	}
 }
@@ -342,6 +401,41 @@ std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QS
 	//查询聊天记录的起始位置是聊天页面当前的数量,查询的数量就是needcount
 	DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
 	return vecMyChatMessageInfo;
+}
+
+void ChatWidgetManager::handleSingleChatMessage(const QString& msg, const QString& id, const std::string timeStamp,const MyChatMessageQuickWid* chatWidgetPtr)
+{
+	//通过网络将信息发送出去
+	protocol::SingleChatMessageJsonData singleChatData;
+	singleChatData.m_strSendUserId = m_strUserId.toStdString();
+	singleChatData.m_strRecvUserId = (id).toStdString();
+	singleChatData.m_strMessage = msg.toStdString();
+	singleChatData.m_strTime = timeStamp;
+	singleChatData.m_strSendName = m_strUserName.toStdString();
+	std::string sendMessage = singleChatData.generateJson();
+	TCPThread::get_mutable_instance().sendMessage(sendMessage);
+
+	auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
+	//查看数据库中这个表是否存在
+	int totalCnt = chatWidgetPtr->getTotalRecordCount();
+	if (DataBaseDelegate::Instance()->isTableExist(QString::fromStdString(tablename)))
+	{
+		//添加到数据库
+		DataBaseDelegate::Instance()->insertChatRecoed(totalCnt, singleChatData.m_strRecvUserId.c_str(),
+			QString::fromStdString(singleChatData.m_strMessage),
+			QString::fromStdString(singleChatData.m_strTime), true,
+			m_strUserName);
+	}
+	else
+	{
+		//没有就创建这个表
+		DataBaseDelegate::Instance()->createUserChatTable(QString::fromStdString(singleChatData.m_strRecvUserId));
+		//添加到数据库
+		DataBaseDelegate::Instance()->insertChatRecoed(totalCnt, singleChatData.m_strRecvUserId.c_str(),
+			QString::fromStdString(singleChatData.m_strMessage),
+			QString::fromStdString(singleChatData.m_strTime), true,
+			m_strUserName);
+	}
 }
 
 void ChatWidgetManager::initConnect()

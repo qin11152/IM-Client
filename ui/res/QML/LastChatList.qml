@@ -4,10 +4,11 @@ import QtQuick.Controls 2.12
 Rectangle
 {
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
-    signal signalFriendListClicked(string strId,string name);
+    signal signalFriendListClicked(string strId,string name,bool isGroupChat);
     signal signalNeedUpdateLastChat();
 
     property var idList:[];
+    property var isGroup:[];
 
     //更新某个id对应的头像
     function updateFriendImage(strId,strImagePath)
@@ -40,8 +41,18 @@ Rectangle
         return idList;
     }
 
+    function getModelGroupState()
+    {
+        isGroup=[];
+        for(var i=0;i<friendListModel.count;++i)
+        {
+            isGroup.push(friendListModel.get(i).isGroupChat);
+        }
+        return isGroup;
+    }
+
     //判断model中有没有，没有添加
-    function judgeAndInsertToModel(strImagePath,strName,strId)
+    function judgeAndInsertToModel(strImagePath,strName,strId,bIsGroupChat)
     {
         for(var i=0;i<friendListModel.count;++i)
         {
@@ -50,7 +61,7 @@ Rectangle
                 return;
             }
         }
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"isGroupChat":bIsGroupChat, "updateUsed":false,"isRedShow":false});
         main.signalNeedUpdateLastChat();
     }
 
@@ -75,17 +86,16 @@ Rectangle
     }
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
-    function addElementToModel(strImagePath,strName,strId,strLastMsg)
+    function addElementToModel(strImagePath,strName,strId,bIsGroupChat,strLastMsg)
     {
-        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false,"lastMsg":strLastMsg});
+        friendListModel.append({"imagePath":strImagePath,"name":strName,"idx":strId,"isGroupChat":bIsGroupChat,"updateUsed":false,"isRedShow":false,"lastMsg":strLastMsg});
         main.signalNeedUpdateLastChat();
     }
 
     //插入元素到model中
-    function insertElementToModel(strImagePath,strName,strId)
+    function insertElementToModel(strImagePath,strName,strId,bIsGroupChat)
     {
-        console.log("444");
-        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"updateUsed":false,"isRedShow":false});
+        friendListModel.insert(0,{"imagePath":strImagePath,"name":strName,"idx":strId,"isGroupChat":bIsGroupChat,"updateUsed":false,"isRedShow":false});
         main.signalNeedUpdateLastChat();
     }
 
@@ -251,7 +261,7 @@ Rectangle
                     friendListView.currentIndex=index;
                     friendListView.lastIndex=index;
                     friendListView.lastItem=friendListView.currentItem;
-                    main.signalFriendListClicked(idx,name);
+                    main.signalFriendListClicked(idx,name,isGroupChat);
                 }
                 hoverEnabled: true;
                 //鼠标移动到上方时变为银色，如果移动到上次点击的item则不做处理

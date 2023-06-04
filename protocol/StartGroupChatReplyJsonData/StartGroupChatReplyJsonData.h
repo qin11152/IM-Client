@@ -12,6 +12,7 @@ namespace protocol
 
         std::string m_strGroupId{ "" };
         std::string m_strGuid{ "" };
+        std::string m_strGroupName{""};
         std::vector<std::string> m_vecGroupChatId;
         bool m_bIsSuccess{ false };
 

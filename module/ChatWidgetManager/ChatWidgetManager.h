@@ -5,7 +5,9 @@
 
 #include "module/stdafx.h"
 #include "module/ThreadPool/ThreadPool.h"
+#include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "module/LastChatInfoUpdateThread/DatabaseOperateThread.h"
+
 #include <QObject>
 
 class ChatWidgetManager : public QObject
@@ -32,7 +34,7 @@ public:
     //初始化数据库操作子线程连接
     void initDBThreadConnect();
     //设置子线程中最新的lastchat列表
-    void setLastChatList(QStringList& m_lastChatList)const;
+    void setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder)const;
 
     /**
      * brief:初始化每个账号所需要的文件夹和文件，如果不存在就创建.
@@ -48,14 +50,19 @@ public:
     void getLastChatListFromDB(std::vector <MyLastChatFriendInfo>& vecLastChatFriend);
     //将获取到的好有时间戳和数据库中的进行对比
     void compareImageTimestap(std::vector<MyFriendInfoWithFirstC> vecFriendInfo);
+    //将vec里的好友id和头像时间戳数据库进行一个比对,数据库没有就获取下
+    void compareImageTimeStamp(std::vector<std::string> vecId);
 
     //初始化的时候获取聊天记录，10条或者小于10条
     std::vector<MyChatMessageInfo> getChatMessageAcordIdAtInit(QString strId);
     //收到好友列表消息后
 
+
+    void handleSingleChatMessage(const QString& msg,const QString& id,const std::string timeStamp, const MyChatMessageQuickWid* chatWidgetPtr);
+
 public slots:
 
-    //服务器传来的好友信息
+    //服务器传来的好友列表信息
     void onSignalRecvFriendList(const QString& friendList, std::unordered_map<QString, int>& mapUserInfo, std::vector<MyFriendInfoWithFirstC>& vecFriendInfoWithC);
     //收到qml页面同意添加好友的请求
     void onSignalAgreeAddFriend(const QString& friendId);
@@ -68,12 +75,18 @@ public slots:
     //要求修改数据库中lastchat的内容
     void onSignalUpdateLastChat();
     //要求从lastchat的qml页面中获取当前的顺序
-    void onSignalGetModelOrder(QStringList& modelOrder);
+    void onSignalGetModelOrder(std::vector<std::pair<QString, bool>>& modelOrder);
+
+
+    //群聊相关
+    void onSignalStartGroupChatReply(const QString& msg);
 
 signals:
     void signalGetFriendListFinished();
     //有好友同意请求了,发送给chatwidget界面，让他更新界面
     void signalBecomeFriend(const MyFriendInfoWithFirstC& friendInfo);
+    //通知lastchat界面增加一个群聊
+    void signalAddGroupChat2LastChat(const MyFriendInfoWithFirstC& friendInfo);
 
 private:
     ChatWidgetManager(QObject* parent = nullptr);

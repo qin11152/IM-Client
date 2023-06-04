@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Rectangle {
 
     //传递出去当前是哪个id对应的对话被点击了，找出对应的聊天记录
-    signal signalFriendListClicked(string strId,string strName);
+    signal signalFriendListClicked(string strId,string strName,bool bIsGroupChat);
 
     //更新某个id对应的头像
     function updateFriendImage(strId,strImagePath)
@@ -20,9 +20,9 @@ Rectangle {
     }
 
     //增加元素到模型中，也就是增加一个会话到好友列表之中
-    function addElementToModel(strImagePath,strName,strId,strFirstChacter)
+    function addElementToModel(strImagePath,strName,strId,strFirstChacter,bIsGroupChat)
     {
-        addressBookModel.append({"imagePath":strImagePath,"name":strName,"strIdx":strId,"firstChacter":strFirstChacter});
+        addressBookModel.append({"imagePath":strImagePath,"name":strName,"strIdx":strId,"firstChacter":strFirstChacter,"isGroupChat":bIsGroupChat});
     }
 
     //清空好友列表
@@ -166,7 +166,7 @@ Rectangle {
                     addressBookView.currentIndex=index;
                     addressBookView.lastIndex=index;
                     addressBookView.lastItem=addressBookView.currentItem;
-                    addressBook.signalFriendListClicked(strIdx,name);
+                    addressBook.signalFriendListClicked(strIdx,name,isGroupChat);
                 }
                 hoverEnabled: true;
                 //鼠标移动到上方时变为银色，如果移动到上次点击的item则不做处理

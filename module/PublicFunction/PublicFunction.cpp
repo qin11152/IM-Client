@@ -85,7 +85,7 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 		painter.drawPixmap({ 0, 0, 250, 250 }, QPixmap(vecFriendImagePath[0].c_str()));
 		painter.drawPixmap({ 250, 0, 250, 250 }, QPixmap(vecFriendImagePath[1].c_str()));
-		painter.drawPixmap({ 0, 250, 25, 25 }, QPixmap(vecFriendImagePath[2].c_str()));
+		painter.drawPixmap({ 0, 250, 250, 250 }, QPixmap(vecFriendImagePath[2].c_str()));
 		painter.drawPixmap({ 250, 250, 250, 250 }, QPixmap(vecFriendImagePath[3].c_str()));
 	}
 	break;

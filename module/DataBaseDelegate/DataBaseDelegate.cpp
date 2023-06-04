@@ -125,9 +125,22 @@ bool DataBaseDelegate::createUserChatTable(const QString& userid)const
 	return true;
 }
 
+bool DataBaseDelegate::createGroupChatTable(const QString& groupId) const
+{
+	const QString str = "create table groupchat" + groupId + " (pos integer primary key autoincrement,message varchar(200),time varchar(20),userid integer,name varchar(20))";
+	QSqlQuery query(m_dataBase);
+	if (!query.exec(str))
+	{
+		_LOG(Logcxx::Level::ERRORS, "create group char table failed,id:%s", groupId.toStdString().c_str());
+		return false;
+	}
+	return true;
+}
+
+
 bool DataBaseDelegate::createLastChatListTable()const
 {
-	const QString str = "create table lastChatList (id int)";
+	const QString str = "create table lastChatList (id int,isGroupChat int)";
 	QSqlQuery query(m_dataBase);
 	if (!query.exec(str))
 	{
@@ -181,10 +194,18 @@ QString DataBaseDelegate::queryLastChatRecord(const QString& id) const
 
 //插入是插在最后边的，也就是最后一个插入的在表的最前边
 //而我们默认表中的顺序就是显示的顺序，所以要显示的第一个要最后一个插
-bool DataBaseDelegate::insertLastChat(const QString& id)const
+bool DataBaseDelegate::insertLastChat(const QString& id,bool isGroupChat)const
 {
 	QSqlQuery query(m_dataBase);
-	const QString str= "insert into lastChatList values(" + id + ")";
+	QString str = "";
+	if (isGroupChat)
+	{
+		str = "insert into lastChatList values(" + id + ",1)";
+	}
+	else
+	{
+		str = "insert into lastChatList values(" + id + ",0)";
+	}
 	if (!query.exec(str))
 	{
 		_LOG(Logcxx::Level::ERRORS, "insert last chat failed");
@@ -193,13 +214,22 @@ bool DataBaseDelegate::insertLastChat(const QString& id)const
 	return true;
 }
 
-bool DataBaseDelegate::insertLastChat(const std::vector<QString>& order) const
+bool DataBaseDelegate::insertLastChat(const std::vector<std::pair<QString, bool>>& order) const
 {
 	QSqlQuery query(m_dataBase);
 	QString str = "";
-	for(auto id:order)
+	for(auto item:order)
 	{
-		str = "insert into lastChatList values(" + id + ");";
+		str = "";
+		if (item.second)
+		{
+			str = "insert into lastChatList values(" + item.first + ",1)";
+		}
+		else
+		{
+			str = "insert into lastChatList values(" + item.first + ",0)";
+		}
+
 		if (!query.exec(str))
 		{
 			_LOG(Logcxx::Level::ERRORS, "insert last chat failed");
@@ -293,6 +323,7 @@ bool DataBaseDelegate::queryLastChatListFromDB(std::vector<MyLastChatFriendInfo>
 		auto tmp = MyLastChatFriendInfo();
 		record = query.record();
 		tmp.m_strId = record.value("id").toString();
+		tmp.m_bIsGroup = record.value("isGroupChat").toBool();
 		m_tmpVec.push_back(tmp);
 	}
 	return false;

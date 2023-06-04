@@ -19,6 +19,10 @@ public:
     QString getMyId()const;
     QString getMyName()const;
     CurrentChatWidgetUserInfo getCurrentChatWidgetUserInfo()const;
+    //查看当前聊天页面状态
+    CurrentChatWidgetState getCurrentChatWidgetState()const;
+    //获取群聊相关的信息
+    MyGroupChatInfo getCurrentGroupChatInfo()const;
 
     //根据id获取用户信息
     MyFriendInfoWithFirstC getFriendInfoAcordId(const QString& id);
@@ -32,6 +36,10 @@ public:
     void setUnreadMsg(const QString& id, int cnt);
     void setIdDirPath(const QString& path);
     void setImagePath(const QString& path);
+
+    //设置当前聊天页面状态
+    void setCurrentChatWidgetState(CurrentChatWidgetState state);
+
     /**
      * brief：好友头像修改后要将其在vec中的头像路径修改一下.
      * 
@@ -57,6 +65,10 @@ private:
     QString m_strId{ "" };
     QString m_strName{ "" };
     QString m_strImagePath{ "" };
+
+    //当前是群聊还是单聊
+    CurrentChatWidgetState m_eCurrentChatWidgetState{ CurrentChatWidgetState::Empty };
+
     //自己头像的时间戳
     QString m_strMyImageTimeStamp{ "" };
     QString m_strIdDirPath{ "" };   //自己id所在的文件夹路径
@@ -67,5 +79,6 @@ private:
     std::unordered_map<QString, int> m_mapUserInfo;     //存储好友id和该id在vec中对应的位置，以便查找信息
     std::vector<MyLastChatFriendInfo> m_vecLastChatFriend;        //上次聊天页面里的好友,这个是从数据库得到的顺序，只有id不包含其他信息
     CurrentChatWidgetUserInfo m_stuCurrentChatUserInfo;     //当前聊天界面中的相关信息（聊天记录数量，用户id）
+    MyGroupChatInfo m_stuGroupChatInfo;       //群聊的相关信息
 };
 

@@ -24,6 +24,8 @@ public:
     Q_INVOKABLE int getChatRecordCountFromDB(const QString& id)const;
     //创建与某个用户的聊天记录表
     bool createUserChatTable(const QString& userid)const;
+    //创建某个群聊的聊天记录表
+    bool createGroupChatTable(const QString& groupId)const;
     //创建上次聊天表
     bool createLastChatListTable()const;
     //创建头像信息表
@@ -33,9 +35,9 @@ public:
     //根据id获取最后一条聊天记录
     QString queryLastChatRecord(const QString& id)const;
     //只有id
-    bool insertLastChat(const QString& id)const;
+    bool insertLastChat(const QString& id,bool isGroupChat)const;
     //插入到上次聊天表中
-    bool insertLastChat(const std::vector<QString>& order)const;
+    bool insertLastChat(const std::vector<std::pair<QString,bool>>& order)const;
     //清空上次聊天表
     bool clearLastChat()const;
     //插入聊天记录

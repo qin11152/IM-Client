@@ -65,7 +65,7 @@ signals:
     //某个好友头像更新了的信号
     void signalProfileImageChanged(const QString& id,const QString& path);
     //添加好友时服务器推送过来的头像信息
-    void signalAddFriendProfileImage(const QString& id, const QString& path);
+    void signalAddFriendProfileImage(const QString& id, const QString& timeStamp, const QString& path);
 
     /////为了能够在子线程中发送接受消息，需要再封装一层
     //发送消息信号
@@ -81,6 +81,10 @@ signals:
     void signalSendIma(const QString& filePath,const QString& jsonMsg);
     void signalQtSendIma(const QByteArray& image, const QString& jsonMsg);
 
+
+    //群聊相关
+    void signalStartGroupChatReply(const QString& msg);
+
 private slots:
     //超过时间还没收到回复
     void onSignalTimeoutNoHeartPackage();
@@ -95,7 +99,7 @@ private slots:
 
 private:
     MyTCPSocket* m_ptrTcpSocket{ nullptr };      //socket指针
-    int m_iPort{ 9999 };                        //服务器端口
+    int m_iPort{ 19999 };                        //服务器端口
     QString m_strIp{ "43.142.158.231" };         //服务器ip
     bool m_bIsConnected{ false };                   //是否第一次发送消息
     QTimer* m_ptrTimerKeepAlive{ nullptr };

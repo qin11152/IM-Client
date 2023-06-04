@@ -312,11 +312,16 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 				//服务器推送了一个添加你好友的人的头像
 				else if(ProfileImageType::AddFriendProfileImage== profileImageMsgData.m_eImageType)
 				{
-					emit signalAddFriendProfileImage(profileImageMsgData.m_strId.c_str(), savePath);
+					emit signalAddFriendProfileImage(profileImageMsgData.m_strId.c_str(),profileImageMsgData.m_strTimeStamp.c_str(), savePath);
 				}
 				m_mapImageUUIDAndBase64.erase(profileImageMsgData.m_strUUID);
 				m_mapImageUUIDAndSegment.erase(profileImageMsgData.m_strUUID);
 			}
+		}
+		break;
+		case int(MessageType::StartGroupChatReply) :
+		{
+			emit signalStartGroupChatReply(QString::fromStdString(recvMessage));
 		}
 		break;
 		default:
