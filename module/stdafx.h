@@ -6,7 +6,13 @@
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 
+#if defined(WIN32)
 #include <Windows.h>
+#elif defined(__linux__)
+#include <string>
+#include <string.h>
+#include <unistd.h>
+#endif
 
 #include <QDebug>
 #include <QPainter>

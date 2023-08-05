@@ -54,7 +54,12 @@ QImage Base::image::generateGridImage(int cnt, std::vector<std::string>& vecFrie
 {
 	for (auto& item : vecFriendImagePath)
 	{
+#if __cplusplus >= 202002L
 		if (item.starts_with("qrc:"))
+#else
+		if(item.find("hello") == 0)
+#endif
+		
 		{
 			item = item.substr(3);
 		}

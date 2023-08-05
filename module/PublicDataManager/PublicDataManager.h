@@ -7,6 +7,24 @@
 #include <QObject>
 using namespace boost;
 
+#include <iostream>
+#include <unordered_map>
+#include <QString>
+
+// 定义一个哈希函数，将 QString 转换为 std::string 进行哈希
+struct QStringHash {
+    size_t operator()(const QString& str) const {
+        return std::hash<std::string>{}(str.toStdString());
+    }
+};
+
+// 定义一个比较函数，将两个 QString 进行比较
+struct QStringEqual {
+    bool operator()(const QString& lhs, const QString& rhs) const {
+        return lhs == rhs;
+    }
+};
+
 class PublicDataManager:public serialization::singleton<PublicDataManager>
 {
 public:

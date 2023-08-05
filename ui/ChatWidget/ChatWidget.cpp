@@ -1,6 +1,6 @@
 ﻿#include "ChatWidget.h"
 #include "ui_ChatWidget.h"
-#include "ui/MytextEdit/MyTextEdit.h"
+#include "ui/MyTextEdit/MyTextEdit.h"
 #include "ui/MyLineEdit/MyLineEdit.h"
 #include "module/Log/Log.h"
 #include "module/TCPThread/TCPThread.h"
@@ -829,10 +829,17 @@ void ChatWidget::onAddFriendIntoList(const MyFriendInfoWithFirstC& friendInfo)
 
 void ChatWidget::onSortFriendList()
 {
+#if __cplusplus >= 202002L
 	std::ranges::sort(PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().begin(), PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().end(), [&](const MyFriendInfoWithFirstC& l, const MyFriendInfoWithFirstC& r)
 	{
 			return l.m_strFirstChacter < r.m_strFirstChacter;
 	});
+#else
+	std::sort(PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().begin(), PublicDataManager::get_mutable_instance().getMyFriendInfoWithCVec().end(), [](const MyFriendInfoWithFirstC& l, const MyFriendInfoWithFirstC& r) {
+        return l.m_strFirstChacter < r.m_strFirstChacter;
+    });
+#endif
+
 }
 
 void ChatWidget::onUpdateFriendListUI() const

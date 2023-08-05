@@ -23,7 +23,11 @@ LogInWidget::~LogInWidget()
     {
         TCPThread::get_mutable_instance().quit();
     }
+#if defined(WIN32)
     Sleep(100);
+#elif (__linux__)
+    usleep(100000);
+#endif
     //析构掉注册页面指针
     if (m_ptrRegisterWidget != nullptr)
     {

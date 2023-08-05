@@ -74,7 +74,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -100,7 +100,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -189,7 +189,7 @@
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
     <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp" />
     <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp" />
-    <ClCompile Include="ui\MytextEdit\MyTextEdit.cpp" />
+    <ClCompile Include="ui\MyTextEdit\MyTextEdit.cpp" />
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp" />
     <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
@@ -227,6 +227,8 @@
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
     <ClInclude Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.h" />
     <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h" />
+    <QtMoc Include="ui\MyTextEdit\MyTextEdit.h" />
+    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h" />
     <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.h" />
     <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.h" />
     <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.h" />
@@ -240,9 +242,7 @@
     <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendWidget.h" />
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />
-    <QtMoc Include="ui\MytextEdit\MyTextEdit.h" />
     <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h" />
-    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h" />
     <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
     <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />

@@ -488,12 +488,12 @@ border:0px;</string>
   <customwidget>
    <class>MyLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>ui/MyLineEdit/MylineEdit.h</header>
+   <header>ui/MyLineEdit/MyLineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>MyTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>ui/MyTextEdit/MytextEdit.h</header>
+   <header>ui/MyTextEdit/MyTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
