@@ -70,9 +70,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TODO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp">
       <Filter>protocol\ProfileImageMsgJsonData</Filter>
     </ClCompile>

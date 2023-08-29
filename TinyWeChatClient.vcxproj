@@ -74,13 +74,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;E:\boost_1_75_0;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies);log4cxx.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\c++proj\TinyWeChatClient\lib;E:\boost_1_75_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);log4cxx.lib;$(Qt_LIBS_)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <QtMoc>
       <QtMocDir>$(SolutionDir)..\bin\$(Configuration)\moc</QtMocDir>
@@ -100,7 +100,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;E:\c++proj\TinyWeChatClient\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;E:\boost_1_75_0;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -114,7 +114,7 @@
       <QtUicDir>$(SolutionDir)..\bin\$(Configuration)\uic\</QtUicDir>
     </QtUic>
     <Link>
-      <AdditionalLibraryDirectories>E:\c++proj\TinyWeChatClient\lib;E:\boost_1_75_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies);log4cxx.lib;$(Qt_LIBS_)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -178,7 +178,6 @@
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
     <ClCompile Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.cpp" />
-    <ClCompile Include="TODO.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendWidget.cpp" />
