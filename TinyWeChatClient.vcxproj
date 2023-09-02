@@ -31,14 +31,14 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtInstall>5.14.2_msvc2017_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;quickcontrols2;widgets;concurrent;multimedia;quickwidgets;sql;svg;webenginecore;xml;webenginewidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QtPathBinaries>bin</QtPathBinaries>
     <QtPathLibraryExecutables>bin</QtPathLibraryExecutables>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>5.15.2_msvc2019_64</QtInstall>
+    <QtInstall>5.14.2_msvc2017_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;quickcontrols2;widgets;concurrent;multimedia;quickwidgets;sql;svg;webenginecore;xml;webenginewidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -147,6 +147,9 @@
   <ItemGroup>
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
+    <QtMoc Include="module\DataBaseDelegate\DatabaseOperate.h" />
+    <ClCompile Include="module\DataBaseDelegate\DatabaseOperate.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\UserChatDatabase.cpp" />
     <ClCompile Include="module\FileManager\FileManager.cpp" />
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
@@ -222,6 +225,7 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h" />
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
     <ClInclude Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.h" />

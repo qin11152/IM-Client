@@ -154,6 +154,12 @@
     <ClCompile Include="ui\MyTextEdit\MyTextEdit.cpp">
       <Filter>ui\MyTextEdit</Filter>
     </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\UserChatDatabase.cpp">
+      <Filter>module\DataBaseDelegate\UserChatDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\DatabaseOperate.cpp">
+      <Filter>module\DataBaseDelegate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -233,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h">
       <Filter>protocol\ImageJsonData</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h">
+      <Filter>module\DataBaseDelegate\UserChatDatabase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +333,9 @@
     </QtMoc>
     <QtMoc Include="ui\MyTextEdit\MyTextEdit.h">
       <Filter>ui\MyTextEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="module\DataBaseDelegate\DatabaseOperate.h">
+      <Filter>module\DataBaseDelegate</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +546,9 @@
     </Filter>
     <Filter Include="ui\MyTextEdit">
       <UniqueIdentifier>{b94e59cb-3f01-4e9e-a689-3ad7c57dff3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBaseDelegate\UserChatDatabase">
+      <UniqueIdentifier>{025eb432-474a-41ff-9d4d-d7621693b939}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
