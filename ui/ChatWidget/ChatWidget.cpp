@@ -6,6 +6,7 @@
 #include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
+#include "module/DataBaseDelegate/DatabaseOperate.h"
 #include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
@@ -50,6 +51,7 @@ ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
 	ChatWidgetManager::Instance()->initDBOperateThread();
 	DataBaseDelegate::Instance()->setUserId(m_strUserId);
 	DataBaseDelegate::Instance()->init();
+	database::DataBaseOperate::get_mutable_instance().init();
 	QString imagePath = kDefaultProfileImage;
 	DataBaseDelegate::Instance()->queryProfileImagePath(m_strUserId, imagePath);
 	PublicDataManager::get_mutable_instance().setImagePath(imagePath);

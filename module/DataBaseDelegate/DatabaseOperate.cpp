@@ -9,7 +9,7 @@ namespace database
     }
     DataBaseOperate::DataBaseOperate()
     {
-        init();
+        m_threadId = std::this_thread::get_id();
     }
 
     void DataBaseOperate::closeDB()
@@ -21,9 +21,10 @@ namespace database
         }
         m_bConnectedState = false;
     }
-    void DataBaseOperate::init()
+    
+    bool DataBaseOperate::init()
     {
-        m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite1");
+        m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlitespecial");
         //没有数据库文件夹就建立一个文件夹
         QString fileName = QApplication::applicationDirPath() + "/data";
         QDir dir(fileName);
@@ -32,25 +33,36 @@ namespace database
             dir.mkdir(fileName);
         }
         //建立一个库，没有就建立
-        QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" + PublicDataManager::get_mutable_instance().getMyId() + ".db";
+        QString dataName = QApplication::applicationDirPath() + "/data/chatinfo" +PublicDataManager::get_mutable_instance().getMyId() + ".db";
         m_dataBase.setDatabaseName(dataName);
         if (!m_dataBase.open())
         {
             _LOG(Logcxx::Level::ERRORS, "open data base failed");
-            return;
+            return false;
         }
+        return true;
     }
-    bool DataBaseOperate::executeSql(const QString& cmd, QSqlRecord& record)
+    bool DataBaseOperate::executeSql(const QString& cmd, QSqlQuery& query)
     {
-        record.clear();
-        QSqlQuery query(m_dataBase);
+        assert(m_threadId == std::this_thread::get_id());
+        query= QSqlQuery(m_dataBase);
         if (!query.exec(cmd))
         {
-            _LOG(Logcxx::Level::ERRORS, "get chat record count failed");
+            _LOG(Logcxx::Level::ERRORS, "exec sql failed");
+            auto tmperror = query.lastError();
+            auto str = tmperror.databaseText();
             return false;
         }
         int iMessageCount = { 0 };
-        record = query.record();
+        return true;
+    }
+    bool DataBaseOperate::isTableExist(const QString& tableName) const
+    {
+        if (!m_dataBase.tables().contains(tableName))
+        {
+            //_LOG(Logcxx::Level::ERRORS, "table not exist");
+            return false;
+        }
         return true;
     }
 }
