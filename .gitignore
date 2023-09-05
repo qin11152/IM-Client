@@ -59,3 +59,8 @@
 /TinyWeChatClient.aps
 /TinyWeChatClient.vcxproj.user
 /testlog4cxx.log
+/Release
+/Debug
+/bin
+/build
+/.vscode

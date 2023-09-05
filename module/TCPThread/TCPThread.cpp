@@ -1,9 +1,9 @@
 ﻿#include "TCPThread.h"
 #include "module/Log/Log.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/PublicDataManager/PublicDataManager.h"
-#include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
+#include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
 #include "protocol/ImageMsgJsonData/ProfileImageMsgJsonData.h"
+#include "protocol/HeartPackageJsonData/HeartPackageJsonData.h"
 
 #include <QUuid>
 #include <QFile>
@@ -279,7 +279,8 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 				// 先将之前的图片删除
 				
 				QString oldPath = "";
-				DataBaseDelegate::Instance()->queryProfileImagePath(profileImageMsgData.m_strId.c_str(), oldPath);
+				database::ProfilePictureDatabase profilePictureDatabase;
+				profilePictureDatabase.queryProfilePicturePath(profileImageMsgData.m_strId.c_str(), oldPath);
 				if (oldPath != " ")
 				{
 					QFile::remove(oldPath);
@@ -303,7 +304,7 @@ void TCPThread::onHandleMessage(const std::string& recvMessage)
 				}
 				//TODO这里需要判断有没有这个id对应的数据
 				//把这个新的路径存储在数据库中，并把新的路径更新到界面之中
-				DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), savePath, profileImageMsgData.m_strTimeStamp.c_str());
+				profilePictureDatabase.updateProfillePicturePathAndTimeStamp(profileImageMsgData.m_strId.c_str(), savePath, profileImageMsgData.m_strTimeStamp.c_str());
 				//更新头像的处理
 				if (ProfileImageType::UpdateProfileImage == profileImageMsgData.m_eImageType)
 				{

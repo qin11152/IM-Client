@@ -6,8 +6,6 @@ namespace database
         m_strFriendId(friendId),
         m_strFriendName(friendName)
     {
-        m_id = "1";
-        return;
         m_id = PublicDataManager::get_mutable_instance().getMyId();
     }
 
@@ -22,6 +20,7 @@ namespace database
         }
         return true;
     }
+
     bool UserChatDatabase::insertChatRecoed(int TotalCount, const QString& message, const QString& time, bool isSelf, const QString& name) const
     {
         auto strIsSelf = isSelf ? "true" : "false";
@@ -34,6 +33,7 @@ namespace database
         }
         return true;
     }
+
     QString UserChatDatabase::queryFinalChatRecord() const
     {
         QSqlQuery query;
@@ -48,11 +48,12 @@ namespace database
         }
         return "";
     }
-    bool UserChatDatabase::insertChatRecord(int TotalCount, const QString& message, const QString& time, bool isSelf) const
+
+    bool UserChatDatabase::insertChatRecord(int TotalCount, const QString& message, const QString& time, bool isSelf, const QString& name) const
     {
         QSqlQuery query;
         auto strIsSelf = isSelf ? "true" : "false";
-        const QString tmp = "insert into chatrecord" + m_strFriendId + " values (" + QString::number(TotalCount + 1) + ",\"" + message + "\",\"" + time + "\"," + strIsSelf + ",\"" + m_strFriendName + "\")";
+        const QString tmp = "insert into chatrecord" + m_strFriendId + " values (" + QString::number(TotalCount + 1) + ",\"" + message + "\",\"" + time + "\"," + strIsSelf + ",\"" + name + "\")";
         if (!DataBaseOperate::get_mutable_instance().executeSql(tmp, query))
         {
             _LOG(Logcxx::Level::ERRORS, "insert chat record failed");
@@ -60,6 +61,7 @@ namespace database
         }
         return true;
     }
+
     bool UserChatDatabase::queryCertainCountChatRecordAcodId(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount, int beginPos) const
     {
         const QString str = "select * from chatrecord" + id + " order by pos desc limit " + QString::number(beginPos) + ", " + QString::number(queryCount);
@@ -81,4 +83,23 @@ namespace database
         }
         return true;
     }
+    int UserChatDatabase::queryChatRecordCountFromDB(const QString& id) const
+    {
+        const QString str = "select count(*) from chatrecord" + id;
+        QSqlQuery query;
+        if (!DataBaseOperate::get_mutable_instance().executeSql(str, query))
+        {
+            _LOG(Logcxx::Level::ERRORS, "get chat record count failed");
+        }
+        int iMessageCount = { 0 };
+        QSqlRecord record = query.record();
+        while (query.next())
+        {
+            record = query.record();
+            iMessageCount = record.value(0).toInt();
+            break;
+        }
+        return iMessageCount;
+    }
 }
+

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "module/stdafx.h"
 #include "boost/serialization/serialization.hpp"
 
@@ -19,6 +21,7 @@ namespace database
         DataBaseOperate();
         void closeDB();
         bool init();
+        void initTables();
         /**
          * brief:调用数据库连接指定sql语句，只能在主线程中调用，不能跨线程调用.
          * 
@@ -27,6 +30,14 @@ namespace database
          * \return ：执行成功与否
          */
         bool executeSql(const QString& cmd,QSqlQuery& query);
+
+        /**
+         * brief：只关心执行结果，无需获取数据库中的查询值时调用.
+         * 
+         * \param cmd
+         * \return 
+         */
+        bool executeSqlWithoutReturn(const QString& cmd);
 
         /**
          * brief:查看某个表是否存在.

@@ -160,6 +160,18 @@
     <ClCompile Include="module\DataBaseDelegate\DatabaseOperate.cpp">
       <Filter>module\DataBaseDelegate</Filter>
     </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\LastChatDatabase.cpp">
+      <Filter>module\DataBaseDelegate\LastChatDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\AddFriendDatabase.cpp">
+      <Filter>module\DataBaseDelegate\AddFriendDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\ProfilePictureDatabase.cpp">
+      <Filter>module\DataBaseDelegate\ProfilePictureDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="module\DataBaseDelegate\GroupChatDatabase.cpp">
+      <Filter>module\DataBaseDelegate\GroupChatDatabase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -243,6 +255,24 @@
     <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h">
       <Filter>module\DataBaseDelegate\UserChatDatabase</Filter>
     </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\LastChatDatabase.h">
+      <Filter>module\DataBaseDelegate\LastChatDatabase</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\AddFriendDatabase.h">
+      <Filter>module\DataBaseDelegate\AddFriendDatabase</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\ProfilePictureDatabase.h">
+      <Filter>module\DataBaseDelegate\ProfilePictureDatabase</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\GroupChatDatabase.h">
+      <Filter>module\DataBaseDelegate\GroupChatDatabase</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\DataBaseDelegate.h">
+      <Filter>module\DataBaseDelegate</Filter>
+    </ClInclude>
+    <ClInclude Include="module\DataBaseDelegate\DatabaseOperateNeededFile.h">
+      <Filter>module\DataBaseDelegate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="ui\res\image\icon.png">
@@ -267,9 +297,6 @@
     </QtMoc>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
       <Filter>ui\RegisterWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h">
-      <Filter>module\DataBaseDelegate</Filter>
     </QtMoc>
     <QtMoc Include="module\TCPThread\TCPThread.h">
       <Filter>module\TCPThread</Filter>
@@ -549,6 +576,18 @@
     </Filter>
     <Filter Include="module\DataBaseDelegate\UserChatDatabase">
       <UniqueIdentifier>{025eb432-474a-41ff-9d4d-d7621693b939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBaseDelegate\LastChatDatabase">
+      <UniqueIdentifier>{267bbd3c-121f-4c6b-ab29-1c2110a91f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBaseDelegate\AddFriendDatabase">
+      <UniqueIdentifier>{c7f31df7-aad6-4b1e-8a1c-069c2effe005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBaseDelegate\ProfilePictureDatabase">
+      <UniqueIdentifier>{7c83b371-af98-49c2-83af-29310764734c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\DataBaseDelegate\GroupChatDatabase">
+      <UniqueIdentifier>{b26c332a-8ccf-4980-8a10-51f2e714abe9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

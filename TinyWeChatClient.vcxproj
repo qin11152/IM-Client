@@ -146,9 +146,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="module\ChatWidgetManager\ChatWidgetManager.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\AddFriendDatabase.cpp" />
     <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp" />
     <QtMoc Include="module\DataBaseDelegate\DatabaseOperate.h" />
     <ClCompile Include="module\DataBaseDelegate\DatabaseOperate.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\GroupChatDatabase.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\LastChatDatabase.cpp" />
+    <ClCompile Include="module\DataBaseDelegate\ProfilePictureDatabase.cpp" />
     <ClCompile Include="module\DataBaseDelegate\UserChatDatabase.cpp" />
     <ClCompile Include="module\FileManager\FileManager.cpp" />
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp" />
@@ -225,6 +229,11 @@
     <Image Include="ui\res\image\login_background.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="module\DataBaseDelegate\AddFriendDatabase.h" />
+    <ClInclude Include="module\DataBaseDelegate\DatabaseOperateNeededFile.h" />
+    <ClInclude Include="module\DataBaseDelegate\GroupChatDatabase.h" />
+    <ClInclude Include="module\DataBaseDelegate\LastChatDatabase.h" />
+    <ClInclude Include="module\DataBaseDelegate\ProfilePictureDatabase.h" />
     <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h" />
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
@@ -247,7 +256,7 @@
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />
     <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h" />
     <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
-    <QtMoc Include="module\DataBaseDelegate\DataBaseDelegate.h" />
+    <ClInclude Include="module\DataBaseDelegate\DataBaseDelegate.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />
     <QtMoc Include="module\FileManager\FileManager.h" />

@@ -3,8 +3,9 @@
 #include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
 #include "module/PublicDataManager/PublicDataManager.h"
+
 #include "protocol/GetFriendListJsonData/GetFriendListJsonData.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/InitialRequestJsonData/InitialRequestJsonData.h"
@@ -92,7 +93,8 @@ void ChatWidgetManager::onSignalRecvFriendList(const QString& friendList, std::u
 		tmpFriendInfo.m_bIsGroupChat = false;
 		//从数据库获取头像路径
 		QString strImage = "";
-		DataBaseDelegate::Instance()->queryProfileImagePath(item.m_strFriendId.c_str(), strImage);
+		database::ProfilePictureDatabase profilePictureDatabase;
+		profilePictureDatabase.queryProfilePicturePath(item.m_strFriendId.c_str(), strImage);
 		//如果数据库中没有头像路径，则使用默认头像
 		if (strImage.isEmpty())
 		{
@@ -115,7 +117,8 @@ void ChatWidgetManager::onSignalAgreeAddFriend(const QString& friendId)
 	//发送给服务器
 	TCPThread::get_mutable_instance().sendMessage(addFriendResponseJsonData.generateJson());
 	//修改注册表中的状态为true
-	DataBaseDelegate::Instance()->updateFriendRequestStateAcordId(friendId);
+	database::AddFriendDatabase addFriendDatabase;
+	addFriendDatabase.updateFriendRequestStateAcordId(friendId);
 }
 
 void ChatWidgetManager::onSignalRequestAddFriend(QString friendId, QString verifyMsg)
@@ -161,7 +164,8 @@ void ChatWidgetManager::onSignalNewFriendRequest(const QString& msg)
 	const char* friendId = addFriendRequestData.m_strFriendId.c_str();
 	const char* verifyMsg = addFriendRequestData.m_strVerifyMsg.c_str();
 	//添加好友的界面插入一个新的
-	DataBaseDelegate::Instance()->insertAddFriendRequest(friendId, name, verifyMsg);
+	database::AddFriendDatabase addFriendDatabase;
+	addFriendDatabase.insertAddFriendRequest(friendId, name, verifyMsg);
 	QMetaObject::invokeMethod(m_ptrAddFriendQMLRoot, "insertNewAddFriendRequest",
 							  Q_ARG(QVariant, Base::PinYin::convertToPinYin(name).mid(0, 1)), Q_ARG(QVariant, name),
 							  Q_ARG(QVariant, verifyMsg), Q_ARG(QVariant, false));
@@ -303,8 +307,9 @@ void ChatWidgetManager::notifyServerOnline()
 
 void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
 {
+	database::LastChatDatabase lastChatDatabase;
 	//map结构体，存储上次关闭时聊天列表中的顺序
-	DataBaseDelegate::Instance()->queryLastChatListFromDB(vecLastChatFriend);
+	lastChatDatabase.queryLastChatListFromDB(vecLastChatFriend);
 }
 
 void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC> vecFriendInfo)
@@ -343,7 +348,8 @@ void ChatWidgetManager::compareImageTimestap(std::vector<MyFriendInfoWithFirstC>
 		}
 		else if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
 		{
-			DataBaseDelegate::Instance()->updateFriendImageTimestamp(item.m_strId.c_str(), item.m_strImageTimestamp.c_str());
+			database::ProfilePictureDatabase profilePictureDatabase;
+			profilePictureDatabase.updateFriendPictureTimestamp(item.m_strId.c_str(), item.m_strImageTimestamp.c_str());
 		}
 	}
 }
@@ -387,7 +393,8 @@ void ChatWidgetManager::compareImageTimeStamp(std::vector<std::string> vecId)
 std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QString strId)
 {
 	//先看这个id的聊天记录有多少
-	int iMessageCount = DataBaseDelegate::Instance()->getChatRecordCountFromDB(strId);
+	database::UserChatDatabase userChatDatabase(strId.toStdString().c_str(), "");
+	int iMessageCount = userChatDatabase.queryChatRecordCountFromDB(strId);
 	//如果大于10条就加载十条，小于十条就有多少加载多少
 	int needLoadCount = (std::min)(10, iMessageCount);
 
@@ -399,7 +406,7 @@ std::vector<MyChatMessageInfo> ChatWidgetManager::getChatMessageAcordIdAtInit(QS
 		return vecMyChatMessageInfo;
 	}
 	//查询聊天记录的起始位置是聊天页面当前的数量,查询的数量就是needcount
-	DataBaseDelegate::Instance()->queryChatRecordAcodIdFromDB(strId, vecMyChatMessageInfo, needLoadCount, 0);
+	userChatDatabase.queryCertainCountChatRecordAcodId(strId, vecMyChatMessageInfo, needLoadCount, 0);
 	return vecMyChatMessageInfo;
 }
 
@@ -418,23 +425,21 @@ void ChatWidgetManager::handleSingleChatMessage(const QString& msg, const QStrin
 	auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
 	//查看数据库中这个表是否存在
 	int totalCnt = chatWidgetPtr->getTotalRecordCount();
-	if (DataBaseDelegate::Instance()->isTableExist(QString::fromStdString(tablename)))
+	if (database::DataBaseOperate::get_const_instance().isTableExist(QString::fromStdString(tablename)))
 	{
+		database::UserChatDatabase userChatDatabase(singleChatData.m_strRecvUserId.c_str(), "");
 		//添加到数据库
-		DataBaseDelegate::Instance()->insertChatRecoed(totalCnt, singleChatData.m_strRecvUserId.c_str(),
-			QString::fromStdString(singleChatData.m_strMessage),
-			QString::fromStdString(singleChatData.m_strTime), true,
-			m_strUserName);
+		userChatDatabase.insertChatRecoed(totalCnt,QString::fromStdString(singleChatData.m_strMessage),
+			QString::fromStdString(singleChatData.m_strTime), true,m_strUserName);
 	}
 	else
 	{
+		database::UserChatDatabase userChatDatabase(singleChatData.m_strRecvUserId.c_str(), "");
 		//没有就创建这个表
-		DataBaseDelegate::Instance()->createUserChatTable(QString::fromStdString(singleChatData.m_strRecvUserId));
+		userChatDatabase.createChatTable();
 		//添加到数据库
-		DataBaseDelegate::Instance()->insertChatRecoed(totalCnt, singleChatData.m_strRecvUserId.c_str(),
-			QString::fromStdString(singleChatData.m_strMessage),
-			QString::fromStdString(singleChatData.m_strTime), true,
-			m_strUserName);
+		userChatDatabase.insertChatRecoed(totalCnt, QString::fromStdString(singleChatData.m_strMessage),
+			QString::fromStdString(singleChatData.m_strTime), true, m_strUserName);
 	}
 }
 
