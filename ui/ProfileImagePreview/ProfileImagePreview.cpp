@@ -3,7 +3,7 @@
 #include "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
+#include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
 
 #include <QImageReader>
 #include <QPainter>
@@ -140,7 +140,8 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
 {
     QString id = PublicDataManager::get_mutable_instance().getMyId();
     QString lastPath = "";
-    DataBaseDelegate::Instance()->queryProfileImagePath(id,lastPath);
+    database::ProfilePictureDatabase profilePcitureDatabase;
+    profilePcitureDatabase.queryProfilePicturePath(id,lastPath);
     //如果已有路径且已存在图片则删除
     if (!lastPath.isEmpty())
     {
@@ -155,12 +156,12 @@ void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::s
     QString savePath = PublicDataManager::get_mutable_instance().getIdDirPath() + "/image/" + id + "." + suffix;
     PublicDataManager::get_mutable_instance().setImagePath(savePath);
     image.save(savePath);
-    if (DataBaseDelegate::Instance()->queryIsIdExistInProfile(id))
+    if (profilePcitureDatabase.queryIsIdExistInProfilePictureTable(id))
     {
-        DataBaseDelegate::Instance()->updateProfilleImagePathAndTimeStamp(id, savePath, timeStamp.c_str());
+        profilePcitureDatabase.updateProfillePicturePathAndTimeStamp(id, savePath, timeStamp.c_str());
     }
     else
     {
-        DataBaseDelegate::Instance()->insertProfilePathAndTimestamp(id, savePath, timeStamp.c_str());
+        profilePcitureDatabase.insertProfilePathAndTimestamp(id, savePath, timeStamp.c_str());
     }
 }

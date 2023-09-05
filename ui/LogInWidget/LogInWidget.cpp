@@ -1,6 +1,5 @@
 ﻿#include "LogInWidget.h"
-//#include "../../module/TCPConnect/TCPConnect.h"
-#include "../../protocol/LoginInJsonData/LoginInJsonData.h"
+#include "protocol/LoginInJsonData/LoginInJsonData.h"
 #include "protocol/LoginInReplyData/LoginInReplyData.h"
 #include "module/TCPThread/TCPThread.h"
 #include "ChatWidget/ChatWidget.h"

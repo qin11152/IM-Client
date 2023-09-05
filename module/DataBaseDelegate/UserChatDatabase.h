@@ -9,6 +9,8 @@ namespace database
     public:
         UserChatDatabase(const char* friendId, const char* friendName);
         ~UserChatDatabase()=default;
+        const UserChatDatabase& operator=(const UserChatDatabase& other) = delete;
+        UserChatDatabase(const UserChatDatabase& other) = delete;
 
         /**
          * brief：创建和这个好友id的聊天信息表.
@@ -44,7 +46,7 @@ namespace database
          * \param isSelf：是否自己发送的
          * \return 
          */
-        bool insertChatRecord(int TotalCount, const QString& message, const QString& time,bool isSelf)const;
+        bool insertChatRecord(int TotalCount, const QString& message, const QString& time,bool isSelf,const QString& name)const;
         /**
          * brief:根据查询一定数量的聊天记录.
          * 
@@ -56,6 +58,14 @@ namespace database
          */
         bool queryCertainCountChatRecordAcodId(QString id, std::vector<MyChatMessageInfo>& chatMessage, int queryCount,
             int beginPos=0)const;
+
+        /**
+         * brief：查询这个id总共有多少条聊天记录.
+         * 
+         * \param id：好友id
+         * \return 
+         */
+        int queryChatRecordCountFromDB(const QString& id)const;
 
     private:
         QString m_strFriendId{ "" };    //这个好友的id

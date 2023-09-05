@@ -3,6 +3,8 @@
 namespace database
 {
 
+    using CreateTableAccordingName = std::function<bool(const QString&)>;
+
     DataBaseOperate::~DataBaseOperate()
     {
         closeDB();
@@ -40,7 +42,23 @@ namespace database
             _LOG(Logcxx::Level::ERRORS, "open data base failed");
             return false;
         }
+        initTables();
         return true;
+    }
+    void DataBaseOperate::initTables()
+    {
+        std::map<std::string, std::string> kTableNameAndCmd;
+        kTableNameAndCmd["lastChatList"] = "create table lastChatList (id int,isGroupChat int)";
+        kTableNameAndCmd["profileImage"] = "create table profileImage (id varchar(10),imagePath varchar(100),timestamp varchar(30))";
+        kTableNameAndCmd["friendRequest"] = "create table friendRequest (id int,name varchar(40),isvalid bool,createdtime time,verifymessage varchar(30))";
+        CreateTableAccordingName creatFunc = std::bind(&DataBaseOperate::executeSqlWithoutReturn, this, std::placeholders::_1);
+        for (auto& item : kTableNameAndCmd)
+        {
+            if (!isTableExist(item.first.c_str()))
+            {
+                creatFunc(item.second.c_str());
+            }
+        }
     }
     bool DataBaseOperate::executeSql(const QString& cmd, QSqlQuery& query)
     {
@@ -48,14 +66,26 @@ namespace database
         query= QSqlQuery(m_dataBase);
         if (!query.exec(cmd))
         {
-            _LOG(Logcxx::Level::ERRORS, "exec sql failed");
-            auto tmperror = query.lastError();
-            auto str = tmperror.databaseText();
+            auto str = query.lastError().databaseText();
+            _LOG(Logcxx::Level::ERRORS, "exec sql failed,error is:", str.toStdString().c_str());
             return false;
         }
-        int iMessageCount = { 0 };
         return true;
     }
+
+    bool DataBaseOperate::executeSqlWithoutReturn(const QString& cmd)
+    {
+        assert(m_threadId == std::this_thread::get_id());
+        QSqlQuery query(m_dataBase);
+        if (!query.exec(cmd))
+        {
+            auto str = query.lastError().databaseText();
+            _LOG(Logcxx::Level::ERRORS, "exec sql failed,error is:", str.toStdString().c_str());
+            return false;
+        }
+        return true;
+    }
+
     bool DataBaseOperate::isTableExist(const QString& tableName) const
     {
         if (!m_dataBase.tables().contains(tableName))

@@ -2,7 +2,6 @@
 
 #include "ui_LogInWidget.h"
 #include "ui/RegisterWidget/RegisterWidget.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
 
 #include <QWidget>
 

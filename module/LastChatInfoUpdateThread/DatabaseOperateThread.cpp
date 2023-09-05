@@ -1,6 +1,5 @@
 ﻿#include "module/Log/Log.h"
 #include "DatabaseOperateThread.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
 
 #include <QDir>
