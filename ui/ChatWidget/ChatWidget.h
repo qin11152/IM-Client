@@ -11,6 +11,7 @@
 #include "ui/StartGroupChatWidget/StartGroupChatWidget.h"
 #include "ui/MyChatMessageQuickWid/MyChatMessageQuickWid.h"
 #include "ui/ChatWidget/FriendListModel/MyFriendListModel.h"
+#include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
 #include "ui/ChatWidget/FriendListModel/MyFriendListSortModel.h"
 
 #include <QTimer>

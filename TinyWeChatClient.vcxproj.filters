@@ -55,9 +55,6 @@
     <ClCompile Include="module\PublicFunction\PublicFunction.cpp">
       <Filter>module\PublicFunction</Filter>
     </ClCompile>
-    <ClCompile Include="module\DataBaseDelegate\DataBaseDelegate.cpp">
-      <Filter>module\DataBaseDelegate</Filter>
-    </ClCompile>
     <ClCompile Include="protocol\AddFriendResponseJsonData\AddFriendResponseJsonData.cpp">
       <Filter>protocol\AddFriendResponseJsonData</Filter>
     </ClCompile>
@@ -266,9 +263,6 @@
     </ClInclude>
     <ClInclude Include="module\DataBaseDelegate\GroupChatDatabase.h">
       <Filter>module\DataBaseDelegate\GroupChatDatabase</Filter>
-    </ClInclude>
-    <ClInclude Include="module\DataBaseDelegate\DataBaseDelegate.h">
-      <Filter>module\DataBaseDelegate</Filter>
     </ClInclude>
     <ClInclude Include="module\DataBaseDelegate\DatabaseOperateNeededFile.h">
       <Filter>module\DataBaseDelegate</Filter>
