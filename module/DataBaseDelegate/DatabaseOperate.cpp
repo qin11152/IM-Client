@@ -95,4 +95,49 @@ namespace database
         }
         return true;
     }
+
+    using SingletonPtr = std::shared_ptr<DatabaseOperateForQml>;
+    //初始化静态成员函数
+    SingletonPtr DatabaseOperateForQml::m_SingletonPtr = nullptr;
+
+    std::mutex DatabaseOperateForQml::m_mutex;
+
+    SingletonPtr DatabaseOperateForQml::instance()
+    {
+        //双重保护，第一重判空，避免生成多个
+        if (m_SingletonPtr == nullptr)
+        {
+            std::lock_guard<std::mutex> lck(m_mutex);
+            //加锁后判空，避免多线程生成多个实例
+            if (m_SingletonPtr == nullptr)
+            {
+                m_SingletonPtr = std::shared_ptr<DatabaseOperateForQml>(new DatabaseOperateForQml);
+            }
+        }
+        //返回指针
+        return m_SingletonPtr;
+    }
+
+    int DatabaseOperateForQml::getChatRecordCountFromDB(const QString& strId)
+    {
+        const QString str = "select count(*) from chatrecord" + strId;
+        QSqlQuery query;
+        if (!database::DataBaseOperate::get_mutable_instance().executeSql(strId, query))
+        {
+            _LOG(Logcxx::Level::ERRORS, "get chat record count failed");
+        }
+        int iMessageCount = { 0 };
+        QSqlRecord record = query.record();
+        while (query.next())
+        {
+            record = query.record();
+            iMessageCount = record.value(0).toInt();
+            break;
+        }
+        return iMessageCount;
+    }
+    DatabaseOperateForQml::DatabaseOperateForQml(QObject* parent)
+        :QObject(parent)
+    {
+    }
 }
