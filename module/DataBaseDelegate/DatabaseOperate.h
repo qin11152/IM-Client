@@ -56,4 +56,22 @@ namespace database
         //保存当前线程id
         std::thread::id m_threadId;
     };
+
+    class DatabaseOperateForQml : public QObject
+    {
+    public:
+        using SingletonPtr = std::shared_ptr<DatabaseOperateForQml>;
+        //单例模式，唯一获取其指针的方法，使用了智能指针，自动内存管理
+        static SingletonPtr instance();
+        virtual ~DatabaseOperateForQml() = default;
+
+        int getChatRecordCountFromDB(const QString& strId);
+
+    private:
+        static std::mutex m_mutex;                  //锁，保证线程安全
+        static SingletonPtr m_SingletonPtr;         //该类的智能指针
+        DatabaseOperateForQml(QObject* parent=nullptr);
+
+    };
 }
+

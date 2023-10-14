@@ -1,15 +1,13 @@
 ﻿#include "ChatWidget.h"
 #include "ui_ChatWidget.h"
+#include "module/Log/Log.h"
 #include "ui/MyTextEdit/MyTextEdit.h"
 #include "ui/MyLineEdit/MyLineEdit.h"
-#include "module/Log/Log.h"
 #include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/ChatWidgetManager/ChatWidgetManager.h"
-#include "module/PublicDataManager/PublicDataManager.h"
-#include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
 #include "protocol/ChatMessageJsonData/SingleChatMessageJsonData.h"
 #include "protocol/GetFriendListReplyData/GetFriendListReplyData.h"
 #include "protocol/getProfileImageJsonData/getProfileImageJsonData.h"
@@ -28,10 +26,9 @@ const QString ChatRecordTable = "chatrecord";
 
 QObject* getDataBaseSingleInstance(QQmlEngine* engine, QJSEngine* scriptEngine)
 {
-	//auto instance= DataBaseDelegate::Instance().get();
-	//QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
-	//return instance;
-	return nullptr;
+	auto instance = database::DatabaseOperateForQml::instance().get();
+	QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
+	return instance;
 }
 
 ChatWidget::ChatWidget(QString id, QString name, QWidget* parent)
@@ -512,7 +509,7 @@ void ChatWidget::initUi()
 	ui->textEdit->setFontPointSize(16);
 
 
-	//qmlRegisterSingletonType<DataBaseDelegate>("CPPService", 1, 0, "DataBase", getDataBaseSingleInstance);
+	qmlRegisterSingletonType<database::DatabaseOperateForQml>("CPPService", 1, 0, "DataBaseOperate", getDataBaseSingleInstance);
 
 	//把空的界面加入到stackedwid,有时会用到空白界面
 	m_ptrEmptyWid = new MyChatMessageQuickWid();

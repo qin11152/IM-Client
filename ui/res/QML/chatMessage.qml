@@ -90,7 +90,7 @@ Rectangle
     property int coucccc:0;
     function getRecordCount()
     {
-        coucccc= DataBase.getChatRecordCountFromDB(strIdx);
+        coucccc= DataBaseOperate.getChatRecordCountFromDB(strIdx);
         return coucccc;
     }
 
