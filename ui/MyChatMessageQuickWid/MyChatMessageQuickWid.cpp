@@ -1,5 +1,4 @@
 ﻿#include "MyChatMessageQuickWid.h"
-#include "module/DataBaseDelegate/DataBaseDelegate.h"
 
 MyChatMessageQuickWid::MyChatMessageQuickWid(QWidget *parent)
 	: QQuickWidget(parent)
