@@ -139,9 +139,6 @@
     <ClCompile Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.cpp">
       <Filter>ui\GroupChat\StartGroupChat\ChooseFriendGroupMVC</Filter>
     </ClCompile>
-    <ClCompile Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
-      <Filter>protocol\ImageJsonData\StartGroupChatJsonData</Filter>
-    </ClCompile>
     <ClCompile Include="ui\StartGroupChatWidget\StartGroupChatWidget.cpp">
       <Filter>ui\GroupChat\StartGroupChat</Filter>
     </ClCompile>
@@ -168,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="module\DataBaseDelegate\GroupChatDatabase.cpp">
       <Filter>module\DataBaseDelegate\GroupChatDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
+      <Filter>protocol\StartGroupChatJsonData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +243,6 @@
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h">
       <Filter>protocol\GroupChatJsonData</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.h">
-      <Filter>protocol\ImageJsonData\StartGroupChatJsonData</Filter>
-    </ClInclude>
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h">
       <Filter>protocol\ImageJsonData</Filter>
     </ClInclude>
@@ -266,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="module\DataBaseDelegate\DatabaseOperateNeededFile.h">
       <Filter>module\DataBaseDelegate</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h">
+      <Filter>protocol\StartGroupChatJsonData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,9 +556,6 @@
     <Filter Include="protocol\ImageJsonData">
       <UniqueIdentifier>{64260450-c446-481a-be07-65765b089daf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="protocol\ImageJsonData\StartGroupChatJsonData">
-      <UniqueIdentifier>{21ba89ee-c994-456d-86ec-48bd829d0b73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ui\GroupChat\StartGroupChat\AddedGroupFriendMVC">
       <UniqueIdentifier>{9826a2aa-9e70-4c65-b62f-36626949c130}</UniqueIdentifier>
     </Filter>
@@ -582,6 +579,9 @@
     </Filter>
     <Filter Include="module\DataBaseDelegate\GroupChatDatabase">
       <UniqueIdentifier>{b26c332a-8ccf-4980-8a10-51f2e714abe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol\StartGroupChatJsonData">
+      <UniqueIdentifier>{42568427-53ef-41c4-bc54-961432c9df04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

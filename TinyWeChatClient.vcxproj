@@ -176,13 +176,13 @@
     <ClCompile Include="protocol\getProfileImageJsonData\getProfileImageJsonData.cpp" />
     <ClCompile Include="protocol\GroupChatJsonData\GroupChatJsonData.cpp" />
     <ClCompile Include="protocol\HeartPackageJsonData\HeartPackageJsonData.cpp" />
-    <ClCompile Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.cpp" />
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp" />
     <ClCompile Include="protocol\InitialRequestJsonData\InitialRequestJsonData.cpp" />
     <ClCompile Include="protocol\LoginInJsonData\LoginInJsonData.cpp" />
     <ClCompile Include="protocol\LoginInReplyData\LoginInReplyData.cpp" />
     <ClCompile Include="protocol\RegisterJsonData\RegisterJsonData.cpp" />
     <ClCompile Include="protocol\RegisterReplyData\RegisterReplyData.cpp" />
+    <ClCompile Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.cpp" />
     <ClCompile Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendDelegate.cpp" />
     <ClCompile Include="ui\AddFriendWidget\AddFriendModel.cpp" />
@@ -236,7 +236,7 @@
     <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h" />
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
-    <ClInclude Include="protocol\ImageJsonData\StartGroupChatJsonData\StartGroupChatJsonData.h" />
+    <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h" />
     <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h" />
     <QtMoc Include="ui\MyTextEdit\MyTextEdit.h" />
     <QtMoc Include="ui\MyLineEdit\MyLineEdit.h" />
