@@ -1,6 +1,6 @@
 ﻿#include "StartGroupChatWidget.h"
 #include "module/TCPThread/TCPThread.h"
-#include "protocol/ImageJsonData/StartGroupChatJsonData/StartGroupChatJsonData.h"
+#include "protocol/StartGroupChatJsonData/StartGroupChatJsonData.h"
 
 #include <QBuffer>
 
@@ -47,22 +47,13 @@ void StartGroupChatWidget::onSignalFinishClicked()
 		//根据id生成群头像
 		auto image = Base::image::generateGridImage(vecFriendImagePath.size(), vecFriendImagePath);
 
-		protocol::StartGroupChatInnerData startGroupChatInnerData;
-		startGroupChatInnerData.m_strGroupName = m_ptrAddFriendModel->getGroupName();
-		startGroupChatInnerData.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
-		startGroupChatInnerData.m_vecGroupChat = vecId;
-		
-		//Qimage转qbytearray
-		QByteArray ba;
-		QBuffer buffer(&ba);
-		buffer.open(QIODevice::WriteOnly);
-		image.save(&buffer, "PNG");
+		//TODO图片等待使用http传送，并返回一个保存地址，地址给到下边结构体
 
 		protocol::StartGroupJsonData startGroupChat;
-		startGroupChat.m_strImageSuffix = "png";
-		startGroupChat.m_iImageLenth = buffer.size();
-		startGroupChat.m_stInnerData = startGroupChatInnerData;
-		TCPThread::get_mutable_instance().sendImage(ba, startGroupChat.generateJson().c_str());
+		startGroupChat.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
+		startGroupChat.m_strGroupName = m_ptrAddFriendModel->getGroupName();
+		startGroupChat.m_vecGroupChat = vecId;
+		//TCPThread::get_mutable_instance().sendImage(ba, startGroupChat.generateJson().c_str());
 	}
 }
 
@@ -81,7 +72,6 @@ void StartGroupChatWidget::onSignalUpdateSelectedState(const QString& id, bool n
 	{
 		m_ptrChooseFriendModel->updateModelSelectedState(id);
 	}
-	//TODO 更新到已选择的页面中
 	if (m_ptrAddFriendModel)
 	{
 		m_ptrAddFriendModel->onStateChanged(id, newState);
