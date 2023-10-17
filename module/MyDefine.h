@@ -35,7 +35,6 @@ enum class DatabaseOperateType
 enum class MessageType
 {
 	Default,
-	InfoWithImage,
 	RegisterRequest,
 	RegisterResponse,
 	LoginRequest,
