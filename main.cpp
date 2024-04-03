@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	std::string strLog4cxxPath = strPath.toStdString() + "/log4cxx.properties";
 	Logcxx::get_mutable_instance().Init(strLog4cxxPath.c_str());
 	_LOG(Logcxx::Level::INFO, "main start");
+
 	LogInWidget w;
 	w.show();
 	return a.exec();
