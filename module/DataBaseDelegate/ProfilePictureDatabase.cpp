@@ -1,5 +1,6 @@
 #include "ProfilePictureDatabase.h"
 
+using namespace module;
 namespace database
 {
     ProfilePictureDatabase::ProfilePictureDatabase()

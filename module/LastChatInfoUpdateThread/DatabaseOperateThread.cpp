@@ -7,116 +7,117 @@
 #include <QSqlQuery>
 #include <QApplication>
 
-
-DatabaseOperateThread::DatabaseOperateThread(QObject *parent)
-    : QThread(parent)
+namespace module
 {
-    //初始化的时候，先把数据库连接打开
-}
-
-void DatabaseOperateThread::setOperateType(const DatabaseOperateType& operateType)
-{
-    m_threadOperateType = operateType;
-}
-
-void DatabaseOperateThread::setCurUserId(const QString& curId)
-{
-    m_strCurrentUserId = curId;
-}
-
-void DatabaseOperateThread::init()
-{
-    //这里使用的是sqlite
-    m_dataBase = QSqlDatabase::addDatabase("QSQLITE","sqlite3");
-    //没有数据库文件夹就建立一个文件夹
-    const QString fileName = QApplication::applicationDirPath() + "/data";
-    const QDir dir(fileName);
-    if (!dir.exists())
+    DatabaseOperateThread::DatabaseOperateThread(QObject* parent)
+        : QThread(parent)
     {
-        if(!dir.mkdir(fileName))
+        //初始化的时候，先把数据库连接打开
+    }
+
+    void DatabaseOperateThread::setOperateType(const DatabaseOperateType& operateType)
+    {
+        m_threadOperateType = operateType;
+    }
+
+    void DatabaseOperateThread::setCurUserId(const QString& curId)
+    {
+        m_strCurrentUserId = curId;
+    }
+
+    void DatabaseOperateThread::init()
+    {
+        //这里使用的是sqlite
+        m_dataBase = QSqlDatabase::addDatabase("QSQLITE", "sqlite3");
+        //没有数据库文件夹就建立一个文件夹
+        const QString fileName = QApplication::applicationDirPath() + "/data";
+        const QDir dir(fileName);
+        if (!dir.exists())
         {
-           _LOG(Logcxx::Level::ERRORS,"创建数据库文件夹失败");
+            if (!dir.mkdir(fileName))
+            {
+                _LOG(Logcxx::Level::ERRORS, "创建数据库文件夹失败");
+            }
+        }
+        //建立一个库，没有就建立
+        const QString dataName = QApplication::applicationDirPath() + "/data/thread" + ".db";
+        m_dataBase.setDatabaseName(dataName);
+        if (!m_dataBase.open())
+        {
+            _LOG(Logcxx::Level::ERRORS, "open data base failed");
         }
     }
-    //建立一个库，没有就建立
-    const QString dataName = QApplication::applicationDirPath() + "/data/thread" + ".db";
-    m_dataBase.setDatabaseName(dataName);
-    if (!m_dataBase.open())
+
+    void DatabaseOperateThread::setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder)
     {
-        _LOG(Logcxx::Level::ERRORS, "open data base failed");
+        m_lastChatList = modelOrder;
     }
-}
 
-void DatabaseOperateThread::setLastChatList(std::vector<std::pair<QString, bool>>& modelOrder)
-{
-    m_lastChatList = modelOrder;
-}
-
-//查询某个表是否存在
-bool DatabaseOperateThread::isTableExist(const QString& tableName)const
-{
-    QSqlQuery query(m_dataBase);
-    query.exec("select count(*) from sqlite_master where type='table' and name='" + tableName + "'");
-    if (query.next())
+    //查询某个表是否存在
+    bool DatabaseOperateThread::isTableExist(const QString& tableName)const
     {
-        if (query.value(0).toInt() > 0)
+        QSqlQuery query(m_dataBase);
+        query.exec("select count(*) from sqlite_master where type='table' and name='" + tableName + "'");
+        if (query.next())
         {
-            return true;
+            if (query.value(0).toInt() > 0)
+            {
+                return true;
+            }
         }
-    }
-    return false;
-}
-
-//创造一个lastchat表
-bool DatabaseOperateThread::createLastChat()const
-{
-    const QString str = "create table lastChatList" + m_strCurrentUserId + " (id int,isGroupChat bool)";
-    QSqlQuery query(m_dataBase);
-    if (!query.exec(str))
-    {
-        _LOG(Logcxx::Level::ERRORS, "create lastChatList table failed");
         return false;
     }
-    return true;
-}
 
-bool DatabaseOperateThread::clearLastChat() const
-{
-    const QString str = "delete from lastchatlist" + m_strCurrentUserId + " where 1=1";
-    QSqlQuery query(m_dataBase);
-    if (!query.exec(str))
+    //创造一个lastchat表
+    bool DatabaseOperateThread::createLastChat()const
     {
-        _LOG(Logcxx::Level::ERRORS, "clear lastChatList table failed");
-        return false;
+        const QString str = "create table lastChatList" + m_strCurrentUserId + " (id int,isGroupChat bool)";
+        QSqlQuery query(m_dataBase);
+        if (!query.exec(str))
+        {
+            _LOG(Logcxx::Level::ERRORS, "create lastChatList table failed");
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
-bool DatabaseOperateThread::insertLastChat(const QString& id,bool isGroupChat)const
-{
-    QString isG = isGroupChat ? "1" : "0";
-    const QString str = "insert into lastChatList" + m_strCurrentUserId + " values(" + id + "," + isG + ")";
-    QSqlQuery query(m_dataBase);
-    if (!query.exec(str))
+    bool DatabaseOperateThread::clearLastChat() const
     {
-        _LOG(Logcxx::Level::ERRORS, "insert lastChatList table failed");
-        return false;
+        const QString str = "delete from lastchatlist" + m_strCurrentUserId + " where 1=1";
+        QSqlQuery query(m_dataBase);
+        if (!query.exec(str))
+        {
+            _LOG(Logcxx::Level::ERRORS, "clear lastChatList table failed");
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
-void DatabaseOperateThread::run()
-{
-    _LOG(Logcxx::Level::INFO, "DatabaseOperateThread run");
-    switch (static_cast<int>(m_threadOperateType))
+    bool DatabaseOperateThread::insertLastChat(const QString& id, bool isGroupChat)const
     {
-    case static_cast<int>(DatabaseOperateType::None):
+        QString isG = isGroupChat ? "1" : "0";
+        const QString str = "insert into lastChatList" + m_strCurrentUserId + " values(" + id + "," + isG + ")";
+        QSqlQuery query(m_dataBase);
+        if (!query.exec(str))
+        {
+            _LOG(Logcxx::Level::ERRORS, "insert lastChatList table failed");
+            return false;
+        }
+        return true;
+    }
+
+    void DatabaseOperateThread::run()
+    {
+        _LOG(Logcxx::Level::INFO, "DatabaseOperateThread run");
+        switch (static_cast<int>(m_threadOperateType))
+        {
+        case static_cast<int>(DatabaseOperateType::None):
         {}
         break;
-    case static_cast<int>(DatabaseOperateType::UpdateLastChat):
+        case static_cast<int>(DatabaseOperateType::UpdateLastChat):
         {
             //先看一下表是否存在，如果不存在，就创建一个表
-            if(!isTableExist("lastchatlist" + m_strCurrentUserId))
+            if (!isTableExist("lastchatlist" + m_strCurrentUserId))
             {
                 createLastChat();
             }
@@ -127,8 +128,9 @@ void DatabaseOperateThread::run()
             }
         }
         break;
-    default:
+        default:
         {}
         break;
+        }
     }
 }

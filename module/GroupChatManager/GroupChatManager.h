@@ -4,11 +4,14 @@
 
 #include <QObject>
 
-class GroupChatManager : public QObject, public boost::serialization::singleton<GroupChatManager>, public boost::noncopyable
+namespace module
 {
-	Q_OBJECT
+	class GroupChatManager : public QObject, public boost::serialization::singleton<GroupChatManager>, public boost::noncopyable
+	{
+		Q_OBJECT
 
-public:
-	GroupChatManager(QObject* parent = nullptr);
-	~GroupChatManager();
-};
+	public:
+		GroupChatManager(QObject* parent = nullptr);
+		~GroupChatManager();
+	};
+}

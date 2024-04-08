@@ -1,5 +1,7 @@
 #include "UserChatDatabase.h"
 
+using namespace module;
+
 namespace database
 {
     UserChatDatabase::UserChatDatabase(const char* friendId,const char* friendName):

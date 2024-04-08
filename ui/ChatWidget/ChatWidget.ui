@@ -218,7 +218,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="MyLineEdit" name="lineEdit"/>
+             <widget class="wechat::MyLineEdit" name="lineEdit"/>
             </item>
             <item>
              <widget class="QPushButton" name="startGroupChatBtn">
@@ -306,7 +306,7 @@
         </widget>
        </item>
        <item>
-        <widget class="MyStackedWidget" name="chatStackedWidget">
+        <widget class="wechat::MyStackedWidget" name="chatStackedWidget">
          <property name="minimumSize">
           <size>
            <width>500</width>
@@ -376,7 +376,7 @@
              </widget>
             </item>
             <item>
-             <widget class="MyTextEdit" name="textEdit">
+             <widget class="wechat::MyTextEdit" name="textEdit">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -480,20 +480,20 @@ border:0px;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MyStackedWidget</class>
+   <class>wechat::MyStackedWidget</class>
    <extends>QStackedWidget</extends>
-   <header>ui/MyStackedWidget/MyStackedWidget.h</header>
+   <header>ui/PublicGUI/MyStackedWidget/MyStackedWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>MyLineEdit</class>
+   <class>wechat::MyLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>ui/MyLineEdit/MyLineEdit.h</header>
+   <header>ui/PublicGUI/MyLineEdit/MyLineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>MyTextEdit</class>
+   <class>wechat::MyTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>ui/MyTextEdit/MyTextEdit.h</header>
+   <header>ui/PublicGUI/MyTextEdit/MyTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

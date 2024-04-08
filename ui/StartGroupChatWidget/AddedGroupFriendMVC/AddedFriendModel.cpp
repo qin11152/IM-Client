@@ -1,5 +1,7 @@
 ﻿#include "AddedFriendModel.h"
 
+using namespace module;
+
 AddedFriendModel::AddedFriendModel(QObject *parent)
 	: QAbstractListModel(parent)
 {

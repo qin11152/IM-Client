@@ -79,9 +79,6 @@
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp">
       <Filter>ui\MyChatMessageQuickWid</Filter>
     </ClCompile>
-    <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp">
-      <Filter>ui\MyStackedWidget</Filter>
-    </ClCompile>
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp">
       <Filter>ui\ProfileImagePreview</Filter>
     </ClCompile>
@@ -142,12 +139,6 @@
     <ClCompile Include="ui\StartGroupChatWidget\StartGroupChatWidget.cpp">
       <Filter>ui\GroupChat\StartGroupChat</Filter>
     </ClCompile>
-    <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp">
-      <Filter>ui\MyLineEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\MyTextEdit\MyTextEdit.cpp">
-      <Filter>ui\MyTextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="module\DataBaseDelegate\UserChatDatabase.cpp">
       <Filter>module\DataBaseDelegate\UserChatDatabase</Filter>
     </ClCompile>
@@ -168,6 +159,18 @@
     </ClCompile>
     <ClCompile Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.cpp">
       <Filter>protocol\StartGroupChatJsonData</Filter>
+    </ClCompile>
+    <ClCompile Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.cpp">
+      <Filter>module\HTTP\ChunkedUploadFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\PublicGUI\MytextEdit\MyTextEdit.cpp">
+      <Filter>ui\PublicGUI\MyTextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\PublicGUI\MyStackedWidget\MyStackedWidget.cpp">
+      <Filter>ui\PublicGUI\MyStackedWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\PublicGUI\MyLineEdit\MyLineEdit.cpp">
+      <Filter>ui\PublicGUI\MyLineEdit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +304,6 @@
     <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h">
       <Filter>ui\MyChatMessageQuickWid</Filter>
     </QtMoc>
-    <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h">
-      <Filter>ui\MyStackedWidget</Filter>
-    </QtMoc>
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h">
       <Filter>ui\ProfileImagePreview</Filter>
     </QtMoc>
@@ -349,14 +349,20 @@
     <QtMoc Include="ui\StartGroupChatWidget\StartGroupChatWidget.h">
       <Filter>ui\GroupChat\StartGroupChat</Filter>
     </QtMoc>
-    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h">
-      <Filter>ui\MyLineEdit</Filter>
-    </QtMoc>
-    <QtMoc Include="ui\MyTextEdit\MyTextEdit.h">
-      <Filter>ui\MyTextEdit</Filter>
-    </QtMoc>
     <QtMoc Include="module\DataBaseDelegate\DatabaseOperate.h">
       <Filter>module\DataBaseDelegate</Filter>
+    </QtMoc>
+    <QtMoc Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.h">
+      <Filter>module\HTTP\ChunkedUploadFile</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\PublicGUI\MytextEdit\MyTextEdit.h">
+      <Filter>ui\PublicGUI\MyTextEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\PublicGUI\MyStackedWidget\MyStackedWidget.h">
+      <Filter>ui\PublicGUI\MyStackedWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="ui\PublicGUI\MyLineEdit\MyLineEdit.h">
+      <Filter>ui\PublicGUI\MyLineEdit</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -381,8 +387,8 @@
     <QtUic Include="ui\StartGroupChatWidget\StartGroupChatWidget.ui">
       <Filter>ui\GroupChat\StartGroupChat</Filter>
     </QtUic>
-    <QtUic Include="ui\MyLineEdit\MyLineEdit.ui">
-      <Filter>ui\MyLineEdit</Filter>
+    <QtUic Include="ui\PublicGUI\MyLineEdit\MyLineEdit.ui">
+      <Filter>ui\PublicGUI\MyLineEdit</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -505,12 +511,6 @@
     <Filter Include="ui\MyChatMessageQuickWid">
       <UniqueIdentifier>{f5871763-b5ce-472c-91a2-61314ef0b603}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ui\MyLineEdit">
-      <UniqueIdentifier>{36ac615c-b52c-4b79-b4f5-55d983ec0c8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ui\MyStackedWidget">
-      <UniqueIdentifier>{282a0759-4fda-4879-96aa-4952f58cecf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ui\ProfileImagePreview">
       <UniqueIdentifier>{82a3d7d9-2638-4c96-bd5c-fbfc023f1f38}</UniqueIdentifier>
     </Filter>
@@ -562,9 +562,6 @@
     <Filter Include="ui\GroupChat\StartGroupChat\ChooseFriendGroupMVC">
       <UniqueIdentifier>{34804826-bd7c-418a-8dc6-a776d6421305}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ui\MyTextEdit">
-      <UniqueIdentifier>{b94e59cb-3f01-4e9e-a689-3ad7c57dff3e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="module\DataBaseDelegate\UserChatDatabase">
       <UniqueIdentifier>{025eb432-474a-41ff-9d4d-d7621693b939}</UniqueIdentifier>
     </Filter>
@@ -582,6 +579,21 @@
     </Filter>
     <Filter Include="protocol\StartGroupChatJsonData">
       <UniqueIdentifier>{42568427-53ef-41c4-bc54-961432c9df04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\HTTP">
+      <UniqueIdentifier>{eb22e7f0-698a-40a7-a730-94b55fec54f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\HTTP\ChunkedUploadFile">
+      <UniqueIdentifier>{9498a300-aa47-4190-88c6-209bc174ca30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\PublicGUI\MyTextEdit">
+      <UniqueIdentifier>{b94e59cb-3f01-4e9e-a689-3ad7c57dff3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\PublicGUI\MyStackedWidget">
+      <UniqueIdentifier>{282a0759-4fda-4879-96aa-4952f58cecf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\PublicGUI\MyLineEdit">
+      <UniqueIdentifier>{36ac615c-b52c-4b79-b4f5-55d983ec0c8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

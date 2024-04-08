@@ -7,52 +7,56 @@
 
 #include <QWidget>
 
-class AddFriendWidget : public QWidget
+namespace wechat
 {
-    Q_OBJECT
 
-public:
-    AddFriendWidget(QWidget *parent = nullptr);
-    ~AddFriendWidget();
+    class AddFriendWidget : public QWidget
+    {
+        Q_OBJECT
 
-    void setData(std::vector<AddFriendInfo>& vecFriendInfo);
+    public:
+        AddFriendWidget(QWidget* parent = nullptr);
+        ~AddFriendWidget();
 
-    void updateModelValidState(const QString& id, bool validState);
+        void setData(std::vector<AddFriendInfo>& vecFriendInfo);
 
-    void updateModelImagePath(const QString& id, const QString& path);
-private slots:
-    /**
-     * brief：当发送按钮点击后.
-     */
-    void onSignalAddBtnClicked();
+        void updateModelValidState(const QString& id, bool validState);
 
-    void onSignalAgreeClicked(const QString& id);
+        void updateModelImagePath(const QString& id, const QString& path);
+    private slots:
+        /**
+         * brief：当发送按钮点击后.
+         */
+        void onSignalAddBtnClicked();
 
-protected:
-    void closeEvent(QCloseEvent* event)override;
+        void onSignalAgreeClicked(const QString& id);
 
-private:
-    /**
-     * brief：初始化界面相关操作.
-     * 
-     */
-    void initUI();
-    
-    /**
-     * brief：初始化信号槽连接.
-     * 
-     */
-    void initConnect();
+    protected:
+        void closeEvent(QCloseEvent* event)override;
 
-    /**
-     * brief：初始化数据.
-     * 
-     */
-    void initData();
+    private:
+        /**
+         * brief：初始化界面相关操作.
+         *
+         */
+        void initUI();
 
-private:
-    Ui::AddFriendWidgetClass ui;
-    NotifyLabel* m_notifyLabel{ nullptr };
-    AddFriendModel* m_ptrModel{ nullptr };
-    AddFriendDelegate* m_ptrDelegate{ nullptr };
-};
+        /**
+         * brief：初始化信号槽连接.
+         *
+         */
+        void initConnect();
+
+        /**
+         * brief：初始化数据.
+         *
+         */
+        void initData();
+
+    private:
+        Ui::AddFriendWidgetClass ui;
+        NotifyLabel* m_notifyLabel{ nullptr };
+        AddFriendModel* m_ptrModel{ nullptr };
+        AddFriendDelegate* m_ptrDelegate{ nullptr };
+    };
+}

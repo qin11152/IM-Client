@@ -1,5 +1,7 @@
 #include "LastChatDatabase.h"
 
+using namespace module;
+
 namespace database
 {
     LastChatDatabase::LastChatDatabase()

@@ -1,5 +1,6 @@
 #include "AddFriendDatabase.h"
 
+using namespace module;
 namespace database
 {
     AddFriendDatabase::AddFriendDatabase()

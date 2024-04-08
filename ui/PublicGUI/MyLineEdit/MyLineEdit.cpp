@@ -1,29 +1,33 @@
 #include "MyLineEdit.h"
 #include "module/stdafx.h"
 
-MyLineEdit::MyLineEdit(QWidget *parent)
-    : QLineEdit(parent)
-{
-    ui.setupUi(this);
-}
 
-MyLineEdit::~MyLineEdit()
+namespace wechat
 {
-}
+    MyLineEdit::MyLineEdit(QWidget* parent)
+        : QLineEdit(parent)
+    {
+        ui.setupUi(this);
+    }
 
-void MyLineEdit::focusInEvent(QFocusEvent* e)
-{
-    emit signalIsFocus(true);
-    QLineEdit::focusInEvent(e);
-}
+    MyLineEdit::~MyLineEdit()
+    {
+    }
 
-void MyLineEdit::focusOutEvent(QFocusEvent* e)
-{
-    emit signalIsFocus(false);
-    QLineEdit::focusOutEvent(e);
-}
+    void MyLineEdit::focusInEvent(QFocusEvent* e)
+    {
+        emit signalIsFocus(true);
+        QLineEdit::focusInEvent(e);
+    }
 
-void MyLineEdit::dragLeaveEvent(QDragLeaveEvent* e)
-{
-    QWidget::dragLeaveEvent(e);
+    void MyLineEdit::focusOutEvent(QFocusEvent* e)
+    {
+        emit signalIsFocus(false);
+        QLineEdit::focusOutEvent(e);
+    }
+
+    void MyLineEdit::dragLeaveEvent(QDragLeaveEvent* e)
+    {
+        QWidget::dragLeaveEvent(e);
+    }
 }

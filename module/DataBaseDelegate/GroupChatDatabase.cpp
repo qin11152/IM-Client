@@ -1,5 +1,7 @@
 #include "GroupChatDatabase.h"
 
+using namespace module;
+
 namespace database
 {
     GroupChatDatabase::GroupChatDatabase(const char* strGroupId)

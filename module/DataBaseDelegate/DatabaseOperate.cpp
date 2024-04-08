@@ -1,5 +1,7 @@
 #include "DatabaseOperate.h"
 
+using namespace module;
+
 namespace database
 {
 

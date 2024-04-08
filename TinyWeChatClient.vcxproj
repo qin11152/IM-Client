@@ -59,11 +59,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <IncludePath>E:\boost_1_75_0;$(IncludePath)</IncludePath>
     <LibraryPath>E:\boost_1_75_0\libs;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\bin\$(Configuration)\trash\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,6 +155,7 @@
     <ClCompile Include="module\DataBaseDelegate\UserChatDatabase.cpp" />
     <ClCompile Include="module\FileManager\FileManager.cpp" />
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp" />
+    <ClCompile Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
     <ClCompile Include="module\Log\Log.cpp" />
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
@@ -192,10 +193,10 @@
     <ClCompile Include="ui\ChatWidget\FriendListModel\MyFriendListSortModel.cpp" />
     <ClCompile Include="ui\LogInWidget\LogInWidget.cpp" />
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp" />
-    <ClCompile Include="ui\MyLineEdit\MyLineEdit.cpp" />
-    <ClCompile Include="ui\MyStackedWidget\MyStackedWidget.cpp" />
-    <ClCompile Include="ui\MyTextEdit\MyTextEdit.cpp" />
     <ClCompile Include="ui\ProfileImagePreview\ProfileImagePreview.cpp" />
+    <ClCompile Include="ui\PublicGUI\MyLineEdit\MyLineEdit.cpp" />
+    <ClCompile Include="ui\PublicGUI\MyStackedWidget\MyStackedWidget.cpp" />
+    <ClCompile Include="ui\PublicGUI\MytextEdit\MyTextEdit.cpp" />
     <ClCompile Include="ui\PublicGUI\NotifyLabel\NotifyLabel.cpp" />
     <ClCompile Include="ui\RegisterWidget\RegisterWidget.cpp" />
     <ClCompile Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.cpp" />
@@ -215,8 +216,8 @@
     <QtUic Include="ui\ChatWidget\ChatWidget.ui" />
     <QtUic Include="ui\LogInWidget\LogInWidget.ui" />
     <QtUic Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.ui" />
-    <QtUic Include="ui\MyLineEdit\MyLineEdit.ui" />
     <QtUic Include="ui\ProfileImagePreview\ProfileImagePreview.ui" />
+    <QtUic Include="ui\PublicGUI\MyLineEdit\MyLineEdit.ui" />
     <QtUic Include="ui\RegisterWidget\RegisterWidget.ui" />
     <QtUic Include="ui\StartGroupChatWidget\StartGroupChatWidget.ui" />
   </ItemGroup>
@@ -234,12 +235,14 @@
     <ClInclude Include="module\DataBaseDelegate\LastChatDatabase.h" />
     <ClInclude Include="module\DataBaseDelegate\ProfilePictureDatabase.h" />
     <ClInclude Include="module\DataBaseDelegate\UserChatDatabase.h" />
+    <QtMoc Include="ui\PublicGUI\MyLineEdit\MyLineEdit.h" />
+    <QtMoc Include="ui\PublicGUI\MyStackedWidget\MyStackedWidget.h" />
+    <QtMoc Include="ui\PublicGUI\MytextEdit\MyTextEdit.h" />
+    <QtMoc Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.h" />
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
     <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h" />
     <ClInclude Include="protocol\StartGroupChatReplyJsonData\StartGroupChatReplyJsonData.h" />
-    <QtMoc Include="ui\MyTextEdit\MyTextEdit.h" />
-    <QtMoc Include="ui\MyLineEdit\MyLineEdit.h" />
     <QtMoc Include="ui\StartGroupChatWidget\ChooseFriendGroupMVC\ChooseFriendSortModel.h" />
     <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendDelegate.h" />
     <QtMoc Include="ui\StartGroupChatWidget\AddedGroupFriendMVC\AddedFriendModel.h" />
@@ -253,7 +256,6 @@
     <QtMoc Include="ui\PublicGUI\NotifyLabel\NotifyLabel.h" />
     <QtMoc Include="ui\AddFriendWidget\AddFriendWidget.h" />
     <QtMoc Include="ui\ProfileImagePreview\ProfileImagePreview.h" />
-    <QtMoc Include="ui\MyStackedWidget\MyStackedWidget.h" />
     <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h" />
     <QtMoc Include="module\ChatWidgetManager\ChatWidgetManager.h" />
     <QtMoc Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.h" />

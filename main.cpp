@@ -1,5 +1,5 @@
 ﻿#include "ui/LogInWidget/LogInWidget.h"
-#include  "module/Log/Log.h"
+#include "module/Log/Log.h"
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[])
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	Logcxx::get_mutable_instance().Init(strLog4cxxPath.c_str());
 	_LOG(Logcxx::Level::INFO, "main start");
 
-	LogInWidget w;
+	wechat::LogInWidget w;
 	w.show();
 	return a.exec();
 }

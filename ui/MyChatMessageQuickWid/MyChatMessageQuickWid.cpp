@@ -1,65 +1,69 @@
 ﻿#include "MyChatMessageQuickWid.h"
 
-MyChatMessageQuickWid::MyChatMessageQuickWid(QWidget *parent)
-	: QQuickWidget(parent)
-{
-	ui.setupUi(this);
-}
 
-MyChatMessageQuickWid::~MyChatMessageQuickWid()
+namespace wechat
 {
-}
+	MyChatMessageQuickWid::MyChatMessageQuickWid(QWidget* parent)
+		: QQuickWidget(parent)
+	{
+		ui.setupUi(this);
+	}
 
-//设置和当前用户的聊天记录数量
-void MyChatMessageQuickWid::addTotalAndCurrentRecordCount(int cnt)
-{
-	m_iChatRecordCount += cnt;
-	m_iTotalRecordCount += cnt;
-}
+	MyChatMessageQuickWid::~MyChatMessageQuickWid()
+	{
+	}
 
-void MyChatMessageQuickWid::addCurrentRecordCount(int cnt)
-{
-	m_iChatRecordCount += cnt;
-}
+	//设置和当前用户的聊天记录数量
+	void MyChatMessageQuickWid::addTotalAndCurrentRecordCount(int cnt)
+	{
+		m_iChatRecordCount += cnt;
+		m_iTotalRecordCount += cnt;
+	}
 
-void MyChatMessageQuickWid::setRecordCount(int cnt)
-{
-	m_iChatRecordCount = cnt;
-}
+	void MyChatMessageQuickWid::addCurrentRecordCount(int cnt)
+	{
+		m_iChatRecordCount += cnt;
+	}
 
-//获得当前用户聊天记录数量
-int MyChatMessageQuickWid::getRecordCount() const
-{
-	return m_iChatRecordCount;
-}
+	void MyChatMessageQuickWid::setRecordCount(int cnt)
+	{
+		m_iChatRecordCount = cnt;
+	}
 
-void MyChatMessageQuickWid::setTotalRecordCount(int cnt)
-{
-	m_iTotalRecordCount = cnt;
-}
+	//获得当前用户聊天记录数量
+	int MyChatMessageQuickWid::getRecordCount() const
+	{
+		return m_iChatRecordCount;
+	}
 
-int MyChatMessageQuickWid::getTotalRecordCount() const
-{
-	return m_iTotalRecordCount;
-}
+	void MyChatMessageQuickWid::setTotalRecordCount(int cnt)
+	{
+		m_iTotalRecordCount = cnt;
+	}
 
-void MyChatMessageQuickWid::setRootObj()
-{
-	m_ptrRootObj = reinterpret_cast<QObject*>(rootObject());
-}
+	int MyChatMessageQuickWid::getTotalRecordCount() const
+	{
+		return m_iTotalRecordCount;
+	}
 
-QObject* MyChatMessageQuickWid::getRootObj() const
-{
-	return m_ptrRootObj;
-}
+	void MyChatMessageQuickWid::setRootObj()
+	{
+		m_ptrRootObj = reinterpret_cast<QObject*>(rootObject());
+	}
 
-void MyChatMessageQuickWid::SetUserId(QString id)
-{
-	m_strId = id;
-	//DataBaseDelegate::Instance()->queryInitialAcordIdFromDB(id, m_strInitial);
-}
+	QObject* MyChatMessageQuickWid::getRootObj() const
+	{
+		return m_ptrRootObj;
+	}
 
-void MyChatMessageQuickWid::focusInEvent(QFocusEvent* event)
-{
-	emit signalFocusChanged(true);
+	void MyChatMessageQuickWid::SetUserId(QString id)
+	{
+		m_strId = id;
+		//DataBaseDelegate::Instance()->queryInitialAcordIdFromDB(id, m_strInitial);
+	}
+
+	void MyChatMessageQuickWid::focusInEvent(QFocusEvent* event)
+	{
+		emit signalFocusChanged(true);
+	}
 }

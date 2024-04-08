@@ -3,22 +3,26 @@
 #include <QLineEdit>
 #include "ui_MyLineEdit.h"
 
-class MyLineEdit : public QLineEdit
+
+namespace wechat
 {
-    Q_OBJECT
+    class MyLineEdit : public QLineEdit
+    {
+        Q_OBJECT
 
-public:
-    MyLineEdit(QWidget *parent = Q_NULLPTR);
-    ~MyLineEdit();
-    
-signals:
-    void signalIsFocus(bool isFocus);
+    public:
+        MyLineEdit(QWidget* parent = Q_NULLPTR);
+        ~MyLineEdit();
 
-protected:
-    void focusInEvent(QFocusEvent* e)override;
-    void focusOutEvent(QFocusEvent* e)override;
-    void dragLeaveEvent(QDragLeaveEvent* e)override;
+    signals:
+        void signalIsFocus(bool isFocus);
 
-private:
-    Ui::MyLineEdit ui;
-};
+    protected:
+        void focusInEvent(QFocusEvent* e)override;
+        void focusOutEvent(QFocusEvent* e)override;
+        void dragLeaveEvent(QDragLeaveEvent* e)override;
+
+    private:
+        Ui::MyLineEdit ui;
+    };
+}
