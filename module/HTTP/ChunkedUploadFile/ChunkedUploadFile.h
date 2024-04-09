@@ -2,33 +2,27 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QIODevice>
-#include <QByteArray>
+#include <QFile>
 
 namespace module
 {
-    class ChunkedFileUploader : public QObject
+
+
+    class FileUploader : public QObject,public std::enable_shared_from_this<FileUploader>
     {
         Q_OBJECT
+
     public:
-        ChunkedFileUploader(const QString& filePath, const QString& host, quint16 port, const QString& targetPath, QObject* parent = nullptr);
+        explicit FileUploader(QObject* parent = nullptr);
+        ~FileUploader();
+        void uploadFile(const QString& url, const QString& filePath, const QString& formFieldName = "file");
 
-        void upload(); 
-
-    private:
-        void onConnected();
-
-        void onBytesWritten(qint64 bytes);
-
-        void onReadyRead();
+    signals:
+        void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
+        void uploadFinished(bool success, const QString& response);
 
     private:
-        QTcpSocket* m_socket;
-        QString m_filePath;
-        QString m_host;
-        quint16 m_port;
-        QString m_targetPath;
+        QNetworkAccessManager* manager;
     };
 }
