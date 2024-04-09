@@ -223,8 +223,6 @@ namespace module
 		: QObject(parent)
 	{
 		m_ptrDBOperateThread = new DatabaseOperateThread(nullptr);
-		m_ptrThreadPool = new ThreadPool(10);
-		m_ptrThreadPool->startPool();
 		initConnect();
 	}
 
@@ -232,12 +230,6 @@ namespace module
 	{
 		delete m_ptrDBOperateThread;
 		m_ptrDBOperateThread = nullptr;
-		if (m_ptrThreadPool)
-		{
-			m_ptrThreadPool->stopPool();
-		}
-		delete m_ptrThreadPool;
-		m_ptrThreadPool = nullptr;
 	}
 
 	void ChatWidgetManager::setQMLRootPtr(QObject* AddFriendQMLRoot, QObject* FriendListQMLRoot, QObject* LastChatQMLRoot)

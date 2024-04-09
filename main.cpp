@@ -2,9 +2,14 @@
 #include "module/Log/Log.h"
 #include <QtWidgets/QApplication>
 
+#include "module/ThreadPool/ThreadPool.h"
+
+
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	ThreadPool::get_mutable_instance().startPool();
+	//打印threadpool地址
 	qRegisterMetaType<std::string>("std::string");
 	//跨平台获取当前程序所在路径
 	QString strPath = QCoreApplication::applicationDirPath();

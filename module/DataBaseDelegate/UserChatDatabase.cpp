@@ -27,7 +27,7 @@ namespace database
     {
         auto strIsSelf = isSelf ? "true" : "false";
         QSqlQuery query;
-        const QString str = "insert into chatrecord" + m_id + " values (" + QString::number(TotalCount + 1) + ",\"" + message + "\",\"" + time + "\"," + strIsSelf + ",\"" + name + "\")";
+        const QString str = "insert into chatrecord" + m_strFriendId + " values (" + QString::number(TotalCount + 1) + ",\"" + message + "\",\"" + time + "\"," + strIsSelf + ",\"" + name + "\")";
         if (!DataBaseOperate::get_mutable_instance().executeSql(str, query))
         {
             _LOG(Logcxx::Level::ERRORS, "insert chat record failed");

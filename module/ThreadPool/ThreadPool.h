@@ -2,19 +2,20 @@
 
 #include "module/stdafx.h"
 #include "boost/noncopyable.hpp"
+#include "boost/serialization/serialization.hpp"
 
 #include <deque>
 #include <future>
 
 using ThreadTask = std::function<void()>;
 
-class ThreadPool :public boost::noncopyable
+class ThreadPool :public boost::noncopyable,public boost::serialization::singleton<ThreadPool>
 {
 public:
-    ThreadPool(int number);
+    ThreadPool();
     ~ThreadPool();
 
-    void startPool();
+    void startPool(int num = 30);
     void stopPool();
     void doTask();
 
@@ -25,6 +26,7 @@ public:
         auto task_ptr = std::make_shared<std::packaged_task<decltype(f(args...))()>>(func);
         ThreadTask task = [task_ptr]() {(*task_ptr)(); };
         m_dequeTask.push_back(task);
+        m_dequeNotEmptyCV.notify_all();
     }
 
 private:
