@@ -5,6 +5,11 @@
 #include "ChatWidget/ChatWidget.h"
 #include <QMessageBox>
 
+#include <qfiledialog.h>
+#include <memory>
+#include "module/HTTP/ChunkedUploadFile/ChunkedUploadFile.h"
+#include "module/HTTP/GetFile/GetFile.h"
+
 using namespace module;
 
 namespace wechat
@@ -18,6 +23,21 @@ namespace wechat
         setWindowTitle(QString::fromLocal8Bit("q微信"));
         TCPThread::get_mutable_instance().start();
         initConnection();
+
+        connect(ui.pushButton, &QPushButton::clicked, this, [=]() {
+            //QString filePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("选择文件"), "", QString::fromLocal8Bit("所有文件(*.*)"));
+            QString url = "http://43.142.158.231:10068/uploaded_1.exe";
+            //auto ptr = std::make_shared<FileUploader>();
+            //connect(ptr.get(), &FileUploader::uploadFinished, this, [=](bool success, const QString& response) {
+            //    qDebug() << "upload result" << success << ",response:" << response;
+            //    });
+            //ThreadPool::get_mutable_instance().submit(std::bind(&FileUploader::uploadFile, ptr.get(), url, filePath));
+            auto ptr=std::make_shared<GetFile>();
+            connect(ptr.get(), &GetFile::downloadProgress, this, [](qint64 bytesRead, qint64 totalBytes) {
+                qDebug()<<"download progress:"<<bytesRead<<"/"<<totalBytes;
+                });
+            ptr->downloadFile(url, "D:/uploaded_1.exe");
+            });
     }
 
     LogInWidget::~LogInWidget()
