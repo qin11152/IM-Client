@@ -3,7 +3,6 @@
 #include "module/Log/Log.h"
 #include "ui/PublicGUI/MyTextEdit/MyTextEdit.h"
 #include "ui/PublicGUI/MyLineEdit/MyLineEdit.h"
-#include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
@@ -590,18 +589,18 @@ namespace wechat
             &ChatWidget::onSignalBecomeFriend);
 
         //收到好友消息列表后，由manager去处理数据
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvFriendListMessage, this,
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalRecvFriendListMessage, this,
             &ChatWidget::onSignalRecvFriendList, Qt::QueuedConnection);
         //收到服务端好友聊天消息
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvSingleChatMessage, this,
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalRecvSingleChatMessage, this,
             &ChatWidget::onSignalSingleChatMessage, Qt::QueuedConnection);
         //收到服务端好友添加请求
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalNewFriendRequest, ChatWidgetManager::Instance().get(),
             &ChatWidgetManager::onSignalNewFriendRequest, Qt::QueuedConnection);
         //收到服务端同意好友添加
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalBecomeFriendNotify, ChatWidgetManager::Instance().get(),
             &ChatWidgetManager::onSignalBecomeFriend, Qt::QueuedConnection);
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalStartGroupChatReply, ChatWidgetManager::Instance().get(), &ChatWidgetManager::onSignalStartGroupChatReply);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalStartGroupChatReply, ChatWidgetManager::Instance().get(), &ChatWidgetManager::onSignalStartGroupChatReply, Qt::QueuedConnection);
 
         //侧边栏三个按钮的响应
         connect(ui->chatPushButton, &QPushButton::clicked, this, &ChatWidget::onSignalChatBtn);
@@ -634,9 +633,9 @@ namespace wechat
         //自己的头像换了
         connect(m_ptrProfileImagePreviewWid, &ProfileImagePreview::signalProfileImageChanged, this, &ChatWidget::onSignalProfileImageChanged);
         //好友头像更换后的处理
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalProfileImageChanged, this, &ChatWidget::onSignalFriendProfileImageChanged, Qt::QueuedConnection);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalProfileImageChanged, this, &ChatWidget::onSignalFriendProfileImageChanged, Qt::QueuedConnection);
         //收到添加好友人的头像
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalAddFriendProfileImage, this, &ChatWidget::onSignalAddFriendProfileImage, Qt::QueuedConnection);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalAddFriendProfileImage, this, &ChatWidget::onSignalAddFriendProfileImage, Qt::QueuedConnection);
     }
 
     //初始化一些指针和需要的数据
@@ -1192,7 +1191,5 @@ namespace wechat
 
         delete m_ptrStartGroupChatWidget;
         m_ptrStartGroupChatWidget = nullptr;
-
-        TCPThread::get_mutable_instance().exit();
     }
 }

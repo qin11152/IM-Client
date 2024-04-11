@@ -16,8 +16,9 @@ namespace module
     };
     constexpr size_t PackageLength = sizeof(PackageHead);
 
-    TCPOperate::TCPOperate(QObject* parent)
-        : QObject(parent)
+    TCPOperate::TCPOperate(TCPOperateInterface* ptr, QObject* parent)
+        : m_ptrExternal(ptr),
+        QObject(parent)
     {
     }
 
@@ -341,17 +342,28 @@ namespace module
         connect(this, &TCPOperate::sendMessage, this, &TCPOperate::sendMessageInternal);
         //有消息到来时，读取消息，并抛给界面层
         connect(m_ptrTCPSocket, &QTcpSocket::readyRead, this, &TCPOperate::onSignalRecvMessage);
+
+        connect(m_ptrExternal, &TCPOperateInterface::signalSendImageMsgExternal, this, &TCPOperate::sendImageInternel);
+        connect(m_ptrExternal, &TCPOperateInterface::signalSendMessageExternal, this, &TCPOperate::sendMessageInternal);
+
+        connect(this, &TCPOperate::signalAddFriendProfileImage, m_ptrExternal, &TCPOperateInterface::signalAddFriendProfileImage, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalProfileImageChanged, m_ptrExternal, &TCPOperateInterface::signalProfileImageChanged, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalRecvRegisterMessage, m_ptrExternal, &TCPOperateInterface::signalRecvRegisterMessage, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalRecvLoginResultMessage, m_ptrExternal, &TCPOperateInterface::signalRecvLoginResultMessage, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalRecvSingleChatMessage, m_ptrExternal, &TCPOperateInterface::signalRecvSingleChatMessage, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalRecvFriendListMessage, m_ptrExternal, &TCPOperateInterface::signalRecvFriendListMessage, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalNewFriendRequest, m_ptrExternal, &TCPOperateInterface::signalNewFriendRequest, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalBecomeFriendNotify, m_ptrExternal, &TCPOperateInterface::signalBecomeFriendNotify, Qt::QueuedConnection);
+        connect(this, &TCPOperate::signalStartGroupChatReply, m_ptrExternal, &TCPOperateInterface::signalStartGroupChatReply, Qt::QueuedConnection);
+
         connectHost();
     }
 
     TCPOperateInterface::TCPOperateInterface()
-        :m_ptrTCPOperate(new TCPOperate(nullptr))
+        :m_ptrTCPOperate(new TCPOperate(this, nullptr))
     {
         m_ptrTCPOperate->moveToThread(&m_operateThread);
-        connect(&m_operateThread, &QThread::started, m_ptrTCPOperate, &TCPOperate::init);
-        connect(&m_operateThread, &QThread::finished, m_ptrTCPOperate, &TCPOperate::unInit);
-        connect(this,&TCPOperateInterface::signalSendImageMsg, m_ptrTCPOperate, &TCPOperate::sendImageInternel);
-        connect(this,&TCPOperateInterface::signalSendMessage, m_ptrTCPOperate, &TCPOperate::sendMessageInternal);
+        initConnect();
         m_operateThread.start();
     }
 
@@ -364,10 +376,19 @@ namespace module
     }
     void TCPOperateInterface::sendMessageExternalInterface(std::string message)
     {
-        emit signalSendMessage(message);
+        emit signalSendMessageExternal(message);
     }
     void TCPOperateInterface::sendImageMsgExternalInterface(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp)
     {
-        emit signalSendImageMsg(strBase64Image, imageName, suffix, timeStamp);
+        emit signalSendImageMsgExternal(strBase64Image, imageName, suffix, timeStamp);
+    }
+    void TCPOperateInterface::disconnect()
+    {
+        m_ptrTCPOperate->disconnectHost();
+    }
+    void TCPOperateInterface::initConnect()
+    {
+        connect(&m_operateThread, &QThread::started, m_ptrTCPOperate, &TCPOperate::init);
+        connect(&m_operateThread, &QThread::finished, m_ptrTCPOperate, &TCPOperate::unInit);
     }
 }

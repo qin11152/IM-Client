@@ -1,5 +1,4 @@
 ﻿#include "StartGroupChatWidget.h"
-#include "module/TCPThread/TCPThread.h"
 #include "protocol/StartGroupChatJsonData/StartGroupChatJsonData.h"
 
 #include <QBuffer>

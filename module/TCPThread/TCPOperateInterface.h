@@ -9,12 +9,13 @@
 
 namespace module
 {
+    class TCPOperateInterface;
     class TCPOperate : public QObject
     {
         Q_OBJECT
 
     public:
-        TCPOperate(QObject* parent);
+        TCPOperate(TCPOperateInterface* ptr, QObject* parent);
         ~TCPOperate();
 
     signals:
@@ -79,6 +80,7 @@ namespace module
 
     private:
         QTcpSocket* m_ptrTCPSocket{ nullptr };
+        TCPOperateInterface* m_ptrExternal{ nullptr };
 
         bool m_bConnectResult{ false };
         int m_iPort{ 19999 };                        //服务器端口
@@ -104,12 +106,38 @@ namespace module
         //调用该函数发送图片消息
         void sendImageMsgExternalInterface(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
 
+        void disconnect();
+
     signals:
-        void signalSendMessage(std::string message);
+        void signalSendMessageExternal(std::string message);
 
         //调用该函数发送图片消息
-        void signalSendImageMsg(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
+        void signalSendImageMsgExternal(const QString& strBase64Image, const QString& imageName, const QString& suffix, const QString& timeStamp);
 
+
+        //收到注册结果的消息
+        void signalRecvRegisterMessage(const QString& msg);
+        //收到登录结果消息
+        void signalRecvLoginResultMessage(const QString& msg);
+        //收到朋友聊天消息
+        void signalRecvSingleChatMessage(const QString& msg);
+        //收到好友列表消息
+        void signalRecvFriendListMessage(const QString& msg);
+        //服务端发送来的好友请求
+        void signalNewFriendRequest(const QString& msg);
+        //服务端发来的添加好友后的通知
+        void signalBecomeFriendNotify(const QString& msg);
+        //与服务器连接失败信号
+        void signalConnectFailed();
+        //某个好友头像更新了的信号
+        void signalProfileImageChanged(const QString& id, const QString& path);
+        //添加好友时服务器推送过来的头像信息
+        void signalAddFriendProfileImage(const QString& id, const QString& timeStamp, const QString& path);
+        //群聊相关
+        void signalStartGroupChatReply(const QString& msg);
+
+    private:
+        void initConnect();
 
     private:
         QThread m_operateThread;

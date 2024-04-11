@@ -1,6 +1,5 @@
 ﻿#include "ChatWidgetManager.h"
 #include "module/Log/Log.h"
-#include "module/TCPThread/TCPThread.h"
 #include "module/FileManager/FileManager.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
@@ -116,7 +115,7 @@ namespace module
 		addFriendResponseJsonData.m_strFriendId = friendId.toStdString();
 		addFriendResponseJsonData.m_bResult = true;
 		//发送给服务器
-		TCPThread::get_mutable_instance().sendMessage(addFriendResponseJsonData.generateJson());
+		TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(addFriendResponseJsonData.generateJson());
 		//修改注册表中的状态为true
 		database::AddFriendDatabase addFriendDatabase;
 		addFriendDatabase.updateFriendRequestStateAcordId(friendId);
@@ -129,7 +128,7 @@ namespace module
 		addFriendRequestData.m_strVerifyMsg = verifyMsg.toStdString();
 		addFriendRequestData.m_strMyId = m_strUserId.toStdString();
 
-		TCPThread::get_mutable_instance().sendMessage(addFriendRequestData.generateJson());
+		TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(addFriendRequestData.generateJson());
 		//emit signalSendMsg(addFriendRequestData.generateJson());
 	}
 
@@ -284,7 +283,7 @@ namespace module
 		protocol::GetFriendListJsonData getFriendListData;
 		getFriendListData.m_strUserId = m_strUserId.toStdString();
 		auto tmpStr = getFriendListData.generateJson();
-		TCPThread::get_mutable_instance().sendMessage(tmpStr);
+		TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(tmpStr);
 		//emit signalSendMsg(tmpStr);
 	}
 
@@ -295,7 +294,7 @@ namespace module
 		initialJosnData.m_strId = m_strUserId.toStdString();
 		std::string sendMessage = initialJosnData.generateJson();
 		//emit signalSendMsg(sendMessage);
-		TCPThread::get_mutable_instance().sendMessage(sendMessage);
+		TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(sendMessage);
 	}
 
 	void ChatWidgetManager::getLastChatListFromDB(std::vector<MyLastChatFriendInfo>& vecLastChatFriend)
@@ -337,7 +336,7 @@ namespace module
 				//TODO 发送消息到服务器，获取新头像
 				protocol::getProfileImageJsonData tmpInfo;
 				tmpInfo.m_strId = item.m_strId;
-				TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
+				TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(tmpInfo.generateJson());
 			}
 			else if (item.m_strImageTimestamp != mapTimeStamp[item.m_strId])
 			{
@@ -378,7 +377,7 @@ namespace module
 				//TODO 发送消息到服务器，获取新头像
 				protocol::getProfileImageJsonData tmpInfo;
 				tmpInfo.m_strId = item;
-				TCPThread::get_mutable_instance().sendMessage(tmpInfo.generateJson());
+				TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(tmpInfo.generateJson());
 			}
 		}
 	}
@@ -413,7 +412,7 @@ namespace module
 		singleChatData.m_strTime = timeStamp;
 		singleChatData.m_strSendName = m_strUserName.toStdString();
 		std::string sendMessage = singleChatData.generateJson();
-		TCPThread::get_mutable_instance().sendMessage(sendMessage);
+		TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(sendMessage);
 
 		auto tablename = "chatrecord" + singleChatData.m_strRecvUserId;
 		//查看数据库中这个表是否存在

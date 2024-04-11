@@ -1,6 +1,5 @@
 ﻿#include "ProfileImagePreview.h"
 #include "module/Log/Log.h"
-#include "module/TCPThread/TCPThread.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
 #include "module/DataBaseDelegate/DatabaseOperateNeededFile.h"
@@ -136,7 +135,7 @@ namespace wechat
         image.save(&buffer, stc.data());//将QString类型的后缀名改为char*
         QString str_base64 = byteArr.toBase64();
         QString name = PublicDataManager::get_mutable_instance().getMyId();
-        TCPThread::get_mutable_instance().sendImageMsg(str_base64, name, stc.data(), timeStamp.c_str());
+        TCPOperateInterface::get_mutable_instance().sendImageMsgExternalInterface(str_base64, name, stc.data(), timeStamp.c_str());
     }
 
     void ProfileImagePreview::saveImageAndUpdateDB(const QImage& image, const std::string& timeStamp)

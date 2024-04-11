@@ -1,7 +1,6 @@
 ﻿#include "module/stdafx.h"
 #include "RegisterWidget.h"
 #include "ui_RegisterWidget.h"
-#include "module/TCPThread/TCPThread.h"
 #include "protocol/RegisterJsonData/RegisterJsonData.h"
 #include "protocol/RegisterReplyData/RegisterReplyData.h"
 
@@ -108,7 +107,7 @@ namespace wechat
             reg.m_strType = MessageType::RegisterRequest;
             //qDebug() << "reg content is:" << reg.m_strUserName.c_str() << "  " << reg.m_strUserPassword.c_str();
             std::string registerMessage = reg.generateJson();
-            TCPThread::get_mutable_instance().sendMessage(registerMessage);
+            TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(registerMessage);
             //emit signalSendMsg(registerMessage);
             return;
         }
@@ -164,8 +163,8 @@ namespace wechat
         connect(ui->nickLineEdit, &QLineEdit::textChanged, this, &RegisterWidget::onNickLineEditEditingFinished);
         connect(ui->firstPasswordLineEdit, &QLineEdit::textChanged, this, &RegisterWidget::onfirstPasswordLineEditEditingFinished);
         connect(ui->secondPasswordLineEdit, &QLineEdit::textChanged, this, &RegisterWidget::onsecondPasswordLineEditEditingFinished);
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvRegisterMessage, this, &RegisterWidget::onMsgHandle, Qt::QueuedConnection);
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalConnectFailed, this, &RegisterWidget::onSignalConnectedFailed, Qt::QueuedConnection);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalRecvRegisterMessage, this, &RegisterWidget::onMsgHandle, Qt::QueuedConnection);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalConnectFailed, this, &RegisterWidget::onSignalConnectedFailed, Qt::QueuedConnection);
     }
 
     void RegisterWidget::initUi()

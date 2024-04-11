@@ -389,7 +389,7 @@ Rectangle
                     font.family: "msyh";
                     font.pixelSize: 12;
                     color: "black";
-                    text: lastMsg;
+                    text: lastMsg===""?"":lastMsg;
                 }
             }
         }

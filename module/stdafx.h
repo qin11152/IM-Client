@@ -4,6 +4,7 @@
 #include "module/MyDefine.h"
 #include "module/PublicFunction/PublicFunction.h"
 #include "module/PublicDataManager/PublicDataManager.h"
+#include "module/TCPThread/TCPOperateInterface.h"
 
 #if defined(WIN32)
 #include <Windows.h>

@@ -1,7 +1,6 @@
 ﻿#include "LogInWidget.h"
 #include "protocol/LoginInJsonData/LoginInJsonData.h"
 #include "protocol/LoginInReplyData/LoginInReplyData.h"
-#include "module/TCPThread/TCPThread.h"
 #include "ChatWidget/ChatWidget.h"
 #include <QMessageBox>
 
@@ -21,7 +20,6 @@ namespace wechat
         m_ptrRegisterWidget = new RegisterWidget();
         ui.passwordLineEdit->setAttribute(Qt::WA_InputMethodEnabled, false);
         setWindowTitle(QString::fromLocal8Bit("q微信"));
-        TCPThread::get_mutable_instance().start();
         initConnection();
 
         connect(ui.pushButton, &QPushButton::clicked, this, [=]() {
@@ -42,10 +40,6 @@ namespace wechat
 
     LogInWidget::~LogInWidget()
     {
-        if (!isLogin)
-        {
-            TCPThread::get_mutable_instance().quit();
-        }
 #if defined(WIN32)
         Sleep(100);
 #elif (__linux__)
@@ -88,7 +82,7 @@ namespace wechat
         m_strUserId = ui.userNameLineEdit->text();
         loginJsonData.m_strPassword = ui.passwordLineEdit->text().toStdString();
         std::string message = loginJsonData.generateJson();
-        TCPThread::get_mutable_instance().sendMessage(message);
+        TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(message);
         //emit signalLoginWidSendMsg(message);
     }
 
@@ -128,6 +122,6 @@ namespace wechat
         connect(ui.logInButton, &QPushButton::clicked, this, &LogInWidget::onLogInButtonClicked);
         connect(ui.registerButton, &QPushButton::clicked, this, &LogInWidget::onRegisterButtonClicked);
         connect(m_ptrRegisterWidget, &RegisterWidget::signalShowLoginInWidget, this, &LogInWidget::onRegisterFinished);
-        connect(&TCPThread::get_mutable_instance(), &TCPThread::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv, Qt::QueuedConnection);
+        connect(&TCPOperateInterface::get_mutable_instance(), &TCPOperateInterface::signalRecvLoginResultMessage, this, &LogInWidget::onSignalLoginResultRecv, Qt::QueuedConnection);
     }
 }

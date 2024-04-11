@@ -70,12 +70,6 @@
     <ClCompile Include="protocol\ImageMsgJsonData\ProfileImageMsgJsonData.cpp">
       <Filter>protocol\ProfileImageMsgJsonData</Filter>
     </ClCompile>
-    <ClCompile Include="module\TCPThread\TCPThread.cpp">
-      <Filter>module\TCPThread</Filter>
-    </ClCompile>
-    <ClCompile Include="module\TCPThread\MyTCPSocket.cpp">
-      <Filter>module\TCPThread</Filter>
-    </ClCompile>
     <ClCompile Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.cpp">
       <Filter>ui\MyChatMessageQuickWid</Filter>
     </ClCompile>
@@ -276,9 +270,6 @@
     <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h">
       <Filter>protocol\StartGroupChatJsonData</Filter>
     </ClInclude>
-    <ClInclude Include="module\TCPThread\TCPThread.h">
-      <Filter>module\TCPThread</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="ui\res\image\icon.png">
@@ -303,9 +294,6 @@
     </QtMoc>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
       <Filter>ui\RegisterWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="module\TCPThread\MyTCPSocket.h">
-      <Filter>module\TCPThread</Filter>
     </QtMoc>
     <QtMoc Include="ui\MyChatMessageQuickWid\MyChatMessageQuickWid.h">
       <Filter>ui\MyChatMessageQuickWid</Filter>
