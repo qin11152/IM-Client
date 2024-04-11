@@ -172,6 +172,12 @@
     <ClCompile Include="ui\PublicGUI\MyLineEdit\MyLineEdit.cpp">
       <Filter>ui\PublicGUI\MyLineEdit</Filter>
     </ClCompile>
+    <ClCompile Include="module\TCPThread\TCPOperateInterface.cpp">
+      <Filter>module\TCPThread</Filter>
+    </ClCompile>
+    <ClCompile Include="module\HTTP\GetFile\GetFile.cpp">
+      <Filter>module\HTTP\GetFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -270,6 +276,9 @@
     <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h">
       <Filter>protocol\StartGroupChatJsonData</Filter>
     </ClInclude>
+    <ClInclude Include="module\TCPThread\TCPThread.h">
+      <Filter>module\TCPThread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="ui\res\image\icon.png">
@@ -294,9 +303,6 @@
     </QtMoc>
     <QtMoc Include="ui\RegisterWidget\RegisterWidget.h">
       <Filter>ui\RegisterWidget</Filter>
-    </QtMoc>
-    <QtMoc Include="module\TCPThread\TCPThread.h">
-      <Filter>module\TCPThread</Filter>
     </QtMoc>
     <QtMoc Include="module\TCPThread\MyTCPSocket.h">
       <Filter>module\TCPThread</Filter>
@@ -363,6 +369,12 @@
     </QtMoc>
     <QtMoc Include="ui\PublicGUI\MyLineEdit\MyLineEdit.h">
       <Filter>ui\PublicGUI\MyLineEdit</Filter>
+    </QtMoc>
+    <QtMoc Include="module\TCPThread\TCPOperateInterface.h">
+      <Filter>module\TCPThread</Filter>
+    </QtMoc>
+    <QtMoc Include="module\HTTP\GetFile\GetFile.h">
+      <Filter>module\HTTP\GetFile</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -594,6 +606,9 @@
     </Filter>
     <Filter Include="ui\PublicGUI\MyLineEdit">
       <UniqueIdentifier>{36ac615c-b52c-4b79-b4f5-55d983ec0c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\HTTP\GetFile">
+      <UniqueIdentifier>{bfc5fa59-7994-45bb-a3bf-f9921b6772cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

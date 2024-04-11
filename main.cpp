@@ -3,12 +3,14 @@
 #include <QtWidgets/QApplication>
 
 #include "module/ThreadPool/ThreadPool.h"
+#include "module/TCPThread/TCPOperateInterface.h"
 
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	ThreadPool::get_mutable_instance().startPool();
+	module::TCPOperateInterface::get_mutable_instance();
 	//打印threadpool地址
 	qRegisterMetaType<std::string>("std::string");
 	//跨平台获取当前程序所在路径

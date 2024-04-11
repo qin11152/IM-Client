@@ -156,6 +156,7 @@
     <ClCompile Include="module\FileManager\FileManager.cpp" />
     <ClCompile Include="module\GroupChatManager\GroupChatManager.cpp" />
     <ClCompile Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.cpp" />
+    <ClCompile Include="module\HTTP\GetFile\GetFile.cpp" />
     <ClCompile Include="module\LastChatInfoUpdateThread\DatabaseOperateThread.cpp" />
     <ClCompile Include="module\Log\Log.cpp" />
     <ClCompile Include="module\PublicDataManager\PublicDataManager.cpp" />
@@ -166,6 +167,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="module\TCPThread\MyTCPSocket.cpp" />
+    <ClCompile Include="module\TCPThread\TCPOperateInterface.cpp" />
     <ClCompile Include="module\TCPThread\TCPThread.cpp" />
     <ClCompile Include="module\ThreadPool\ThreadPool.cpp" />
     <ClCompile Include="protocol\AddFriendNotifyJsonData\AddFriendNotifyJsonData.cpp" />
@@ -239,6 +241,8 @@
     <QtMoc Include="ui\PublicGUI\MyStackedWidget\MyStackedWidget.h" />
     <QtMoc Include="ui\PublicGUI\MytextEdit\MyTextEdit.h" />
     <QtMoc Include="module\HTTP\ChunkedUploadFile\ChunkedUploadFile.h" />
+    <QtMoc Include="module\TCPThread\TCPOperateInterface.h" />
+    <QtMoc Include="module\HTTP\GetFile\GetFile.h" />
     <ClInclude Include="protocol\GroupChatJsonData\GroupChatJsonData.h" />
     <ClInclude Include="protocol\ImageJsonData\ImageJsonDataBase.h" />
     <ClInclude Include="protocol\StartGroupChatJsonData\StartGroupChatJsonData.h" />
@@ -265,7 +269,7 @@
     <ClInclude Include="module\MyDefine.h" />
     <ClInclude Include="module\PublicDataManager\PublicDataManager.h" />
     <ClInclude Include="module\PublicFunction\PublicFunction.h" />
-    <QtMoc Include="module\TCPThread\TCPThread.h" />
+    <ClInclude Include="module\TCPThread\TCPThread.h" />
     <QtMoc Include="module\TCPThread\MyTCPSocket.h" />
     <ClInclude Include="module\stdafx.h" />
     <ClInclude Include="module\ThreadPool\ThreadPool.h" />

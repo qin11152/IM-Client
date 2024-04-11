@@ -1,5 +1,4 @@
 #include "ChunkedUploadFile.h"
-#include <QHttpMultiPart>
 #include <QMimeDatabase>
 #include <QFileInfo>
 #include <QEventLoop>
@@ -14,17 +13,23 @@ namespace module
     {
     }
 
-    void FileUploader::uploadFile(const QString& url, const QString& filePath, const QString& formFieldName)
+    void FileUploader::uploadFile(const QString& url, const QString& filePath)
     {
         auto self = shared_from_this();
-        manager = new QNetworkAccessManager(this);
-        QHttpMultiPart* multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType, this);
+        manager = new QNetworkAccessManager();
+        QHttpMultiPart* multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+
+        QHttpPart textPart;
+        textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"description\""));
+        textPart.setBody("This is a text part.");
+
+        multiPart->append(textPart);
 
         QHttpPart filePart;
-        filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"" + formFieldName + "\"; filename=\"" + QFileInfo(filePath).fileName() + "\""));
+        filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + QFileInfo(filePath).fileName() + "\""));
         QMimeType mimeType = QMimeDatabase().mimeTypeForFile(filePath);
         filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(mimeType.name()));
-        QFile* file = new QFile(filePath, this);
+        QFile* file = new QFile(filePath);
         if (!file->open(QIODevice::ReadOnly)) {
             emit uploadFinished(false, "Failed to open file");
             return;
@@ -41,7 +46,7 @@ namespace module
 
         connect(reply, &QNetworkReply::uploadProgress, this, &FileUploader::uploadProgress, Qt::QueuedConnection);
 
-        connect(reply, &QNetworkReply::finished, this, [this, reply, &loop]() {
+        connect(reply, &QNetworkReply::finished, this, [this, reply, &loop, file]() {
             if (reply->error() == QNetworkReply::NoError) {
                 emit uploadFinished(true, reply->readAll());
             }
@@ -50,7 +55,10 @@ namespace module
             }
             loop.exit();
             reply->deleteLater();
+            file->deleteLater();
             });
         loop.exec();
+        delete manager;
+        manager = nullptr;
     }
 }

@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
+#include <QHttpMultiPart>
 #include <QNetworkReply>
 #include <QFile>
 
@@ -16,7 +17,7 @@ namespace module
     public:
         explicit FileUploader(QObject* parent = nullptr);
         ~FileUploader();
-        void uploadFile(const QString& url, const QString& filePath, const QString& formFieldName = "file");
+        void uploadFile(const QString& url, const QString& filePath);
 
     signals:
         void uploadProgress(qint64 bytesSent, qint64 bytesTotal);

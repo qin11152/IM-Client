@@ -6,7 +6,6 @@ ThreadPool::ThreadPool()
 
 ThreadPool::~ThreadPool()
 {
-    qDebug() << "thread id:" << GetCurrentThreadId();
     stopPool();
     int i = 1;
     i++;
