@@ -17,11 +17,11 @@ namespace protocol
         ~JsonBaseData()
         {
         }
-        JsonBaseData(const JsonBaseData& l) = delete;
-        JsonBaseData& operator=(const JsonBaseData& l) = delete;
+        //JsonBaseData(const JsonBaseData& l) = delete;
+        //JsonBaseData& operator=(const JsonBaseData& l) = delete;
         MessageType getType()const { return m_strType; }
         MessageType m_strType{ MessageType::Default };
-        virtual void parse(const std::string& message) = 0;
-        virtual std::string generateJson() = 0;
+        virtual void parse(const std::string& message) {}
+        virtual std::string generateJson() { return ""; }
     };
 }

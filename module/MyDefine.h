@@ -24,6 +24,8 @@ constexpr char kProfileTableName[] = "profileImage";
 constexpr char kLastChatTableName[] = "lastChatList";
 constexpr char kFriendRequetName[] = "friendRequest";
 
+constexpr char fileUploadUrl[] = "http://43.142.158.231:10068";
+
 Q_DECLARE_METATYPE(std::string);
 
 enum class DatabaseOperateType
