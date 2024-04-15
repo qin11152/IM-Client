@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "ui_StartGroupChatWidget.h"
+#include "protocol/StartGroupChatJsonData/StartGroupChatJsonData.h"
 #include "ui/StartGroupChatWidget/AddedGroupFriendMVC/AddedFriendModel.h"
 #include "ui/StartGroupChatWidget/AddedGroupFriendMVC/AddedFriendDelegate.h"
 #include "ui/StartGroupChatWidget/ChooseFriendGroupMVC/ChooseFriendModel.h"

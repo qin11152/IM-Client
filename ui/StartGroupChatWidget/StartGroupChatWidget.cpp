@@ -1,12 +1,21 @@
 ﻿#include "StartGroupChatWidget.h"
-#include "protocol/StartGroupChatJsonData/StartGroupChatJsonData.h"
-
-#include <QBuffer>
+#include "module/HTTP/ChunkedUploadFile/ChunkedUploadFile.h"
 
 using namespace module;
 
 namespace wechat
 {
+    void sendStartGroupChatJsonData(std::shared_ptr<protocol::JsonBaseData> jsondataPtr, const std::string& imagePath)
+    {
+        if ("" == imagePath)
+        {
+            return;
+        }
+        std::shared_ptr<protocol::StartGroupJsonData> ptr = std::dynamic_pointer_cast<protocol::StartGroupJsonData>(jsondataPtr);
+        ptr->m_strImagePathInServer = imagePath;
+        TCPOperateInterface::get_mutable_instance().sendMessageExternalInterface(ptr->generateJson());
+    }
+
     StartGroupChatWidget::StartGroupChatWidget(QWidget* parent)
         : QWidget(parent)
     {
@@ -49,13 +58,26 @@ namespace wechat
 
             //根据id生成群头像
             auto image = Base::image::generateGridImage(vecFriendImagePath.size(), vecFriendImagePath);
+            //获取当前时间戳，qt接口
+            std::string strTimeStamp = Base::timeToString("%Y%m%d%H%M%S");
+            //生成图片保存路径
+            std::string strImagePath = strTimeStamp + ".png";
+
+            image.save(QString::fromStdString(strImagePath));
 
             //TODO图片等待使用http传送，并返回一个保存地址，地址给到下边结构体
 
-            protocol::StartGroupJsonData startGroupChat;
-            startGroupChat.m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
-            startGroupChat.m_strGroupName = m_ptrAddFriendModel->getGroupName();
-            startGroupChat.m_vecGroupChat = vecId;
+            auto startGroupChat = std::make_shared<protocol::StartGroupJsonData>();
+            startGroupChat->m_strStarterId = PublicDataManager::get_mutable_instance().getMyId().toStdString();
+            startGroupChat->m_strGroupName = m_ptrAddFriendModel->getGroupName();
+            startGroupChat->m_vecGroupChat = vecId;
+            auto parentPtr = dynamic_pointer_cast<protocol::JsonBaseData>(startGroupChat);
+
+            TaskForResponse task = std::bind(&sendStartGroupChatJsonData, parentPtr, std::placeholders::_2);
+
+            auto uploadPtr = std::make_shared<module::FileUploader>();
+            ThreadPool::get_mutable_instance().submit(std::bind(&FileUploader::uploadFileWithJson, uploadPtr, fileUploadUrl, strImagePath.c_str(), task));
+
             //TCPThread::get_mutable_instance().sendImage(ba, startGroupChat.generateJson().c_str());
         }
     }
