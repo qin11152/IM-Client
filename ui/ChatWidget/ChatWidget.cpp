@@ -496,6 +496,7 @@ namespace wechat
 
     void ChatWidget::initUi()
     {
+
         //设置图标
         //setWindowIcon(QIcon(":/LogInWidget/image/weixin.ico"));
         setWindowTitle(QString::fromLocal8Bit("q微信"));
