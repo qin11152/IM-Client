@@ -172,6 +172,9 @@
     <ClCompile Include="module\HTTP\GetFile\GetFile.cpp">
       <Filter>module\HTTP\GetFile</Filter>
     </ClCompile>
+    <ClCompile Include="unittest\FileManagerTest.cpp">
+      <Filter>unittest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="protocol\HeartPackageJsonData\HeartPackageJsonData.h">
@@ -597,6 +600,9 @@
     </Filter>
     <Filter Include="module\HTTP\GetFile">
       <UniqueIdentifier>{bfc5fa59-7994-45bb-a3bf-f9921b6772cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unittest">
+      <UniqueIdentifier>{591f45a2-b75b-4f62-8390-c136be338956}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
