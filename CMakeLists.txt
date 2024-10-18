@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #???qt??????
 if(WIN32)
+	include_directories(${CMAKE_SOURCE_DIR}/include/windows)
     if (CMAKE_C_COMPILER_ID MATCHES "GNU")
         # 这里是 MinGW 编译器的设置
         message("Using MinGW compiler")
