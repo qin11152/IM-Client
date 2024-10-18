@@ -1,5 +1,5 @@
 #include "ChunkedUploadFile.h"
-#include "PublicDataManager/PublicDataManager.h"
+#include "module/PublicDataManager/PublicDataManager.h"
 
 #include <QMimeDatabase>
 #include <QFileInfo>
