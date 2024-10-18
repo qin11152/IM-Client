@@ -74,7 +74,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module;.;.\module\PublicFunction;./include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -100,7 +100,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;.\ui;.\ui\LogInWidget;.\ui\RegisterWidget;.\module\TCPConnect;.\module\DataBaseDelegate;.\ui\ChatWidget;.\module\MytextEdit;.\module\MyLineEdit;.\module\MyStackedWidget;.\module\MyChatMessageQuickWid;.\module\ChatWidgetManager;.\module\PublicFunction;.\module;.;./include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level1</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

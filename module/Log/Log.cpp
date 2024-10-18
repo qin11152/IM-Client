@@ -59,9 +59,11 @@ void Logcxx::Print(const char* file, long line, const char* funtion, Level level
     _pImp->Print(level, strlog);
 }
 #else
+
 #include <log4cxx/logger.h>
 #include <log4cxx/basicconfigurator.h>
 #include <log4cxx/propertyconfigurator.h>
+
 class Logcxx::Imp
 {
 public:
