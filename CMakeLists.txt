@@ -58,8 +58,8 @@ add_executable(${PROJECT_NAME} ${srcs1} ${srcs2} ${srcs3} ${srcs4} ${qrc} ${uiFi
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message("Using MinGW compiler 22")
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Network Qt5::Qml Qt5::Quick 
-    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia) 
+    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia gtest gtestmain) 
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Network Qt5::Qml Qt5::Quick 
-    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia log4cxx) 
+    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia log4cxx gtest gtestmain) 
 endif()
