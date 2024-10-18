@@ -56,6 +56,11 @@ jobs:
         arch: ${{ matrix.qt_arch }}
         dir: '${{ github.workspace }}/Qt'
         install-deps: 'true'
+    - name: Install log4cxx on Ubuntu
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y liblog4cxx-dev
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
