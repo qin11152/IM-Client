@@ -335,7 +335,9 @@ namespace module
 
     void TCPOperate::init()
     {
+#if defined(WIN32)
         qDebug() << "sub thread Id" << GetCurrentThreadId();
+#endif
         m_timerKeepAlive = new QTimer();
         connect(m_timerKeepAlive, &QTimer::timeout, this, &TCPOperate::onSignalTimeoutSendHeartPackage);
         m_ptrTCPSocket = new QTcpSocket();
