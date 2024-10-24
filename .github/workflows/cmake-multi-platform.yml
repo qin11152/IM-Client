@@ -47,6 +47,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install Google Test
+      if: runner.os == 'Linux'
+      run: |
+        # Clone googletest repository
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        mkdir build
+        cd build
+        cmake ..
+        make
+        sudo make install
+
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -56,6 +68,7 @@ jobs:
         arch: ${{ matrix.qt_arch }}
         dir: '${{ github.workspace }}/Qt'
         install-deps: 'true'
+        
     - name: Install log4cxx on Ubuntu
       if: runner.os == 'Linux'
       run: |
