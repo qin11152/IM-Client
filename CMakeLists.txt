@@ -22,7 +22,7 @@ if(WIN32)
     elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
         # 这里是 MSVC 编译器的设置
         message("Using MSVC compiler")
-        set(CMAKE_PREFIX_PATH "D:/qt5.15.2/5.15.2/msvc2017_64") # Qt Kit Dir 修改成自己的qt路径
+        set(CMAKE_PREFIX_PATH "D:/developtool/qt/5.15.2/msvc2019_64") # Qt Kit Dir 修改成自己的qt路径
     endif()
 elseif(UNIX)
     set(CMAKE_PREFIX_PATH "/home/qin/app/qt5.15/5.15.2/gcc_64")
@@ -59,8 +59,8 @@ add_executable(${PROJECT_NAME} ${srcs1} ${srcs2} ${srcs3} ${srcs4} ${qrc} ${uiFi
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message("Using MinGW compiler 22")
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Network Qt5::Qml Qt5::Quick 
-    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia gtest gtestmain) 
+    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia gtest gtest_main) 
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Network Qt5::Qml Qt5::Quick 
-    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia log4cxx gtest gtestmain) 
+    Qt5::QuickWidgets Qt5::Sql Qt5::Multimedia log4cxx gtest gtest_main) 
 endif()
