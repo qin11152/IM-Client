@@ -47,6 +47,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: test
+      run: |
+        echo "QT Version: ${{ matrix.qt_version }}"
+        echo "QT Arch: ${{ matrix.qt_arch }}"
+
     - name: Install Google Test
       if: runner.os == 'Linux'
       run: |
